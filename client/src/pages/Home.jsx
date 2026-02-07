@@ -78,7 +78,7 @@ export default function Home() {
 
             {/* Typewriter (FIXED: Now uses translation key 'hero.intro') */}
             <div className="text-xl md:text-3xl text-slate-400 font-light mb-8 h-10 flex items-center justify-center gap-2">
-               <span>{t('We Can')}</span> 
+               <span>{t('home.weCan') || 'We Can'}</span> 
                <span className="text-accent font-semibold border-b-2 border-accent/50 pb-1">
                  <Typewriter texts={phrases} speed={50} pause={2500} deleteSpeed={30} />
                </span>

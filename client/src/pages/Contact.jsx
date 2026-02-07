@@ -33,10 +33,12 @@ export default function Contact() {
         setTimeout(() => setStatus('idle'), 5000)
       } else {
         setStatus('error')
+        setTimeout(() => setStatus('idle'), 5000)
       }
     } catch (err) {
       console.error('Contact submit failed:', err)
       setStatus('error')
+      setTimeout(() => setStatus('idle'), 5000)
     }
   }
 

@@ -90,10 +90,10 @@ export default function Services() {
         {/* Header Section */}
         <div className="text-center mb-16 max-w-3xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
-            {t('Our Services') || 'Our Premium Services'}
+            {t('services.ourServices') || 'Our Premium Services'}
           </h1>
           <p className="text-lg text-slate-400 leading-relaxed">
-            {t('We deliver engineering excellence') || 'We deliver engineering excellence across the entire tech stack. From stunning interfaces to powerful backends, we cover it all.'}
+            {t('services.ourServicesDesc') || 'We deliver engineering excellence across the entire tech stack. From stunning interfaces to powerful backends, we cover it all.'}
           </p>
         </div>
 

@@ -26,11 +26,14 @@ const resources = {
       home: { 
         techTitle: 'Powered by Modern Tech', 
         offerTitle: 'Our Expertise',
-        offerSubtitle: 'Comprehensive solutions for the modern web.'
+        offerSubtitle: 'Comprehensive solutions for the modern web.',
+        weCan: 'We Can'
       },
       services: {
         pageTitle: 'Services',
         subTitle: 'We deliver engineering excellence across the entire tech stack.',
+        ourServices: 'Our Premium Services',
+        ourServicesDesc: 'We deliver engineering excellence across the entire tech stack. From stunning interfaces to powerful backends, we cover it all.',
         fullstack: { 
           title: 'Full-Stack Engineering', 
           desc: 'From database architecture to responsive frontends. We build robust, scalable applications using the MERN stack and Next.js.' 
@@ -145,11 +148,14 @@ const resources = {
       home: { 
         techTitle: 'مدعوم بأحدث التقنيات', 
         offerTitle: 'مجالات خبرتنا',
-        offerSubtitle: 'حلول شاملة للويب الحديث.'
+        offerSubtitle: 'حلول شاملة للويب الحديث.',
+        weCan: 'نستطيع'
       },
       services: {
         pageTitle: 'خدماتنا',
         subTitle: 'نقدم التميز الهندسي عبر كافة التقنيات الحديثة.',
+        ourServices: 'خدماتنا المميزة',
+        ourServicesDesc: 'نقدم التميز الهندسي عبر كافة التقنيات الحديثة. من الواجهات الجميلة إلى الأنظمة الخلفية القوية، نغطي كل شيء.',
         fullstack: { 
           title: 'تطوير شامل (Full-Stack)', 
           desc: 'من هيكلة قواعد البيانات إلى واجهات المستخدم التفاعلية. نبني تطبيقات قوية وقابلة للتوسع باستخدام MERN و Next.js.' 
