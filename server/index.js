@@ -16,7 +16,7 @@ const uploadRoutes = require('./src/routes/upload');
 const servicesRoutes = require('./src/routes/services');
 
 const app = express();
-
+app.set('trust proxy', 1);
 // --- Ensure Uploads Directory Exists (إضافة احترافية) ---
 // هذا الكود يتأكد من وجود مجلد الصور، وإذا لم يجده يقوم بإنشائه فوراً
 const uploadsDir = path.join(__dirname, '..', 'uploads');
