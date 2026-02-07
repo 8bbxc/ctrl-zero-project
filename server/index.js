@@ -4,16 +4,16 @@ const helmet = require('helmet');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs'); // استيراد مكتبة الملفات
-const apiLimiter = require('./middleware/rateLimiter');
-const prisma = require('./utils/prisma');
+const apiLimiter = require('./src/middleware/rateLimiter');
+const prisma = require('./src/utils/prisma');
 
 // --- Import Routes ---
-const projectsRoutes = require('./routes/projects');
-const authRoutes = require('./routes/auth');
-const contactRoutes = require('./routes/contact');
-const messagesRoutes = require('./routes/messages');
-const uploadRoutes = require('./routes/upload');
-const servicesRoutes = require('./routes/services');
+const projectsRoutes = require('./src/routes/projects');
+const authRoutes = require('./src/routes/auth');
+const contactRoutes = require('./src/routes/contact');
+const messagesRoutes = require('./src/routes/messages');
+const uploadRoutes = require('./src/routes/upload');
+const servicesRoutes = require('./src/routes/services');
 
 const app = express();
 
