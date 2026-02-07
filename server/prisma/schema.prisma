@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// المستخدم المسؤول (Admin)
+model AdminUser {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+}
+
+// المشاريع (Projects)
+model Project {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  description String
+  content     String?  // Full Markdown content
+  image       String?  // Main Cover Image
+  
+  // المصفوفات (Arrays) - مهمة جداً أن تكون معرفة هكذا
+  gallery     String[] @default([]) // صور المعرض
+  tags        String[] @default([]) // تقنيات العمل (React, Node...)
+  
+  link        String?  // رابط المشروع الخارجي (تم تعديله من url ليطابق الكود)
+  
+  // حقول قديمة (يمكنك تركها أو حذفها إذا لم تعد تستخدمها)
+  images      String[] @default([]) 
+  url         String?  // legacy
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// الرسائل (Contact Messages)
+model Message {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  subject   String
+  message   String
+  read      Boolean  @default(false) // حالة القراءة (مقروء/غير مقروء)
+  createdAt DateTime @default(now())
+}
+
+// الخدمات (Services)
+model Service {
+  id               Int      @id @default(autoincrement())
+  title            String
+  slug             String?  @unique // رابط مميز للخدمة (اختياري حالياً)
+  shortDescription String
+  fullContent      String?  // الشرح التفصيلي الطويل
+  icon             String?  // رابط الأيقونة
+  image            String?  // صورة الهيرو الكبيرة
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}

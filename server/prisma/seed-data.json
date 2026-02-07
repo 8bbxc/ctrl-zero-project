@@ -1,0 +1,75 @@
+[
+  {
+    "title": "DevLens AI",
+    "slug": "devlens-ai",
+    "description": "An intelligent web application integrating the Google Gemini API to analyze and interact with user inputs efficiently.",
+    "content": "DevLens AI leverages the Gemini API to provide deep analysis and interactive insights for user inputs. Built with modern web stack for performance and scalability.",
+    "image": "https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=1200&q=80",
+    "images": [
+      "https://via.placeholder.com/1200x720.png?text=DevLens+1",
+      "https://via.placeholder.com/1200x720.png?text=DevLens+2",
+      "https://via.placeholder.com/1200x720.png?text=DevLens+3"
+    ],
+    "gallery": [
+      "https://via.placeholder.com/1400x900.png?text=DevLens+Shot+1",
+      "https://via.placeholder.com/1400x900.png?text=DevLens+Shot+2",
+      "https://via.placeholder.com/1400x900.png?text=DevLens+Shot+3"
+    ],
+    "url": "",
+    "tags": [
+      "Node.js",
+      "Express",
+      "React",
+      "Gemini API"
+    ]
+  },
+  {
+    "title": "Najah Hub",
+    "slug": "najah-hub",
+    "description": "A comprehensive full-stack platform built with the MERN stack featuring secure authentication and complex database architecture.",
+    "content": "Najah Hub is a feature-rich platform with authentication, role-based access, and complex data flows. Designed for reliability and maintainability.",
+    "image": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=80",
+    "images": [
+      "https://via.placeholder.com/1200x720.png?text=Najah+1",
+      "https://via.placeholder.com/1200x720.png?text=Najah+2"
+    ],
+    "gallery": [
+      "https://via.placeholder.com/1400x900.png?text=Najah+Shot+1",
+      "https://via.placeholder.com/1400x900.png?text=Najah+Shot+2",
+      "https://via.placeholder.com/1400x900.png?text=Najah+Shot+3"
+    ],
+    "url": "",
+    "tags": [
+      "MongoDB",
+      "Express",
+      "React",
+      "Node.js",
+      "Tailwind"
+    ]
+  },
+  {
+    "title": "My Portfolio",
+    "slug": "my-portfolio",
+    "description": "This responsive portfolio website, featuring a scalable PostgreSQL database, Prisma ORM, and a secure admin dashboard.",
+    "content": "A personal portfolio showcasing projects and services, built with Vite, React, Prisma and PostgreSQL. Includes a secure admin dashboard for managing content.",
+    "image": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80",
+    "images": [
+      "https://via.placeholder.com/1200x720.png?text=Portfolio+1",
+      "https://via.placeholder.com/1200x720.png?text=Portfolio+2",
+      "https://via.placeholder.com/1200x720.png?text=Portfolio+3"
+    ],
+    "gallery": [
+      "https://via.placeholder.com/1400x900.png?text=Portfolio+Shot+1",
+      "https://via.placeholder.com/1400x900.png?text=Portfolio+Shot+2",
+      "https://via.placeholder.com/1400x900.png?text=Portfolio+Shot+3",
+      "https://via.placeholder.com/1400x900.png?text=Portfolio+Shot+4"
+    ],
+    "url": "",
+    "tags": [
+      "PostgreSQL",
+      "Prisma",
+      "React",
+      "Vite"
+    ]
+  }
+]

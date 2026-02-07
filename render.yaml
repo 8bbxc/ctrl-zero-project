@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: ctrl-zero-server
+    env: node
+    repo: https://github.com/<your-org-or-user>/<repo>
+    branch: main
+    region: oregon
+    plan: standard
+    rootDir: server
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health
+    releaseCommand: npx prisma migrate deploy && npm run seed || true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: true
+      - key: JWT_SECRET
+        sync: true
+      - key: ADMIN_SETUP_TOKEN
+        sync: true
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: true
+      - key: CLOUDINARY_API_KEY
+        sync: true
+      - key: CLOUDINARY_API_SECRET
+        sync: true
+      - key: SMTP_HOST
+        sync: true
+      - key: SMTP_PORT
+        sync: true
+      - key: SMTP_USER
+        sync: true
+      - key: SMTP_PASS
+        sync: true
+      - key: DEFAULT_CONTACT_EMAIL
+        sync: true
+      - key: CLIENT_ORIGIN
+        sync: true
