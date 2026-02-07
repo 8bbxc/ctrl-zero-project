@@ -27,7 +27,10 @@ const resources = {
         techTitle: 'Powered by Modern Tech', 
         offerTitle: 'Our Expertise',
         offerSubtitle: 'Comprehensive solutions for the modern web.',
-        weCan: 'We Can'
+        weCan: 'We Can',
+        readyTitle: 'Ready to',
+        scaleUp: 'Scale Up?',
+        ctaDesc: "Stop waiting. Let's build the software your business deserves."
       },
       services: {
         pageTitle: 'Services',
@@ -55,8 +58,10 @@ const resources = {
         readyDesc: 'Let’s turn this service into a reality for your business.',
         getQuote: 'Get a Quote',
         whatsapp: 'Chat on WhatsApp',
-        whyUs: 'Why Choose Us?',
-        features: {
+        whyUs: 'Why Choose Us?',        devops: {
+          title: 'DevOps & Cloud',
+          desc: 'CI/CD pipelines, Docker containerization, and cloud deployment.'
+        },        features: {
           eng: 'Professional Engineering',
           support: '24/7 Support',
           scale: 'Scalable Solutions'
@@ -149,7 +154,10 @@ const resources = {
         techTitle: 'مدعوم بأحدث التقنيات', 
         offerTitle: 'مجالات خبرتنا',
         offerSubtitle: 'حلول شاملة للويب الحديث.',
-        weCan: 'نستطيع'
+        weCan: 'نستطيع',
+        readyTitle: 'هل أنت مستعد',
+        scaleUp: 'للتطور؟',
+        ctaDesc: 'توقف عن الانتظار. دعنا نبني لك البرمجيات التي يستحقها عملك.'
       },
       services: {
         pageTitle: 'خدماتنا',
@@ -178,6 +186,10 @@ const resources = {
         getQuote: 'اطلب عرض سعر',
         whatsapp: 'دردش عبر واتساب',
         whyUs: 'لماذا تختارنا؟',
+        devops: {
+          title: 'DevOps و البنية السحابية',
+          desc: 'خطوط أنابيب CI/CD وحاويات Docker والنشر السحابي.'
+        },
         features: {
           eng: 'هندسة احترافية',
           support: 'دعم فني 24/7',

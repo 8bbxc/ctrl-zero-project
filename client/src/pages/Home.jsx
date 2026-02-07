@@ -103,8 +103,8 @@ export default function Home() {
 
       {/* 2. SKEWED MARQUEE - The "Wow" Factor */}
       <section className="py-20 bg-slate-950 relative overflow-hidden">
-        <div className="transform -rotate-2 scale-105 origin-center">
-          <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 py-8 border-y border-white/5 backdrop-blur-sm">
+        <div className="transform -rotate-2 scale-105 origin-center overflow-x-hidden">
+          <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 py-8 border-y border-white/5 backdrop-blur-sm overflow-x-hidden">
             <Marquee 
               gradient={false} 
               speed={40} 
@@ -112,13 +112,14 @@ export default function Home() {
               direction={dir === 'rtl' ? 'right' : 'left'}
             >
               {marqueeImages.map((src, i) => (
-                <div key={i} className="mx-4 relative group cursor-pointer flex-shrink-0">
+                <div key={i} className="px-3 md:px-4 relative group cursor-pointer flex-shrink-0 h-64 md:h-80">
                   <div className="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/10 transition-colors duration-300 rounded-xl z-10" />
                   <img 
                     src={src} 
                     alt="Portfolio project" 
                     loading="lazy"
-                    className="h-64 md:h-80 w-[400px] object-cover rounded-xl shadow-2xl border border-slate-800 transform group-hover:scale-[1.02] transition-transform duration-500" 
+                    decoding="async"
+                    className="h-full w-[350px] md:w-[400px] object-cover rounded-xl shadow-2xl border border-slate-800 transform group-hover:scale-[1.02] transition-transform duration-500" 
                   />
                 </div>
               ))}
@@ -199,9 +200,9 @@ export default function Home() {
              <div className="w-14 h-14 rounded-2xl bg-orange-500/10 flex items-center justify-center text-orange-400 text-3xl mb-6">
                <FaDocker />
              </div>
-             <h3 className="text-2xl font-bold text-white mb-2">DevOps & Cloud</h3>
+             <h3 className="text-2xl font-bold text-white mb-2">{t('services.devops.title') || 'DevOps & Cloud'}</h3>
              <p className="text-slate-400 leading-relaxed">
-               CI/CD pipelines, Docker containerization, and cloud deployment.
+               {t('services.devops.desc') || 'CI/CD pipelines, Docker containerization, and cloud deployment.'}
              </p>
           </motion.div>
         </div>
@@ -241,10 +242,10 @@ export default function Home() {
         
         <div className="container mx-auto px-4 relative z-10">
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-8">
-            Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Scale Up?</span>
+            {t('home.readyTitle') || 'Ready to'} <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">{t('home.scaleUp') || 'Scale Up?'}</span>
           </h2>
           <p className="text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
-            Stop waiting. Let's build the software your business deserves.
+            {t('home.ctaDesc') || "Stop waiting. Let's build the software your business deserves."}
           </p>
           <div className="inline-block p-1 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
             <Link 
