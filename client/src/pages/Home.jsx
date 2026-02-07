@@ -21,7 +21,7 @@ export default function Home() {
 
   // صور الماركيز
   const marqueeImages = [
-    '/images/home/1.jpg','/images/home/2.jpg','/images/home/3.jpg','/images/home/4.jpg',
+    '/images/home/1.jpg','/images/home/2.jpg','/images/home/3.jpg','/images/home/4.jpg','/images/home/5.jpg',
     '/images/home/1.jpg','/images/home/2.jpg'
   ]
 
@@ -105,13 +105,19 @@ export default function Home() {
       <section className="py-20 bg-slate-950 relative overflow-hidden">
         <div className="transform -rotate-2 scale-105 origin-center">
           <div className="bg-gradient-to-r from-blue-900/20 to-purple-900/20 py-8 border-y border-white/5 backdrop-blur-sm">
-            <Marquee gradient={false} speed={40} pauseOnHover={false}>
+            <Marquee 
+              gradient={false} 
+              speed={40} 
+              pauseOnHover={false}
+              direction={dir === 'rtl' ? 'right' : 'left'}
+            >
               {marqueeImages.map((src, i) => (
-                <div key={i} className="mx-4 relative group cursor-pointer">
+                <div key={i} className="mx-4 relative group cursor-pointer flex-shrink-0">
                   <div className="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/10 transition-colors duration-300 rounded-xl z-10" />
                   <img 
                     src={src} 
-                    alt="Project" 
+                    alt="Portfolio project" 
+                    loading="lazy"
                     className="h-64 md:h-80 w-[400px] object-cover rounded-xl shadow-2xl border border-slate-800 transform group-hover:scale-[1.02] transition-transform duration-500" 
                   />
                 </div>

@@ -50,8 +50,17 @@ export default function Projects() {
   // جلب البيانات
   useEffect(() => {
     const fetchProjects = async () => {
+      // Set timeout to prevent infinite loading
+      const timeoutId = setTimeout(() => {
+        console.warn("API request timeout, using default projects")
+        setProjects(defaultProjects)
+        setFilteredProjects(defaultProjects)
+        setLoading(false)
+      }, 5000)
+
       try {
         const res = await api.get('/projects')
+        clearTimeout(timeoutId)
         
         let dataToUse = []
         
