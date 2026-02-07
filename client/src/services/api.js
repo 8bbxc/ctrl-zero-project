@@ -1,17 +1,26 @@
 import axios from 'axios'
 import { getToken } from './auth'
 
-// 1. تحديد الرابط بشكل ذكي (Dynamic Base URL)
-// - في Vercel: سيأخذ الرابط من المتغير VITE_API_BASE_URL
-// - في جهازك: سيأخذ http://localhost:4000 تلقائياً
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000';
+// تحديد الرابط الصحيح حسب البيئة
+// للـ Production في Vercel: استخدم الـ backend المنشور على Render
+// للـ Development محليّاً: استخدم localhost:4000
+const BASE_URL = (() => {
+  // في Production (Vercel)
+  if (import.meta.env.PROD) {
+    return import.meta.env.VITE_API_BASE_URL || 'https://ctrl-zero-api.onrender.com'; // استبدل برابط السيرفر الحقيقي
+  }
+  // في Development محليّاً
+  return import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000';
+})();
 
-// نقوم بإضافة /api للرابط سواء كان محلياً أو من السيرفر
+// نقوم بإضافة /api للرابط
 const API_URL = `${BASE_URL}/api`;
+
+console.log('🔗 API URL:', API_URL); // للـ debugging
 
 const api = axios.create({
   baseURL: API_URL,
-  withCredentials: true // مهم جداً لضمان عمل CORS بشكل صحيح بين Vercel و Render
+  withCredentials: true // مهم جداً لضمان عمل CORS بشكل صحيح
 })
 
 // 2. Request Interceptor: إضافة التوكن

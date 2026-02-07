@@ -26,8 +26,24 @@ if (!fs.existsSync(uploadsDir)){
 }
 
 // 1. CORS Configuration
+// للـ Development: allow localhost:5173
+// للـ Production: allow Vercel domain
 app.use(cors({
-  origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      'http://localhost:5173',
+      'http://localhost:5174',
+      'http://localhost:3000',
+      'https://ctrl-zero.vercel.app', // Vercel production
+      process.env.CLIENT_ORIGIN
+    ].filter(Boolean);
+    
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
