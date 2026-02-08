@@ -69,7 +69,7 @@ export default function Contact() {
                 <span className="text-accent">.</span>
               </h1>
               <p className="text-sm sm:text-base lg:text-lg text-slate-400 leading-relaxed break-words">
-                {t('contact.subtitle') || 'Have a project in mind? We would love to hear from you. Let's build something amazing together.'}
+                {t('contact.subtitle') || "Have a project in mind? We would love to hear from you. Let's build something amazing together."}
               </p>
             </div>
 
