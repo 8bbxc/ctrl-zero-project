@@ -559,6 +559,8 @@ const InputGroup = ({ label, value, onChange, required, placeholder, isTextArea 
   </div>
 )
 
+// Helper component for uploading files
+
 const UploadBox = ({ label, loading, onChange, multiple, preview, isGallery, gallery, onRemove, onRemoveGallery, isIcon }) => (
   <div className="space-y-1 md:space-y-2 h-full flex flex-col">
     <div className="flex justify-between items-center px-1">
