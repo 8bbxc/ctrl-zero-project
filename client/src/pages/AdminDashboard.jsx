@@ -550,11 +550,11 @@ const EmptyState = () => (
 
 const InputGroup = ({ label, value, onChange, required, placeholder, isTextArea }) => (
   <div className="space-y-1 md:space-y-2 w-full">
-    <label className="text-[9px] md:text-[10px] font-bold text-slate-500 uppercase tracking-wider ml-1\">{label}</label>
+    <label className="text-[9px] md:text-[10px] font-bold text-slate-500 uppercase tracking-wider ml-1">{label}</label>
     {isTextArea ? (
-       <textarea rows=\"3\" className=\"w-full bg-black/20 border border-white/10 rounded-lg md:rounded-2xl px-3 md:px-5 py-2 md:py-3 text-sm text-white focus:border-accent focus:bg-slate-900/50 outline-none transition-all placeholder-slate-700 resize-none\" value={value || ''} onChange={onChange} required={required} placeholder={placeholder} />
+       <textarea rows="3" className="w-full bg-black/20 border border-white/10 rounded-lg md:rounded-2xl px-3 md:px-5 py-2 md:py-3 text-sm text-white focus:border-accent focus:bg-slate-900/50 outline-none transition-all placeholder-slate-700 resize-none" value={value || ''} onChange={onChange} required={required} placeholder={placeholder} />
     ) : (
-       <input className=\"w-full bg-black/20 border border-white/10 rounded-lg md:rounded-2xl px-3 md:px-5 py-2 md:py-3 text-sm text-white focus:border-accent focus:bg-slate-900/50 outline-none transition-all placeholder-slate-700 h-10 md:h-12\" value={value || ''} onChange={onChange} required={required} placeholder={placeholder} />
+       <input className="w-full bg-black/20 border border-white/10 rounded-lg md:rounded-2xl px-3 md:px-5 py-2 md:py-3 text-sm text-white focus:border-accent focus:bg-slate-900/50 outline-none transition-all placeholder-slate-700 h-10 md:h-12" value={value || ''} onChange={onChange} required={required} placeholder={placeholder} />
     )}
   </div>
 )
