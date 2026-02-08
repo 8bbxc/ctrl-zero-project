@@ -120,10 +120,10 @@ export default function Contact() {
 
             <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6 relative z-10">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                <InputGroup label={t('contact.name') || 'Name'} name="name" value={formData.name} onChange={handleChange} required placeholder="Full Name" />
-                <InputGroup label={t('contact.email') || 'Email'} name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="email@example.com" />
+                <InputGroup label={t('contact.name') || 'Name'} name="name" value={formData.name} onChange={handleChange} required placeholder={t('contact.namePlaceholder') || 'Full Name'} />
+                <InputGroup label={t('contact.email') || 'Email'} name="email" type="email" value={formData.email} onChange={handleChange} required placeholder={t('contact.emailPlaceholder') || 'email@example.com'} />
               </div>
-              <InputGroup label={t('contact.subject') || 'Subject'} name="subject" value={formData.subject} onChange={handleChange} required placeholder="Project Inquiry" />
+              <InputGroup label={t('contact.subject') || 'Subject'} name="subject" value={formData.subject} onChange={handleChange} required placeholder={t('contact.subjectPlaceholder') || 'Project Inquiry'} />
               
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">
@@ -135,7 +135,7 @@ export default function Contact() {
                   value={formData.message} 
                   onChange={handleChange}
                   required
-                  placeholder="Tell us about your project..."
+                  placeholder={t('contact.messagePlaceholder') || 'Tell us about your project...'}
                   className="w-full bg-black/20 border border-white/10 rounded-xl px-4 sm:px-5 py-3 sm:py-4 text-sm sm:text-base text-white focus:outline-none focus:border-accent focus:bg-black/40 transition-all resize-none placeholder-slate-600"
                 ></textarea>
               </div>

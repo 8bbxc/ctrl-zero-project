@@ -79,17 +79,21 @@ const resources = {
       },
       contact: { 
         title: 'Get in Touch', 
-        subtitle: 'Have a project in mind? We would love to hear from you. Let’s build something amazing together.',
+        subtitle: "Have a project in mind? We would love to hear from you. Let's build something amazing together.",
         name: 'Full Name', 
         email: 'Email Address', 
         subject: 'Subject', 
-        message: 'Your Message', 
+        message: 'Your Message',
+        namePlaceholder: 'Enter your full name',
+        emailPlaceholder: 'your@email.com',
+        subjectPlaceholder: 'Project or inquiry subject',
+        messagePlaceholder: 'Tell us about your project...',
         send: 'Send Message', 
         phone: 'Phone',
         location: 'Location',
         social: 'Follow Us',
         sent: 'Message sent successfully! We will contact you soon.', 
-        failed: 'Failed to send message.' 
+        failed: 'Failed to send message. Please try again later.' 
       },
       projects: {
         portfolio: 'PORTFOLIO',
@@ -208,17 +212,21 @@ const resources = {
       },
       contact: { 
         title: 'تواصل معنا', 
-        subtitle: 'لديك فكرة مشروع؟ نود أن نسمع منك. دعنا نبني شيئاً مذهلاً معاً.',
+        subtitle: 'هل لديك فكرة مشروع في ذهنك؟ نود أن نسمع منك. دعنا نبني معاً شيئاً مذهلاً.',
         name: 'الاسم الكامل', 
         email: 'البريد الإلكتروني', 
         subject: 'الموضوع', 
-        message: 'رسالتك', 
+        message: 'رسالتك',
+        namePlaceholder: 'أدخل اسمك الكامل',
+        emailPlaceholder: 'your@email.com',
+        subjectPlaceholder: 'موضوع المشروع',
+        messagePlaceholder: 'حدثنا عن مشروعك...',
         send: 'إرسال الرسالة', 
         phone: 'الهاتف',
         location: 'الموقع',
-        social: 'تابعنا',
+        social: 'تابعنا على',
         sent: 'تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.', 
-        failed: 'فشل الإرسال، يرجى المحاولة مرة أخرى.' 
+        failed: 'فشل الإرسال. يرجى المحاولة مرة أخرى لاحقاً.' 
       },
       projects: {
         portfolio: 'معرض الأعمال',
