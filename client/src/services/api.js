@@ -20,7 +20,8 @@ console.log('🔗 API URL:', API_URL); // للـ debugging
 
 const api = axios.create({
   baseURL: API_URL,
-  withCredentials: true // مهم جداً لضمان عمل CORS بشكل صحيح
+  withCredentials: true, // مهم جداً لضمان عمل CORS بشكل صحيح
+  timeout: 8000 // Timeout بعد 8 ثواني
 })
 
 // 2. Request Interceptor: إضافة التوكن

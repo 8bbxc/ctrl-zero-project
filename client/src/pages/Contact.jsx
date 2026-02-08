@@ -24,21 +24,22 @@ export default function Contact() {
     setStatus('loading')
 
     try {
-      // إرسال البيانات (المفاتيح هنا صحيحة 100% وتطابق السيرفر)
       const res = await api.post('/contact', formData)
 
       if (res && (res.status === 201 || res.status === 200)) {
         setStatus('success')
         setFormData({ name: '', email: '', subject: '', message: '' })
-        setTimeout(() => setStatus('idle'), 5000)
+        // Reset بسرعة أكثر
+        setTimeout(() => setStatus('idle'), 3000)
       } else {
         setStatus('error')
-        setTimeout(() => setStatus('idle'), 5000)
+        setTimeout(() => setStatus('idle'), 3000)
       }
     } catch (err) {
-      console.error('Contact submit failed:', err)
+      console.error('Contact submit failed:', err?.message || err)
       setStatus('error')
-      setTimeout(() => setStatus('idle'), 5000)
+      // التعامل مع الأخطاء بسرعة
+      setTimeout(() => setStatus('idle'), 3000)
     }
   }
 
