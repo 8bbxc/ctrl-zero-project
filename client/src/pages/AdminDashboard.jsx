@@ -116,6 +116,16 @@ export default function AdminDashboard() {
     setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 4000)
   }
 
+  // --- تحديث الـ slug تلقائياً عند تغيير الـ Title ---
+  useEffect(() => {
+    if (activeTab === 'projects' && formData.title && showModal && !editingItem) {
+      const newSlug = formData.title.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-_]/g, '')
+      if (newSlug !== formData.slug) {
+        setFormData(prev => ({ ...prev, slug: newSlug }))
+      }
+    }
+  }, [formData.title, activeTab, showModal, editingItem])
+
   // --- منطق فتح النافذة (Modal) ---
   const openModal = (item = null) => {
     if (activeTab === 'messages') return; 
@@ -388,9 +398,19 @@ export default function AdminDashboard() {
                           )}
 
                           {activeTab === 'projects' && (
-                             <div className="grid grid-cols-2 gap-4">
-                                <InputGroup label="Slug" value={formData.slug} onChange={e => setFormData({...formData, slug: e.target.value})} placeholder="auto-slug" />
-                                <button type="button" onClick={generateSlug} className="text-xs text-accent mt-8 hover:underline">Auto Generate</button>
+                             <div className="space-y-3">
+                                <div className="flex justify-between items-center">
+                                   <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Slug (URL)</label>
+                                   <button type="button" onClick={generateSlug} className="text-xs text-accent hover:text-accent/80 flex items-center gap-1"><FaMagic size={12} /> Auto</button>
+                                </div>
+                                <input 
+                                   type="text" 
+                                   value={formData.slug || ''} 
+                                   onChange={e => setFormData({...formData, slug: e.target.value})} 
+                                   placeholder="auto-generated-slug"
+                                   className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-accent outline-none font-mono"
+                                />
+                                {formData.slug && <p className="text-[10px] text-slate-500">URL: /{formData.slug}</p>}
                              </div>
                           )}
 
