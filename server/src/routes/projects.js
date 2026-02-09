@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const prisma = require('../utils/prisma'); // نستخدم نسخة Prisma المركزية
+// تأكد من مسار prisma حسب ملفاتك (قد يكون ../lib/prisma أو ../utils/prisma)
+const prisma = require('../utils/prisma'); 
 const { requireAuth } = require('../middleware/auth'); 
 
 // --- دوال مساعدة (Helper Functions) ---
-// تحويل النصوص (csv) إلى مصفوفات ليقبلها Prisma
 const parseArray = (input) => {
   if (!input) return [];
   if (Array.isArray(input)) return input;
@@ -31,8 +31,6 @@ router.get('/', async (req, res) => {
 router.get('/:slug', async (req, res) => {
   try {
     const { slug } = req.params;
-    
-    // إذا كان الـ slug رقم (ID) بالخطأ، نحاول البحث بالـ ID
     const whereClause = isNaN(slug) ? { slug } : { id: parseInt(slug) };
 
     const project = await prisma.project.findFirst({
@@ -50,13 +48,12 @@ router.get('/:slug', async (req, res) => {
 // 3. إنشاء مشروع جديد (محمي)
 router.post('/', requireAuth, async (req, res) => {
   try {
-    const { title, slug, description, content, image, link } = req.body;
+    // --- التعديل: استقبلنا category ---
+    const { title, slug, description, content, image, link, category } = req.body;
     
-    // معالجة المصفوفات (Tags & Gallery) لتجنب الأخطاء
     const tags = parseArray(req.body.tags);
     const gallery = parseArray(req.body.gallery);
 
-    // التحقق من الحقول الأساسية
     if (!title || !slug) {
         return res.status(400).json({ error: 'Title and Slug are required' });
     }
@@ -64,19 +61,21 @@ router.post('/', requireAuth, async (req, res) => {
     const newProject = await prisma.project.create({
       data: {
         title,
-        slug, // يجب أن يكون فريداً
+        slug,
         description: description || '',
         content: content || '',
         image: image || '',
         link: link || '',
-        tags,    // الآن هي مصفوفة مضمونة
-        gallery  // الآن هي مصفوفة مضمونة
+        // --- التعديل: حفظنا القسم (مع قيمة افتراضية) ---
+        category: category || 'General',
+        // -------------------------------------------
+        tags,
+        gallery
       }
     });
 
     res.status(201).json(newProject);
   } catch (error) {
-    // التعامل مع خطأ التكرار (Unique Constraint)
     if (error.code === 'P2002') {
       return res.status(400).json({ error: 'Slug matches an existing project. Please use a unique slug.' });
     }
@@ -89,7 +88,8 @@ router.post('/', requireAuth, async (req, res) => {
 router.put('/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, slug, description, content, image, link } = req.body;
+    // --- التعديل: استقبلنا category ---
+    const { title, slug, description, content, image, link, category } = req.body;
 
     const tags = parseArray(req.body.tags);
     const gallery = parseArray(req.body.gallery);
@@ -103,6 +103,9 @@ router.put('/:id', requireAuth, async (req, res) => {
         content,
         image,
         link,
+        // --- التعديل: تحديث القسم ---
+        category, 
+        // -------------------------
         tags,
         gallery
       }
