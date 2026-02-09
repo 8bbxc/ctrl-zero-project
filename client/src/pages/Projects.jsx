@@ -1,67 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaGithub, FaExternalLinkAlt, FaSearch, FaLaptopCode, FaImages } from 'react-icons/fa'
+import { FaExternalLinkAlt, FaSearch, FaLaptopCode, FaImages } from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 import api from '../services/api'
 import Spinner from '../components/Spinner'
 import SectorCards from '../components/SectorCards'
 
 export default function Projects() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const [projects, setProjects] = useState([])
-  const [filteredProjects, setFilteredProjects] = useState([])
   const [loading, setLoading] = useState(true)
-  const [activeFilter, setActiveFilter] = useState('All')
 
-  // بيانات افتراضية "فخمة" للعرض في حال كانت قاعدة البيانات فارغة أو فشل الاتصال
-  const defaultProjects = [
-    {
-      id: 'crypto-dashboard',
-      title: 'Crypto Nexus',
-      slug: 'crypto-nexus',
-      description: 'A real-time cryptocurrency trading dashboard with live charts, AI-driven predictions, and secure wallet integration.',
-      image: 'https://images.unsplash.com/photo-1642790551116-18e150f248e3?q=80&w=1933',
-      tags: ['React', 'Node.js', 'Socket.io', 'Tailwind'],
-      category: 'Corporate',
-      gallery: [1, 2, 3]
-    },
-    {
-      id: 'health-ai',
-      title: 'MediScan AI',
-      slug: 'mediscan-ai',
-      description: 'Mobile application using Computer Vision to analyze skin conditions and provide preliminary medical advice.',
-      image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070',
-      tags: ['React Native', 'Python', 'TensorFlow', 'FastAPI'],
-      category: 'Medical',
-      gallery: [1, 2]
-    },
-    {
-      id: 'ecommerce-pro',
-      title: 'Luxe Market',
-      slug: 'luxe-market',
-      description: 'High-performance e-commerce platform with 3D product previews and headless CMS architecture.',
-      image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=2070',
-      tags: ['Next.js', 'Stripe', 'Sanity', 'Three.js'],
-      category: 'E-Commerce',
-      gallery: [1, 2, 3, 4]
-    }
-  ]
-
-  // جلب البيانات
+  // Fetch projects from API
   useEffect(() => {
     const fetchProjects = async () => {
-      // Set timeout to prevent infinite loading
-      const timeoutId = setTimeout(() => {
-        console.warn("API request timeout, using default projects")
-        setProjects(defaultProjects)
-        setFilteredProjects(defaultProjects)
-        setLoading(false)
-      }, 5000)
-
       try {
         const res = await api.get('/projects')
-        clearTimeout(timeoutId)
         
         let dataToUse = []
         
@@ -72,41 +27,23 @@ export default function Projects() {
         }
 
         if (dataToUse.length > 0) {
-          // معالجة البيانات وتوحيد الهيكل
+          // Process data to ensure consistent structure
           const realProjects = dataToUse.map(p => ({
             ...p,
-            // تحديد التصنيف بناءً على التاغز إذا لم يكن موجوداً
-            category: p.category || 'Web App', 
-            // ضمان أن التاغز مصفوفة دائماً
+            // Ensure tags is always an array
             tags: Array.isArray(p.tags) ? p.tags : (typeof p.tags === 'string' ? p.tags.split(',') : ['Development'])
           }))
           setProjects(realProjects)
-          setFilteredProjects(realProjects)
-        } else {
-          setProjects(defaultProjects)
-          setFilteredProjects(defaultProjects)
         }
       } catch (err) {
-        console.error("Using default projects due to error:", err)
-        setProjects(defaultProjects)
-        setFilteredProjects(defaultProjects)
+        console.error("Failed to fetch projects:", err)
+        setProjects([])
       } finally {
         setLoading(false)
       }
     }
     fetchProjects()
   }, [])
-
-  // منطق الفلترة
-  useEffect(() => {
-    if (activeFilter === 'All') {
-      setFilteredProjects(projects)
-    } else {
-      setFilteredProjects(projects.filter(p => 
-        p.category && p.category === activeFilter
-      ))
-    }
-  }, [activeFilter, projects])
 
   return (
     <div className="min-h-screen py-20 relative overflow-hidden bg-slate-950 text-slate-50 font-sans">
@@ -135,7 +72,7 @@ export default function Projects() {
         </div>
 
         {/* Sector Navigation - The Premium Filter System */}
-        <SectorCards selectedSector={activeFilter} onSectorChange={setActiveFilter} />
+        <SectorCards selectedSector={'All'} onSectorChange={() => {}} />
 
         {/* Projects Grid */}
         {loading ? (
@@ -146,7 +83,7 @@ export default function Projects() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             <AnimatePresence>
-              {filteredProjects.map((project, idx) => (
+              {projects.map((project, idx) => (
                 <motion.div
                   layout
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -238,13 +175,12 @@ export default function Projects() {
           </motion.div>
         )}
 
-        {filteredProjects.length === 0 && !loading && (
+        {projects.length === 0 && !loading && (
           <div className="flex flex-col items-center justify-center py-20 text-slate-500">
             <div className="w-20 h-20 bg-slate-900 rounded-full flex items-center justify-center mb-4 border border-white/5">
                 <FaSearch className="text-3xl text-slate-600" />
             </div>
-            <p className="text-lg">No projects found in this category.</p>
-            <button onClick={() => setActiveFilter('All')} className="text-accent hover:underline mt-2 font-bold">Clear filters</button>
+            <p className="text-lg">No projects found.</p>
           </div>
         )}
 

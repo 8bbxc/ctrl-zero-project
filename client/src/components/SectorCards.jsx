@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import {
@@ -235,11 +236,12 @@ export default function SectorCards({ selectedSector, onSectorChange }) {
         viewport={{ once: true }}
         className="mt-8 flex justify-center"
       >
-        <button
+        <Link
+          to="/projects"
           onClick={() => onSectorChange('All')}
           className={`
             px-8 py-3 rounded-full font-bold uppercase tracking-wider
-            transition-all duration-300
+            transition-all duration-300 inline-block
             ${selectedSector === 'All'
               ? 'bg-accent text-black shadow-lg shadow-accent/50'
               : 'bg-white/5 text-white border border-white/20 hover:border-accent hover:bg-white/10'
@@ -247,7 +249,7 @@ export default function SectorCards({ selectedSector, onSectorChange }) {
           `}
         >
           {isArabic ? 'عرض الكل' : 'View All'}
-        </button>
+        </Link>
       </motion.div>
     </div>
   )

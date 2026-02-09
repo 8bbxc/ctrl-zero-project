@@ -6,6 +6,7 @@ import { AnimatePresence } from 'framer-motion'
 const Home = React.lazy(() => import('./pages/Home'))
 const Projects = React.lazy(() => import('./pages/Projects'))
 const ProjectDetails = React.lazy(() => import('./pages/ProjectDetails'))
+const SectorProjects = React.lazy(() => import('./pages/SectorProjects'))
 const About = React.lazy(() => import('./pages/About'))
 const Contact = React.lazy(() => import('./pages/Contact'))
 const Services = React.lazy(() => import('./pages/Services'))
@@ -36,12 +37,12 @@ export default function App() {
   const isAdminRoute = location.pathname.startsWith('/admin')
 
   // التحقق هل الصفحة تحتاج عرض كامل (بدون حواف)؟
-  // مثل الصفحة الرئيسية، وصفحات التفاصيل، والأدمن
+  // مثل الصفحة الرئيسية، وصفحات التفاصيل، والأدمن، والـ sector pages
   const isFullWidthPage = 
     location.pathname === '/' || 
     location.pathname.startsWith('/admin') ||
     (location.pathname.startsWith('/services/') && location.pathname !== '/services') ||
-    (location.pathname.startsWith('/projects/') && location.pathname !== '/projects')
+    (location.pathname.startsWith('/projects/') && !location.pathname.endsWith('/projects'))
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-950 text-slate-50 overflow-x-hidden selection:bg-accent selection:text-black">
@@ -64,6 +65,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             
             <Route path="/projects" element={<Projects />} />
+            <Route path="/projects/sector/:sector" element={<SectorProjects />} />
             <Route path="/projects/:slug" element={<ProjectDetails />} />
             
             <Route path="/services" element={<Services />} />
