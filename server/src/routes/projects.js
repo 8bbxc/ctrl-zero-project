@@ -108,16 +108,21 @@ router.post('/', requireAuth, async (req, res) => {
       content: content || '',
       image: image || '',
       link: link || '',
-      category: category || 'General',
       tags,
       gallery
     });
+
+    // Only add category if provided and not empty
+    if (category && category.trim()) {
+      createData.category = category;
+    }
 
     console.log('📝 Creating project with sanitized data:', {
       title: createData.title,
       slug: createData.slug,
       tags: createData.tags,
-      gallery: createData.gallery
+      gallery: createData.gallery,
+      category: createData.category || 'default'
     });
 
     const newProject = await prisma.project.create({
@@ -193,16 +198,21 @@ router.put('/:id', requireAuth, async (req, res) => {
       content: content || '',
       image: image || '',
       link: link || '',
-      category: category || 'General',
       tags,
       gallery
     });
+
+    // Only add category if provided and not empty
+    if (category && category.trim()) {
+      updateData.category = category;
+    }
 
     console.log('📝 Sanitized update data:', {
       title: updateData.title,
       slug: updateData.slug,
       tags: updateData.tags,
-      gallery: updateData.gallery
+      gallery: updateData.gallery,
+      category: updateData.category || 'not-set'
     });
 
     const updatedProject = await prisma.project.update({
