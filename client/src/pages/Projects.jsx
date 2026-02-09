@@ -134,12 +134,12 @@ export default function Projects() {
           </p>
         </div>
 
-        {/* Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 mb-16">
-          <div className="bg-slate-900/50 backdrop-blur-md border border-white/5 p-1.5 rounded-full flex flex-wrap justify-center gap-1 shadow-lg">
-            {filters.map((filter) => (
-            Sector Navigation - The Premium Filter System */}
-        <SectorCards selectedSector={activeFilter} onSectorChange={setActiveFilter} /v className="flex justify-center h-64 items-center"><Spinner /></div>
+        {/* Sector Navigation - The Premium Filter System */}
+        <SectorCards selectedSector={activeFilter} onSectorChange={setActiveFilter} />
+
+        {/* Projects Grid */}
+        {loading ? (
+          <div className="flex justify-center h-64 items-center"><Spinner /></div>
         ) : (
           <motion.div 
             layout
