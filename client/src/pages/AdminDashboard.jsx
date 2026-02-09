@@ -186,6 +186,11 @@ export default function AdminDashboard() {
       delete dataToSend.iconPublicId;
 
       if (activeTab === 'projects') {
+        // Ensure category is always included
+        if (!dataToSend.category || dataToSend.category.trim() === '') {
+          dataToSend.category = 'General';
+        }
+
         // Process tags
         if (typeof dataToSend.tags === 'string') {
           dataToSend.tags = dataToSend.tags.split(',').map(t => t.trim()).filter(t => t !== '');
