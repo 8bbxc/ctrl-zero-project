@@ -30,6 +30,7 @@ model Project {
   tags        String[] @default([]) // تقنيات العمل (React, Node...)
   
   link        String?  // رابط المشروع الخارجي (تم تعديله من url ليطابق الكود)
+  category    String   @default("General") // القطاع (Medical, E-Commerce, Restaurant, Corporate, Education, Real Estate)
   
   // حقول قديمة (يمكنك تركها أو حذفها إذا لم تعد تستخدمها)
   images      String[] @default([]) 

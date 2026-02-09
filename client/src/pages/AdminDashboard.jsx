@@ -497,6 +497,24 @@ export default function AdminDashboard() {
                                <InputGroup label="Slug (Auto-generated)" value={formData.slug} onChange={e => setFormData({...formData, slug: e.target.value})} placeholder="url-slug-here" />
                             )}
                          </div>
+                         {activeTab === 'projects' && (
+                            <div className="space-y-1 md:space-y-2 w-full">
+                              <label className="text-[9px] md:text-[10px] font-bold text-slate-500 uppercase tracking-wider ml-1">Project Sector</label>
+                              <select 
+                                value={formData.category || 'General'}
+                                onChange={e => setFormData({...formData, category: e.target.value})}
+                                className="w-full bg-black/20 border border-white/10 rounded-lg md:rounded-2xl px-3 md:px-5 py-2 md:py-3 text-sm text-white focus:border-accent focus:bg-slate-900/50 outline-none transition-all cursor-pointer h-10 md:h-12"
+                              >
+                                <option value="General">General</option>
+                                <option value="Medical">Medical</option>
+                                <option value="E-Commerce">E-Commerce</option>
+                                <option value="Restaurant">Restaurant</option>
+                                <option value="Corporate">Corporate</option>
+                                <option value="Education">Education</option>
+                                <option value="Real Estate">Real Estate</option>
+                              </select>
+                            </div>
+                         )}
                          <InputGroup label="Short Description" isTextArea value={formData.description || formData.shortDescription} onChange={e => setFormData({...formData, [activeTab === 'projects' ? 'description' : 'shortDescription']: e.target.value})} placeholder="Brief summary..." />
                       </div>
                       <div className="md:col-span-1">

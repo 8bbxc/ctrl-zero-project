@@ -50,7 +50,7 @@ router.get('/:slug', async (req, res) => {
 // 3. إنشاء مشروع جديد (محمي)
 router.post('/', requireAuth, async (req, res) => {
   try {
-    const { title, slug, description, content, image, link } = req.body;
+    const { title, slug, description, content, image, link, category } = req.body;
     
     // معالجة المصفوفات (Tags & Gallery) لتجنب الأخطاء
     const tags = parseArray(req.body.tags);
@@ -69,6 +69,7 @@ router.post('/', requireAuth, async (req, res) => {
         content: content || '',
         image: image || '',
         link: link || '',
+        category: category || 'General', // Category with default value
         tags,    // الآن هي مصفوفة مضمونة
         gallery  // الآن هي مصفوفة مضمونة
       }
@@ -89,7 +90,7 @@ router.post('/', requireAuth, async (req, res) => {
 router.put('/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, slug, description, content, image, link } = req.body;
+    const { title, slug, description, content, image, link, category } = req.body;
 
     const tags = parseArray(req.body.tags);
     const gallery = parseArray(req.body.gallery);
@@ -103,6 +104,7 @@ router.put('/:id', requireAuth, async (req, res) => {
         content,
         image,
         link,
+        category: category || 'General', // Category with default value
         tags,
         gallery
       }

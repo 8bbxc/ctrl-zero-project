@@ -101,6 +101,15 @@ const resources = {
         subtitle: 'A showcase of our technical expertise. Discover how we turn complex problems into elegant digital solutions.',
         more: 'Want to see code?',
         github: 'Visit our GitHub',
+        sectors: {
+          all: 'All Projects',
+          medical: 'Medical',
+          ecommerce: 'E-Commerce',
+          restaurant: 'Restaurant',
+          corporate: 'Corporate',
+          education: 'Education',
+          realestate: 'Real Estate'
+        },
         filters: {
           all: 'All',
           webapp: 'Web App',
@@ -234,6 +243,15 @@ const resources = {
         subtitle: 'استكشف نخبة من مشاريعنا البرمجية. اكتشف كيف نحول المشاكل المعقدة إلى حلول رقمية أنيقة.',
         more: 'تريد رؤية الكود؟',
         github: 'زر حسابنا على GitHub',
+        sectors: {
+          all: 'جميع المشاريع',
+          medical: 'الطب والصحة',
+          ecommerce: 'التجارة الإلكترونية',
+          restaurant: 'المطاعم والضيافة',
+          corporate: 'الشركات والمؤسسات',
+          education: 'التعليم والتدريب',
+          realestate: 'العقارات والسياحة'
+        },
         filters: {
           all: 'الكل',
           webapp: 'تطبيقات الويب',

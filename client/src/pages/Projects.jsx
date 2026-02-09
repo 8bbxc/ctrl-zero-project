@@ -5,6 +5,7 @@ import { FaGithub, FaExternalLinkAlt, FaSearch, FaLaptopCode, FaImages } from 'r
 import { useTranslation } from 'react-i18next'
 import api from '../services/api'
 import Spinner from '../components/Spinner'
+import SectorCards from '../components/SectorCards'
 
 export default function Projects() {
   const { t, i18n } = useTranslation()
@@ -22,7 +23,7 @@ export default function Projects() {
       description: 'A real-time cryptocurrency trading dashboard with live charts, AI-driven predictions, and secure wallet integration.',
       image: 'https://images.unsplash.com/photo-1642790551116-18e150f248e3?q=80&w=1933',
       tags: ['React', 'Node.js', 'Socket.io', 'Tailwind'],
-      category: 'Web App',
+      category: 'Corporate',
       gallery: [1, 2, 3]
     },
     {
@@ -32,7 +33,7 @@ export default function Projects() {
       description: 'Mobile application using Computer Vision to analyze skin conditions and provide preliminary medical advice.',
       image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070',
       tags: ['React Native', 'Python', 'TensorFlow', 'FastAPI'],
-      category: 'Mobile App',
+      category: 'Medical',
       gallery: [1, 2]
     },
     {
@@ -102,14 +103,10 @@ export default function Projects() {
       setFilteredProjects(projects)
     } else {
       setFilteredProjects(projects.filter(p => 
-        (p.category && p.category === activeFilter) || 
-        (p.tags && p.tags.some(tag => tag.toLowerCase().includes(activeFilter.toLowerCase()) || tag === activeFilter))
+        p.category && p.category === activeFilter
       ))
     }
   }, [activeFilter, projects])
-
-  // القوائم (يمكنك تعديلها حسب الحاجة)
-  const filters = ['All', 'Web App', 'Mobile App', 'E-Commerce', 'IoT', 'AI']
 
   return (
     <div className="min-h-screen py-20 relative overflow-hidden bg-slate-950 text-slate-50 font-sans">
@@ -141,29 +138,8 @@ export default function Projects() {
         <div className="flex flex-wrap justify-center gap-2 mb-16">
           <div className="bg-slate-900/50 backdrop-blur-md border border-white/5 p-1.5 rounded-full flex flex-wrap justify-center gap-1 shadow-lg">
             {filters.map((filter) => (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`relative px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${
-                  activeFilter === filter ? 'text-black' : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                {activeFilter === filter && (
-                  <motion.div
-                    layoutId="activeFilter"
-                    className="absolute inset-0 bg-accent rounded-full shadow-[0_0_20px_rgba(59,130,246,0.4)]"
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  />
-                )}
-                <span className="relative z-10">{t(`projects.filters.${filter.toLowerCase().replace(' ', '')}`) || filter}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Projects Grid */}
-        {loading ? (
-          <div className="flex justify-center h-64 items-center"><Spinner /></div>
+            Sector Navigation - The Premium Filter System */}
+        <SectorCards selectedSector={activeFilter} onSectorChange={setActiveFilter} /v className="flex justify-center h-64 items-center"><Spinner /></div>
         ) : (
           <motion.div 
             layout
