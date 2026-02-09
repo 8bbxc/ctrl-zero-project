@@ -158,24 +158,25 @@ export default function SectorProjects() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/40 via-transparent to-[#050505]/90" />
 
         <div className="relative z-10 container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* Back Button - Top */}
-          <div className="pt-8 pb-4">
-            <Link to="/projects" className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white transition-all border border-white/10 hover:border-white/30 px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-white/5 hover:bg-white/10 backdrop-blur-md">
-              <FaArrowLeft className="text-xs" /> 
-              <span>{isArabic ? 'استكشف القطاعات' : 'Explore Sectors'}</span>
-            </Link>
-          </div>
-
-          <div className="max-w-4xl mx-auto text-center py-12 md:py-20">
-            <h2 className="text-sm uppercase tracking-wider text-slate-300 mb-4 bg-white/5 inline-block px-3 py-1 rounded-full backdrop-blur-sm border border-white/10">
+          <div className="max-w-4xl mx-auto text-center py-12 sm:py-16 md:py-24 lg:py-28">
+            <h2 className="text-xs sm:text-sm uppercase tracking-wider text-slate-300 mb-3 sm:mb-4 bg-white/5 inline-block px-3 py-1 rounded-full backdrop-blur-sm border border-white/10">
               {isArabic ? 'القطاع' : 'Sector'}
             </h2>
-            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight drop-shadow-lg">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight drop-shadow-lg px-2 sm:px-0">
               {displayTitle} <span style={{ color: config.colorHex }}>.</span>
             </h1>
-            <p className="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl lg:text-2xl text-slate-200 max-w-3xl mx-auto font-light leading-relaxed px-2">
+            <p className="mt-3 sm:mt-4 md:mt-6 text-xs sm:text-base md:text-lg lg:text-xl text-slate-200 max-w-3xl mx-auto font-light leading-relaxed px-3 sm:px-2">
               {displayDesc}
             </p>
+            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3">
+              <Link to="/projects" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 text-xs sm:text-sm md:text-base font-semibold text-slate-300 hover:text-white transition-all border border-white/10 hover:border-white/30 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-md"> 
+                <FaArrowLeft className="text-xs sm:text-sm" /> 
+                <span>{isArabic ? 'استكشف القطاعات' : 'Explore Sectors'}</span>
+              </Link>
+              <Link to="/contact" className="w-full sm:w-auto inline-block px-4 sm:px-8 py-2.5 sm:py-3 text-xs sm:text-sm md:text-base rounded-lg sm:rounded-full bg-white text-black font-bold hover:bg-opacity-90 transition-all">
+                {isArabic ? 'تواصل معنا' : 'Get Started'}
+              </Link>
+            </div>
           </div>
         </div>
       </section>
