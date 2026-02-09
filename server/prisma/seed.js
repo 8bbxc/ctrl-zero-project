@@ -140,6 +140,277 @@ const projects = [
     url: '',
     category: 'Real Estate',
     tags: ['Next.js','Mapbox','Three.js','PostgreSQL','Machine Learning', 'Maps']
+  },
+  // --- إضافة 4 مشاريع لكل قطاع ---
+  {
+    title: 'TelemedicineHub Pro',
+    slug: 'telemedicines-hub',
+    description: 'Advanced telemedicine platform connecting patients with specialists for remote consultations.',
+    content: 'TelemedicineHub Pro brings healthcare closer to patients with secure video consultations, encrypted medical records, prescription management, and appointment scheduling. HIPAA-compliant infrastructure ensures data privacy and regulatory compliance.',
+    image: 'https://images.unsplash.com/photo-1631217314830-eac5fef67474?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1631217314830-eac5fef67474?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1576091160623-112411f7a5ca?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1579154204601-01d430c69e61?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'Medical',
+    tags: ['React','WebRTC','Node.js','PostgreSQL','HIPAA','Health']
+  },
+  {
+    title: 'VitalMetrics Hospital Dashboard',
+    slug: 'vitalmetrics-hospital',
+    description: 'Real-time hospital management system with patient monitoring and resource allocation.',
+    content: 'VitalMetrics provides comprehensive hospital operations management with real-time patient vitals monitoring, bed allocation optimization, staff scheduling, inventory management, and emergency alerts. Integrates with medical devices for continuous data streaming.',
+    image: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1631217314830-eac5fef67474?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1576091160623-112411f7a5ca?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'Medical',
+    tags: ['React','Node.js','MongoDB','Socket.io','IoT','Healthcare']
+  },
+  {
+    title: 'PharmaCare E-Pharmacy',
+    slug: 'pharmacare-epharm',
+    description: 'Digital pharmacy platform with prescription delivery and medication management.',
+    content: 'PharmaCare revolutionizes pharmaceutical retail with mobile prescription uploads, digital pharmacy inventory, real-time delivery tracking, and medication reminders. Licensed pharmacist verification ensures patient safety and regulatory compliance.',
+    image: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde0f?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1587854692152-cbe660dbde0f?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1631217314830-eac5fef67474?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'Medical',
+    tags: ['React Native','Node.js','PostgreSQL','Stripe','Delivery API']
+  },
+  {
+    title: 'MediAnalytics Research Hub',
+    slug: 'medianalytics-research',
+    description: 'Data analytics platform for medical research and clinical trials.',
+    content: 'MediAnalytics empowers medical researchers with advanced data analysis tools, clinical trial management, patient cohort analysis, and statistical modeling. Secure collaboration environment for research teams with real-time data visualization.',
+    image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1631217314830-eac5fef67474?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'Medical',
+    tags: ['Python','TensorFlow','PostgreSQL','D3.js','Data Science']
+  },
+  {
+    title: 'FashionHub Boutique Store',
+    slug: 'fashionhub-boutique',
+    description: 'Premium fashion e-commerce with AR try-on and personalized styling.',
+    content: 'FashionHub redefines online fashion retail with augmented reality try-on features, personal stylist recommendations, sustainable fashion tracking, and social shopping. Seamless checkout with support for multiple payment methods.',
+    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1620336655424-c5d54e64f7a6?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1563062348-c0fbe87c6fa7?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'E-Commerce',
+    tags: ['Next.js','Three.js','React AR','Shopify API','Styling AI']
+  },
+  {
+    title: 'ElectroMart Global Marketplace',
+    slug: 'electromart-marketplace',
+    description: 'Multi-vendor electronics marketplace with warranty tracking and support.',
+    content: 'ElectroMart is comprehensive electronics marketplace connecting buyers with verified sellers. Features warranty management, authentic product verification, technical support chat, and buyer protection guarantees. Advanced product comparison tools.',
+    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1633356122544-f134324ef6db?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'E-Commerce',
+    tags: ['MERN','Elasticsearch','Stripe','Vendor Dashboard','Reviews']
+  },
+  {
+    title: 'GroceryFresh Online Supermarket',
+    slug: 'groceryfresh-supermarket',
+    description: 'Same-day grocery delivery platform with inventory management.',
+    content: 'GroceryFresh brings fresh groceries to homes within 2 hours. Real-time inventory tracking, personalized recommendations based on purchase history, subscription savings, and integration with local farmers markets. Real-time order tracking and substitution handling.',
+    image: 'https://images.unsplash.com/photo-1585329133354-3d7b34f31d33?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1585329133354-3d7b34f31d33?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1578996413871-9ed8c0c0fca7?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1599599810694-cd5e917a2d30?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'E-Commerce',
+    tags: ['React','Node.js','RabbitMQ','Delivery API','IoT Tracking']
+  },
+  {
+    title: 'DineBook Restaurant Network',
+    slug: 'dinebook-restaurant',
+    description: 'Integrated restaurant reservation and management platform.',
+    content: 'DineBook connects restaurants with diners for seamless reservations and dining experiences. Features table management, queue tracking, special occasion alerts, and post-dining feedback. Integrated POS system and inventory tracking.',
+    image: 'https://images.unsplash.com/photo-1585314662646-5bead08c8abe?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1585314662646-5bead08c8abe?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1555638938-3c5906e1f3cc?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1606787276290-7a0ad9b6b5be?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'Restaurant',
+    tags: ['React','Node.js','PostgreSQL','Twilio','Analytics']
+  },
+  {
+    title: 'CloudChef Delivery Network',
+    slug: 'cloudchef-delivery',
+    description: 'Cloud kitchen network with multi-brand ordering and logistics.',
+    content: 'CloudChef operates a network of optimized cloud kitchens across the city. Single app showcases multiple brands, real-time order tracking via GPS, dynamic pricing, and AI-powered delivery route optimization for minimal delivery time.',
+    image: 'https://images.unsplash.com/photo-1556740716-b21eeabb5f2b?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1556740716-b21eeabb5f2b?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1525521298388-f88d287e3a50?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1579954614148-ce2cc17a63e0?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'Restaurant',
+    tags: ['React Native','Node.js','Firebase','Mapbox','Logistics']
+  },
+  {
+    title: 'FinServe Corporate Banking',
+    slug: 'finserve-banking',
+    description: 'Enterprise banking solution for corporate clients and SMEs.',
+    content: 'FinServe provides comprehensive banking services for businesses including business accounts, payment processing, cash management, and enterprise loans. Dashboard analytics for financial planning, multi-user access with role-based controls.',
+    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1516321318423-f06f70a504f0?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'Corporate',
+    tags: ['React','Spring Boot','Oracle DB','Encryption','ComplianceAPI']
+  },
+  {
+    title: 'TaskFlow Project Management',
+    slug: 'taskflow-projects',
+    description: 'Comprehensive project management suite with team collaboration tools.',
+    content: 'TaskFlow revolutionizes project management with intuitive board views (Kanban, Gantt, Timeline), real-time collaboration, time tracking, resource allocation, and budget management. Integration with Slack and email for notifications.',
+    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1516534775068-bb6c4e8b5f89?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1611432473558-edc32295a235?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'Corporate',
+    tags: ['Vue.js','Node.js','GraphQL','PostgreSQL','Collaboration']
+  },
+  {
+    title: 'InnovateHub Startup Platform',
+    slug: 'innovatehub-startup',
+    description: 'Platform connecting startups with investors and mentors.',
+    content: 'InnovateHub is ecosystem for startups to pitch ideas, connect with investors, access mentoring, and apply for grants. Pitch deck templates, investor database, due diligence tools, and community forums for knowledge sharing.',
+    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'Corporate',
+    tags: ['Next.js','Supabase','Analytics','Video Upload','Notifications']
+  },
+  {
+    title: 'VirtualClass Online School',
+    slug: 'virtualclass-school',
+    description: 'Interactive online schooling platform with live classes and assessments.',
+    content: 'VirtualClass brings full K-12 education online with live interactive classes, recorded sessions for offline learning, automated assessments, and parent-teacher communications. Supports large group lessons and individual tutoring sessions.',
+    image: 'https://images.unsplash.com/photo-1514108657386-94fb68e2fc68?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1514108657386-94fb68e2fc68?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1516534775068-bb6c4e8b5f89?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'Education',
+    tags: ['React','Agora.io','Node.js','PostgreSQL','Virtual Classroom']
+  },
+  {
+    title: 'SkillUp Online Courses',
+    slug: 'skillup-courses',
+    description: 'Comprehensive online course platform for professional development.',
+    content: 'SkillUp offers thousands of professional courses in tech, business, and creative fields. Interactive quizzes, certificates upon completion, instructor Q&A, progress tracking, and downloadable resources. Subscription and pay-per-course models.',
+    image: 'https://images.unsplash.com/photo-1522427335684-38143abc9f3b?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1522427335684-38143abc9f3b?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1516534775068-bb6c4e8b5f89?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'Education',
+    tags: ['React','Stripe','Vimeo API','MongoDB','Certificates']
+  },
+  {
+    title: 'RealityVR Education',
+    slug: 'realityvr-education',
+    description: 'Immersive VR learning experiences for STEM education.',
+    content: 'RealityVR creates immersive virtual reality environments for hands-on STEM learning. Students explore molecular structures, historical events, engineering concepts in 3D. Teacher dashboards track engagement and learning outcomes.',
+    image: 'https://images.unsplash.com/photo-1578996413871-9ed8c0c0fca7?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1578996413871-9ed8c0c0fca7?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1489749798305-4fea3ba63d60?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'Education',
+    tags: ['VR','Unity','WebGL','Three.js','Learning Science']
+  },
+  {
+    title: 'LuxeResidences Property Management',
+    slug: 'luxeresidences-property',
+    description: 'Luxury residential property management with white-glove service tracking.',
+    content: 'LuxeResidences caters to luxury residential market with premium virtual tours, detailed property analytics, neighborhood insights, comparable sales analysis, and white-glove concierge services. Investment ROI calculators and market trend analysis.',
+    image: 'https://images.unsplash.com/photo-1570129477492-45201003074e?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1570129477492-45201003074e?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1558036117-15cd4cecdf4c?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'Real Estate',
+    tags: ['Next.js','Mapbox','Three.js','PostgreSQL','CRM']
+  },
+  {
+    title: 'CommercialPlex Spaces',
+    slug: 'commercialplex-spaces',
+    description: 'Commercial real estate platform for office and retail spaces.',
+    content: 'CommercialPlex connects businesses with ideal commercial spaces. 360 virtual tours, detailed floor plans, demographics analysis, lease calculators, and broker networks. Integration with CoStar and commercial data providers.',
+    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1558036117-15cd4cecdf4c?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'Real Estate',
+    tags: ['React','Node.js','PostgreSQL','Geolocation','Analytics']
+  },
+  {
+    title: 'HolidayStay Vacation Rentals',
+    slug: 'holidaystay-rentals',
+    description: 'Vacation rental marketplace connecting homeowners with travelers.',
+    content: 'HolidayStay is comprehensive vacation rental platform with secure booking, damage protection, guest screening, and property management tools. Dynamic pricing, calendar sync, and automated message templates for hosts.',
+    image: 'https://images.unsplash.com/photo-1618684714596-c47fb5b4c656?auto=format&fit=crop&w=1200&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1618684714596-c47fb5b4c656?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1400&q=80',
+      'https://images.unsplash.com/photo-1543545521-d2c3201371e7?auto=format&fit=crop&w=1400&q=80'
+    ],
+    url: '',
+    category: 'Real Estate',
+    tags: ['React','Stripe','Mapbox','Email API','Calendar Sync']
   }
 ]
 

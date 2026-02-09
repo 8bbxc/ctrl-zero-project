@@ -5,18 +5,19 @@ import { FaArrowLeft, FaSearch, FaLaptopCode, FaImages, FaExternalLinkAlt } from
 import { useTranslation } from 'react-i18next'
 import api from '../services/api'
 import Spinner from '../components/Spinner'
-import Navbar from '../components/Navbar' // تأكد من المسار
-import Footer from '../components/Footer' // تأكد من المسار
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
-// --- إعدادات الأقسام (صور، ألوان، وصف) ---
+// --- Enhanced Sector Configuration ---
 const SECTOR_CONFIG = {
   Medical: {
     title: 'Healthcare & Medical',
     titleAr: 'الطب والرعاية الصحية',
     hero: 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?auto=format&fit=crop&w=2000&q=80',
-    color: 'text-red-400', // لون النصوص
-    bgGlow: 'hover:shadow-red-500/20 hover:border-red-500/30', // توهج الكرت
-    gradient: 'from-red-900/40 to-black', // تدرج الخلفية العلوية
+    color: 'text-rose-400',
+    gradient: 'from-rose-500/20 to-pink-600/5',
+    border: 'group-hover:border-rose-500/50',
+    shadow: 'group-hover:shadow-rose-500/20',
     description: 'Transforming patient care with advanced digital health solutions.',
     descriptionAr: 'نحول رعاية المرضى بحلول صحية رقمية متقدمة.'
   },
@@ -25,8 +26,9 @@ const SECTOR_CONFIG = {
     titleAr: 'التجارة الإلكترونية',
     hero: 'https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&w=2000&q=80',
     color: 'text-emerald-400',
-    bgGlow: 'hover:shadow-emerald-500/20 hover:border-emerald-500/30',
-    gradient: 'from-emerald-900/40 to-black',
+    gradient: 'from-emerald-500/20 to-teal-600/5',
+    border: 'group-hover:border-emerald-500/50',
+    shadow: 'group-hover:shadow-emerald-500/20',
     description: 'High-conversion stores aimed at maximizing revenue.',
     descriptionAr: 'متاجر عالية التحويل تهدف لزيادة الأرباح.'
   },
@@ -35,8 +37,9 @@ const SECTOR_CONFIG = {
     titleAr: 'المطاعم والضيافة',
     hero: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2000&q=80',
     color: 'text-orange-400',
-    bgGlow: 'hover:shadow-orange-500/20 hover:border-orange-500/30',
-    gradient: 'from-orange-900/40 to-black',
+    gradient: 'from-orange-500/20 to-amber-600/5',
+    border: 'group-hover:border-orange-500/50',
+    shadow: 'group-hover:shadow-orange-500/20',
     description: 'Digital menus and management systems for modern dining.',
     descriptionAr: 'قوائم رقمية وأنظمة إدارة لتجربة طعام حديثة.'
   },
@@ -45,8 +48,9 @@ const SECTOR_CONFIG = {
     titleAr: 'الشركات والأعمال',
     hero: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=80',
     color: 'text-blue-400',
-    bgGlow: 'hover:shadow-blue-500/20 hover:border-blue-500/30',
-    gradient: 'from-blue-900/40 to-black',
+    gradient: 'from-blue-500/20 to-indigo-600/5',
+    border: 'group-hover:border-blue-500/50',
+    shadow: 'group-hover:shadow-blue-500/20',
     description: 'Professional platforms that define brand authority.',
     descriptionAr: 'منصات احترافية ترسخ هيبة العلامة التجارية.'
   },
@@ -54,9 +58,10 @@ const SECTOR_CONFIG = {
     title: 'Education & LMS',
     titleAr: 'التعليم والتدريب',
     hero: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=2000&q=80',
-    color: 'text-yellow-400',
-    bgGlow: 'hover:shadow-yellow-500/20 hover:border-yellow-500/30',
-    gradient: 'from-yellow-900/40 to-black',
+    color: 'text-purple-400',
+    gradient: 'from-purple-500/20 to-violet-600/5',
+    border: 'group-hover:border-purple-500/50',
+    shadow: 'group-hover:shadow-purple-500/20',
     description: 'Interactive learning experiences for the future.',
     descriptionAr: 'تجارب تعليمية تفاعلية للمستقبل.'
   },
@@ -65,8 +70,9 @@ const SECTOR_CONFIG = {
     titleAr: 'العقارات والسياحة',
     hero: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=80',
     color: 'text-cyan-400',
-    bgGlow: 'hover:shadow-cyan-500/20 hover:border-cyan-500/30',
-    gradient: 'from-cyan-900/40 to-black',
+    gradient: 'from-cyan-500/20 to-sky-600/5',
+    border: 'group-hover:border-cyan-500/50',
+    shadow: 'group-hover:shadow-cyan-500/20',
     description: 'Immersive property showcases and booking engines.',
     descriptionAr: 'معارض عقارية غامرة ومحركات حجز متطورة.'
   }
@@ -79,12 +85,13 @@ export default function SectorProjects() {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
 
-  // إعدادات Parallax (حركة الخلفية مع السكرول)
+  // Parallax Effect
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] })
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]) // الصورة تتحرك بنصف سرعة السكرول
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0])
 
-  // إعدادات القسم الافتراضية في حال عدم العثور عليه
+  // Config Fallback
   const config = SECTOR_CONFIG[sector] || SECTOR_CONFIG.Corporate
   const displayTitle = isArabic ? config.titleAr : config.title
   const displayDesc = isArabic ? config.descriptionAr : config.description
@@ -95,9 +102,6 @@ export default function SectorProjects() {
       try {
         const res = await api.get('/projects')
         const allProjects = Array.isArray(res.data) ? res.data : res.data.items || []
-        
-        // --- الفلترة السحرية ---
-        // نقوم بجلب المشاريع التي تطابق القسم المختار
         const sectorProjects = allProjects.filter(p => p.category === sector)
         setProjects(sectorProjects)
       } catch (err) {
@@ -111,27 +115,28 @@ export default function SectorProjects() {
   }, [sector])
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#050505] text-slate-50 font-sans overflow-x-hidden">
+    <div ref={containerRef} className="min-h-screen bg-[#050505] text-slate-50 font-sans overflow-x-hidden selection:bg-cyan-500/30">
       <Navbar />
 
-      {/* --- 1. Cinematic Parallax Hero Section --- */}
-      <div className="relative h-[60vh] overflow-hidden flex items-center justify-center">
-        {/* صورة الخلفية المتحركة */}
-        <motion.div style={{ y }} className="absolute inset-0 z-0">
+      {/* --- 1. Cinematic Hero Section --- */}
+      <div className="relative h-[60vh] md:h-[70vh] overflow-hidden flex items-center justify-center">
+        {/* Parallax Background */}
+        <motion.div style={{ y, opacity }} className="absolute inset-0 z-0">
           <img 
             src={config.hero} 
             alt={displayTitle}
-            className="w-full h-full object-cover scale-110" 
+            className="w-full h-full object-cover scale-110 blur-[2px]" 
           />
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
-          <div className={`absolute inset-0 bg-gradient-to-b ${config.gradient} opacity-80`} />
+          <div className="absolute inset-0 bg-[#050505]/60" />
+          <div className={`absolute inset-0 bg-gradient-to-b ${config.gradient} opacity-40 mix-blend-overlay`} />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
         </motion.div>
 
-        {/* محتوى الهيرو */}
-        <div className="relative z-10 text-center px-4 max-w-4xl pt-20">
+        {/* Hero Content */}
+        <div className="relative z-10 text-center px-4 max-w-5xl pt-20">
           <Link 
             to="/projects"
-            className="inline-flex items-center gap-2 text-slate-300 hover:text-white mb-6 transition-colors border border-white/10 px-4 py-2 rounded-full backdrop-blur-md bg-black/20 hover:bg-black/40 group"
+            className="inline-flex items-center gap-2 text-slate-400 hover:text-white mb-8 transition-colors border border-white/5 px-5 py-2 rounded-full backdrop-blur-md bg-white/5 hover:bg-white/10 group text-sm font-medium uppercase tracking-wider"
           >
             <FaArrowLeft className="group-hover:-translate-x-1 transition-transform" /> 
             {isArabic ? 'العودة للقطاعات' : 'Back to Sectors'}
@@ -140,8 +145,8 @@ export default function SectorProjects() {
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-5xl md:text-7xl font-black text-white mb-4 tracking-tight"
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-5xl md:text-8xl font-black text-white mb-6 tracking-tight leading-tight"
           >
             {displayTitle} <span className={config.color}>.</span>
           </motion.h1>
@@ -150,99 +155,102 @@ export default function SectorProjects() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-xl text-slate-300 font-light"
+            className="text-xl md:text-2xl text-slate-300 font-light max-w-3xl mx-auto leading-relaxed"
           >
             {displayDesc}
           </motion.p>
         </div>
       </div>
 
-      {/* --- 2. Projects Grid Section --- */}
-      <div className="container mx-auto px-4 md:px-8 py-24 relative z-10 -mt-20">
+      {/* --- 2. Projects Grid --- */}
+      <div className="container mx-auto px-4 md:px-8 py-24 relative z-10 -mt-32">
         
         {loading ? (
-          <div className="flex justify-center h-64 items-center bg-slate-900/50 rounded-3xl backdrop-blur-xl border border-white/5">
-            <Spinner />
+          <div className="flex justify-center h-80 items-center">
+             <Spinner />
           </div>
         ) : projects.length === 0 ? (
           
-          // --- حالة عدم وجود مشاريع (Empty State) ---
+          // Empty State
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-slate-900/80 backdrop-blur-xl border border-white/5 rounded-3xl p-16 text-center shadow-2xl"
+            className="bg-[#0A0A0A] border border-white/5 rounded-[2rem] p-20 text-center shadow-2xl max-w-2xl mx-auto"
           >
-            <FaSearch className="text-6xl text-slate-700 mx-auto mb-6" />
-            <h2 className="text-3xl font-bold text-white mb-2">{isArabic ? 'قريباً...' : 'Coming Soon'}</h2>
-            <p className="text-slate-400 mb-8">{isArabic ? 'لم نضف مشاريع في هذا القسم بعد، تواصل معنا لبدء مشروعك!' : 'We haven\'t added projects to this sector yet.'}</p>
-            <Link to="/contact" className={`px-8 py-3 rounded-full bg-white text-black font-bold hover:bg-opacity-90 transition-colors`}>
-              {isArabic ? 'اطلب مشروعاً' : 'Start a Project'}
+            <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-8">
+               <FaSearch className="text-4xl text-slate-600" />
+            </div>
+            <h2 className="text-3xl font-bold text-white mb-4">{isArabic ? 'قريباً...' : 'Coming Soon'}</h2>
+            <p className="text-slate-400 mb-10 text-lg font-light">
+              {isArabic ? 'لم نضف مشاريع في هذا القسم بعد.' : 'We haven\'t added projects to this sector yet.'}
+            </p>
+            <Link to="/contact" className={`inline-block px-8 py-4 rounded-full bg-white text-black font-bold hover:scale-105 transition-transform`}>
+              {isArabic ? 'تواصل معنا' : 'Contact Us'}
             </Link>
           </motion.div>
 
         ) : (
           
-          // --- قائمة المشاريع (Grid System) ---
+          // Projects List
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, idx) => (
               <motion.div
                 key={project.id || idx}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: idx * 0.1, duration: 0.6 }}
                 className="group h-full"
               >
-                {/* كرت المشروع الفخم */}
                 <div className={`
-                  h-full bg-slate-900 border border-white/5 rounded-3xl overflow-hidden flex flex-col
-                  transition-all duration-500 shadow-xl
-                  ${config.bgGlow} hover:-translate-y-2
+                  relative h-full bg-[#0A0A0A] border border-white/5 rounded-[2rem] overflow-hidden flex flex-col
+                  transition-all duration-500 hover:-translate-y-2
+                  ${config.border} ${config.shadow} hover:shadow-2xl
                 `}>
                   
-                  {/* صورة المشروع */}
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <div className="absolute inset-0 bg-slate-900/10 group-hover:bg-transparent transition-colors z-10" />
+                  {/* Image Container */}
+                  <div className="relative aspect-[16/10] overflow-hidden">
                     {project.image ? (
                       <img 
                         src={project.image} 
                         alt={project.title}
-                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-out"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-slate-800">
-                        <FaLaptopCode className="text-5xl text-slate-700" />
+                      <div className="w-full h-full flex items-center justify-center bg-slate-900">
+                        <FaLaptopCode className="text-6xl text-slate-800" />
                       </div>
                     )}
                     
-                    {/* بادج الصور */}
-                    <div className="absolute top-4 right-4 z-20">
+                    {/* Overlay Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-60" />
+
+                    {/* Gallery Badge */}
+                    <div className="absolute top-5 right-5 z-20">
                        {project.gallery?.length > 0 && (
-                         <span className="bg-black/60 backdrop-blur-md text-white text-xs px-2 py-1 rounded-lg flex items-center gap-1 border border-white/10">
+                         <span className="bg-black/40 backdrop-blur-md text-white/90 text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-white/10">
                            <FaImages /> {project.gallery.length}
                          </span>
                        )}
                     </div>
                   </div>
 
-                  {/* تفاصيل المشروع */}
-                  <div className="p-6 flex flex-col flex-grow relative">
-                    {/* خلفية نويز خفيفة */}
-                    <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-5 pointer-events-none"></div>
-
-                    <h3 className={`text-2xl font-bold text-white mb-2 transition-colors group-hover:${config.color}`}>
+                  {/* Content Body */}
+                  <div className="p-8 flex flex-col flex-grow relative z-10">
+                    
+                    <h3 className={`text-2xl font-bold text-white mb-3 transition-colors duration-300 group-hover:${config.color}`}>
                       {project.title}
                     </h3>
                     
-                    <p className="text-slate-400 text-sm leading-relaxed mb-6 line-clamp-3 font-light">
+                    <p className="text-slate-400 text-sm leading-relaxed mb-8 line-clamp-3 font-light">
                       {project.description}
                     </p>
 
-                    {/* التاغات والزر */}
-                    <div className="mt-auto flex items-center justify-between border-t border-white/5 pt-4">
+                    {/* Bottom Row */}
+                    <div className="mt-auto flex items-center justify-between pt-6 border-t border-white/5">
                       <div className="flex gap-2">
                         {project.tags?.slice(0, 2).map((tag, i) => (
-                          <span key={i} className="text-[10px] uppercase tracking-wider px-2 py-1 bg-white/5 rounded text-slate-500">
+                          <span key={i} className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 bg-white/5 rounded text-slate-400 border border-white/5">
                             {tag}
                           </span>
                         ))}
@@ -251,11 +259,11 @@ export default function SectorProjects() {
                       <Link 
                         to={`/projects/${project.slug || project.id}`}
                         className={`
-                          w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white
-                          hover:bg-white hover:text-black transition-all transform group-hover:rotate-45
+                          w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white
+                          hover:bg-white hover:text-black hover:border-white transition-all duration-300 transform group-hover:rotate-45
                         `}
                       >
-                        <FaExternalLinkAlt className="text-xs" />
+                        <FaExternalLinkAlt className="text-sm" />
                       </Link>
                     </div>
                   </div>

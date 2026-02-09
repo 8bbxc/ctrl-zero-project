@@ -131,7 +131,7 @@ export default function AdminDashboard() {
       const tagsValue = item?.tags && Array.isArray(item.tags) ? item.tags.join(', ') : ''
       // Ensure gallery is array of objects for preview
       const gallery = item?.gallery ? item.gallery.map(g => (typeof g === 'string' ? { url: g, public_id: null } : g)) : []
-      setFormData(item ? { ...item, tags: tagsValue, gallery } : { title: '', slug: '', description: '', content: '', image: '', tags: '', link: '', gallery: [] })
+      setFormData(item ? { ...item, tags: tagsValue, gallery } : { title: '', slug: '', description: '', content: '', image: '', tags: '', link: '', category: 'Medical', gallery: [] })
     } else {
       setFormData(item || { title: '', shortDescription: '', fullContent: '', icon: '', image: '' })
     }
@@ -458,6 +458,9 @@ export default function AdminDashboard() {
                           </div>
                           <div className="p-2 xs:p-3 md:p-5 relative z-20 flex-1 flex flex-col">
                             <h3 className="font-bold text-white text-xs xs:text-sm md:text-lg mb-0.5 xs:mb-1 truncate">{item.title}</h3>
+                            {item.category && (
+                              <span className="text-[8px] xs:text-[9px] md:text-[10px] font-mono text-cyan-400 bg-cyan-500/10 px-1.5 xs:px-2 md:px-2 py-0.5 rounded-md w-fit mb-2 border border-cyan-500/20">{item.category}</span>
+                            )}
                             <p className="text-[10px] xs:text-[11px] md:text-xs text-slate-400 line-clamp-2 leading-relaxed mb-2 xs:mb-3 md:mb-4 min-h-[1.5em] md:min-h-[2.5em] flex-1">{item.shortDescription || item.description || "No description."}</p>
                             <div className="flex items-center gap-0.5 xs:gap-1 md:gap-2 pt-1.5 xs:pt-2 md:pt-3 border-t border-white/5 text-[8px] xs:text-[9px] md:text-[10px] flex-wrap">
                               {item.gallery?.length > 0 && (
