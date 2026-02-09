@@ -8,6 +8,21 @@ import Spinner from '../components/Spinner'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
+// --- Icon Mapping ---
+const ICON_MAP = {
+  'web-dev': FaLaptopCode,
+  'ui-ux': FaPaintBrush,
+  'product': FaRocket,
+  'mobile': FaMobileAlt,
+  'backend': FaServer,
+  'cloud': FaCloud
+}
+
+const getIcon = (iconKey) => {
+  const IconComponent = ICON_MAP[iconKey]
+  return IconComponent ? <IconComponent /> : null
+}
+
 // --- Default Services Data ---
 const DEFAULT_SERVICES = [
   {
@@ -16,7 +31,7 @@ const DEFAULT_SERVICES = [
     shortDescription: 'Scalable, high-performance web applications',
     fullContent: 'We build end-to-end web solutions using modern stacks like React, Node.js, and Postgres. Our approach includes strategic planning, beautiful UIs, robust backends, and seamless deployments.',
     features: ['React/Vue/Angular', 'Node.js/Python', 'PostgreSQL/MongoDB', 'RESTful APIs'],
-    icon: <FaLaptopCode />,
+    iconKey: 'web-dev',
     gradient: 'from-blue-500 to-cyan-400',
     color: '#0891b2'
   },
@@ -26,7 +41,7 @@ const DEFAULT_SERVICES = [
     shortDescription: 'Beautiful and intuitive user experiences',
     fullContent: 'We craft interfaces that users love. Every pixel is intentional. Every interaction is smooth. We focus on accessibility, performance, and conversion optimization.',
     features: ['Wireframing', 'Prototyping', 'Design Systems', 'User Testing'],
-    icon: <FaPaintBrush />,
+    iconKey: 'ui-ux',
     gradient: 'from-purple-500 to-pink-500',
     color: '#a855f7'
   },
@@ -36,7 +51,7 @@ const DEFAULT_SERVICES = [
     shortDescription: 'Turn ideas into market-ready products',
     fullContent: 'From concept to launch. We handle everything: strategy, design, development, testing, and deployment. Our goal is to help you build products that matter.',
     features: ['MVP Strategy', 'Agile Development', 'Quality Assurance', 'Go-to-market'],
-    icon: <FaRocket />,
+    iconKey: 'product',
     gradient: 'from-orange-500 to-red-500',
     color: '#f97316'
   },
@@ -46,7 +61,7 @@ const DEFAULT_SERVICES = [
     shortDescription: 'Native and cross-platform mobile apps',
     fullContent: 'High-performance apps for iOS and Android. We use React Native for cross-platform efficiency or native technologies for maximum performance.',
     features: ['React Native', 'Swift/Kotlin', 'Firebase', 'App Store Optimization'],
-    icon: <FaMobileAlt />,
+    iconKey: 'mobile',
     gradient: 'from-emerald-500 to-teal-400',
     color: '#10b981'
   },
@@ -56,7 +71,7 @@ const DEFAULT_SERVICES = [
     shortDescription: 'Robust server-side architecture',
     fullContent: 'We build scalable, secure, and lightning-fast backends. REST APIs, GraphQL, real-time websockets, and microservices - we know it all.',
     features: ['REST/GraphQL', 'Database Design', 'Authentication/Security', 'Scalability'],
-    icon: <FaServer />,
+    iconKey: 'backend',
     gradient: 'from-indigo-500 to-violet-600',
     color: '#6366f1'
   },
@@ -66,7 +81,7 @@ const DEFAULT_SERVICES = [
     shortDescription: 'Automated deployment and infrastructure',
     fullContent: 'From CI/CD pipelines to containerization and cloud management. We ensure your app is always available, secure, and performing at peak capacity.',
     features: ['CI/CD Pipelines', 'Docker/Kubernetes', 'AWS/Azure/GCP', 'Monitoring & Logging'],
-    icon: <FaCloud />,
+    iconKey: 'cloud',
     gradient: 'from-sky-500 to-blue-600',
     color: '#0ea5e9'
   }
@@ -165,7 +180,7 @@ export default function ServiceDetails() {
             className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mb-6 sm:mb-8"
           >
             <div className={`w-12 sm:w-16 h-12 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center text-2xl sm:text-4xl flex-shrink-0 shadow-lg shadow-blue-500/20`}>
-              {service.icon}
+              {getIcon(service.iconKey)}
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight">
               {service.title}

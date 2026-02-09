@@ -7,13 +7,28 @@ import api from '../services/api'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 
+// --- Icon Mapping ---
+const ICON_MAP = {
+  'web-dev': FaLaptopCode,
+  'ui-ux': FaPaintBrush,
+  'product': FaRocket,
+  'mobile': FaMobileAlt,
+  'backend': FaServer,
+  'cloud': FaCloud
+}
+
+const getIcon = (iconKey) => {
+  const IconComponent = ICON_MAP[iconKey]
+  return IconComponent ? <IconComponent /> : null
+}
+
 // --- Default Data with Gradients ---
 const DEFAULT_SERVICES = [
   {
     id: 'web-dev',
     title: 'Full-Stack Development',
     desc: 'Scalable, high-performance web applications using modern stacks like React, Node.js, and Postgres.',
-    icon: <FaLaptopCode />,
+    iconKey: 'web-dev',
     gradient: 'from-blue-500 to-cyan-400',
     shadow: 'group-hover:shadow-blue-500/20'
   },
@@ -21,7 +36,7 @@ const DEFAULT_SERVICES = [
     id: 'ui-ux',
     title: 'UI/UX Design',
     desc: 'Intuitive, accessible, and beautiful interfaces designed to convert visitors into loyal customers.',
-    icon: <FaPaintBrush />,
+    iconKey: 'ui-ux',
     gradient: 'from-purple-500 to-pink-500',
     shadow: 'group-hover:shadow-purple-500/20'
   },
@@ -29,7 +44,7 @@ const DEFAULT_SERVICES = [
     id: 'product',
     title: 'Product Engineering',
     desc: 'From raw idea to market-ready MVP. We handle architecture, development, and deployment strategy.',
-    icon: <FaRocket />,
+    iconKey: 'product',
     gradient: 'from-orange-500 to-red-500',
     shadow: 'group-hover:shadow-orange-500/20'
   },
@@ -37,7 +52,7 @@ const DEFAULT_SERVICES = [
     id: 'mobile',
     title: 'Mobile Development',
     desc: 'Native and cross-platform apps (iOS & Android) built for performance and silky-smooth interactions.',
-    icon: <FaMobileAlt />,
+    iconKey: 'mobile',
     gradient: 'from-emerald-500 to-teal-400',
     shadow: 'group-hover:shadow-emerald-500/20'
   },
@@ -45,7 +60,7 @@ const DEFAULT_SERVICES = [
     id: 'backend',
     title: 'Backend & API',
     desc: 'Robust server-side architecture, RESTful/GraphQL APIs, and secure database management.',
-    icon: <FaServer />,
+    iconKey: 'backend',
     gradient: 'from-indigo-500 to-violet-600',
     shadow: 'group-hover:shadow-indigo-500/20'
   },
@@ -53,7 +68,7 @@ const DEFAULT_SERVICES = [
     id: 'cloud',
     title: 'Cloud & DevOps',
     desc: 'Automated CI/CD pipelines, containerization (Docker/K8s), and cloud infrastructure (AWS/Azure).',
-    icon: <FaCloud />,
+    iconKey: 'cloud',
     gradient: 'from-sky-500 to-blue-600',
     shadow: 'group-hover:shadow-sky-500/20'
   }
@@ -77,7 +92,7 @@ export default function Services() {
           // Here we map API data to our card structure, preserving gradients if we match IDs
           const merged = data.map((item, index) => {
              const def = DEFAULT_SERVICES[index % DEFAULT_SERVICES.length] // Cycle through defaults for colors
-             return { ...def, ...item, gradient: def.gradient, shadow: def.shadow, icon: item.icon || def.icon }
+             return { ...def, ...item, gradient: def.gradient, shadow: def.shadow, iconKey: item.iconKey || def.iconKey }
           })
           setServices(merged)
         } else {
@@ -155,7 +170,7 @@ export default function Services() {
                   bg-gradient-to-br ${service.gradient} text-white shadow-lg
                   transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3
                 `}>
-                  {typeof service.icon === 'string' ? <img src={service.icon} alt="" className="w-8 h-8"/> : service.icon}
+                  {getIcon(service.iconKey)}
                 </div>
 
                 {/* Content */}
