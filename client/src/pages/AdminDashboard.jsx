@@ -456,13 +456,13 @@ export default function AdminDashboard() {
 
         {/* Main Content */}
         <main className="flex-1 flex flex-col h-full overflow-hidden relative">
-          <header className="px-6 py-6 border-b border-white/5 bg-slate-900/20 backdrop-blur-md flex flex-wrap justify-between items-center gap-4">
-            <div>
-              <h1 className="text-2xl font-black text-white tracking-tight capitalize">{activeTab}</h1>
+          <header className="px-4 sm:px-6 py-4 sm:py-6 border-b border-white/5 bg-slate-900/20 backdrop-blur-md flex flex-col sm:flex-row sm:flex-wrap justify-between items-start sm:items-center gap-3 sm:gap-4">
+            <div className="min-w-0 flex-1">
+              <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight capitalize truncate">{activeTab}</h1>
               <p className="text-xs text-slate-500 font-mono mt-1">Manage your {activeTab} content</p>
             </div>
             {activeTab !== 'messages' && (
-              <button onClick={() => openModal()} className="btn-primary flex items-center gap-2 px-5 py-2 rounded-xl text-sm font-bold shadow-lg hover:-translate-y-1 transition-all whitespace-nowrap">
+              <button onClick={() => openModal()} className="btn-primary flex items-center gap-2 px-4 sm:px-5 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-lg hover:-translate-y-1 transition-all whitespace-nowrap">
                 <FaPlus /> <span>New Item</span>
               </button>
             )}
@@ -475,7 +475,7 @@ export default function AdminDashboard() {
             ) : (
               <motion.div layout>
                 {activeTab === 'projects' && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     <AnimatePresence>
                       {filteredItems.map((item, i) => (
                         <motion.div 
@@ -518,20 +518,20 @@ export default function AdminDashboard() {
         {showModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setShowModal(false)} />
-            <motion.div initial={{ scale: 0.95, opacity: 0, y: 50 }} animate={{ scale: 1, opacity: 1, y: 0 }} className="relative w-full max-h-[90vh] md:max-w-4xl bg-slate-900 border border-white/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+            <motion.div initial={{ scale: 0.95, opacity: 0, y: 50 }} animate={{ scale: 1, opacity: 1, y: 0 }} className="relative w-full h-[calc(100vh-40px)] sm:h-auto sm:max-h-[90vh] md:max-w-4xl bg-slate-900 border border-white/10 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col m-5 sm:m-0">
               
               {/* Header */}
-              <div className="px-8 py-6 border-b border-white/5 flex justify-between items-center bg-slate-900/95 backdrop-blur-sm z-10">
-                <h3 className="text-xl font-bold text-white">
+              <div className="px-4 sm:px-8 py-4 sm:py-6 border-b border-white/5 flex justify-between items-center bg-slate-900/95 backdrop-blur-sm z-10 gap-2">
+                <h3 className="text-lg sm:text-xl font-bold text-white flex-1 truncate">
                   {editingItem ? `Edit ${activeTab.slice(0,-1)}` : `Create New ${activeTab.slice(0,-1)}`}
                 </h3>
-                <button onClick={() => setShowModal(false)}><FaTimes className="text-slate-400 hover:text-white" /></button>
+                <button onClick={() => setShowModal(false)} className="flex-shrink-0"><FaTimes className="text-slate-400 hover:text-white" /></button>
               </div>
 
               {/* Form */}
-              <div className="flex-1 overflow-y-auto custom-scrollbar p-8">
-                <form id="itemForm" onSubmit={handleSave} className="space-y-8">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 md:p-8">
+                <form id="itemForm" onSubmit={handleSave} className="space-y-6 sm:space-y-8">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
                       {/* Left: Text Inputs */}
                       <div className="md:col-span-2 space-y-6">
                           <InputGroup label="Title" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} required placeholder="Enter title..." />
@@ -591,9 +591,9 @@ export default function AdminDashboard() {
               </div>
 
               {/* Footer */}
-              <div className="p-6 border-t border-white/5 bg-slate-900 flex justify-end gap-4 z-20">
-                <button type="button" onClick={() => setShowModal(false)} className="px-6 py-3 rounded-xl text-slate-300 hover:text-white font-bold text-sm">Cancel</button>
-                <button type="submit" form="itemForm" className="btn-primary px-8 py-3 rounded-xl shadow-xl font-bold text-sm">
+              <div className="p-4 sm:p-6 border-t border-white/5 bg-slate-900 flex justify-end gap-2 sm:gap-4 z-20 flex-wrap">
+                <button type="button" onClick={() => setShowModal(false)} className="px-4 sm:px-6 py-2 sm:py-3 rounded-xl text-slate-300 hover:text-white font-bold text-xs sm:text-sm">Cancel</button>
+                <button type="submit" form="itemForm" className="btn-primary px-6 sm:px-8 py-2 sm:py-3 rounded-xl shadow-xl font-bold text-xs sm:text-sm">
                   {editingItem ? 'Save Changes' : 'Publish'}
                 </button>
               </div>

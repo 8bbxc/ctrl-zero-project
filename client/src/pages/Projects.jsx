@@ -101,10 +101,10 @@ export default function Projects() {
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay"></div>
       </div>
 
-      <div className="container mx-auto px-6 pt-32 pb-24 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 pt-24 sm:pt-32 pb-16 sm:pb-24 relative z-10">
         
         {/* --- 3. العنوان الرئيسي (Header) --- */}
-        <div className="text-center mb-20 max-w-4xl mx-auto">
+        <div className="text-center mb-12 sm:mb-20 max-w-4xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 30 }} 
             animate={{ opacity: 1, y: 0 }} 
