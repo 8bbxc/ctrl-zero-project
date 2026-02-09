@@ -98,8 +98,16 @@ export default function SectorProjects() {
       try {
         const res = await api.get('/projects')
         const all = Array.isArray(res.data) ? res.data : (res.data.items || [])
-        // Filter by category (case-sensitive as stored in DB)
-        const sectorProjects = all.filter(p => p.category === sector)
+        
+        // Filter by category - strict match with sector name
+        console.log(`🔍 Filtering for sector: ${sector}`);
+        const sectorProjects = all.filter(p => {
+          const match = p.category?.trim?.() === sector;
+          if (match) console.log(`✅ Found: ${p.title} (category: ${p.category})`);
+          return match;
+        });
+        
+        console.log(`📊 Total projects: ${all.length}, Filtered: ${sectorProjects.length}`);
         
         // Ensure unique projects based on ID or slug
         const unique = []
@@ -176,56 +184,69 @@ export default function SectorProjects() {
             {projects.map((project, i) => (
               <motion.article key={project.slug || project.id} variants={cardVariants} className="group relative h-full">
                 {/* Whole card is clickable */}
-                <Link to={`/projects/${project.slug || project.id}`} className="block h-full rounded-[2rem] overflow-hidden bg-slate-900 border border-white/5 hover:border-white/20 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+                <Link to={`/projects/${project.slug || project.id}`} className="block h-full rounded-[1.5rem] overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900 border border-white/5 hover:border-white/20 transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl hover:shadow-white/20">
                   
                   {/* Image Container */}
-                  <div className="relative w-full aspect-[4/3] overflow-hidden">
+                  <div className="relative w-full aspect-video overflow-hidden bg-slate-800">
                     {project.image ? (
-                      <img src={project.image} alt={project.title} loading="lazy" className="w-full h-full object-cover transform transition-transform duration-700 ease-out group-hover:scale-110" />
+                      <img src={project.image} alt={project.title} loading="lazy" className="w-full h-full object-cover transform transition-transform duration-700 ease-out group-hover:scale-125" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-slate-800">
-                        <FaLaptopCode className="text-5xl text-slate-700" />
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-700 to-slate-800">
+                        <FaLaptopCode className="text-6xl text-slate-600" />
                       </div>
                     )}
                     
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80" />
+                    {/* Color overlay based on sector */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500" style={{
+                      backgroundImage: `linear-gradient(to top, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.3), transparent)`,
+                    }} />
 
-                    {/* Floating tags top-left */}
-                    <div className="absolute left-4 top-4 flex flex-wrap gap-2 z-20">
-                      {project.tags?.slice(0,2).map((t, idx) => (
-                        <span key={idx} className="text-[10px] uppercase font-bold tracking-wider bg-black/60 backdrop-blur-md text-white/90 px-2.5 py-1 rounded-lg border border-white/10">
+                    {/* Floating category badge - top left */}
+                    {project.category && (
+                      <div className="absolute left-4 top-4 z-20">
+                        <span className="text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-xl text-white px-3 py-1.5 rounded-full border border-white/30 shadow-lg">
+                          {project.category}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Tags - top right area */}
+                    <div className="absolute right-4 top-4 flex flex-col items-end gap-2 z-20">
+                      {project.tags?.slice(0, 3).map((t, idx) => (
+                        <span key={idx} className="text-[11px] font-bold text-white px-2 py-1 rounded-md border border-white/20 bg-black/50 backdrop-blur-md whitespace-nowrap">
                           {t}
                         </span>
                       ))}
                     </div>
 
-                    {/* Gallery count top-right */}
+                    {/* Gallery count bottom-right */}
                     {project.gallery?.length > 0 && (
-                      <div className="absolute right-4 top-4 z-20">
-                        <span className="text-[10px] font-bold bg-black/60 backdrop-blur-md text-white/90 px-2.5 py-1 rounded-lg border border-white/10 flex items-center gap-1.5"> 
+                      <div className="absolute right-4 bottom-4 z-20 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
+                        <span className="text-xs font-bold text-white flex items-center gap-1.5">
                           <FaImages /> {project.gallery.length}
                         </span>
                       </div>
                     )}
                   </div>
 
-                  {/* Content */}
-                  <div className="p-6 md:p-8 flex flex-col h-full justify-between">
-                    <div>
-                      <h4 className={`text-xl md:text-2xl font-bold mb-3 transition-colors duration-300 group-hover:${config.colorClass}`}>
+                  {/* Content Section */}
+                  <div className="p-6 md:p-7 flex flex-col justify-between h-full">
+                    {/* Title & Description */}
+                    <div className="flex-1">
+                      <h3 className="text-lg md:text-xl font-bold mb-2 text-white group-hover:text-cyan-300 transition-colors duration-300 line-clamp-2">
                         {project.title}
-                      </h4>
-                      <p className="text-sm text-slate-400 leading-relaxed line-clamp-3 mb-6 font-light">
+                      </h3>
+                      <p className="text-sm text-slate-400 leading-relaxed line-clamp-2 font-light">
                         {project.description}
                       </p>
                     </div>
 
-                    <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
-                      <span className="text-xs font-mono text-slate-500">
-                        {isArabic ? 'استكشف المزيد' : 'Explore Case Study'}
+                    {/* Footer with CTA */}
+                    <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between">
+                      <span className="text-xs uppercase font-semibold text-slate-400 tracking-wider">
+                        {isArabic ? 'دراسة الحالة' : 'View Case'}
                       </span>
-                      <span className={`w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white bg-white/5 group-hover:bg-white group-hover:text-black transition-all duration-300`}>
+                      <span className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white/60 bg-white/5 group-hover:bg-cyan-500 group-hover:text-white group-hover:border-cyan-500 transition-all duration-300">
                         <FaExternalLinkAlt className="text-xs" />
                       </span>
                     </div>
