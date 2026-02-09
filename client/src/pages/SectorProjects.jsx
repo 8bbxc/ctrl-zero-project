@@ -5,8 +5,7 @@ import { FaArrowLeft, FaSearch, FaLaptopCode, FaImages, FaExternalLinkAlt } from
 import { useTranslation } from 'react-i18next'
 import api from '../services/api'
 import Spinner from '../components/Spinner'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+import Navbar from '../components/Navbar' // تأكد من المسار
 
 // --- Enhanced Sector Configuration ---
 const SECTOR_CONFIG = {
@@ -276,7 +275,6 @@ export default function SectorProjects() {
         )}
       </div>
 
-      <Footer />
     </div>
   )
 }
