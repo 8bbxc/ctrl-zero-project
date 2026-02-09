@@ -1,190 +1,174 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
-import { FaExternalLinkAlt, FaSearch, FaLaptopCode, FaImages } from 'react-icons/fa'
+import { motion } from 'framer-motion'
+import { 
+  FaStethoscope, FaShoppingCart, FaUtensils, FaBriefcase, 
+  FaGraduationCap, FaBuilding 
+} from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
-import api from '../services/api'
-import Spinner from '../components/Spinner'
-import SectorCards from '../components/SectorCards'
+import Navbar from '../components/Navbar' // Ensure you have this component or remove if not needed
+import Footer from '../components/Footer' // Ensure you have this component or remove if not needed
+
+// Definition of sectors with colors, icons, and descriptions
+const sectors = [
+  { 
+    id: 'Medical', 
+    label: 'Medical & Health', 
+    labelAr: 'الطب والرعاية الصحية',
+    icon: <FaStethoscope />, 
+    desc: 'Digital solutions for clinics & hospitals',
+    descAr: 'حلول رقمية متقدمة لعيادات ومستشفيات',
+    color: 'from-red-500/20 to-pink-600/20', 
+    border: 'group-hover:border-red-500/50', 
+    text: 'group-hover:text-red-400' 
+  },
+  { 
+    id: 'E-Commerce', 
+    label: 'E-Commerce', 
+    labelAr: 'التجارة الإلكترونية',
+    icon: <FaShoppingCart />, 
+    desc: 'High-conversion online stores',
+    descAr: 'متاجر إلكترونية عالية التحويل',
+    color: 'from-emerald-500/20 to-green-600/20', 
+    border: 'group-hover:border-emerald-500/50', 
+    text: 'group-hover:text-emerald-400' 
+  },
+  { 
+    id: 'Restaurant', 
+    label: 'Restaurants', 
+    labelAr: 'المطاعم والضيافة',
+    icon: <FaUtensils />, 
+    desc: 'Menus & management systems',
+    descAr: 'قوائم رقمية وأنظمة إدارة متقدمة',
+    color: 'from-orange-500/20 to-yellow-600/20', 
+    border: 'group-hover:border-orange-500/50', 
+    text: 'group-hover:text-orange-400' 
+  },
+  { 
+    id: 'Corporate', 
+    label: 'Corporate', 
+    labelAr: 'الشركات والأعمال',
+    icon: <FaBriefcase />, 
+    desc: 'Professional business portfolios',
+    descAr: 'منصات احترافية لهيبة العلامة التجارية',
+    color: 'from-blue-500/20 to-indigo-600/20', 
+    border: 'group-hover:border-blue-500/50', 
+    text: 'group-hover:text-blue-400' 
+  },
+  { 
+    id: 'Education', 
+    label: 'Education', 
+    labelAr: 'التعليم والتدريب',
+    icon: <FaGraduationCap />, 
+    desc: 'LMS & E-learning platforms',
+    descAr: 'منصات تعليمية تفاعلية متطورة',
+    color: 'from-purple-500/20 to-violet-600/20', 
+    border: 'group-hover:border-purple-500/50', 
+    text: 'group-hover:text-purple-400' 
+  },
+  { 
+    id: 'Real Estate', 
+    label: 'Real Estate', 
+    labelAr: 'العقارات',
+    icon: <FaBuilding />, 
+    desc: 'Property listing & booking engines',
+    descAr: 'معارض عقارية غامرة ومحركات حجز',
+    color: 'from-cyan-500/20 to-sky-600/20', 
+    border: 'group-hover:border-cyan-500/50', 
+    text: 'group-hover:text-cyan-400' 
+  }
+]
 
 export default function Projects() {
-  const { t } = useTranslation()
-  const [projects, setProjects] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  // Fetch projects from API
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const res = await api.get('/projects')
-        
-        let dataToUse = []
-        
-        if (Array.isArray(res.data) && res.data.length > 0) {
-          dataToUse = res.data
-        } else if (res.data && Array.isArray(res.data.items) && res.data.items.length > 0) {
-          dataToUse = res.data.items
-        }
-
-        if (dataToUse.length > 0) {
-          // Process data to ensure consistent structure
-          const realProjects = dataToUse.map(p => ({
-            ...p,
-            // Ensure tags is always an array
-            tags: Array.isArray(p.tags) ? p.tags : (typeof p.tags === 'string' ? p.tags.split(',') : ['Development'])
-          }))
-          setProjects(realProjects)
-        }
-      } catch (err) {
-        console.error("Failed to fetch projects:", err)
-        setProjects([])
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchProjects()
-  }, [])
+  const { t, i18n } = useTranslation()
+  const isArabic = i18n.language === 'ar'
 
   return (
-    <div className="min-h-screen py-20 relative overflow-hidden bg-slate-950 text-slate-50 font-sans">
+    <div className="min-h-screen bg-black text-slate-50 font-sans selection:bg-cyan-500/30">
+      {/* If you are not using separate Navbar/Footer components in this file structure, 
+          you can remove these lines or replace them with your layout wrapper */}
+      <Navbar />
       
-      {/* Background Ambience */}
+      {/* Background Effects */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[120px]" />
-        <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-[0.03]" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px]" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 mix-blend-overlay"></div>
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-6 pt-32 pb-20 relative z-10">
         
         {/* Header */}
-        <div className="text-center mb-16 max-w-3xl mx-auto">
-          <span className="text-accent font-mono text-xs uppercase tracking-[0.2em] mb-3 block">
-            {t('projects.portfolio') || 'PORTFOLIO'}
-          </span>
-          <h1 className="text-4xl md:text-6xl font-black mb-6 text-white leading-tight">
-            {t('projects.title') || 'Selected Works'}
-            <span className="text-accent">.</span>
-          </h1>
-          <p className="text-lg text-slate-400 font-light">
-            {t('projects.subtitle') || 'Discover how we turn complex problems into elegant digital solutions through code and design.'}
-          </p>
+        <div className="text-center mb-20 max-w-4xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.6 }}
+          >
+            <span className="text-cyan-400 font-mono text-xs uppercase tracking-[0.3em] mb-4 block glow-text">
+              {isArabic ? 'استكشف القطاعات' : 'EXPLORE SECTORS'}
+            </span>
+            <h1 className="text-4xl md:text-6xl font-black mb-6 text-white leading-tight">
+              {isArabic ? 'تصفح أعمالنا حسب' : 'Filter by'} <br/> 
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
+                {isArabic ? 'الصناعة' : 'Industry'}
+              </span>
+            </h1>
+            <p className="text-lg text-slate-400 font-light max-w-2xl mx-auto">
+              {isArabic 
+                ? 'اكتشف مشاريعنا المتخصصة عبر مختلف الصناعات والمجالات.' 
+                : 'Discover our specialized projects across various industries.'}
+            </p>
+          </motion.div>
         </div>
 
-        {/* Sector Navigation - The Premium Filter System */}
-        <SectorCards selectedSector={'All'} onSectorChange={() => {}} />
-
-        {/* Projects Grid */}
-        {loading ? (
-          <div className="flex justify-center h-64 items-center"><Spinner /></div>
-        ) : (
-          <motion.div 
-            layout
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            <AnimatePresence>
-              {projects.map((project, idx) => (
-                <motion.div
-                  layout
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3, delay: idx * 0.05 }}
-                  key={project.id || idx}
-                  className="group"
-                >
-                  {/* Card Container */}
-                  <div className="h-full bg-slate-900/40 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden hover:border-accent/40 transition-all duration-500 hover:shadow-2xl hover:shadow-accent/5 flex flex-col group-hover:-translate-y-2">
-                    
-                    {/* Image Area - Aspect Video for consistency */}
-                    <div className="relative aspect-video overflow-hidden bg-slate-900">
-                      <div className="absolute inset-0 bg-slate-900/20 z-10 group-hover:bg-slate-900/40 transition-colors duration-500" />
-                      
-                      {project.image ? (
-                        <img 
-                          src={project.image} 
-                          alt={project.title} 
-                          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <FaLaptopCode className="text-5xl text-slate-700 group-hover:text-slate-500 transition-colors" />
-                        </div>
-                      )}
-
-                      {/* Badge: Gallery Count */}
-                      {project.gallery && project.gallery.length > 0 && (
-                        <div className="absolute top-4 left-4 z-20 bg-black/60 backdrop-blur-md px-2 py-1 rounded-lg text-xs text-white flex items-center gap-1 border border-white/10">
-                           <FaImages /> {project.gallery.length}
-                        </div>
-                      )}
-
-                      {/* Floating Actions */}
-                      <div className="absolute inset-0 z-20 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-4 group-hover:translate-y-0">
-                         {/* View Details */}
-                         <Link 
-                           to={`/projects/${project.slug || project.id}`}
-                           className="w-12 h-12 rounded-full bg-white text-black flex items-center justify-center hover:bg-accent hover:scale-110 transition-all shadow-lg"
-                           title="View Project"
-                         >
-                            <FaSearch />
-                         </Link>
-                         
-                         {/* Live Link */}
-                         {project.link && (
-                           <a 
-                             href={project.link} 
-                             target="_blank" 
-                             rel="noopener noreferrer"
-                             className="w-12 h-12 rounded-full bg-slate-900/80 backdrop-blur-md text-white border border-white/20 flex items-center justify-center hover:bg-black hover:scale-110 transition-all shadow-lg"
-                             title="Visit Live Site"
-                           >
-                              <FaExternalLinkAlt />
-                           </a>
-                         )}
-                      </div>
-                    </div>
-
-                    {/* Content Area */}
-                    <div className="p-6 flex flex-col flex-grow">
-                      <div className="flex justify-between items-start mb-3">
-                        <h3 className="text-2xl font-bold text-white group-hover:text-accent transition-colors truncate w-full">{project.title}</h3>
-                      </div>
-
-                      <p className="text-slate-400 text-sm leading-relaxed mb-6 line-clamp-3 font-light">
-                        {project.description}
-                      </p>
-
-                      {/* Tags */}
-                      <div className="mt-auto flex flex-wrap gap-2">
-                        {project.tags && project.tags.slice(0, 3).map((tag, i) => (
-                          <span key={i} className="px-3 py-1.5 bg-white/5 border border-white/5 rounded-lg text-xs font-mono text-slate-300 group-hover:border-white/10 transition-colors">
-                            #{tag}
-                          </span>
-                        ))}
-                        {project.tags && project.tags.length > 3 && (
-                            <span className="px-2 py-1.5 text-xs text-slate-500 font-mono">+{project.tags.length - 3}</span>
-                        )}
-                      </div>
-                    </div>
-
+        {/* Categories Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {sectors.map((sector, index) => (
+            <motion.div
+              key={sector.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <Link 
+                to={`/projects/${sector.id}`} // Clicking here navigates to the sector specific page
+                className={`
+                  group relative flex flex-col justify-between p-8 h-64 rounded-3xl border border-white/5 
+                  bg-gradient-to-br ${sector.color} backdrop-blur-xl transition-all duration-500
+                  hover:-translate-y-2 hover:shadow-2xl hover:border-opacity-50
+                  ${sector.border}
+                `}
+              >
+                {/* Icon & Arrow */}
+                <div className="flex justify-between items-start">
+                  <div className={`p-4 rounded-2xl bg-black/20 text-3xl transition-colors ${sector.text}`}>
+                    {sector.icon}
                   </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </motion.div>
-        )}
+                  <div className={`w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all`}>
+                    <span className="text-xl">↗</span>
+                  </div>
+                </div>
 
-        {projects.length === 0 && !loading && (
-          <div className="flex flex-col items-center justify-center py-20 text-slate-500">
-            <div className="w-20 h-20 bg-slate-900 rounded-full flex items-center justify-center mb-4 border border-white/5">
-                <FaSearch className="text-3xl text-slate-600" />
-            </div>
-            <p className="text-lg">No projects found.</p>
-          </div>
-        )}
+                {/* Text Content */}
+                <div>
+                  <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-white/90">
+                    {isArabic ? sector.labelAr : sector.label}
+                  </h3>
+                  <p className="text-slate-400 text-sm font-light group-hover:text-slate-300">
+                    {isArabic ? sector.descAr : sector.desc}
+                  </p>
+                </div>
+
+                {/* Glow Effect on Hover */}
+                <div className={`absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 bg-gradient-to-r ${sector.color}`} />
+              </Link>
+            </motion.div>
+          ))}
+        </div>
 
       </div>
+      <Footer />
     </div>
   )
 }
