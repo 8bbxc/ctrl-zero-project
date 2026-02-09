@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { FaLaptopCode, FaPaintBrush, FaRocket, FaServer, FaMobileAlt, FaCloud } from 'react-icons/fa'
 import { HiArrowRight } from 'react-icons/hi'
+import api from '../services/api'
 
 export default function Services() {
   const { t, i18n } = useTranslation()
