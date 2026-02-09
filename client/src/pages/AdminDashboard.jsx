@@ -92,13 +92,25 @@ export default function AdminDashboard() {
     setLoading(true)
     try {
       const res = await api.get(`/${activeTab}`)
+      let data = [];
       if (Array.isArray(res.data)) {
-        setItems(res.data)
+        data = res.data;
       } else if (res.data && Array.isArray(res.data.items)) {
-        setItems(res.data.items)
-      } else {
-        setItems([])
+        data = res.data.items;
       }
+      
+      // Log categories info
+      if (activeTab === 'projects') {
+        console.log(`📊 Projects fetched: ${data.length}`);
+        const categories = {};
+        data.forEach(p => {
+          const cat = p.category || 'No Category';
+          categories[cat] = (categories[cat] || 0) + 1;
+        });
+        console.log('📁 Categories breakdown:', categories);
+      }
+      
+      setItems(data);
     } catch (err) {
       console.error("Fetch Error:", err);
       addToast('error', 'Failed to load data.')
@@ -215,20 +227,27 @@ export default function AdminDashboard() {
         action: editingItem ? 'UPDATE' : 'CREATE',
         endpoint: `/${activeTab}/${editingItem?.id || 'new'}`,
         data: dataToSend,
+        category: dataToSend.category,
+        categoryType: typeof dataToSend.category,
         timestamp: new Date().toISOString()
       });
 
       if (editingItem) {
-        await api.put(`/${activeTab}/${editingItem.id}`, dataToSend);
+        const updatedRes = await api.put(`/${activeTab}/${editingItem.id}`, dataToSend);
+        console.log('✅ Server UPDATE response:', updatedRes.data);
         addToast('success', 'Updated successfully!');
       } else {
-        await api.post(`/${activeTab}`, dataToSend);
+        const createdRes = await api.post(`/${activeTab}`, dataToSend);
+        console.log('✅ Server CREATE response:', createdRes.data);
         addToast('success', 'Created successfully!');
       }
       
       setShowModal(false);
       setFormData({});
+      // Refresh data to verify changes were saved
+      console.log('🔄 Refreshing data from server...');
       await fetchData();
+      console.log('✅ Data refreshed');
     } catch (err) {
       console.error("❌ Save Error Details:", {
         message: err.message,

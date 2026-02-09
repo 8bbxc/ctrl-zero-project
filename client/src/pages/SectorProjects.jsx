@@ -99,15 +99,30 @@ export default function SectorProjects() {
         const res = await api.get('/projects')
         const all = Array.isArray(res.data) ? res.data : (res.data.items || [])
         
+        // Log all projects for debugging
+        console.log('📦 All projects fetched:', all.map(p => ({ 
+          id: p.id, 
+          title: p.title, 
+          category: p.category,
+          hasCategory: !!p.category 
+        })));
+        
         // Filter by category - strict match with sector name
-        console.log(`🔍 Filtering for sector: ${sector}`);
+        console.log(`🔍 Filtering for sector: "${sector}"`);
         const sectorProjects = all.filter(p => {
-          const match = p.category?.trim?.() === sector;
-          if (match) console.log(`✅ Found: ${p.title} (category: ${p.category})`);
+          const category = p.category ? String(p.category).trim() : null;
+          const match = category === sector;
+          
+          if (p.category !== undefined && p.category !== null) {
+            console.log(`  → ${p.title}: category="${category}" ${match ? '✅ MATCH' : '❌ no match'}`);
+          } else {
+            console.log(`  → ${p.title}: NO CATEGORY SET`);
+          }
+          
           return match;
         });
         
-        console.log(`📊 Total projects: ${all.length}, Filtered: ${sectorProjects.length}`);
+        console.log(`📊 Results: Total projects=${all.length}, Filtered for "${sector}"=${sectorProjects.length}`);
         
         // Ensure unique projects based on ID or slug
         const unique = []
