@@ -1,6 +1,7 @@
 import React, { useEffect, useState, Suspense } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
+import { useTranslation } from 'react-i18next'
 
 // Lazy Load Pages
 const Home = React.lazy(() => import('./pages/Home'))
@@ -23,7 +24,23 @@ import FloatingWhatsApp from './components/FloatingWhatsApp'
 
 export default function App() {
   const location = useLocation()
+  const { i18n } = useTranslation()
   const [loading, setLoading] = useState(false)
+
+  // Update HTML dir and lang attributes based on language
+  useEffect(() => {
+    const isArabic = i18n.language === 'ar'
+    const htmlElement = document.documentElement
+    htmlElement.setAttribute('dir', isArabic ? 'rtl' : 'ltr')
+    htmlElement.setAttribute('lang', isArabic ? 'ar' : 'en')
+    htmlElement.classList.toggle('rtl', isArabic)
+    // Add supports for font-family switcher
+    if (isArabic) {
+      htmlElement.style.fontFamily = 'Cairo, sans-serif'
+    } else {
+      htmlElement.style.fontFamily = 'Inter, sans-serif'
+    }
+  }, [i18n.language])
 
   // Scroll to top on route change
   useEffect(() => {

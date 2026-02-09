@@ -9,9 +9,11 @@ module.exports = {
         text: '#f8fafc'
       },
       fontFamily: {
-        sans: ['Inter','ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto']
+        sans: ['Inter', 'Cairo', 'ui-sans-serif','system-ui','-apple-system','Segoe UI','Roboto']
       }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-rtl')
+  ],
 } 
