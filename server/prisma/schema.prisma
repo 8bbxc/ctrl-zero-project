@@ -25,17 +25,13 @@ model Project {
   content     String?  // Full Markdown content
   image       String?  // Main Cover Image
   
-  // --- الإضافة الجديدة (القسم) ---
-  category    String   @default("General") // تصنيف المشروع (Medical, Ecommerce, etc.)
-  // -----------------------------
-
-  // المصفوفات (Arrays)
+  // المصفوفات (Arrays) - مهمة جداً أن تكون معرفة هكذا
   gallery     String[] @default([]) // صور المعرض
   tags        String[] @default([]) // تقنيات العمل (React, Node...)
   
-  link        String?  // رابط المشروع الخارجي
+  link        String?  // رابط المشروع الخارجي (تم تعديله من url ليطابق الكود)
   
-  // حقول قديمة
+  // حقول قديمة (يمكنك تركها أو حذفها إذا لم تعد تستخدمها)
   images      String[] @default([]) 
   url         String?  // legacy
 
@@ -50,7 +46,7 @@ model Message {
   email     String
   subject   String
   message   String
-  read      Boolean  @default(false)
+  read      Boolean  @default(false) // حالة القراءة (مقروء/غير مقروء)
   createdAt DateTime @default(now())
 }
 
@@ -58,11 +54,11 @@ model Message {
 model Service {
   id               Int      @id @default(autoincrement())
   title            String
-  slug             String?  @unique
+  slug             String?  @unique // رابط مميز للخدمة (اختياري حالياً)
   shortDescription String
-  fullContent      String?
-  icon             String?
-  image            String?
+  fullContent      String?  // الشرح التفصيلي الطويل
+  icon             String?  // رابط الأيقونة
+  image            String?  // صورة الهيرو الكبيرة
   
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
