@@ -147,41 +147,80 @@ export default function AdminDashboard() {
   }
 
   const handleSave = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const dataToSend = { ...formData }
+      // Validation
+      if (!formData.title || !formData.title.trim()) {
+        addToast('error', 'Title is required');
+        return;
+      }
+      
+      if (activeTab === 'projects' && (!formData.slug || !formData.slug.trim())) {
+        addToast('error', 'Slug is required for projects');
+        return;
+      }
+      
+      // Check for incomplete uploads
+      if (isUploading) {
+        addToast('error', 'Please wait for uploads to complete');
+        return;
+      }
+      
+      if (activeTab === 'projects' && formData.gallery?.some(g => g.__temp)) {
+        addToast('error', 'Please wait for all images to upload');
+        return;
+      }
+      
+      const dataToSend = { ...formData };
       
       if (!editingItem) {
-          delete dataToSend.id;
-          delete dataToSend.createdAt;
-          delete dataToSend.updatedAt;
+        delete dataToSend.id;
+        delete dataToSend.createdAt;
+        delete dataToSend.updatedAt;
       }
+      
+      // Clean up temp markers
+      delete dataToSend.imageTemp;
+      delete dataToSend.iconTemp;
+      delete dataToSend.imagePublicId;
+      delete dataToSend.iconPublicId;
 
       if (activeTab === 'projects') {
+        // Process tags
         if (typeof dataToSend.tags === 'string') {
-          dataToSend.tags = dataToSend.tags.split(',').map(t => t.trim()).filter(t => t !== '')
+          dataToSend.tags = dataToSend.tags.split(',').map(t => t.trim()).filter(t => t !== '');
         }
+        
+        // Auto-generate slug if needed
         if (!dataToSend.slug && dataToSend.title) {
-          dataToSend.slug = String(dataToSend.title).toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-_]/g, '')
+          dataToSend.slug = String(dataToSend.title).toLowerCase().trim().replace(/\s+/g, '-').replace(/[^a-z0-9-_]/g, '');
         }
+        
+        // Process gallery - only keep URLs
         if (Array.isArray(dataToSend.gallery)) {
-          dataToSend.gallery = dataToSend.gallery.map(g => (typeof g === 'string' ? g : g.url))
+          dataToSend.gallery = dataToSend.gallery
+            .filter(g => g && (typeof g === 'string' || g.url))
+            .map(g => (typeof g === 'string' ? g : g.url));
+        } else {
+          dataToSend.gallery = [];
         }
       }
 
       if (editingItem) {
-        await api.put(`/${activeTab}/${editingItem.id}`, dataToSend)
-        addToast('success', 'Updated successfully')
+        await api.put(`/${activeTab}/${editingItem.id}`, dataToSend);
+        addToast('success', 'Updated successfully!');
       } else {
-        await api.post(`/${activeTab}`, dataToSend)
-        addToast('success', 'Created successfully')
+        await api.post(`/${activeTab}`, dataToSend);
+        addToast('success', 'Created successfully!');
       }
       
-      setShowModal(false)
-      await fetchData()
+      setShowModal(false);
+      setFormData({});
+      await fetchData();
     } catch (err) {
-      console.error("Save Error:", err)
-      addToast('error', err.response?.data?.error || 'Operation failed')
+      console.error("Save Error:", err);
+      const errorMsg = err.response?.data?.error || err.message || 'Operation failed. Please try again.';
+      addToast('error', errorMsg);
     }
   }
 
@@ -196,49 +235,130 @@ export default function AdminDashboard() {
     }
   }
 
-  // --- منطق رفع الصور ---
+  // --- منطق رفع الصور مع Validation قوية ---
+  const validateFile = (file) => {
+    const MAX_SIZE = 5 * 1024 * 1024;
+    const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    
+    if (!file) return { valid: false, error: 'No file selected' };
+    if (file.size > MAX_SIZE) return { valid: false, error: 'File must be less than 5MB' };
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      return { valid: false, error: 'Only JPG, PNG, WebP, GIF allowed' };
+    }
+    return { valid: true };
+  };
+
   const handleUpload = async (e, field) => {
-    const file = e.target.files[0]
-    if (!file) return
-    const localUrl = URL.createObjectURL(file)
-    setFormData(prev => ({ ...prev, [field]: localUrl, [`${field}Temp`]: true }))
-    setIsUploading(true)
-    const fd = new FormData()
-    fd.append('files', file)
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    const validation = validateFile(file);
+    if (!validation.valid) {
+      addToast('error', validation.error);
+      e.target.value = '';
+      return;
+    }
+    
+    const localUrl = URL.createObjectURL(file);
+    setFormData(prev => ({ ...prev, [field]: localUrl, [`${field}Temp`]: true }));
+    setIsUploading(true);
+    
     try {
-      const res = await api.post('/upload', fd)
-      const uploaded = res.data.uploaded[0]
-      setFormData(prev => ({ ...prev, [field]: uploaded.url, [`${field}PublicId`]: uploaded.public_id, [`${field}Temp`]: false }))
-      addToast('success', 'Image uploaded')
+      const fd = new FormData();
+      fd.append('files', file);
+      
+      const res = await api.post('/upload', fd, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        timeout: 30000
+      });
+      
+      if (!res.data?.uploaded?.[0]) {
+        throw new Error('Invalid upload response');
+      }
+      
+      const uploaded = res.data.uploaded[0];
+      setFormData(prev => ({
+        ...prev,
+        [field]: uploaded.url,
+        [`${field}PublicId`]: uploaded.public_id,
+        [`${field}Temp`]: false
+      }));
+      addToast('success', 'Image uploaded successfully');
     } catch (err) {
-      setFormData(prev => ({ ...prev, [field]: null }))
-      addToast('error', 'Upload failed')
-    } finally { setIsUploading(false) }
-  }
+      console.error(`Upload failed for ${field}:`, err);
+      setFormData(prev => ({ ...prev, [field]: null, [`${field}Temp`]: false }));
+      const errorMsg = err.response?.data?.error || 'Upload failed. Please try again.';
+      addToast('error', errorMsg);
+    } finally {
+      setIsUploading(false);
+      e.target.value = '';
+    }
+  };
 
   const handleGalleryUpload = async (e) => {
-    const files = Array.from(e.target.files || [])
-    if (!files.length) return
-    setIsUploading(true)
-    const tempEntries = files.map(f => ({ url: URL.createObjectURL(f), public_id: null, __temp: true }))
-    setFormData(prev => ({ ...prev, gallery: [...(prev.gallery || []), ...tempEntries] }))
-    const fd = new FormData()
-    files.forEach(f => fd.append('files', f))
+    const files = Array.from(e.target.files || []);
+    if (!files.length) return;
+    
+    const invalidFiles = files.filter(f => !validateFile(f).valid);
+    if (invalidFiles.length > 0) {
+      addToast('error', `${invalidFiles.length} file(s) invalid or too large`);
+      e.target.value = '';
+      return;
+    }
+    
+    setIsUploading(true);
+    const tempEntries = files.map(f => ({
+      url: URL.createObjectURL(f),
+      public_id: null,
+      __temp: true
+    }));
+    
+    setFormData(prev => ({
+      ...prev,
+      gallery: [...(prev.gallery || []), ...tempEntries]
+    }));
+    
+    const fd = new FormData();
+    files.forEach(f => fd.append('files', f));
+    
     try {
-      const res = await api.post('/upload', fd)
-      const uploaded = res.data.uploaded
+      const res = await api.post('/upload', fd, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        timeout: 60000
+      });
+      
+      if (!Array.isArray(res.data?.uploaded)) {
+        throw new Error('Invalid upload response');
+      }
+      
+      const uploaded = res.data.uploaded;
       setFormData(prev => {
-        const g = prev.gallery ? [...prev.gallery] : []
-        const replaceStart = g.length - tempEntries.length
-        for (let i = 0; i < uploaded.length; i++) {
+        const g = prev.gallery ? [...prev.gallery] : [];
+        const replaceStart = Math.max(0, g.length - tempEntries.length);
+        
+        for (let i = 0; i < uploaded.length && i < tempEntries.length; i++) {
           if (g[replaceStart + i]) {
-             g[replaceStart + i] = { url: uploaded[i].url, public_id: uploaded[i].public_id }
+            g[replaceStart + i] = {
+              url: uploaded[i].url,
+              public_id: uploaded[i].public_id
+            };
           }
         }
-        return { ...prev, gallery: g }
-      })
-      addToast('success', 'Gallery updated')
-    } catch (err) { addToast('error', 'Gallery upload failed') } finally { setIsUploading(false) }
+        return { ...prev, gallery: g };
+      });
+      addToast('success', `${uploaded.length} image(s) added`);
+    } catch (err) {
+      console.error('Gallery upload error:', err);
+      setFormData(prev => ({
+        ...prev,
+        gallery: prev.gallery ? prev.gallery.filter(g => !g.__temp) : []
+      }));
+      const errorMsg = err.response?.data?.error || 'Gallery upload failed';
+      addToast('error', errorMsg);
+    } finally {
+      setIsUploading(false);
+      e.target.value = '';
+    }
   }
 
   const removeImageField = (field) => {
@@ -462,26 +582,148 @@ const InputGroup = ({ label, value, onChange, required, placeholder, isTextArea 
   </div>
 )
 
-const UploadBox = ({ label, loading, onChange, multiple, preview, isGallery, gallery, onRemove, onRemoveGallery }) => (
-  <div className="space-y-2 h-full flex flex-col">
-    <div className="flex justify-between items-center px-1">
-       <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">{label}</label>
-       {loading && <span className="text-xs text-accent animate-pulse font-bold">UPLOADING...</span>}
-    </div>
-    {!isGallery ? (
-       <div className={`relative flex-1 border-2 border-dashed border-white/10 rounded-xl overflow-hidden hover:border-accent/40 transition-all bg-black/30 min-h-[150px] ${preview ? 'border-solid border-white/5' : ''}`}>
-          <input type="file" className="absolute inset-0 opacity-0 cursor-pointer z-20" onChange={onChange} disabled={loading} />
+const UploadBox = ({ label, loading, onChange, multiple, preview, isGallery, gallery, onRemove, onRemoveGallery }) => {
+  const [dragActive, setDragActive] = React.useState(false);
+  
+  const handleDrag = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === 'dragenter' || e.type === 'dragover') setDragActive(true);
+    else if (e.type === 'dragleave') setDragActive(false);
+  };
+  
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    if (e.dataTransfer.files) {
+      onChange({ target: { files: e.dataTransfer.files } });
+    }
+  };
+  
+  return (
+    <div className="space-y-2 h-full flex flex-col">
+      <div className="flex justify-between items-center px-1">
+        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">{label}</label>
+        {loading && (
+          <span className="text-xs text-amber-400 animate-pulse font-bold flex items-center gap-1">
+            <FaCloudUploadAlt size={10} />UPLOADING...
+          </span>
+        )}
+      </div>
+      
+      {!isGallery ? (
+        <div 
+          onDragEnter={handleDrag}
+          onDragLeave={handleDrag}
+          onDragOver={handleDrag}
+          onDrop={handleDrop}
+          className={`relative flex-1 border-2 border-dashed rounded-xl overflow-hidden transition-all bg-black/30 min-h-[150px] flex items-center justify-center group ${
+            dragActive 
+              ? 'border-accent bg-accent/5' 
+              : preview 
+              ? 'border-white/5' 
+              : 'border-white/10 hover:border-accent/40'
+          }`}
+        >
+          <input 
+            type="file" 
+            accept="image/jpeg,image/png,image/webp,image/gif" 
+            className="absolute inset-0 opacity-0 cursor-pointer z-20" 
+            onChange={onChange} 
+            disabled={loading}
+            aria-label={label}
+          />
           {preview ? (
-             <div className="absolute inset-0 z-10"><img src={preview} className="w-full h-full object-cover" /><button onClick={(e) => {e.preventDefault(); onRemove()}} className="absolute bottom-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded z-30">Remove</button></div>
+            <div className="absolute inset-0 z-10 flex items-center justify-center">
+              <img src={preview} alt="Preview" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <button 
+                  type="button"
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); onRemove(); }} 
+                  className="bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1.5 rounded-lg font-bold transition-colors"
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
           ) : (
-             <div className="absolute inset-0 flex items-center justify-center pointer-events-none text-slate-500 text-xs font-bold">Drop Image</div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-slate-500 gap-2">
+              <FaCloudUploadAlt className="text-3xl text-slate-600 group-hover:text-accent transition-colors" />
+              <div className="text-xs font-bold text-center">
+                <p>Drag & drop or click</p>
+                <p className="text-slate-600 text-[10px] mt-1">JPG, PNG, WebP, GIF (max 5MB)</p>
+              </div>
+            </div>
           )}
-       </div>
-    ) : (
-       <div className="space-y-3">
-          <div className="relative border-2 border-dashed border-white/10 rounded-xl p-6 text-center hover:border-accent/40 bg-black/30"><input type="file" multiple className="absolute inset-0 opacity-0 cursor-pointer" onChange={onChange} /><FaImages className="mx-auto text-2xl text-slate-500" /></div>
-          {gallery?.length > 0 && <div className="grid grid-cols-3 gap-2">{gallery.map((img, i) => <div key={i} className="relative aspect-square rounded overflow-hidden"><img src={typeof img === 'string' ? img : img.url} className="w-full h-full object-cover" /><button type="button" onClick={() => onRemoveGallery(i)} className="absolute inset-0 bg-black/50 opacity-0 hover:opacity-100 flex items-center justify-center text-red-500"><FaTrash /></button></div>)}</div>}
-       </div>
-    )}
-  </div>
-)
+        </div>
+      ) : (
+        <div className="space-y-3">
+          <div 
+            onDragEnter={handleDrag}
+            onDragLeave={handleDrag}
+            onDragOver={handleDrag}
+            onDrop={handleDrop}
+            className={`relative border-2 border-dashed rounded-xl p-6 text-center transition-all bg-black/30 group cursor-pointer ${
+              dragActive 
+                ? 'border-accent bg-accent/5' 
+                : 'border-white/10 hover:border-accent/40'
+            }`}
+          >
+            <input 
+              type="file" 
+              multiple 
+              accept="image/jpeg,image/png,image/webp,image/gif" 
+              className="absolute inset-0 opacity-0 cursor-pointer z-10" 
+              onChange={onChange}
+              disabled={loading}
+              aria-label={label}
+            />
+            <FaImages className={`mx-auto text-2xl transition-colors ${
+              dragActive ? 'text-accent' : 'text-slate-500 group-hover:text-slate-400'
+            }`} />
+            <p className="text-xs text-slate-400 mt-2 pointer-events-none">Add images to gallery</p>
+          </div>
+          
+          {gallery?.length > 0 && (
+            <div className="space-y-2">
+              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">
+                {gallery.length} image(s)
+              </p>
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 max-h-[300px] overflow-y-auto custom-scrollbar">
+                {gallery.map((img, i) => (
+                  <div 
+                    key={i} 
+                    className="relative aspect-square rounded-lg overflow-hidden border border-white/5 group/img hover:border-accent/50 transition-colors"
+                  >
+                    <img 
+                      src={typeof img === 'string' ? img : img.url} 
+                      alt={`Gallery ${i + 1}`} 
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                    <button 
+                      type="button" 
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        onRemoveGallery(i);
+                      }} 
+                      className="absolute inset-0 bg-black/60 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center text-red-400 hover:text-red-300"
+                      title="Remove"
+                    >
+                      <FaTrash size={14} />
+                    </button>
+                    <span className="absolute bottom-1 left-1 bg-black/80 text-white text-[9px] px-1.5 py-0.5 rounded pointer-events-none font-bold">
+                      {img.__temp ? '↑' : '✓'}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
