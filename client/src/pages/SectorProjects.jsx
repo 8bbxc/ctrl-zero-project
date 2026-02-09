@@ -83,7 +83,7 @@ export default function SectorProjects() {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
 
-  // Hero parallax
+  // Hero parallax ref (simplified)
   const heroRef = useRef(null)
 
   // Use config (fallback to Corporate)
@@ -98,14 +98,17 @@ export default function SectorProjects() {
       try {
         const res = await api.get('/projects')
         const all = Array.isArray(res.data) ? res.data : (res.data.items || [])
-        // filter by category (case-sensitive as stored in DB), ensure unique slugs
+        // Filter by category (case-sensitive as stored in DB)
         const sectorProjects = all.filter(p => p.category === sector)
+        
+        // Ensure unique projects based on ID or slug
         const unique = []
         const seen = new Set()
         sectorProjects.forEach(p => {
           const key = p.slug || p.id
           if (!seen.has(key)) { seen.add(key); unique.push(p) }
         })
+        
         if (mounted) setProjects(unique)
       } catch (err) {
         console.error('Failed fetching projects:', err)
@@ -129,91 +132,102 @@ export default function SectorProjects() {
           alt={displayTitle}
           className="absolute inset-0 w-full h-full object-cover filter brightness-75 scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/40 via-transparent to-[#050505]/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/40 via-transparent to-[#050505]/90" />
 
         <div className="relative z-10 container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center py-20 md:py-28">
-            <h2 className="text-sm uppercase tracking-wider text-slate-300 mb-4">{isArabic ? 'القطاع' : 'Sector'}</h2>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight">
+            <h2 className="text-sm uppercase tracking-wider text-slate-300 mb-4 bg-white/5 inline-block px-3 py-1 rounded-full backdrop-blur-sm border border-white/10">
+              {isArabic ? 'القطاع' : 'Sector'}
+            </h2>
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight leading-tight drop-shadow-lg">
               {displayTitle} <span style={{ color: config.colorHex }}>.</span>
             </h1>
-            <p className="mt-4 text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto">{displayDesc}</p>
-            <div className="mt-6 flex items-center justify-center gap-3">
-              <Link to="/projects" className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors border border-white/5 px-4 py-2 rounded-full bg-white/5 backdrop-blur"> <FaArrowLeft /> {isArabic ? 'الرجوع' : 'Back to sectors'}</Link>
+            <p className="mt-6 text-lg sm:text-2xl text-slate-200 max-w-3xl mx-auto font-light leading-relaxed">
+              {displayDesc}
+            </p>
+            <div className="mt-8 flex items-center justify-center gap-3">
+              <Link to="/projects" className="inline-flex items-center gap-2 text-sm md:text-base text-slate-300 hover:text-white transition-all border border-white/10 px-6 py-3 rounded-full bg-black/40 hover:bg-white/10 backdrop-blur-md"> 
+                <FaArrowLeft /> {isArabic ? 'الرجوع' : 'Back to sectors'}
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* ---------- CONTENT ---------- */}
-      <main className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <main className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-20 -mt-20 relative z-20">
         {loading ? (
           <div className="flex justify-center items-center h-48">
             <Spinner />
           </div>
         ) : projects.length === 0 ? (
-          <div className="max-w-2xl mx-auto text-center py-28">
+          <div className="max-w-2xl mx-auto text-center py-20 bg-slate-900/50 backdrop-blur-xl border border-white/5 rounded-3xl">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/5 mb-6">
-              <FaSearch className="text-2xl text-slate-400" />
+              <FaSearch className="text-3xl text-slate-400" />
             </div>
-            <h3 className="text-2xl font-bold mb-2">{isArabic ? 'قريباً...' : 'Coming Soon'}</h3>
-            <p className="text-slate-400 mb-6">{isArabic ? 'نقوم بتحضير مشاريع رائعة في هذا القسم.' : 'We are preparing exciting projects for this sector.'}</p>
-            <Link to="/contact" className="inline-block px-6 py-3 rounded-md bg-white text-black font-semibold">{isArabic ? 'تواصل معنا' : 'Contact Us'}</Link>
+            <h3 className="text-2xl font-bold mb-2 text-white">{isArabic ? 'قريباً...' : 'Coming Soon'}</h3>
+            <p className="text-slate-400 mb-8 max-w-md mx-auto">{isArabic ? 'نقوم بتحضير مشاريع رائعة في هذا القسم.' : 'We are crafting exceptional projects for this sector.'}</p>
+            <Link to="/contact" className="inline-block px-8 py-3 rounded-full bg-white text-black font-bold hover:bg-opacity-90 transition-all">
+              {isArabic ? 'تواصل معنا' : 'Contact Us'}
+            </Link>
           </div>
         ) : (
-          <motion.section variants={containerVariants} initial="hidden" animate="show" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <motion.section variants={containerVariants} initial="hidden" animate="show" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, i) => (
-              <motion.article key={project.slug || project.id} variants={cardVariants} className="relative">
+              <motion.article key={project.slug || project.id} variants={cardVariants} className="group relative h-full">
                 {/* Whole card is clickable */}
-                <Link to={`/projects/${project.slug || project.id}`} className="block rounded-2xl overflow-hidden">
-                  <div
-                    className="group relative bg-slate-900/60 backdrop-blur-md border border-white/6 hover:scale-[1.01] transition-transform duration-300"
-                    style={{ boxShadow: `0 14px 40px ${config.colorHex}20` }}
-                  >
-                    {/* Image */}
-                    <div className="relative w-full aspect-[16/10] overflow-hidden">
-                      {project.image ? (
-                        <img src={project.image} alt={project.title} loading="lazy" className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-105" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-slate-800">
-                          <FaLaptopCode className="text-4xl text-slate-600" />
-                        </div>
-                      )}
-
-                      {/* Floating tags on top-left */}
-                      <div className="absolute left-3 top-3 flex flex-wrap gap-2 z-20">
-                        {project.tags?.slice(0,3).map((t, idx) => (
-                          <span key={idx} className="text-[11px] bg-black/40 backdrop-blur text-white/90 px-2 py-1 rounded-full border border-white/10">#{t}</span>
-                        ))}
+                <Link to={`/projects/${project.slug || project.id}`} className="block h-full rounded-[2rem] overflow-hidden bg-slate-900 border border-white/5 hover:border-white/20 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl">
+                  
+                  {/* Image Container */}
+                  <div className="relative w-full aspect-[4/3] overflow-hidden">
+                    {project.image ? (
+                      <img src={project.image} alt={project.title} loading="lazy" className="w-full h-full object-cover transform transition-transform duration-700 ease-out group-hover:scale-110" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-slate-800">
+                        <FaLaptopCode className="text-5xl text-slate-700" />
                       </div>
+                    )}
+                    
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80" />
 
-                      {/* Gallery count top-right */}
-                      {project.gallery?.length > 0 && (
-                        <div className="absolute right-3 top-3 z-20">
-                          <span className="text-[11px] bg-black/40 backdrop-blur text-white/90 px-2 py-1 rounded-full border border-white/8 flex items-center gap-2"> <FaImages /> {project.gallery.length}</span>
-                        </div>
-                      )}
-
+                    {/* Floating tags top-left */}
+                    <div className="absolute left-4 top-4 flex flex-wrap gap-2 z-20">
+                      {project.tags?.slice(0,2).map((t, idx) => (
+                        <span key={idx} className="text-[10px] uppercase font-bold tracking-wider bg-black/60 backdrop-blur-md text-white/90 px-2.5 py-1 rounded-lg border border-white/10">
+                          {t}
+                        </span>
+                      ))}
                     </div>
 
-                    {/* Content */}
-                    <div className="p-5 md:p-6">
-                      <h4 className={`text-lg md:text-xl font-bold mb-2 ${config.colorClass}`}>{project.title}</h4>
-                      <p className="text-sm text-slate-300 mb-4 line-clamp-3">{project.description}</p>
-
-                      <div className="flex items-center justify-between gap-4">
-                        <div className="flex flex-wrap gap-2">
-                          {project.tags?.slice(0,3).map((t, idx) => (
-                            <span key={idx} className="text-[11px] text-slate-300 bg-white/3 px-2 py-1 rounded-md">{t}</span>
-                          ))}
-                        </div>
-
-                        <span className="ml-auto">
-                          <button className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-white/6 text-white hover:bg-white hover:text-black transition-colors text-sm font-semibold">
-                            {isArabic ? 'عرض التفاصيل' : 'View Details'} <FaExternalLinkAlt className="text-xs" />
-                          </button>
+                    {/* Gallery count top-right */}
+                    {project.gallery?.length > 0 && (
+                      <div className="absolute right-4 top-4 z-20">
+                        <span className="text-[10px] font-bold bg-black/60 backdrop-blur-md text-white/90 px-2.5 py-1 rounded-lg border border-white/10 flex items-center gap-1.5"> 
+                          <FaImages /> {project.gallery.length}
                         </span>
                       </div>
+                    )}
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6 md:p-8 flex flex-col h-full justify-between">
+                    <div>
+                      <h4 className={`text-xl md:text-2xl font-bold mb-3 transition-colors duration-300 group-hover:${config.colorClass}`}>
+                        {project.title}
+                      </h4>
+                      <p className="text-sm text-slate-400 leading-relaxed line-clamp-3 mb-6 font-light">
+                        {project.description}
+                      </p>
+                    </div>
+
+                    <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
+                      <span className="text-xs font-mono text-slate-500">
+                        {isArabic ? 'استكشف المزيد' : 'Explore Case Study'}
+                      </span>
+                      <span className={`w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white bg-white/5 group-hover:bg-white group-hover:text-black transition-all duration-300`}>
+                        <FaExternalLinkAlt className="text-xs" />
+                      </span>
                     </div>
                   </div>
                 </Link>
