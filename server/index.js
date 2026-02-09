@@ -99,14 +99,54 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// --- Error Handling ---
-app.use((req, res) => res.status(404).json({ error: 'Endpoint not found' }));
+// --- Error Handling Middleware ---
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({
+    error: 'Not Found',
+    message: `Endpoint ${req.method} ${req.path} not found`,
+    path: req.path
+  });
+});
 
+// Global error handler
 app.use((err, req, res, next) => {
-  console.error('🔥 Server Error Stack:', err.stack);
-  res.status(err.status || 500).json({ error: err.message || 'Internal Server Error' });
+  console.error('🔥 Error:', {
+    message: err.message,
+    status: err.status || err.statusCode || 500,
+    method: req.method,
+    path: req.path,
+    stack: process.env.NODE_ENV === 'production' ? undefined : err.stack
+  });
+
+  const status = err.status || err.statusCode || 500;
+  res.status(status).json({
+    error: err.message || 'Internal Server Error',
+    ...(process.env.NODE_ENV !== 'production' && { stack: err.stack })
+  });
 });
 
 // --- Start Server ---
 const port = process.env.PORT || 4000;
-app.listen(port, () => console.log(`🚀 Server running on port ${port}`));
+const server = app.listen(port, () => {
+  console.log(`🚀 Server running on port ${port}`);
+  console.log(`🔗 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🗂️  Uploads directory: ${uploadsDir}`);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down gracefully...');
+  server.close(async () => {
+    await prisma.$disconnect();
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log('SIGINT received, shutting down gracefully...');
+  server.close(async () => {
+    await prisma.$disconnect();
+    process.exit(0);
+  });
+});
