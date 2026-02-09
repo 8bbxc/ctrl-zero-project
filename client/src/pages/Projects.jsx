@@ -140,7 +140,7 @@ export default function Projects() {
               transition={{ delay: index * 0.1, duration: 0.5 }}
             >
               <Link 
-                to={`/projects/${sector.id}`}
+                to={`/projects/sector/${sector.id}`}
                 className={`
                   group relative block h-[320px] rounded-[2rem] overflow-hidden 
                   bg-slate-900/40 backdrop-blur-xl border border-white/5
