@@ -11,7 +11,7 @@ import {
   FaBuilding        // Real Estate
 } from 'react-icons/fa'
 
-export default function SectorCards({ selectedSector, onSectorChange }) {
+export default function SectorCards({ selectedSector = 'All', onSectorChange = () => {} }) {
   const { t, i18n } = useTranslation()
   const isArabic = i18n.language === 'ar'
 
@@ -142,14 +142,16 @@ export default function SectorCards({ selectedSector, onSectorChange }) {
           const displayName = isArabic ? sector.nameAr : sector.nameEn
 
           return (
-            <motion.button
+            <Link
               key={sector.id}
-              variants={itemVariants}
-              onClick={() => onSectorChange(sector.id)}
-              className="group relative h-full text-left"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
+              to={`/projects/sector/${sector.id}`}
+              className="group relative h-full text-left no-underline"
             >
+              <motion.div
+                variants={itemVariants}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+              >
               {/* Card Background with Glassmorphism */}
               <div
                 className={`
@@ -223,7 +225,8 @@ export default function SectorCards({ selectedSector, onSectorChange }) {
                   />
                 )}
               </div>
-            </motion.button>
+            </motion.div>
+            </Link>
           )
         })}
       </motion.div>
