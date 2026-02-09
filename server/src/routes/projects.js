@@ -123,44 +123,75 @@ router.put('/:id', requireAuth, async (req, res) => {
     const tags = parseArray(req.body.tags);
     const gallery = parseArray(req.body.gallery);
 
+    console.log('🔍 Processing update request:', {
+      id: parsedId,
+      title,
+      slug,
+      tagsCount: tags.length,
+      galleryCount: gallery.length,
+      timestamp: new Date().toISOString()
+    });
+
     // Check if project exists first
     const existingProject = await prisma.project.findUnique({
       where: { id: parsedId }
     });
     
     if (!existingProject) {
+      console.warn(`⚠️  Project ${parsedId} not found for update`);
       return res.status(404).json({ error: 'Project not found' });
     }
 
+    console.log('✅ Project found, proceeding with update...');
+
+    const updateData = {
+      title: title.trim(),
+      slug: slug.trim(),
+      description: description || '',
+      content: content || '',
+      image: image || '',
+      link: link || '',
+      category: category || 'General',
+      tags: Array.isArray(tags) ? tags : [],
+      gallery: Array.isArray(gallery) ? gallery : []
+    };
+
+    console.log('📝 Update data prepared:', {
+      title: updateData.title,
+      slug: updateData.slug,
+      description: updateData.description.substring(0, 50),
+      tagsArray: updateData.tags,
+      galleryArray: updateData.gallery
+    });
+
     const updatedProject = await prisma.project.update({
       where: { id: parsedId },
-      data: {
-        title: title.trim(),
-        slug: slug.trim(),
-        description: description || '',
-        content: content || '',
-        image: image || '',
-        link: link || '',
-        category: category || 'General',
-        tags,
-        gallery
-      }
+      data: updateData
     });
     
+    console.log('✅ Project updated successfully:', updatedProject.id);
     res.json(updatedProject);
   } catch (error) {
     if (error.code === 'P2002') {
+      console.warn('⚠️  Slug conflict:', error.meta);
       return res.status(400).json({ error: 'Slug is already taken by another project.' });
     }
     if (error.code === 'P2025') {
+      console.warn('⚠️  Record not found for update');
       return res.status(404).json({ error: 'Project not found' });
     }
-    console.error('Update Project Error:', {
+    console.error('🔥 Update Project Error:', {
       message: error.message,
       code: error.code,
-      stack: error.stack
+      meta: error.meta,
+      stack: error.stack,
+      timestamp: new Date().toISOString()
     });
-    res.status(500).json({ error: 'Failed to update project', details: error.message });
+    res.status(500).json({ 
+      error: 'Failed to update project', 
+      details: error.message,
+      code: error.code 
+    });
   }
 });
 

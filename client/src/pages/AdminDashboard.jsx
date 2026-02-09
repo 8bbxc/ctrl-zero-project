@@ -206,6 +206,13 @@ export default function AdminDashboard() {
         }
       }
 
+      console.log('📤 Sending data to server:', {
+        action: editingItem ? 'UPDATE' : 'CREATE',
+        endpoint: `/${activeTab}/${editingItem?.id || 'new'}`,
+        data: dataToSend,
+        timestamp: new Date().toISOString()
+      });
+
       if (editingItem) {
         await api.put(`/${activeTab}/${editingItem.id}`, dataToSend);
         addToast('success', 'Updated successfully!');
@@ -218,8 +225,13 @@ export default function AdminDashboard() {
       setFormData({});
       await fetchData();
     } catch (err) {
-      console.error("Save Error:", err);
-      const errorMsg = err.response?.data?.error || err.message || 'Operation failed. Please try again.';
+      console.error("❌ Save Error Details:", {
+        message: err.message,
+        status: err.response?.status,
+        data: err.response?.data,
+        fullError: err
+      });
+      const errorMsg = err.response?.data?.error || err.response?.data?.details || err.message || 'Operation failed. Please try again.';
       addToast('error', errorMsg);
     }
   }
