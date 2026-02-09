@@ -1,153 +1,202 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { FaLaptopCode, FaPaintBrush, FaRocket, FaServer, FaMobileAlt, FaCloud } from 'react-icons/fa'
-import { HiArrowRight } from 'react-icons/hi'
+import { motion } from 'framer-motion'
+import { FaLaptopCode, FaPaintBrush, FaRocket, FaServer, FaMobileAlt, FaCloud, FaArrowRight } from 'react-icons/fa'
 import api from '../services/api'
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
+
+// --- Default Data with Gradients ---
+const DEFAULT_SERVICES = [
+  {
+    id: 'web-dev',
+    title: 'Full-Stack Development',
+    desc: 'Scalable, high-performance web applications using modern stacks like React, Node.js, and Postgres.',
+    icon: <FaLaptopCode />,
+    gradient: 'from-blue-500 to-cyan-400',
+    shadow: 'group-hover:shadow-blue-500/20'
+  },
+  {
+    id: 'ui-ux',
+    title: 'UI/UX Design',
+    desc: 'Intuitive, accessible, and beautiful interfaces designed to convert visitors into loyal customers.',
+    icon: <FaPaintBrush />,
+    gradient: 'from-purple-500 to-pink-500',
+    shadow: 'group-hover:shadow-purple-500/20'
+  },
+  {
+    id: 'product',
+    title: 'Product Engineering',
+    desc: 'From raw idea to market-ready MVP. We handle architecture, development, and deployment strategy.',
+    icon: <FaRocket />,
+    gradient: 'from-orange-500 to-red-500',
+    shadow: 'group-hover:shadow-orange-500/20'
+  },
+  {
+    id: 'mobile',
+    title: 'Mobile Development',
+    desc: 'Native and cross-platform apps (iOS & Android) built for performance and silky-smooth interactions.',
+    icon: <FaMobileAlt />,
+    gradient: 'from-emerald-500 to-teal-400',
+    shadow: 'group-hover:shadow-emerald-500/20'
+  },
+  {
+    id: 'backend',
+    title: 'Backend & API',
+    desc: 'Robust server-side architecture, RESTful/GraphQL APIs, and secure database management.',
+    icon: <FaServer />,
+    gradient: 'from-indigo-500 to-violet-600',
+    shadow: 'group-hover:shadow-indigo-500/20'
+  },
+  {
+    id: 'cloud',
+    title: 'Cloud & DevOps',
+    desc: 'Automated CI/CD pipelines, containerization (Docker/K8s), and cloud infrastructure (AWS/Azure).',
+    icon: <FaCloud />,
+    gradient: 'from-sky-500 to-blue-600',
+    shadow: 'group-hover:shadow-sky-500/20'
+  }
+]
 
 export default function Services() {
   const { t, i18n } = useTranslation()
+  const isRtl = i18n.dir() === 'rtl'
   const [services, setServices] = useState([])
   const [loading, setLoading] = useState(true)
 
-  // خدمات افتراضية (تظهر في حال لم يكن هناك بيانات في قاعدة البيانات)
-  const defaultServices = [
-    {
-      id: 'web-dev',
-      title: 'Full-Stack Development',
-      desc: 'End-to-end web solutions using modern stacks (React, Node.js, Postgres). We build scalable, secure, and high-performance applications.',
-      icon: <FaLaptopCode />,
-      color: 'from-blue-500 to-cyan-400'
-    },
-    {
-      id: 'ui-ux',
-      title: 'UI/UX Design',
-      desc: 'Crafting intuitive and engaging user experiences. We focus on accessibility, aesthetics, and conversion-driven interfaces.',
-      icon: <FaPaintBrush />,
-      color: 'from-purple-500 to-pink-400'
-    },
-    {
-      id: 'product',
-      title: 'Product Engineering',
-      desc: 'Turning raw ideas into market-ready MVPs. We handle the entire lifecycle from architectural planning to deployment.',
-      icon: <FaRocket />,
-      color: 'from-orange-400 to-red-500'
-    },
-    {
-      id: 'mobile',
-      title: 'Mobile Development',
-      desc: 'Native and Cross-platform mobile apps that perform flawlessly on iOS and Android devices.',
-      icon: <FaMobileAlt />,
-      color: 'from-emerald-400 to-green-500'
-    },
-    {
-      id: 'backend',
-      title: 'Backend & API',
-      desc: 'Robust server-side architecture, RESTful APIs, and GraphQL integration ensuring your data is secure and fast.',
-      icon: <FaServer />,
-      color: 'from-indigo-500 to-violet-500'
-    },
-    {
-      id: 'cloud',
-      title: 'Cloud & DevOps',
-      desc: 'Seamless deployment pipelines, cloud infrastructure management (AWS/DigitalOcean), and containerization.',
-      icon: <FaCloud />,
-      color: 'from-sky-400 to-blue-600'
-    }
-  ]
-
   useEffect(() => {
-    // Attempt to fetch from backend via api instance (points to http://localhost:4000/api)
-    const load = async () => {
+    const fetchServices = async () => {
       setLoading(true)
       try {
         const res = await api.get('/services')
-        const data = res.data
-        if (Array.isArray(data) && data.length > 0) {
-          setServices(data)
+        const data = Array.isArray(res.data) ? res.data : (res.data.items || [])
+        
+        if (data.length > 0) {
+          // Merge API data with default styling if needed, or just use API data
+          // Here we map API data to our card structure, preserving gradients if we match IDs
+          const merged = data.map((item, index) => {
+             const def = DEFAULT_SERVICES[index % DEFAULT_SERVICES.length] // Cycle through defaults for colors
+             return { ...def, ...item, gradient: def.gradient, shadow: def.shadow, icon: item.icon || def.icon }
+          })
+          setServices(merged)
         } else {
-          setServices(defaultServices)
+          setServices(DEFAULT_SERVICES)
         }
       } catch (err) {
-        console.error('Services load failed:', err)
-        setServices(defaultServices)
+        console.error(err)
+        setServices(DEFAULT_SERVICES)
       } finally {
         setLoading(false)
       }
     }
-    load()
+    fetchServices()
   }, [])
 
-  const dir = i18n.dir()
-
   return (
-    <div className="min-h-screen py-12 relative overflow-hidden">
-      {/* Background Decor */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] -z-10" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[100px] -z-10" />
+    <div className="min-h-screen bg-[#050505] text-slate-50 font-sans selection:bg-cyan-500/30 overflow-x-hidden">
+      <Navbar />
 
-      <div className="container mx-auto px-4">
-        
-        {/* Header Section */}
-        <div className="text-center mb-16 max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
-            {t('services.ourServices') || 'Our Premium Services'}
+      {/* --- Ambient Background --- */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[150px] animate-pulse-slow" />
+        <div className="absolute bottom-[-20%] left-[-10%] w-[800px] h-[800px] bg-purple-600/10 rounded-full blur-[150px] animate-pulse-slow" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03]" />
+      </div>
+
+      {/* --- Hero Section --- */}
+      <div className="relative pt-24 sm:pt-40 pb-12 sm:pb-20 px-4 sm:px-6 container mx-auto text-center z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <span className="inline-block py-1 px-3 rounded-full bg-white/5 border border-white/10 text-cyan-400 font-mono text-xs uppercase tracking-[0.2em] mb-4 sm:mb-6 backdrop-blur-md">
+            {t('Our Capabilities') || 'OUR CAPABILITIES'}
+          </span>
+          <h1 className="text-3xl sm:text-5xl md:text-7xl font-black text-white mb-4 sm:mb-6 tracking-tight leading-tight px-2 sm:px-0">
+            {t('Engineering') || 'Engineering'} <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400 animate-gradient-x">
+              {t('Digital Excellence') || 'Digital Excellence'}
+            </span>
           </h1>
-          <p className="text-lg text-slate-400 leading-relaxed">
-            {t('services.ourServicesDesc') || 'We deliver engineering excellence across the entire tech stack. From stunning interfaces to powerful backends, we cover it all.'}
+          <p className="text-sm sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed font-light px-3 sm:px-0">
+            {t('We combine technical expertise with creative innovation to build software that transforms businesses.')}
           </p>
-        </div>
+        </motion.div>
+      </div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* --- Services Grid --- */}
+      <div className="container mx-auto px-4 sm:px-6 pb-20 sm:pb-32 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
           {services.map((service, idx) => (
-            <div 
-              key={idx} 
-              className="group relative bg-slate-900/40 backdrop-blur-md border border-slate-700/50 rounded-2xl p-8 hover:border-slate-600 transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)]"
+            <motion.div
+              key={service.id || idx}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.1, duration: 0.5 }}
             >
-              {/* Hover Gradient Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${service.color || 'from-blue-500 to-purple-500'} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-2xl`} />
+              <Link 
+                to={`/services/${service.id}`}
+                className={`
+                  group relative flex flex-col justify-between h-full min-h-[300px] sm:min-h-[320px] p-5 sm:p-8 md:p-10
+                  bg-slate-900/40 backdrop-blur-xl border border-white/5 rounded-xl sm:rounded-2xl md:rounded-[2rem]
+                  transition-all duration-500 hover:-translate-y-2 hover:border-white/10
+                  ${service.shadow} hover:shadow-2xl
+                `}
+              >
+                {/* Hover Glow Gradient */}
+                <div className={`absolute inset-0 rounded-[2rem] bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
+                
+                {/* Icon Container */}
+                <div className={`
+                  w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center text-2xl sm:text-3xl mb-6 sm:mb-8
+                  bg-gradient-to-br ${service.gradient} text-white shadow-lg
+                  transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3
+                `}>
+                  {typeof service.icon === 'string' ? <img src={service.icon} alt="" className="w-8 h-8"/> : service.icon}
+                </div>
 
-              {/* Icon */}
-              <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.color || 'from-blue-500 to-purple-500'} flex items-center justify-center text-white text-2xl mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                {service.icon ? (typeof service.icon === 'string' ? <img src={service.icon} alt="" className="w-8 h-8 object-contain"/> : service.icon) : <FaLaptopCode />}
-              </div>
+                {/* Content */}
+                <div>
+                  <h3 className="text-lg sm:text-2xl font-bold text-white mb-2 sm:mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-300 transition-all">
+                    {service.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-400 leading-relaxed mb-6 sm:mb-8 line-clamp-3 group-hover:text-slate-300 transition-colors">
+                    {service.shortDescription || service.desc}
+                  </p>
+                </div>
 
-              {/* Content */}
-              <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-accent transition-colors">
-                {service.title}
-              </h3>
-              
-              <p className="text-slate-400 mb-6 leading-relaxed line-clamp-3">
-                {service.shortDescription || service.desc}
-              </p>
+                {/* Learn More Button */}
+                <div className="mt-auto flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-slate-500 group-hover:text-white transition-colors">
+                  <span>{t('Explore') || 'Explore'}</span>
+                  <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center bg-white/5 group-hover:bg-white group-hover:text-black transition-all ${isRtl ? 'group-hover:-translate-x-2' : 'group-hover:translate-x-2'}`}>
+                    <FaArrowRight className={isRtl ? 'rotate-180' : ''} />
+                  </div>
+                </div>
 
-              {/* Action Link */}
-              <div className={`flex items-center gap-2 text-sm font-bold uppercase tracking-wider ${dir === 'rtl' ? 'flex-row-reverse' : ''}`}>
-                <span className="text-slate-300 group-hover:text-white transition-colors">
-                  {t('services.learnMore') || 'Learn More'}
-                </span>
-                <HiArrowRight className={`text-accent transform transition-transform duration-300 ${dir === 'rtl' ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
-              </div>
-
-              {/* Click Area Overlay (Makes whole card clickable if using link logic) */}
-              {service.id && (
-                <Link to={`/services/${service.id}`} className="absolute inset-0 z-10" aria-label={service.title} />
-              )}
-            </div>
+              </Link>
+            </motion.div>
           ))}
         </div>
 
-        {/* Bottom CTA */}
-        <div className="mt-20 text-center">
+        {/* CTA Footer */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="text-center mt-12 sm:mt-20"
+        >
           <div className="inline-block p-[1px] rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
-            <Link to="/contact" className="block px-10 py-4 bg-slate-900 rounded-full hover:bg-slate-800 transition-colors text-white font-bold text-lg">
-              {t('services.cta') || 'Start Your Project'}
+            <Link to="/contact" className="block px-6 sm:px-10 py-3 sm:py-4 bg-[#0A0A0A] rounded-full hover:bg-transparent transition-colors text-white font-bold tracking-wide text-sm sm:text-base">
+              {t('Start a Project') || 'START A PROJECT'}
             </Link>
           </div>
-        </div>
+        </motion.div>
 
       </div>
+      <Footer />
     </div>
   )
 }
