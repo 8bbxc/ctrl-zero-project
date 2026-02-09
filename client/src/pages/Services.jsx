@@ -165,13 +165,25 @@ export default function Services() {
                 <div className={`absolute inset-0 rounded-[2rem] bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
                 
                 {/* Icon Container */}
-                <div className={`
-                  w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center text-2xl sm:text-3xl mb-6 sm:mb-8
-                  bg-gradient-to-br ${service.gradient} text-white shadow-lg
-                  transform transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3
-                `}>
-                  {getIcon(service.iconKey)}
-                </div>
+                <motion.div
+                  initial={{ scale: 1 }}
+                  whileHover={{ scale: 1.15, rotate: 8 }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                  className={`
+                    relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-2xl flex items-center justify-center text-3xl sm:text-4xl mb-6 sm:mb-8
+                    bg-gradient-to-br ${service.gradient} text-white flex-shrink-0 group
+                  `}
+                >
+                  {/* Glow layers */}
+                  <div className="absolute -inset-2 bg-gradient-to-br from-white/20 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className={`absolute -inset-1 bg-gradient-to-br ${service.gradient} rounded-2xl opacity-30 blur-lg group-hover:opacity-60 transition-opacity duration-300 -z-10`} />
+                  <div className={`absolute -inset-3 bg-gradient-to-br ${service.gradient} rounded-full opacity-10 blur-2xl group-hover:opacity-25 transition-opacity duration-300 -z-20`} />
+                  
+                  {/* Icon */}
+                  <span className="relative z-10 drop-shadow-lg filter drop-shadow-xl">
+                    {getIcon(service.iconKey)}
+                  </span>
+                </motion.div>
 
                 {/* Content */}
                 <div>

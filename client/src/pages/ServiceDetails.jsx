@@ -177,11 +177,23 @@ export default function ServiceDetails() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mb-6 sm:mb-8"
+            className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 mb-8 sm:mb-12"
           >
-            <div className={`w-12 sm:w-16 h-12 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br ${service.gradient} flex items-center justify-center text-2xl sm:text-4xl flex-shrink-0 shadow-lg shadow-blue-500/20`}>
-              {getIcon(service.iconKey)}
-            </div>
+            <motion.div 
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+              className={`relative w-24 h-24 sm:w-32 sm:h-32 rounded-2xl sm:rounded-3xl bg-gradient-to-br ${service.gradient} flex items-center justify-center text-5xl sm:text-7xl flex-shrink-0 flex-col justify-center font-bold text-white shadow-2xl group`}
+            >
+              {/* Glow background layers */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className={`absolute -inset-1 bg-gradient-to-br ${service.gradient} rounded-2xl sm:rounded-3xl opacity-20 blur-xl group-hover:opacity-40 transition-opacity duration-300 -z-10`} />
+              <div className={`absolute -inset-3 bg-gradient-to-br ${service.gradient} rounded-full opacity-10 blur-2xl group-hover:opacity-30 transition-opacity duration-300 -z-10`} />
+              
+              {/* Icon */}
+              <span className="relative z-10 drop-shadow-lg">
+                {getIcon(service.iconKey)}
+              </span>
+            </motion.div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight">
               {service.title}
             </h1>
