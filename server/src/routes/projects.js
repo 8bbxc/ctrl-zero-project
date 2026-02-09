@@ -1,7 +1,39 @@
 const express = require('express');
 const router = express.Router();
 const prisma = require('../utils/prisma'); // نستخدم نسخة Prisma المركزية
-const { requireAuth } = require('../middleware/auth'); 
+const { requireAuth } = require('../middleware/auth');
+
+// --- Sanitization Helper ---
+// Ensures arrays are proper JavaScript arrays
+const sanitizeArrays = (data) => {
+  const sanitized = { ...data };
+  
+  if (sanitized.tags) {
+    if (Array.isArray(sanitized.tags)) {
+      sanitized.tags = sanitized.tags.filter(t => typeof t === 'string' && t.trim().length > 0);
+    } else if (typeof sanitized.tags === 'string') {
+      sanitized.tags = sanitized.tags.split(',').map(t => t.trim()).filter(t => t.length > 0);
+    } else {
+      sanitized.tags = [];
+    }
+  } else {
+    sanitized.tags = [];
+  }
+
+  if (sanitized.gallery) {
+    if (Array.isArray(sanitized.gallery)) {
+      sanitized.gallery = sanitized.gallery.filter(g => typeof g === 'string' && g.trim().length > 0);
+    } else if (typeof sanitized.gallery === 'string') {
+      sanitized.gallery = sanitized.gallery.split(',').map(g => g.trim()).filter(g => g.length > 0);
+    } else {
+      sanitized.gallery = [];
+    }
+  } else {
+    sanitized.gallery = [];
+  }
+
+  return sanitized;
+};
 
 // --- دوال مساعدة (Helper Functions) ---
 // تحويل النصوص (csv) إلى مصفوفات ليقبلها Prisma
@@ -69,20 +101,30 @@ router.post('/', requireAuth, async (req, res) => {
     const tags = parseArray(req.body.tags);
     const gallery = parseArray(req.body.gallery);
 
-    const newProject = await prisma.project.create({
-      data: {
-        title: title.trim(),
-        slug: slug.trim(),
-        description: description || '',
-        content: content || '',
-        image: image || '',
-        link: link || '',
-        category: category || 'General',
-        tags,
-        gallery
-      }
+    const createData = sanitizeArrays({
+      title: title.trim(),
+      slug: slug.trim(),
+      description: description || '',
+      content: content || '',
+      image: image || '',
+      link: link || '',
+      category: category || 'General',
+      tags,
+      gallery
     });
 
+    console.log('📝 Creating project with sanitized data:', {
+      title: createData.title,
+      slug: createData.slug,
+      tags: createData.tags,
+      gallery: createData.gallery
+    });
+
+    const newProject = await prisma.project.create({
+      data: createData
+    });
+
+    console.log('✅ Project created successfully:', newProject.id);
     res.status(201).json(newProject);
   } catch (error) {
     if (error.code === 'P2002') {
@@ -144,7 +186,7 @@ router.put('/:id', requireAuth, async (req, res) => {
 
     console.log('✅ Project found, proceeding with update...');
 
-    const updateData = {
+    const updateData = sanitizeArrays({
       title: title.trim(),
       slug: slug.trim(),
       description: description || '',
@@ -152,16 +194,15 @@ router.put('/:id', requireAuth, async (req, res) => {
       image: image || '',
       link: link || '',
       category: category || 'General',
-      tags: Array.isArray(tags) ? tags : [],
-      gallery: Array.isArray(gallery) ? gallery : []
-    };
+      tags,
+      gallery
+    });
 
-    console.log('📝 Update data prepared:', {
+    console.log('📝 Sanitized update data:', {
       title: updateData.title,
       slug: updateData.slug,
-      description: updateData.description.substring(0, 50),
-      tagsArray: updateData.tags,
-      galleryArray: updateData.gallery
+      tags: updateData.tags,
+      gallery: updateData.gallery
     });
 
     const updatedProject = await prisma.project.update({

@@ -86,6 +86,59 @@ app.get('/health', async (req, res) => {
   }
 });
 
+// --- Diagnostic Endpoint (for debugging) ---
+app.get('/api/diagnostic/project/:id', async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid ID' });
+    }
+
+    const project = await prisma.project.findUnique({
+      where: { id }
+    });
+
+    if (!project) {
+      return res.status(404).json({ error: `Project ${id} not found` });
+    }
+
+    console.log('🔍 Diagnostic Info for Project', id);
+    console.log('   Type of title:', typeof project.title);
+    console.log('   Type of slug:', typeof project.slug);
+    console.log('   Type of tags:', Array.isArray(project.tags) ? 'array' : typeof project.tags);
+    console.log('   Type of gallery:', Array.isArray(project.gallery) ? 'array' : typeof project.gallery);
+    console.log('   Tags content:', project.tags);
+    console.log('   Gallery content:', project.gallery);
+
+    res.json({
+      diagnostic: true,
+      project: {
+        id: project.id,
+        title: { value: project.title, type: typeof project.title },
+        slug: { value: project.slug, type: typeof project.slug },
+        tags: { value: project.tags, isArray: Array.isArray(project.tags) },
+        gallery: { value: project.gallery, isArray: Array.isArray(project.gallery) },
+        description: { type: typeof project.description, length: project.description?.length || 0 },
+        content: { type: typeof project.content, length: project.content?.length || 0 }
+      },
+      schema: {
+        title: 'String',
+        slug: 'String (unique)',
+        description: 'String',
+        content: 'String (nullable)',
+        tags: 'String[] (array)',
+        gallery: 'String[] (array)',
+        image: 'String (nullable)',
+        link: 'String (nullable)',
+        category: 'String (default: General)'
+      }
+    });
+  } catch (error) {
+    console.error('Diagnostic Error:', error);
+    res.status(500).json({ diagnostic_error: error.message });
+  }
+});
+
 // --- Production Settings ---
 if (process.env.NODE_ENV === 'production') {
   if (!process.env.DATABASE_URL) {
