@@ -47,50 +47,62 @@ router.get('/:slug', async (req, res) => {
   }
 });
 
-// 3. إنشاء مشروع جديد (محمي)
+// 3. إنشاء مشروع جديد (محمي) مع Validation أفضل
 router.post('/', requireAuth, async (req, res) => {
   try {
     const { title, slug, description, content, image, link, category } = req.body;
     
-    // معالجة المصفوفات (Tags & Gallery) لتجنب الأخطاء
+    // Validation
+    if (!title || !title.trim()) {
+      return res.status(400).json({ error: 'Title is required' });
+    }
+    if (!slug || !slug.trim()) {
+      return res.status(400).json({ error: 'Slug is required' });
+    }
+    
+    // Validate slug format
+    const slugRegex = /^[a-z0-9-_]+$/;
+    if (!slugRegex.test(slug)) {
+      return res.status(400).json({ error: 'Slug must contain only lowercase letters, numbers, hyphens, and underscores' });
+    }
+    
     const tags = parseArray(req.body.tags);
     const gallery = parseArray(req.body.gallery);
 
-    // التحقق من الحقول الأساسية
-    if (!title || !slug) {
-        return res.status(400).json({ error: 'Title and Slug are required' });
-    }
-
     const newProject = await prisma.project.create({
       data: {
-        title,
-        slug, // يجب أن يكون فريداً
+        title: title.trim(),
+        slug: slug.trim(),
         description: description || '',
         content: content || '',
         image: image || '',
         link: link || '',
-        category: category || 'General', // Category with default value
-        tags,    // الآن هي مصفوفة مضمونة
-        gallery  // الآن هي مصفوفة مضمونة
+        category: category || 'General',
+        tags,
+        gallery
       }
     });
 
     res.status(201).json(newProject);
   } catch (error) {
-    // التعامل مع خطأ التكرار (Unique Constraint)
     if (error.code === 'P2002') {
-      return res.status(400).json({ error: 'Slug matches an existing project. Please use a unique slug.' });
+      return res.status(400).json({ error: 'Slug already exists. Please use a unique slug.' });
     }
     console.error('Create Project Error:', error);
     res.status(500).json({ error: 'Failed to create project', details: error.message });
   }
 });
 
-// 4. تعديل مشروع (محمي)
+// 4. تعديل مشروع (محمي) مع معالجة أفضل للأخطاء
 router.put('/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const { title, slug, description, content, image, link, category } = req.body;
+
+    // Validate inputs
+    if (!title || !slug) {
+      return res.status(400).json({ error: 'Title and Slug are required' });
+    }
 
     const tags = parseArray(req.body.tags);
     const gallery = parseArray(req.body.gallery);
@@ -104,7 +116,7 @@ router.put('/:id', requireAuth, async (req, res) => {
         content,
         image,
         link,
-        category: category || 'General', // Category with default value
+        category: category || 'General',
         tags,
         gallery
       }
@@ -113,24 +125,37 @@ router.put('/:id', requireAuth, async (req, res) => {
     res.json(updatedProject);
   } catch (error) {
     if (error.code === 'P2002') {
-        return res.status(400).json({ error: 'Slug is already taken by another project.' });
+      return res.status(400).json({ error: 'Slug is already taken by another project.' });
+    }
+    if (error.code === 'P2025') {
+      return res.status(404).json({ error: 'Project not found' });
     }
     console.error('Update Project Error:', error);
-    res.status(500).json({ error: 'Failed to update project' });
+    res.status(500).json({ error: 'Failed to update project', details: error.message });
   }
 });
 
-// 5. حذف مشروع (محمي)
+// 5. حذف مشروع (محمي) مع معالجة أفضل للأخطاء
 router.delete('/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
+    
+    const parsedId = parseInt(id);
+    if (isNaN(parsedId)) {
+      return res.status(400).json({ error: 'Invalid project ID' });
+    }
+    
     await prisma.project.delete({
-      where: { id: parseInt(id) }
+      where: { id: parsedId }
     });
+    
     res.json({ success: true, message: 'Project deleted successfully' });
   } catch (error) {
+    if (error.code === 'P2025') {
+      return res.status(404).json({ error: 'Project not found' });
+    }
     console.error('Delete Project Error:', error);
-    res.status(500).json({ error: 'Failed to delete project' });
+    res.status(500).json({ error: 'Failed to delete project', details: error.message });
   }
 });
 
