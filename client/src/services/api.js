@@ -7,21 +7,21 @@ import { getToken } from './auth'
 const BASE_URL = (() => {
   // في Production (Vercel)
   if (import.meta.env.PROD) {
-    return import.meta.env.VITE_API_BASE_URL || 'https://ctrl-zero-api.onrender.com'; // استبدل برابط السيرفر الحقيقي
+    return 'https://ctrl-zero-0.onrender.com'; // السيرفر الحقيقي على Render
   }
   // في Development محليّاً
-  return import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000';
+  return 'http://localhost:4000';
 })();
 
 // نقوم بإضافة /api للرابط
 const API_URL = `${BASE_URL}/api`;
 
-console.log('🔗 API URL:', API_URL); // للـ debugging
+console.log('🔗 API URL:', API_URL, '| Environment:', import.meta.env.MODE); // للـ debugging
 
 const api = axios.create({
   baseURL: API_URL,
   withCredentials: true, // مهم جداً لضمان عمل CORS بشكل صحيح
-  timeout: 8000 // Timeout بعد 8 ثواني
+  timeout: 15000 // Timeout بعد 15 ثانية (زيادة المدة للـ database queries)
 })
 
 // 2. Request Interceptor: إضافة التوكن

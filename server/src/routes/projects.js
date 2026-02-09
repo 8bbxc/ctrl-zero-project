@@ -97,25 +97,50 @@ router.post('/', requireAuth, async (req, res) => {
 router.put('/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
+    const parsedId = parseInt(id);
+    
+    // Validate ID
+    if (isNaN(parsedId)) {
+      return res.status(400).json({ error: 'Invalid project ID' });
+    }
+
     const { title, slug, description, content, image, link, category } = req.body;
 
     // Validate inputs
-    if (!title || !slug) {
-      return res.status(400).json({ error: 'Title and Slug are required' });
+    if (!title || !title.trim()) {
+      return res.status(400).json({ error: 'Title is required' });
+    }
+    if (!slug || !slug.trim()) {
+      return res.status(400).json({ error: 'Slug is required' });
+    }
+    
+    // Validate slug format
+    const slugRegex = /^[a-z0-9-_]+$/;
+    if (!slugRegex.test(slug.trim())) {
+      return res.status(400).json({ error: 'Slug must contain only lowercase letters, numbers, hyphens, and underscores' });
     }
 
     const tags = parseArray(req.body.tags);
     const gallery = parseArray(req.body.gallery);
 
+    // Check if project exists first
+    const existingProject = await prisma.project.findUnique({
+      where: { id: parsedId }
+    });
+    
+    if (!existingProject) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+
     const updatedProject = await prisma.project.update({
-      where: { id: parseInt(id) },
+      where: { id: parsedId },
       data: {
-        title,
-        slug,
-        description,
-        content,
-        image,
-        link,
+        title: title.trim(),
+        slug: slug.trim(),
+        description: description || '',
+        content: content || '',
+        image: image || '',
+        link: link || '',
         category: category || 'General',
         tags,
         gallery
@@ -130,7 +155,11 @@ router.put('/:id', requireAuth, async (req, res) => {
     if (error.code === 'P2025') {
       return res.status(404).json({ error: 'Project not found' });
     }
-    console.error('Update Project Error:', error);
+    console.error('Update Project Error:', {
+      message: error.message,
+      code: error.code,
+      stack: error.stack
+    });
     res.status(500).json({ error: 'Failed to update project', details: error.message });
   }
 });
