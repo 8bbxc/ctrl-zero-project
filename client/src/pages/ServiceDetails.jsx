@@ -129,6 +129,13 @@ export default function ServiceDetails() {
   const [service, setService] = useState(null)
   const [loading, setLoading] = useState(true)
 
+  // Redirect to services list when no id provided (prevents rendering "Service Not Found" when route is matched incorrectly)
+  useEffect(() => {
+    if (!id) {
+      navigate('/services')
+    }
+  }, [id, navigate])
+
   useEffect(() => {
     const fetchService = async () => {
       // Logic unchanged
