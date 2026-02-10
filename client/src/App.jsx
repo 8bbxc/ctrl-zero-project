@@ -107,8 +107,8 @@ export default function App() {
         </Suspense>
       </main>
 
-      {/* إخفاء الفوتر والواتساب في الأدمن */}
-      {!isAdminRoute && <Footer />}
+      {/* إخفاء الفوتر والواتساب في الأدمن. لا نعرض الفوتر على صفحة Services حتى لا يظهر مباشرة تحت البطاقات */}
+      {!isAdminRoute && location.pathname !== '/services' && <Footer />}
       {!isAdminRoute && <FloatingWhatsApp />}
 
       {/* مؤشر التحميل العام */}
