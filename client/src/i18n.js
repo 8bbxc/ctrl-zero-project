@@ -21,7 +21,8 @@ const resources = {
           "Building Scalable Systems",
           "Crafting Beautiful UI",
           "Engineering the Future"
-        ] 
+        ],
+        projectAlt: 'Project screenshot'
       },
       home: { 
         techTitle: 'Powered by Modern Tech', 
@@ -152,8 +153,8 @@ const resources = {
         about: 'من نحن', 
         contact: 'اتصل' 
       },
-      hero: { 
-        title: 'CTRL ZERO', 
+      hero: {
+        title: 'CTRL ZERO',
         badge: 'متاحون لمشاريع جديدة',
         viewWork: 'شاهد أعمالنا',
         contact: 'احجز استشارة',
@@ -162,7 +163,8 @@ const resources = {
           "بناء أنظمة قابلة للتوسع",
           "تصميم واجهات جذابة",
           "هندسة المستقبل الرقمي"
-        ] 
+        ],
+        projectAlt: 'صورة المشروع'
       },
       home: { 
         techTitle: 'مدعوم بأحدث التقنيات', 
