@@ -5,7 +5,6 @@ import { motion } from 'framer-motion'
 import { FaLaptopCode, FaPaintBrush, FaRocket, FaServer, FaMobileAlt, FaCloud, FaArrowRight } from 'react-icons/fa'
 import api from '../services/api'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 
 // --- Icon Mapping ---
 const ICON_MAP = {
@@ -283,7 +282,6 @@ export default function Services() {
         </motion.div>
 
       </div>
-      <Footer />
     </div>
   )
 }
