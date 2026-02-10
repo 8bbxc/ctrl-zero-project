@@ -144,28 +144,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* --- Testimonials --- */}
-      <section className="container mx-auto px-6 mb-20 relative z-20">
-        <div className="text-center mb-8">
-          <h3 className="text-2xl md:text-3xl font-bold text-white">{t('about.testimonials.title') || 'What Clients Say'}</h3>
-          <p className="text-slate-400 max-w-2xl mx-auto">{t('about.testimonials.subtitle') || 'Selected testimonials from clients and partners.'}</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {testimonials.map((tst, i) => (
-            <motion.div key={i} initial={{ opacity:0, y:10 }} whileInView={{ opacity:1, y:0 }} viewport={{ once: true }} className="p-6 rounded-2xl bg-[#0A0A0A] border border-white/5">
-              <p className="text-slate-300 italic mb-4">"{tst.quote}"</p>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white font-bold">{tst.author[0]}</div>
-                <div>
-                  <div className="text-white font-bold">{tst.author}</div>
-                  <div className="text-slate-400 text-sm">{tst.role}</div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
       {/* --- 4. Main Story Sections (Full Color Images) --- */}
       <div className="container mx-auto px-6 md:px-12 pb-32 space-y-32 relative z-10">
         {sections.map((section, index) => {
@@ -258,6 +236,28 @@ export default function About() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {coreValues.map((val, idx) => (
             <ValueCard key={idx} {...val} delay={idx * 0.1} />
+          ))}
+        </div>
+      </section>
+
+      {/* --- Testimonials --- */}
+      <section className="container mx-auto px-6 mb-20 relative z-20">
+        <div className="text-center mb-8">
+          <h3 className="text-2xl md:text-3xl font-bold text-white">{t('about.testimonials.title') || 'What Clients Say'}</h3>
+          <p className="text-slate-400 max-w-2xl mx-auto">{t('about.testimonials.subtitle') || 'Selected testimonials from clients and partners.'}</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {testimonials.map((tst, i) => (
+            <motion.div key={i} initial={{ opacity:0, y:10 }} whileInView={{ opacity:1, y:0 }} viewport={{ once: true }} className="p-6 rounded-2xl bg-[#0A0A0A] border border-white/5">
+              <p className="text-slate-300 italic mb-4">"{tst.quote}"</p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white font-bold">{tst.author[0]}</div>
+                <div>
+                  <div className="text-white font-bold">{tst.author}</div>
+                  <div className="text-slate-400 text-sm">{tst.role}</div>
+                </div>
+              </div>
+            </motion.div>
           ))}
         </div>
       </section>
