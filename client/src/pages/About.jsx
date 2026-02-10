@@ -13,14 +13,14 @@ const StatCard = ({ icon, value, label, delay }) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay, duration: 0.5 }}
-    className="flex flex-col items-center justify-center p-6 bg-slate-800/40 border border-slate-700/50 rounded-2xl backdrop-blur-md hover:bg-slate-800/60 hover:border-cyan-500/30 transition-all group relative overflow-hidden"
+    className="flex flex-col items-center justify-center p-6 bg-slate-900/30 border border-slate-800/40 rounded-2xl backdrop-blur-md hover:bg-slate-900/50 hover:border-cyan-600/40 transition-all group relative overflow-hidden"
   >
     {/* Glow Effect */}
-    <div className="absolute top-0 right-0 w-16 h-16 bg-cyan-500/10 rounded-full blur-xl -z-10 group-hover:bg-cyan-500/20 transition-all" />
+    <div className="absolute top-0 right-0 w-16 h-16 bg-cyan-500/5 rounded-full blur-xl -z-10 group-hover:bg-cyan-500/15 transition-all" />
     
-    <div className="text-3xl text-cyan-400 mb-3 group-hover:scale-110 transition-transform relative z-10 drop-shadow-lg">{icon}</div>
-    <h3 className="text-4xl font-black text-white mb-1 relative z-10">{value}</h3>
-    <p className="text-sm text-slate-400 font-mono uppercase tracking-widest relative z-10">{label}</p>
+    <div className="text-3xl text-cyan-500 mb-3 group-hover:scale-110 transition-transform relative z-10 drop-shadow-lg">{icon}</div>
+    <h3 className="text-4xl font-black text-slate-100 mb-1 relative z-10">{value}</h3>
+    <p className="text-sm text-slate-500 font-mono uppercase tracking-widest relative z-10">{label}</p>
   </motion.div>
 )
 
@@ -31,14 +31,14 @@ const ValueCard = ({ icon, title, desc, delay, color }) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay }}
-    className="p-8 rounded-3xl bg-[#1e293b]/50 border border-white/5 hover:border-white/10 transition-all relative group overflow-hidden"
+    className="p-8 rounded-3xl bg-slate-900/35 border border-slate-800/40 hover:border-slate-700/60 transition-all relative group overflow-hidden"
   >
     <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${color}`} />
-    <div className="mb-6 w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-3xl text-white group-hover:scale-110 transition-transform">
+    <div className="mb-6 w-14 h-14 rounded-2xl bg-slate-950/50 flex items-center justify-center text-3xl text-slate-100 group-hover:scale-110 transition-transform">
       {icon}
     </div>
-    <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
-    <p className="text-slate-400 text-sm leading-relaxed">{desc}</p>
+    <h3 className="text-xl font-bold text-slate-100 mb-3">{title}</h3>
+    <p className="text-slate-500 text-sm leading-relaxed">{desc}</p>
   </motion.div>
 )
 
@@ -95,13 +95,13 @@ export default function About() {
   ]
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#050505] pt-24 pb-32 relative overflow-hidden text-slate-50 font-sans selection:bg-cyan-500/30 overflow-x-hidden">
+    <div ref={containerRef} className="min-h-screen bg-[#050505] pt-24 pb-32 relative overflow-hidden text-slate-100 font-sans selection:bg-cyan-500/20 overflow-x-hidden">
       
       {/* --- 1. Ambient Background (Subtle / Site-consistent) --- */}
       <div className="fixed inset-0 pointer-events-none -z-10">
-        <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-blue-600/10 rounded-full blur-[150px] animate-pulse-slow" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[900px] h-[900px] bg-purple-600/10 rounded-full blur-[150px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay -z-10"></div>
+        <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-blue-900/8 rounded-full blur-[150px]" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[900px] h-[900px] bg-purple-900/8 rounded-full blur-[150px]" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.02] mix-blend-overlay -z-10"></div>
       </div>
 
       {/* --- 2. Hero Section --- */}
@@ -112,12 +112,12 @@ export default function About() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <span className="inline-block py-1 px-3 rounded-full bg-cyan-900/30 border border-cyan-500/30 text-cyan-400 font-mono text-xs uppercase tracking-[0.3em] mb-6 backdrop-blur-md shadow-lg shadow-cyan-500/20">
+            <span className="inline-block py-1 px-3 rounded-full bg-cyan-950/40 border border-cyan-600/40 text-cyan-400 font-mono text-xs uppercase tracking-[0.3em] mb-6 backdrop-blur-md shadow-lg shadow-cyan-600/10">
               {t('about.pageTitle') || 'ABOUT ME'}
             </span>
-            <h1 className="text-5xl md:text-7xl lg:text-9xl font-black text-white mb-6 tracking-tighter leading-[0.9]">
+            <h1 className="text-5xl md:text-7xl lg:text-9xl font-black text-slate-50 mb-6 tracking-tighter leading-[0.9]">
               ENGINEERING <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 animate-gradient-x">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-cyan-500 to-blue-500">
                 DIGITAL REALITY
               </span>
             </h1>
@@ -127,7 +127,7 @@ export default function About() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-lg md:text-2xl text-slate-300 max-w-2xl mx-auto font-light leading-relaxed"
+            className="text-lg md:text-2xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed"
           >
             {t('about.introBody') ? t('about.introBody').substring(0, 100) + '...' : "Combining engineering precision with artistic vision to craft web experiences that leave a mark."}
           </motion.p>
@@ -166,10 +166,10 @@ export default function About() {
                 className="flex-1 w-full relative group perspective-1000"
               >
                 {/* Glow Behind */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${section.gradient} opacity-20 blur-[80px] group-hover:opacity-40 transition-opacity duration-700`} />
+                <div className={`absolute inset-0 bg-gradient-to-br ${section.gradient} opacity-10 blur-[80px] group-hover:opacity-20 transition-opacity duration-700`} />
                 
                 {/* Image Container */}
-                <div className="relative rounded-[2.5rem] overflow-hidden border border-white/10 bg-[#1e293b] p-2 shadow-2xl transform transition-transform duration-700 group-hover:scale-[1.02]">
+                <div className="relative rounded-[2.5rem] overflow-hidden border border-slate-800/50 bg-slate-950 p-2 shadow-2xl transform transition-transform duration-700 group-hover:scale-[1.02]">
                   <div className="rounded-[2rem] overflow-hidden aspect-[4/5] md:aspect-[4/3] relative">
                     
                     {/* الصورة بالألوان (بدون Grayscale) */}
@@ -180,7 +180,7 @@ export default function About() {
                     />
 
                     {/* Floating Icon Badge */}
-                    <div className={`absolute bottom-6 ${isRtl ? 'left-6' : 'right-6'} w-16 h-16 rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-white/20 flex items-center justify-center text-3xl text-white shadow-lg z-20`}>
+                    <div className={`absolute bottom-6 ${isRtl ? 'left-6' : 'right-6'} w-16 h-16 rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-slate-700/50 flex items-center justify-center text-3xl text-slate-100 shadow-lg z-20`}>
                       {section.icon}
                     </div>
                   </div>
@@ -201,14 +201,14 @@ export default function About() {
                     </span>
                   </div>
                   
-                  <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                  <h2 className="text-4xl md:text-5xl font-bold text-slate-100 mb-6 leading-tight">
                     {section.title}
                   </h2>
                   
                   <div className="relative">
                      {/* Quote Mark */}
-                     <span className={`absolute -top-4 ${isRtl ? '-right-6' : '-left-6'} text-6xl text-white/5 font-serif`}>“</span>
-                     <p className="text-lg text-slate-300 leading-relaxed font-light mb-8">
+                     <span className={`absolute -top-4 ${isRtl ? '-right-6' : '-left-6'} text-6xl text-white/3 font-serif`}>"</span>
+                     <p className="text-lg text-slate-400 leading-relaxed font-light mb-8">
                        {section.content}
                      </p>
                   </div>
@@ -230,8 +230,8 @@ export default function About() {
       {/* --- 5. NEW SECTION: Core Values (Why me?) --- */}
       <section className="container mx-auto px-6 mb-32 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Why Work With Me?</h2>
-          <p className="text-slate-400">Values that drive every line of code I write.</p>
+          <h2 className="text-3xl md:text-5xl font-bold text-slate-100 mb-4">Why Work With Me?</h2>
+          <p className="text-slate-500">Values that drive every line of code I write.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {coreValues.map((val, idx) => (
@@ -243,18 +243,18 @@ export default function About() {
       {/* --- Testimonials --- */}
       <section className="container mx-auto px-6 mb-20 relative z-20">
         <div className="text-center mb-8">
-          <h3 className="text-2xl md:text-3xl font-bold text-white">{t('about.testimonials.title') || 'What Clients Say'}</h3>
-          <p className="text-slate-400 max-w-2xl mx-auto">{t('about.testimonials.subtitle') || 'Selected testimonials from clients and partners.'}</p>
+          <h3 className="text-2xl md:text-3xl font-bold text-slate-100">{t('about.testimonials.title') || 'What Clients Say'}</h3>
+          <p className="text-slate-500 max-w-2xl mx-auto">{t('about.testimonials.subtitle') || 'Selected testimonials from clients and partners.'}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((tst, i) => (
-            <motion.div key={i} initial={{ opacity:0, y:10 }} whileInView={{ opacity:1, y:0 }} viewport={{ once: true }} className="p-6 rounded-2xl bg-[#0A0A0A] border border-white/5">
-              <p className="text-slate-300 italic mb-4">"{tst.quote}"</p>
+            <motion.div key={i} initial={{ opacity:0, y:10 }} whileInView={{ opacity:1, y:0 }} viewport={{ once: true }} className="p-6 rounded-2xl bg-slate-900/30 border border-slate-800/40">
+              <p className="text-slate-400 italic mb-4">"{tst.quote}"</p>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white font-bold">{tst.author[0]}</div>
+                <div className="w-10 h-10 rounded-full bg-slate-950/50 flex items-center justify-center text-slate-100 font-bold">{tst.author[0]}</div>
                 <div>
-                  <div className="text-white font-bold">{tst.author}</div>
-                  <div className="text-slate-400 text-sm">{tst.role}</div>
+                  <div className="text-slate-100 font-bold">{tst.author}</div>
+                  <div className="text-slate-500 text-sm">{tst.role}</div>
                 </div>
               </div>
             </motion.div>
@@ -263,13 +263,22 @@ export default function About() {
       </section>
 
       {/* --- 6. Call to Action --- */}
-      <section className="relative py-32 text-center overflow-hidden bg-[#080c14]">
-        <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/10 to-transparent pointer-events-none" />
+      <section className="relative py-32 text-center overflow-hidden bg-[#050505]">
+        <div className="absolute inset-0 bg-gradient-to-t from-cyan-950/5 to-transparent pointer-events-none" />
         
         <div className="container mx-auto px-6 relative z-10">
-           <h2 className="text-4xl md:text-6xl font-black text-white mb-8">
+           <h2 className="text-4xl md:text-6xl font-black text-slate-100 mb-4">
              {t('contact.title') || 'Ready to Create Magic?'}
            </h2>
+           <div className="flex items-center justify-center gap-2 mb-8">
+             <div className="h-px w-8 bg-gradient-to-r from-transparent to-cyan-500" />
+             <motion.div
+               animate={{ opacity: [0.5, 1, 0.5] }}
+               transition={{ duration: 2, repeat: Infinity }}
+               className="w-2 h-2 rounded-full bg-cyan-500"
+             />
+             <div className="h-px w-8 bg-gradient-to-l from-transparent to-cyan-500" />
+           </div>
            <p className="text-slate-400 mb-10 max-w-xl mx-auto text-lg font-light">
              {t('contact.subtitle') || "Let's turn your vision into a digital masterpiece. I am available for freelance projects."}
            </p>
@@ -281,7 +290,7 @@ export default function About() {
            >
              <a 
                href="/contact" 
-               className="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-white text-black font-bold text-lg hover:bg-cyan-50 transition-colors shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
+               className="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-slate-100 text-slate-950 font-bold text-lg hover:bg-slate-200 transition-all shadow-[0_0_30px_rgba(226,232,240,0.1)] hover:shadow-[0_0_40px_rgba(226,232,240,0.2)]"
              >
                <span>{t('contact.btn') || 'Let\'s Talk'}</span>
                {isRtl ? <FaArrowRight className="rotate-180" /> : <FaArrowRight />}
