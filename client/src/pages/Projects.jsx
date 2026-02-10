@@ -7,6 +7,7 @@ import {
 } from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
 // --- 1. تعريف القطاعات مع ألوان نيون قوية ---
 const sectors = [
@@ -158,24 +159,40 @@ export default function Projects() {
 
                 <div className="relative h-full p-8 flex flex-col justify-between z-10">
                   
-                  {/* الأيقونة وزر السهم */}
+                  {/* الأيقونة مع تأثيرات فاخرة */}
                   <div className="flex justify-between items-start">
-                    <div className={`
-                      w-16 h-16 rounded-2xl flex items-center justify-center text-3xl 
-                      bg-white/5 border border-white/10 shadow-lg backdrop-blur-md
-                      transition-all duration-500 group-hover:scale-110 group-hover:bg-white/10
-                      ${sector.iconColor}
-                    `}>
-                      {sector.icon}
-                    </div>
+                    <motion.div 
+                      whileHover={{ scale: 1.15, rotate: 8 }}
+                      transition={{ type: 'spring', stiffness: 300 }}
+                      className={`
+                        relative w-16 h-16 rounded-2xl flex items-center justify-center text-3xl 
+                        bg-gradient-to-br ${sector.gradient} shadow-lg
+                        transition-all duration-500 group-hover:bg-white/10
+                        ${sector.iconColor} text-white flex-shrink-0 group
+                      `}
+                    >
+                      {/* Glow layers - ثلاث طبقات توهج */}
+                      <div className={`absolute -inset-2 bg-gradient-to-br ${sector.gradient} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10`} />
+                      <div className={`absolute -inset-1 bg-gradient-to-br ${sector.gradient} rounded-2xl opacity-30 blur-lg group-hover:opacity-60 transition-opacity duration-300 -z-20`} />
+                      <div className={`absolute -inset-3 bg-gradient-to-br ${sector.gradient} rounded-full opacity-10 blur-2xl group-hover:opacity-25 transition-opacity duration-300 -z-30`} />
+                      
+                      {/* Icon مع drop shadow */}
+                      <span className="relative z-10 drop-shadow-lg filter drop-shadow-xl">
+                        {sector.icon}
+                      </span>
+                    </motion.div>
 
-                    <div className={`
-                      w-12 h-12 rounded-full border border-white/10 flex items-center justify-center 
-                      text-white/50 transition-all duration-300 
-                      group-hover:bg-white group-hover:text-black group-hover:border-transparent group-hover:rotate-45
-                    `}>
+                    <motion.div 
+                      whileHover={{ rotate: 45 }}
+                      transition={{ type: 'spring', stiffness: 300 }}
+                      className={`
+                        w-12 h-12 rounded-full border border-white/10 flex items-center justify-center 
+                        text-white/50 transition-all duration-300 
+                        group-hover:bg-white group-hover:text-black group-hover:border-transparent
+                      `}
+                    >
                       <span className="text-xl">↗</span>
-                    </div>
+                    </motion.div>
                   </div>
 
                   {/* النصوص */}
@@ -200,6 +217,8 @@ export default function Projects() {
         </div>
 
       </div>
+      
+      <Footer />
     </div>
   )
 }
