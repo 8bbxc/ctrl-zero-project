@@ -150,6 +150,7 @@ export default function ServiceDetails() {
       if (/^\d+$/.test(String(id))) {
         try {
           const res = await api.get(`/services/${id}`)
+          if (!res || !res.data) { navigate('/services'); return }
           const normKey = normalizeIconKey(res.data.iconKey, res.data.title)
           const theme = THEME_MAP[normKey] || THEME_MAP['product']
           
@@ -160,15 +161,19 @@ export default function ServiceDetails() {
           })
         } catch (err) {
           console.error('Error fetching service:', err)
-          setService(null)
+          // Redirect to /services on fetch error or not found
+          navigate('/services')
+          return
         }
       } else {
-        setService(null)
+        // No valid service id; redirect to list
+        navigate('/services')
+        return
       }
       setLoading(false)
     }
     fetchService()
-  }, [id])
+  }, [id, navigate])
 
   if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#030305]"><Spinner /></div>
 
