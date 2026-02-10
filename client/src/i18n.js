@@ -77,6 +77,15 @@ const resources = {
         techBody: 'Specializing in modern web platforms. Leveraging the power of Next.js for SSR, Prisma & PostgreSQL for complex data relations, and Docker for reproducible environments.',
         designTitle: 'Design Philosophy',
         designBody: 'My philosophy is simple: Design is not just how it looks, it is how it works. I create User-Centric experiences that feel natural, focusing on accessibility and visual hierarchy.',
+        testimonials: {
+          title: 'What Clients Say',
+          subtitle: 'Selected testimonials from clients and partners.',
+          items: [
+            { quote: 'CTRL ZERO helped us launch a performant platform that scaled to millions of users.', role: 'CEO, TechCorp' },
+            { quote: 'Professional, timely, and deeply thoughtful engineering work.', role: 'Product Lead, RetailX' },
+            { quote: 'Exceeded expectations in design and delivery.', role: 'Founder, Startly' }
+          ]
+        }
       },
       contact: { 
         title: 'Get in Touch', 
@@ -221,6 +230,15 @@ const resources = {
         techBody: 'أتخصص في بناء المنصات الرقمية الحديثة باستخدام أحدث التقنيات. أعتمد على Next.js للسرعة، و PostgreSQL للبيانات المعقدة، وأبني بنية تحتية صلبة تتحمل ضغط العمل الحقيقي.',
         designTitle: 'فلسفة التصميم',
         designBody: 'التصميم ليس مجرد ألوان، بل هو "كيف يعمل المنتج". أركز على تجربة المستخدم (UX) لضمان أن تكون واجهاتي ليست فقط جميلة، بل سهلة الاستخدام وتخدم الهدف بذكاء.',
+        testimonials: {
+          title: 'آراء العملاء',
+          subtitle: 'أقوال مختارة من عملائنا وشركائنا.',
+          items: [
+            { quote: 'ساعدنا CTRL ZERO في إطلاق منصة عالية الأداء وصلت إلى ملايين المستخدمين.', role: 'الرئيس التنفيذي، TechCorp' },
+            { quote: 'عمل احترافي، في الوقت المحدد، ومتفوق من ناحية الجودة.', role: 'مديرة المنتج، RetailX' },
+            { quote: 'تجاوز التوقعات في التصميم والتسليم.', role: 'مؤسس، Startly' }
+          ]
+        }
       },
       contact: { 
         title: 'تواصل معنا', 
