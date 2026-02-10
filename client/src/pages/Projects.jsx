@@ -7,6 +7,7 @@ import {
 } from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
 // --- 1. تعريف القطاعات مع ألوان نيون قوية ---
 const sectors = [
@@ -216,6 +217,8 @@ export default function Projects() {
         </div>
 
       </div>
+      
+      <Footer />
     </div>
   )
 }
