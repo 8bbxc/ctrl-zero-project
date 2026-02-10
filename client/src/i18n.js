@@ -101,6 +101,7 @@ const resources = {
         subtitle: 'A showcase of our technical expertise. Discover how we turn complex problems into elegant digital solutions.',
         more: 'Want to see code?',
         github: 'Visit our GitHub',
+        details: 'Details',
         sectors: {
           all: 'All Projects',
           medical: 'Medical',
@@ -243,6 +244,7 @@ const resources = {
         subtitle: 'استكشف نخبة من مشاريعنا البرمجية. اكتشف كيف نحول المشاكل المعقدة إلى حلول رقمية أنيقة.',
         more: 'تريد رؤية الكود؟',
         github: 'زر حسابنا على GitHub',
+        details: 'تفاصيل',
         sectors: {
           all: 'جميع المشاريع',
           medical: 'الطب والصحة',

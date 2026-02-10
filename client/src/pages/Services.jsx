@@ -67,7 +67,11 @@ const DEFAULT_SERVICES = [
   {
     id: 'web-dev',
     title: 'Full-Stack Development',
+    titleAr: 'تطوير متكامل',
     desc: 'Scalable, high-performance web applications using modern stacks like React, Node.js, and Postgres.',
+    descAr: 'تطبيقات ويب قابلة للتوسع والأداء العالي باستخدام React وNode.js وPostgres.',
+    features: ['React & Next.js', 'Node.js & Express', 'Postgres & Databases', 'Secure APIs'],
+    featuresAr: ['إطارات React و Next.js', 'خوادم Node.js و Express', 'Postgres وإدارة قواعد البيانات', 'واجهات API آمنة'],
     iconKey: 'web-dev',
     gradient: 'from-blue-500 to-cyan-400',
     shadow: 'shadow-blue-500/20'
@@ -75,7 +79,11 @@ const DEFAULT_SERVICES = [
   {
     id: 'ui-ux',
     title: 'UI/UX Design',
+    titleAr: 'تصميم واجهة وتجربة المستخدم',
     desc: 'Intuitive, accessible, and beautiful interfaces designed to convert visitors into loyal customers.',
+    descAr: 'واجهات بديهية وسهلة الاستخدام تركز على التحويل والوصول.',
+    features: ['User Research', 'Wireframing & Prototyping', 'Design Systems', 'Usability Testing'],
+    featuresAr: ['بحث المستخدم', 'نماذج أولية', 'أنظمة تصميم', 'اختبارات قابلية الاستخدام'],
     iconKey: 'ui-ux',
     gradient: 'from-purple-500 to-pink-500',
     shadow: 'shadow-purple-500/20'
@@ -83,7 +91,11 @@ const DEFAULT_SERVICES = [
   {
     id: 'product',
     title: 'Product Engineering',
+    titleAr: 'هندسة المنتجات',
     desc: 'From raw idea to market-ready MVP. We handle architecture, development, and deployment strategy.',
+    descAr: 'من الفكرة إلى منتج جاهز للسوق. نتولى التخطيط، التطوير، والاستراتيجية.',
+    features: ['MVP Strategy', 'Agile Development', 'QA & Testing', 'Go-to-market Support'],
+    featuresAr: ['استراتيجية MVP', 'دورة تطوير رشيقة', 'اختبارات الجودة', 'دعم الإطلاق'],
     iconKey: 'product',
     gradient: 'from-orange-500 to-red-500',
     shadow: 'shadow-orange-500/20'
@@ -91,7 +103,11 @@ const DEFAULT_SERVICES = [
   {
     id: 'frontend',
     title: 'Frontend Development',
+    titleAr: 'تطوير الواجهات',
     desc: 'Pixel-perfect, performance-first frontends using React, Next.js and modern CSS.',
+    descAr: 'واجهات دقيقة الأداء والاستجابة باستخدام React و CSS الحديثة.',
+    features: ['Responsive Design', 'Accessibility (a11y)', 'Performance Optimization', 'Interactive Animations'],
+    featuresAr: ['تصميم متجاوب', 'قابلية الوصول', 'تحسين الأداء', 'حركات تفاعلية'],
     iconKey: 'frontend',
     gradient: 'from-yellow-400 to-orange-500',
     shadow: 'shadow-yellow-400/20'
@@ -99,7 +115,11 @@ const DEFAULT_SERVICES = [
   {
     id: 'mobile',
     title: 'Mobile Development',
+    titleAr: 'تطوير الموبايل',
     desc: 'Native and cross-platform apps (iOS & Android) built for performance and silky-smooth interactions.',
+    descAr: 'تطبيقات أصلية وعبر المنصات لأداء سلس وتجربة مستخدم ممتازة.',
+    features: ['React Native & Flutter', 'Native iOS/Android', 'Offline-first', 'App Store Optimization'],
+    featuresAr: ['React Native و Flutter', 'تطبيقات iOS و Android أصلية', 'تصميم دون اتصال (Offline)', 'تحسين المتاجر'],
     iconKey: 'mobile',
     gradient: 'from-emerald-500 to-teal-400',
     shadow: 'shadow-emerald-500/20'
@@ -107,7 +127,11 @@ const DEFAULT_SERVICES = [
   {
     id: 'backend',
     title: 'Backend & API',
+    titleAr: 'الخوادم وواجهات API',
     desc: 'Robust server-side architecture, RESTful/GraphQL APIs, and secure database management.',
+    descAr: 'بنية خوادم قوية، واجهات API آمنة، وإدارة قواعد بيانات متقدمة.',
+    features: ['Microservices', 'Database Optimization', 'Advanced Security', 'Scalable Architectures'],
+    featuresAr: ['هندسة مايكروسيرفيس', 'تحسين قواعد البيانات', 'أمان متقدم', 'هندسة قابلة للتوسع'],
     iconKey: 'backend',
     gradient: 'from-indigo-500 to-violet-600',
     shadow: 'shadow-indigo-500/20'
@@ -115,7 +139,11 @@ const DEFAULT_SERVICES = [
   {
     id: 'cloud',
     title: 'Cloud & DevOps',
+    titleAr: 'السحابة و DevOps',
     desc: 'Automated CI/CD pipelines, containerization (Docker/K8s), and cloud infrastructure (AWS/Azure).',
+    descAr: 'خطوط CI/CD آلية، حاويات، وبنية تحتية سحابية قابلة للإدارة والأمان.',
+    features: ['CI/CD Pipelines', 'Docker & Kubernetes', 'IaC (Terraform)', 'Monitoring & Alerts'],
+    featuresAr: ['خطوط CI/CD', 'Docker & Kubernetes', 'البنية ككود (IaC)', 'مراقبة وتنبيهات'],
     iconKey: 'cloud',
     gradient: 'from-sky-500 to-blue-600',
     shadow: 'shadow-sky-500/20'
@@ -152,11 +180,17 @@ export default function Services() {
           const merged = data.map((item) => {
              const normalizedIconKey = normalizeIconKey(item.iconKey, item.title)
              const config = GRADIENT_MAP[normalizedIconKey] || GRADIENT_MAP['product']
+             const defaults = DEFAULT_SERVICES.find(s => s.id === normalizedIconKey) || {}
              return { 
+               ...defaults,
                ...item, 
                iconKey: normalizedIconKey,
                gradient: config.gradient, 
-               shadow: config.shadow
+               shadow: config.shadow,
+               titleAr: item.titleAr || defaults.titleAr,
+               descAr: item.descAr || defaults.descAr,
+               features: item.features || defaults.features || [],
+               featuresAr: item.featuresAr || defaults.featuresAr || []
              }
           })
           setServices(merged)
@@ -259,10 +293,10 @@ export default function Services() {
                 {/* 4. Content */}
                 <div>
                   <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-300 transition-all">
-                    {service.title}
+                    {isRtl ? (service.titleAr || service.title) : service.title}
                   </h3>
                   <p className="text-sm text-slate-400 leading-relaxed mb-8 line-clamp-3 group-hover:text-slate-300 transition-colors">
-                    {service.shortDescription || service.desc}
+                    {isRtl ? (service.shortDescriptionAr || service.descAr || service.shortDescription || service.desc) : (service.shortDescription || service.desc)}
                   </p>
                 </div>
 

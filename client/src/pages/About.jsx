@@ -105,7 +105,7 @@ export default function About() {
                 </div>
 
                 {/* 2. Text Column */}
-                <div className="flex-1 space-y-6">
+                <div className={`flex-1 space-y-6 ${isRtl ? 'text-right' : 'text-left'}`}>
                   <div className="flex items-center gap-4 mb-2">
                     <span className={`h-px w-12 bg-gradient-to-r ${section.color}`}></span>
                     <span className={`text-sm font-bold uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r ${section.color}`}>
@@ -136,6 +136,13 @@ export default function About() {
             )
           })}
         </div>
+
+          {/* Contact CTA */}
+          <div className="text-center mt-12">
+            <h3 className="text-2xl font-bold mb-4">{t('contact.title') || 'Get in Touch'}</h3>
+            <p className="text-slate-400 mb-6 max-w-2xl mx-auto">{t('contact.subtitle') || 'Have a project in mind? We would love to hear from you.'}</p>
+            <a href="/contact" className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-bold">{t('contact.title') || 'Get in Touch'}</a>
+          </div>
 
       </div>
     </div>
