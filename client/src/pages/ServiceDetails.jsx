@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, Link, useNavigate, Navigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { 
   FaArrowLeft, FaArrowRight, FaLaptopCode, FaPaintBrush, 
@@ -129,12 +129,8 @@ export default function ServiceDetails() {
   const [service, setService] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  // Redirect to services list when no id provided (prevents rendering "Service Not Found" when route is matched incorrectly)
-  useEffect(() => {
-    if (!id) {
-      navigate('/services')
-    }
-  }, [id, navigate])
+  // If route has no id, perform immediate redirect to /services to avoid showing "Service Not Found"
+  if (!id) return <Navigate to="/services" replace />
 
   useEffect(() => {
     const fetchService = async () => {
