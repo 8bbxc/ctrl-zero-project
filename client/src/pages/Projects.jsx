@@ -144,11 +144,10 @@ export default function Projects() {
                 to={`/projects/sector/${sector.id}`}
                 className={`
                   group relative block h-[320px] rounded-[2rem] overflow-hidden 
-                  bg-slate-900/40 backdrop-blur-xl border border-white/5
+                  bg-slate-900/40 backdrop-blur-xl
                   transition-all duration-500 ease-out
                   hover:-translate-y-3 hover:scale-[1.02]
                   ${sector.shadow} hover:shadow-2xl
-                  ${sector.borderColor}
                 `}
               >
                 {/* تأثير التوهج الخلفي عند الهوفر */}

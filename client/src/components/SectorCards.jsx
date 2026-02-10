@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import {
-  FaHeartbeat,      // Medical
+  FaStethoscope,    // Medical
   FaShoppingCart,   // E-Commerce
   FaUtensils,       // Restaurant
   FaBriefcase,      // Corporate
@@ -21,7 +21,7 @@ export default function SectorCards({ selectedSector = 'All', onSectorChange = (
       id: 'Medical',
       nameEn: 'Medical',
       nameAr: 'الطب والصحة',
-      icon: FaHeartbeat,
+      icon: FaStethoscope,
       color: 'from-red-500/20 to-pink-500/20',
       borderColor: 'border-red-500/30 hover:border-red-500/60',
       glowColor: 'shadow-red-500/20',
@@ -157,7 +157,7 @@ export default function SectorCards({ selectedSector = 'All', onSectorChange = (
                 className={`
                   relative w-full h-40 rounded-2xl
                   bg-gradient-to-br ${sector.color}
-                  backdrop-blur-xl border ${isSelected ? 'border-white/50' : sector.borderColor}
+                  backdrop-blur-xl
                   p-6 transition-all duration-500 overflow-hidden
                   ${isSelected ? `shadow-2xl ${sector.glowColor}` : 'hover:shadow-xl'}
                   group-hover:shadow-2xl ${sector.glowColor}
