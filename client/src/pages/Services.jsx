@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
-import { FaLaptopCode, FaPaintBrush, FaRocket, FaServer, FaMobileAlt, FaCloud, FaArrowRight, FaArrowLeft } from 'react-icons/fa'
+import { FaLaptopCode, FaPaintBrush, FaRocket, FaServer, FaMobileAlt, FaCloud, FaArrowRight, FaArrowLeft, FaHtml5 } from 'react-icons/fa'
 import api from '../services/api'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 import Spinner from '../components/Spinner'
 
 // --- Icon Mapping & Logic (نفس المنطق لضمان التوافق) ---
@@ -13,6 +12,7 @@ const ICON_MAP = {
   'web-dev': FaLaptopCode,
   'ui-ux': FaPaintBrush,
   'product': FaRocket,
+  'frontend': FaHtml5,
   'mobile': FaMobileAlt,
   'backend': FaServer,
   'cloud': FaCloud
@@ -21,12 +21,13 @@ const ICON_MAP = {
 const ICONKEY_ALIASES = {
   'database': 'backend', 'db': 'backend', 'api': 'backend', 
   'devops': 'cloud', 'ui': 'ui-ux', 'ux': 'ui-ux', 
-  'frontend': 'product', 'app': 'mobile'
+  'app': 'mobile'
 }
 
 const deriveIconKeyFromTitle = (title) => {
   if (!title) return 'product'
   const lower = title.toLowerCase()
+  if (lower.includes('front') || lower.includes('frontend')) return 'frontend'
   if (lower.includes('web') || lower.includes('stack')) return 'web-dev'
   if (lower.includes('ui') || lower.includes('design')) return 'ui-ux'
   if (lower.includes('mobile') || lower.includes('app')) return 'mobile'
@@ -119,6 +120,9 @@ export default function Services() {
   const [services, setServices] = useState([])
   const [loading, setLoading] = useState(true)
 
+  // Add extra bottom spacing so Footer doesn't sit immediately under the cards/CTA
+  const pagePaddingBottom = 'pb-48'
+
   useEffect(() => {
     const fetchServices = async () => {
       setLoading(true)
@@ -163,7 +167,7 @@ export default function Services() {
   if (loading) return <div className="min-h-screen bg-[#050505] flex items-center justify-center"><Spinner /></div>
 
   return (
-    <div className="min-h-screen bg-[#050505] text-slate-50 font-sans selection:bg-cyan-500/30 overflow-x-hidden">
+    <div className={`min-h-screen bg-[#050505] text-slate-50 font-sans selection:bg-cyan-500/30 overflow-x-hidden ${pagePaddingBottom}`}>
       <Navbar />
 
       {/* --- Ambient Background --- */}
