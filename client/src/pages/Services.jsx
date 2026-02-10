@@ -89,6 +89,14 @@ const DEFAULT_SERVICES = [
     shadow: 'shadow-orange-500/20'
   },
   {
+    id: 'frontend',
+    title: 'Frontend Development',
+    desc: 'Pixel-perfect, performance-first frontends using React, Next.js and modern CSS.',
+    iconKey: 'frontend',
+    gradient: 'from-yellow-400 to-orange-500',
+    shadow: 'shadow-yellow-400/20'
+  },
+  {
     id: 'mobile',
     title: 'Mobile Development',
     desc: 'Native and cross-platform apps (iOS & Android) built for performance and silky-smooth interactions.',
@@ -135,6 +143,7 @@ export default function Services() {
             'web-dev': { gradient: 'from-blue-500 to-cyan-400', shadow: 'shadow-blue-500/20' },
             'ui-ux': { gradient: 'from-purple-500 to-pink-500', shadow: 'shadow-purple-500/20' },
             'product': { gradient: 'from-orange-500 to-red-500', shadow: 'shadow-orange-500/20' },
+            'frontend': { gradient: 'from-yellow-400 to-orange-500', shadow: 'shadow-yellow-400/20' },
             'mobile': { gradient: 'from-emerald-500 to-teal-400', shadow: 'shadow-emerald-500/20' },
             'backend': { gradient: 'from-indigo-500 to-violet-600', shadow: 'shadow-indigo-500/20' },
             'cloud': { gradient: 'from-sky-500 to-blue-600', shadow: 'shadow-sky-500/20' }

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { 
   FaArrowLeft, FaArrowRight, FaLaptopCode, FaPaintBrush, 
   FaRocket, FaServer, FaMobileAlt, FaCloud, FaCheckCircle, 
-  FaQuoteRight, FaCheck 
+  FaQuoteRight, FaCheck, FaHtml5
 } from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 import api from '../services/api'
@@ -18,6 +18,7 @@ const ICON_MAP = {
   'web-dev': FaLaptopCode,
   'ui-ux': FaPaintBrush,
   'product': FaRocket,
+  'frontend': FaHtml5,
   'mobile': FaMobileAlt,
   'backend': FaServer,
   'cloud': FaCloud
@@ -28,13 +29,14 @@ const ICONKEY_ALIASES = {
   'api': 'backend', 'api-development': 'backend', 'rest-api': 'backend', 'graphql': 'backend',
   'devops': 'cloud', 'infrastructure': 'cloud',
   'ui': 'ui-ux', 'ux': 'ui-ux', 'design': 'ui-ux',
-  'frontend': 'product',
+  'frontend': 'frontend',
   'app': 'mobile', 'native': 'mobile'
 }
 
 const deriveIconKeyFromTitle = (title) => {
   if (!title) return 'product'
   const lower = title.toLowerCase()
+  if (lower.includes('front') || lower.includes('frontend')) return 'frontend'
   if (lower.includes('full') || lower.includes('web') || lower.includes('stack')) return 'web-dev'
   if (lower.includes('ui') || lower.includes('design') || lower.includes('ux')) return 'ui-ux'
   if (lower.includes('product') || lower.includes('engineering')) return 'product'
@@ -64,6 +66,7 @@ const THEME_MAP = {
   'web-dev': { color: '#06b6d4', gradient: 'from-cyan-500 via-blue-500 to-indigo-600' },
   'ui-ux': { color: '#d946ef', gradient: 'from-fuchsia-500 via-purple-500 to-pink-600' },
   'product': { color: '#f97316', gradient: 'from-orange-500 via-red-500 to-rose-600' },
+  'frontend': { color: '#e44d26', gradient: 'from-yellow-400 via-orange-500 to-red-500' },
   'mobile': { color: '#10b981', gradient: 'from-emerald-400 via-teal-500 to-cyan-600' },
   'backend': { color: '#6366f1', gradient: 'from-indigo-500 via-violet-500 to-purple-600' },
   'cloud': { color: '#3b82f6', gradient: 'from-blue-400 via-sky-500 to-cyan-600' }
@@ -93,6 +96,14 @@ const DEFAULT_SERVICES = [
     fullContent: 'From concept to launch. We handle everything: strategy, design, development, testing, and deployment. Our goal is to help you build products that matter and solve real problems.',
     features: ['MVP Strategy & Roadmap', 'Agile Development Cycle', 'Quality Assurance (QA)', 'Go-to-market Support'],
     iconKey: 'product'
+  },
+  {
+    id: 'frontend',
+    title: 'Frontend Development',
+    shortDescription: 'Pixel-perfect, performance-first frontends using React and modern CSS.',
+    fullContent: 'We craft responsive, accessible, high-performance frontends with a strong emphasis on user experience and animation.',
+    features: ['Responsive Design', 'Accessibility (a11y)', 'Performance Optimization', 'Interactive Animations'],
+    iconKey: 'frontend'
   },
   {
     id: 'mobile',
