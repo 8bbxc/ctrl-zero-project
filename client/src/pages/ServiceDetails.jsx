@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next'
 import api from '../services/api'
 import Spinner from '../components/Spinner'
 import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 
 // --- Icon Mapping ---
 const ICON_MAP = {
@@ -467,6 +468,7 @@ export default function ServiceDetails() {
           </div>
         </div>
       </section>
+      <Footer />
     </div>
   )
 }
