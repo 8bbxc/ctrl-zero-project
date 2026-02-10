@@ -1,21 +1,44 @@
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { FaUserAstronaut, FaCode, FaLayerGroup, FaArrowRight, FaAward, FaProjectDiagram, FaCoffee } from 'react-icons/fa'
+import { 
+  FaUserAstronaut, FaCode, FaLayerGroup, FaArrowRight, 
+  FaAward, FaProjectDiagram, FaCoffee, FaLightbulb, FaHandshake, FaStopwatch 
+} from 'react-icons/fa'
 
-// --- مكون البطاقة الإحصائية ---
+// --- مكون البطاقة الإحصائية (Updated Style) ---
 const StatCard = ({ icon, value, label, delay }) => (
   <motion.div 
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay, duration: 0.5 }}
-    className="flex flex-col items-center justify-center p-6 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md hover:bg-white/10 transition-colors group relative overflow-hidden"
+    className="flex flex-col items-center justify-center p-6 bg-slate-800/40 border border-slate-700/50 rounded-2xl backdrop-blur-md hover:bg-slate-800/60 hover:border-cyan-500/30 transition-all group relative overflow-hidden"
   >
-    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-    <div className="text-3xl text-cyan-400 mb-2 group-hover:scale-110 transition-transform relative z-10">{icon}</div>
+    {/* Glow Effect */}
+    <div className="absolute top-0 right-0 w-16 h-16 bg-cyan-500/10 rounded-full blur-xl -z-10 group-hover:bg-cyan-500/20 transition-all" />
+    
+    <div className="text-3xl text-cyan-400 mb-3 group-hover:scale-110 transition-transform relative z-10 drop-shadow-lg">{icon}</div>
     <h3 className="text-4xl font-black text-white mb-1 relative z-10">{value}</h3>
     <p className="text-sm text-slate-400 font-mono uppercase tracking-widest relative z-10">{label}</p>
+  </motion.div>
+)
+
+// --- مكون كارت القيم (New Component) ---
+const ValueCard = ({ icon, title, desc, delay, color }) => (
+  <motion.div 
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ delay }}
+    className="p-8 rounded-3xl bg-[#1e293b]/50 border border-white/5 hover:border-white/10 transition-all relative group overflow-hidden"
+  >
+    <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r ${color}`} />
+    <div className="mb-6 w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-3xl text-white group-hover:scale-110 transition-transform">
+      {icon}
+    </div>
+    <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
+    <p className="text-slate-400 text-sm leading-relaxed">{desc}</p>
   </motion.div>
 )
 
@@ -25,17 +48,16 @@ export default function About() {
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: containerRef })
   
-  // تأثير الحركة للصور (Parallax)
   const y = useTransform(scrollYProgress, [0, 1], [0, -100])
 
-  // بيانات الأقسام (مع صورك الخاصة)
+  // بيانات الأقسام
   const sections = [
     {
       id: 'intro',
       title: t('about.introTitle') || 'The Visionary',
       subtitle: 'Who I Am',
       content: t('about.introBody') || 'I am not just a developer; I am a digital architect bridging the gap between imagination and reality.',
-      image: '/images/about/me.jpeg', // صورتك الشخصية
+      image: '/images/about/me.jpeg',
       icon: <FaUserAstronaut />,
       gradient: 'from-cyan-500 to-blue-600',
     },
@@ -44,7 +66,7 @@ export default function About() {
       title: t('about.techTitle') || 'The Engineer',
       subtitle: 'Code is my Craft',
       content: t('about.techBody') || 'Writing clean, scalable, and efficient code is not just a job, it is a craft I have perfected over years of dedication.',
-      image: '/images/about/Web-Development.jpg', // صورة التطوير
+      image: '/images/about/Web-Development.jpg',
       icon: <FaCode />,
       gradient: 'from-emerald-400 to-green-600',
     },
@@ -53,21 +75,27 @@ export default function About() {
       title: t('about.designTitle') || 'The Artist',
       subtitle: 'Design Philosophy',
       content: t('about.designBody') || 'Functionality without beauty is boring. I blend aesthetics with usability to create immersive experiences.',
-      image: '/images/about/Web-Desgin.jpg', // صورة التصميم (تأكد من الاسم Desgin أو Design في ملفاتك)
+      image: '/images/about/Web-Desgin.jpg',
       icon: <FaLayerGroup />,
       gradient: 'from-purple-500 to-pink-600',
     }
   ]
 
+  // بيانات القيم الجديدة
+  const coreValues = [
+    { icon: <FaLightbulb />, title: "Innovation First", desc: "Always looking for creative solutions to complex problems.", color: "from-yellow-400 to-orange-500" },
+    { icon: <FaStopwatch />, title: "Precision & Speed", desc: "Delivering high-quality code without missing deadlines.", color: "from-cyan-400 to-blue-500" },
+    { icon: <FaHandshake />, title: "Client Partnership", desc: "I don't just work for you; I work with you to succeed.", color: "from-purple-400 to-pink-500" }
+  ]
+
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#030712] relative overflow-hidden text-slate-50 font-sans selection:bg-cyan-500/30">
+    <div ref={containerRef} className="min-h-screen bg-[#050505] pt-24 pb-32 relative overflow-hidden text-slate-50 font-sans selection:bg-cyan-500/30 overflow-x-hidden">
       
-      {/* --- 1. Ambient Background (متحرك) --- */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-blue-900/20 rounded-full blur-[120px] animate-pulse-slow" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-purple-900/20 rounded-full blur-[120px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
-        {/* Noise Texture */}
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay"></div>
+      {/* --- 1. Ambient Background (Subtle / Site-consistent) --- */}
+      <div className="fixed inset-0 pointer-events-none -z-10">
+        <div className="absolute top-[-20%] left-[-10%] w-[900px] h-[900px] bg-blue-600/10 rounded-full blur-[150px] animate-pulse-slow" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[900px] h-[900px] bg-purple-600/10 rounded-full blur-[150px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay -z-10"></div>
       </div>
 
       {/* --- 2. Hero Section --- */}
@@ -78,12 +106,12 @@ export default function About() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            <span className="inline-block py-1 px-3 rounded-full bg-white/5 border border-white/10 text-cyan-400 font-mono text-xs uppercase tracking-[0.3em] mb-6 backdrop-blur-md">
+            <span className="inline-block py-1 px-3 rounded-full bg-cyan-900/30 border border-cyan-500/30 text-cyan-400 font-mono text-xs uppercase tracking-[0.3em] mb-6 backdrop-blur-md shadow-lg shadow-cyan-500/20">
               {t('about.pageTitle') || 'ABOUT ME'}
             </span>
             <h1 className="text-5xl md:text-7xl lg:text-9xl font-black text-white mb-6 tracking-tighter leading-[0.9]">
               ENGINEERING <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400 animate-gradient-x">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 animate-gradient-x">
                 DIGITAL REALITY
               </span>
             </h1>
@@ -93,21 +121,11 @@ export default function About() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="text-lg md:text-2xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed"
+            className="text-lg md:text-2xl text-slate-300 max-w-2xl mx-auto font-light leading-relaxed"
           >
             {t('about.introBody') ? t('about.introBody').substring(0, 100) + '...' : "Combining engineering precision with artistic vision to craft web experiences that leave a mark."}
           </motion.p>
         </div>
-        
-        {/* Scroll Indicator */}
-        <motion.div 
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 text-slate-500 text-sm flex flex-col items-center gap-2"
-        >
-          <span className="uppercase tracking-widest text-[10px]">Scroll</span>
-          <div className="w-[1px] h-12 bg-gradient-to-b from-cyan-500 to-transparent"></div>
-        </motion.div>
       </section>
 
       {/* --- 3. Statistics Strip --- */}
@@ -120,7 +138,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* --- 4. Main Story Sections --- */}
+      {/* --- 4. Main Story Sections (Full Color Images) --- */}
       <div className="container mx-auto px-6 md:px-12 pb-32 space-y-32 relative z-10">
         {sections.map((section, index) => {
           const isEven = index % 2 === 0
@@ -138,26 +156,25 @@ export default function About() {
               
               {/* Image Area */}
               <motion.div 
-                style={{ y: isEven ? y : 0 }} // Parallax effect
+                style={{ y: isEven ? y : 0 }} 
                 className="flex-1 w-full relative group perspective-1000"
               >
                 {/* Glow Behind */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${section.gradient} opacity-20 blur-[80px] group-hover:opacity-40 transition-opacity duration-700`} />
                 
                 {/* Image Container */}
-                <div className="relative rounded-[2.5rem] overflow-hidden border border-white/10 bg-[#0A0A0A] p-2 shadow-2xl transform transition-transform duration-700 group-hover:scale-[1.02]">
+                <div className="relative rounded-[2.5rem] overflow-hidden border border-white/10 bg-[#1e293b] p-2 shadow-2xl transform transition-transform duration-700 group-hover:scale-[1.02]">
                   <div className="rounded-[2rem] overflow-hidden aspect-[4/5] md:aspect-[4/3] relative">
-                    {/* Dark Overlay that clears on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-500 z-10" />
                     
+                    {/* الصورة بالألوان (بدون Grayscale) */}
                     <img 
                       src={section.image} 
                       alt={section.title} 
-                      className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out scale-105 group-hover:scale-100"
+                      className="w-full h-full object-cover transition-all duration-700 ease-in-out hover:scale-105"
                     />
 
                     {/* Floating Icon Badge */}
-                    <div className={`absolute bottom-6 ${isRtl ? 'left-6' : 'right-6'} w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-3xl text-white shadow-lg z-20`}>
+                    <div className={`absolute bottom-6 ${isRtl ? 'left-6' : 'right-6'} w-16 h-16 rounded-2xl bg-slate-900/80 backdrop-blur-xl border border-white/20 flex items-center justify-center text-3xl text-white shadow-lg z-20`}>
                       {section.icon}
                     </div>
                   </div>
@@ -183,17 +200,17 @@ export default function About() {
                   </h2>
                   
                   <div className="relative">
-                     {/* Decorative Quote Mark */}
+                     {/* Quote Mark */}
                      <span className={`absolute -top-4 ${isRtl ? '-right-6' : '-left-6'} text-6xl text-white/5 font-serif`}>“</span>
-                     <p className="text-lg text-slate-400 leading-relaxed font-light mb-8">
+                     <p className="text-lg text-slate-300 leading-relaxed font-light mb-8">
                        {section.content}
                      </p>
                   </div>
 
-                  {/* Decorative Dots */}
+                  {/* Dots */}
                   <div className={`flex gap-3 justify-center ${isRtl ? 'lg:justify-end' : 'lg:justify-start'}`}>
                      {[...Array(3)].map((_, i) => (
-                       <div key={i} className={`w-2 h-2 rounded-full ${i === 0 ? 'bg-white' : 'bg-white/20'}`} />
+                       <div key={i} className={`w-2 h-2 rounded-full ${i === 0 ? 'bg-cyan-500' : 'bg-white/20'}`} />
                      ))}
                   </div>
                 </motion.div>
@@ -204,9 +221,22 @@ export default function About() {
         })}
       </div>
 
-      {/* --- 5. Call to Action --- */}
-      <section className="relative py-32 text-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-blue-900/10 pointer-events-none" />
+      {/* --- 5. NEW SECTION: Core Values (Why me?) --- */}
+      <section className="container mx-auto px-6 mb-32 relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Why Work With Me?</h2>
+          <p className="text-slate-400">Values that drive every line of code I write.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {coreValues.map((val, idx) => (
+            <ValueCard key={idx} {...val} delay={idx * 0.1} />
+          ))}
+        </div>
+      </section>
+
+      {/* --- 6. Call to Action --- */}
+      <section className="relative py-32 text-center overflow-hidden bg-[#080c14]">
+        <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/10 to-transparent pointer-events-none" />
         
         <div className="container mx-auto px-6 relative z-10">
            <h2 className="text-4xl md:text-6xl font-black text-white mb-8">
