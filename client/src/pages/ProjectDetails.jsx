@@ -8,9 +8,9 @@ import {
 } from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 import api from '../services/api'
-import Spinner from '../components/Spinner'
+import Spinner from '../components/Spinner' // Assuming you use this or standard spinner
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
+// import Footer from '../components/Footer'  <-- REMOVED to prevent Double Footer issue
 
 // --- Icon Mapping for Sectors ---
 const SECTOR_ICON_MAP = {
@@ -27,7 +27,7 @@ const getSectorIcon = (sectorName) => {
   return <IconComponent />
 }
 
-// Simple sector config for colors & heroes (used for glow and hero fallback)
+// Simple sector config
 const SECTOR_CONFIG = {
   Medical: { 
     colorHex: '#fb7185', 
@@ -109,7 +109,7 @@ export default function ProjectDetails() {
     return () => { mounted = false }
   }, [slug])
 
-  // Fetch siblings to compute prev/next
+  // Fetch siblings
   useEffect(() => {
     if (!project) return
     let mounted = true
@@ -145,22 +145,12 @@ export default function ProjectDetails() {
     <div className="min-h-screen bg-[#050505] text-slate-50 font-sans selection:bg-cyan-500/30 overflow-x-hidden relative">
       <Navbar />
       
-      {/* === PREMIUM BACKGROUND EFFECTS === */}
+      {/* === PREMIUM BACKGROUND EFFECTS (Subtle Animations) === */}
       <div className="fixed inset-0 -z-20 overflow-hidden pointer-events-none">
-        {/* Primary Gradient Blob */}
-        <div className={`absolute top-[-15%] right-[-10%] w-[900px] h-[900px] bg-gradient-to-br ${cfg.gradient} rounded-full blur-3xl opacity-20 animate-pulse-slow`} />
-        
-        {/* Secondary Gradient Blob */}
-        <div className={`absolute bottom-[-20%] left-[-8%] w-[800px] h-[800px] bg-gradient-to-tr ${cfg.gradient} rounded-full blur-3xl opacity-15 animate-pulse-slower`} />
-        
-        {/* Accent Glow */}
-        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-gradient-to-br from-white/10 to-transparent rounded-full blur-3xl opacity-20" />
-        
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,.05)25%,transparent_25%,transparent_50%,rgba(255,255,255,.05)50%,rgba(255,255,255,.05)75%,transparent_75%,transparent)] bg-[length:50px_50px] opacity-50" />
-        
-        {/* Radial Gradient Vignette */}
-        <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#050505]/20 to-[#050505]/90" />
+        <div className={`absolute top-[-15%] right-[-10%] w-[900px] h-[900px] bg-gradient-to-br ${cfg.gradient} rounded-full blur-3xl opacity-10 animate-pulse-slow`} />
+        <div className={`absolute bottom-[-20%] left-[-8%] w-[800px] h-[800px] bg-gradient-to-tr ${cfg.gradient} rounded-full blur-3xl opacity-10 animate-pulse-slower`} />
+        {/* Darker Vignette to prevent content washing out */}
+        <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#050505]/40 to-[#050505]" />
       </div>
 
       {/* Lightbox */}
@@ -174,9 +164,12 @@ export default function ProjectDetails() {
       </AnimatePresence>
 
       {/* === HERO SECTION === */}
-      <header className="relative min-h-[70vh] flex items-center pt-32 pb-20 overflow-hidden z-10">
-        <img src={project.image || defaultProject.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover filter brightness-75 scale-105 -z-10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/30 via-transparent to-[#050505]/80 -z-10" />
+      <header className="relative min-h-[75vh] flex items-center pt-32 pb-32 overflow-hidden z-0">
+        {/* FIXED: Darker overlay on image to make text readable */}
+        <img src={project.image || defaultProject.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover filter brightness-50 scale-105 -z-20" />
+        
+        {/* FIXED: Stronger Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/60 via-[#050505]/40 to-[#050505] -z-10" />
         
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full relative z-10">
           <motion.div 
@@ -184,7 +177,7 @@ export default function ProjectDetails() {
             animate={{ opacity: 1, y: 0 }}
             className="mb-8 flex items-center gap-3"
           >
-            <Link to="/projects" className="inline-flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-white transition-all bg-white/5 hover:bg-white/10 backdrop-blur-lg px-5 py-2.5 rounded-full border border-white/10 hover:border-white/30 group">
+            <Link to="/projects" className="inline-flex items-center gap-2 text-sm font-bold text-slate-300 hover:text-white transition-all bg-black/30 hover:bg-black/50 backdrop-blur-lg px-5 py-2.5 rounded-full border border-white/10 hover:border-white/30 group">
               <FaArrowLeft className="group-hover:-translate-x-1 transition-transform" />
               <span>{isAr ? 'جميع المشاريع' : 'All Projects'}</span>
             </Link>
@@ -192,7 +185,7 @@ export default function ProjectDetails() {
 
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             
-            {/* === PREMIUM ICON SECTION === */}
+            {/* Icon Section */}
             <motion.div 
               initial={{ scale: 0.6, opacity: 0, y: 40 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
@@ -209,75 +202,52 @@ export default function ProjectDetails() {
                 mx-auto lg:mx-0
               `}
             >
-              {/* Outer Glow - Strongest */}
-              <div className={`absolute -inset-3 bg-gradient-to-br ${cfg.gradient} rounded-[2.5rem] opacity-50 blur-3xl -z-30 animate-pulse group-hover:opacity-70 transition-opacity`} />
-              
-              {/* Middle Glow */}
-              <div className={`absolute -inset-2 bg-gradient-to-br ${cfg.gradient} rounded-[2.5rem] opacity-40 blur-2xl -z-20 animate-pulse group-hover:opacity-60 transition-opacity`} />
-              
-              {/* Inner Layer Glow */}
-              <div className={`absolute -inset-1 bg-gradient-to-br ${cfg.gradient} rounded-[2.5rem] opacity-30 blur-xl -z-10 group-hover:opacity-50 transition-opacity`} />
-              
-              {/* Shine Effect on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-3xl lg:rounded-[2.5rem]" />
-              
-              {/* Icon with Heavy Effects */}
-              <motion.span 
+               <motion.span 
                 whileHover={{ rotate: 20, scale: 1.3 }}
                 transition={{ type: "spring", stiffness: 300, damping: 10 }}
-                className="relative z-20 drop-shadow-2xl filter brightness-125 group-hover:brightness-150 transition-all text-shadow-lg"
+                className="relative z-20 drop-shadow-2xl filter brightness-125"
               >
                 {getSectorIcon(project.category)}
               </motion.span>
             </motion.div>
 
-            {/* === HERO TEXT SECTION === */}
+            {/* Hero Text */}
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
-              className="text-center lg:text-left space-y-8"
+              className="text-center lg:text-left space-y-6"
             >
-              {/* Project Badge */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.5, duration: 0.6 }}
               >
-                <span className={`inline-block text-xs font-bold uppercase tracking-[0.25em] px-5 py-3 rounded-full bg-gradient-to-r ${cfg.gradient} text-white shadow-lg shadow-current/20 drop-shadow-lg`}>
+                <span className={`inline-block text-xs font-bold uppercase tracking-[0.25em] px-4 py-2 rounded-md bg-gradient-to-r ${cfg.gradient} text-white shadow-lg`}>
                   {isAr ? '⭐ مشروع متميز' : '⭐ FEATURED PROJECT'}
                 </span>
               </motion.div>
               
-              {/* Title */}
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight drop-shadow-lg">
+              <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-white leading-tight drop-shadow-2xl">
                 {project.title}
               </h1>
               
-              {/* Subtitle */}
-              <p className="text-lg md:text-xl lg:text-2xl text-slate-300 font-light leading-relaxed max-w-2xl">
+              <p className="text-lg md:text-xl text-slate-200 font-light leading-relaxed max-w-2xl drop-shadow-md">
                 {project.description}
               </p>
 
-              {/* Quick Info Badges */}
               <div className="flex flex-wrap gap-4 justify-center lg:justify-start pt-4">
                 {project.category && (
-                  <motion.div 
-                    whileHover={{ y: -2 }}
-                    className="flex items-center gap-2 px-5 py-3 bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:border-white/40 transition-all hover:bg-white/15"
-                  >
-                    <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${cfg.gradient} shadow-lg shadow-current/50`} />
+                  <div className="flex items-center gap-2 px-4 py-2 bg-black/40 backdrop-blur-md border border-white/20 rounded-lg">
+                    <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${cfg.gradient}`} />
                     <span className="text-sm font-bold text-slate-200">{project.category}</span>
-                  </motion.div>
+                  </div>
                 )}
                 {project.date && (
-                  <motion.div 
-                    whileHover={{ y: -2 }}
-                    className="flex items-center gap-2 px-5 py-3 bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:border-white/40 transition-all hover:bg-white/15"
-                  >
-                    <FaCalendarAlt className="text-xs" />
+                   <div className="flex items-center gap-2 px-4 py-2 bg-black/40 backdrop-blur-md border border-white/20 rounded-lg">
+                    <FaCalendarAlt className="text-xs text-slate-400" />
                     <span className="text-sm font-bold text-slate-200">{new Date(project.date).getFullYear()}</span>
-                  </motion.div>
+                  </div>
                 )}
               </div>
             </motion.div>
@@ -285,47 +255,68 @@ export default function ProjectDetails() {
         </div>
       </header>
 
-      {/* Content */}
-      <main className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 -mt-16">
+      {/* === CONTENT SECTION === */}
+      {/* FIXED: Z-index ensures this sits ABOVE the hero image nicely */}
+      <main className="relative z-20 container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 -mt-24 pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
 
-          {/* Left: Details */}
-          <article className="lg:col-span-8 space-y-8 bg-transparent">
+          {/* Left: Main Details */}
+          <article className="lg:col-span-8 space-y-8">
 
-            {/* Glassy details box */}
-            <div className="bg-slate-900/50 backdrop-blur-xl border border-white/8 rounded-2xl p-6 md:p-8 shadow-2xl" style={{ boxShadow: `0 20px 50px ${cfg.colorHex}20` }}>
-              <div className="flex flex-col md:flex-row md:items-start gap-6">
-                <div className="w-full md:w-2/5 rounded-lg overflow-hidden aspect-[16/10]">
-                  <img src={project.image} alt={project.title} className="w-full h-full object-cover" />
+            {/* FIXED: Background Opacity increased (slate-900/80) to prevent text overlap issues with background */}
+            <div className="bg-[#0a0a0a]/80 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl overflow-hidden">
+              <div className="flex flex-col gap-6">
+                
+                {/* Content Header */}
+                <div>
+                   <h2 className={`text-2xl md:text-3xl font-bold mb-4 ${cfg.colorClass}`}>{isAr ? 'حول المشروع' : 'About The Project'}</h2>
+                   <div className="prose prose-invert prose-lg max-w-none">
+                      <p className="text-slate-300 leading-relaxed whitespace-pre-line">
+                        {project.fullContent || project.description}
+                      </p>
+                   </div>
                 </div>
-                <div className="flex-1">
-                  <h2 className={`text-2xl md:text-3xl font-bold mb-2 ${cfg.colorClass}`}>{project.title}</h2>
-                  <p className="text-slate-300 mb-4 leading-relaxed">{project.fullContent || project.description}</p>
 
-                  <div className="flex flex-wrap gap-3">
+                {/* Tech Stack Tags */}
+                <div className="border-t border-white/5 pt-6">
+                  <h3 className="text-sm font-semibold text-slate-400 mb-3">{isAr ? 'التقنيات المستخدمة' : 'Technologies Used'}</h3>
+                  <div className="flex flex-wrap gap-2">
                     {project.tags?.map((t, idx) => (
-                      <span key={idx} className="text-[12px] bg-white/4 px-3 py-1 rounded-md text-slate-200">{t}</span>
+                      <span key={idx} className="text-sm bg-white/5 border border-white/10 px-3 py-1.5 rounded-full text-slate-200 hover:bg-white/10 transition-colors">
+                        {t}
+                      </span>
                     ))}
                   </div>
+                </div>
 
-                  <div className="mt-6 flex flex-wrap gap-3">
-                    {project.link && <a href={project.link} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-white text-black font-semibold">{isAr ? 'الموقع' : 'Live'} <FaExternalLinkAlt className="text-xs" /></a>}
-                    {(project.repo || project.github) && <a href={project.repo || project.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-white/8 text-white">{isAr ? 'المصدر' : 'Code'} <FaGithub /></a>}
-                  </div>
+                {/* Action Buttons (Mobile friendly) */}
+                <div className="flex flex-wrap gap-4 mt-2">
+                  {project.link && (
+                    <a href={project.link} target="_blank" rel="noreferrer" className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg font-bold text-white bg-gradient-to-r ${cfg.gradient} hover:shadow-lg hover:shadow-${cfg.colorHex}/20 transition-all transform hover:-translate-y-1`}>
+                      {isAr ? 'زيارة الموقع' : 'Live Demo'} <FaExternalLinkAlt className="text-sm" />
+                    </a>
+                  )}
+                  {(project.repo || project.github) && (
+                    <a href={project.repo || project.github} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-white/20 bg-white/5 text-white font-semibold hover:bg-white/10 transition-all">
+                      {isAr ? 'الكود المصدري' : 'Source Code'} <FaGithub className="text-lg" />
+                    </a>
+                  )}
                 </div>
               </div>
             </div>
 
             {/* Gallery */}
             {project.gallery && project.gallery.length > 0 && (
-              <section>
-                <h3 className="text-xl font-bold mb-4">{isAr ? 'معرض المشروع' : 'Project Gallery'}</h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <section className="bg-[#0a0a0a]/60 backdrop-blur-xl border border-white/5 rounded-2xl p-6">
+                <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+                  <FaLayerGroup className={cfg.colorClass} /> {isAr ? 'معرض الصور' : 'Gallery'}
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {project.gallery.map((img, idx) => (
-                    <motion.div key={idx} initial={{ opacity: 0, scale: 0.96 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ duration: 0.45 }} viewport={{ once: true }} className="relative overflow-hidden rounded-xl cursor-zoom-in border border-white/6 aspect-video" onClick={() => setSelectedImage(img)}>
-                      <img src={img} alt={`Shot ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
-                      <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <div className="w-10 h-10 bg-white/10 backdrop-blur rounded-full flex items-center justify-center border border-white/10"><FaExpand /></div>
+                    <motion.div key={idx} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }} viewport={{ once: true }} className="relative overflow-hidden rounded-xl cursor-zoom-in group border border-white/10 aspect-video" onClick={() => setSelectedImage(img)}>
+                      <img src={img} alt={`Shot ${idx + 1}`} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <FaExpand className="text-white text-2xl drop-shadow-md" />
                       </div>
                     </motion.div>
                   ))}
@@ -333,73 +324,70 @@ export default function ProjectDetails() {
               </section>
             )}
 
-            {/* Prev / Next Navigation */}
-            <nav className="mt-8 flex items-center justify-between gap-4">
+            {/* Navigation Cards */}
+            <nav className="flex flex-col sm:flex-row gap-4 pt-4">
               {prevProj ? (
-                <Link to={`/projects/${prevProj.slug || prevProj.id}`} className="group flex-1 block bg-slate-900/40 backdrop-blur border border-white/8 rounded-2xl p-4 hover:scale-[1.01] transition-transform" style={{ boxShadow: `0 12px 30px ${cfg.colorHex}10` }}>
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-800 flex items-center justify-center text-xs text-slate-300">
-                      <img src={prevProj.image} alt={prevProj.title} className="w-full h-full object-cover" />
-                    </div>
+                <Link to={`/projects/${prevProj.slug || prevProj.id}`} className="flex-1 group relative overflow-hidden bg-slate-900 border border-white/10 rounded-2xl p-4 hover:border-white/20 transition-all">
+                  <div className="flex items-center gap-4 relative z-10">
+                    <FaArrowLeft className="text-slate-500 group-hover:text-white transition-colors" />
                     <div>
-                      <p className="text-slate-400 text-sm">{isAr ? 'المشروع السابق' : 'Previous Project'}</p>
-                      <h4 className="font-bold text-white">{prevProj.title}</h4>
+                      <p className="text-xs text-slate-500 uppercase tracking-wider">{isAr ? 'السابق' : 'Previous'}</p>
+                      <h4 className="font-bold text-slate-200 group-hover:text-white truncate max-w-[150px]">{prevProj.title}</h4>
                     </div>
-                    <div className="ml-auto text-slate-400 group-hover:text-white"><FaArrowLeft /></div>
                   </div>
                 </Link>
-              ) : <div />}
+              ) : <div className="flex-1" />}
 
               {nextProj ? (
-                <Link to={`/projects/${nextProj.slug || nextProj.id}`} className="group flex-1 block bg-slate-900/40 backdrop-blur border border-white/8 rounded-2xl p-4 hover:scale-[1.01] transition-transform" style={{ boxShadow: `0 12px 30px ${cfg.colorHex}10` }}>
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-800 flex items-center justify-center text-xs text-slate-300">
-                      <img src={nextProj.image} alt={nextProj.title} className="w-full h-full object-cover" />
-                    </div>
+                <Link to={`/projects/${nextProj.slug || nextProj.id}`} className="flex-1 group relative overflow-hidden bg-slate-900 border border-white/10 rounded-2xl p-4 hover:border-white/20 transition-all text-right">
+                  <div className="flex items-center justify-end gap-4 relative z-10">
                     <div>
-                      <p className="text-slate-400 text-sm">{isAr ? 'المشروع التالي' : 'Next Project'}</p>
-                      <h4 className="font-bold text-white">{nextProj.title}</h4>
+                      <p className="text-xs text-slate-500 uppercase tracking-wider">{isAr ? 'التالي' : 'Next'}</p>
+                      <h4 className="font-bold text-slate-200 group-hover:text-white truncate max-w-[150px]">{nextProj.title}</h4>
                     </div>
-                    <div className="ml-auto text-slate-400 group-hover:text-white"><FaArrowRight /></div>
+                    <FaArrowRight className="text-slate-500 group-hover:text-white transition-colors" />
                   </div>
                 </Link>
-              ) : <div />}
+              ) : <div className="flex-1" />}
             </nav>
 
           </article>
 
           {/* Right: Sticky Sidebar */}
           <aside className="lg:col-span-4">
-            <div className="sticky top-28 space-y-6">
-              <div className="bg-slate-900/50 backdrop-blur-xl border border-white/8 rounded-2xl p-6 shadow-xl" style={{ boxShadow: `0 20px 50px ${cfg.colorHex}20` }}>
-                <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-lg font-semibold">{isAr ? 'معلومات المشروع' : 'Project Info'}</h4>
-                  <span className="text-slate-400 text-sm">{project.date ? new Date(project.date).getFullYear() : ''}</span>
+            <div className="sticky top-24 space-y-6">
+              
+              {/* Project Info Card */}
+              <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-xl">
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/5">
+                  <h4 className="font-bold text-white">{isAr ? 'بطاقة المشروع' : 'Project Info'}</h4>
+                  <div className={`w-2 h-2 rounded-full ${project.link ? 'bg-green-500 shadow-[0_0_10px_#22c55e]' : 'bg-yellow-500'}`} />
                 </div>
 
-                <div className="mb-4">
-                  <p className="text-slate-400 text-sm">{project.client || project.type || 'Portfolio'}</p>
-                </div>
-
-                <div className="mb-4">
-                  <h5 className="text-sm text-slate-400 mb-2 uppercase tracking-wide">{isAr ? 'التقنيات' : 'Technologies'}</h5>
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags?.map((t, idx) => (
-                      <span key={idx} className="text-[12px] bg-white/4 px-2 py-1 rounded-md text-slate-200">{t}</span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex gap-3 mt-4">
-                  {project.link && <a href={project.link} target="_blank" rel="noreferrer" className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 rounded-md bg-white text-black text-sm font-semibold">{isAr ? 'الموقع' : 'Live'}<FaExternalLinkAlt /></a>}
-                  {(project.repo || project.github) && <a href={project.repo || project.github} target="_blank" rel="noreferrer" className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 rounded-md border border-white/8 text-white text-sm">{isAr ? 'المصدر' : 'Code'}<FaGithub /></a>}
-                </div>
+                <ul className="space-y-4 text-sm">
+                  <li className="flex justify-between">
+                    <span className="text-slate-400">{isAr ? 'العميل' : 'Client'}</span>
+                    <span className="text-slate-200 font-medium">{project.client || 'Personal Project'}</span>
+                  </li>
+                  <li className="flex justify-between">
+                    <span className="text-slate-400">{isAr ? 'التاريخ' : 'Date'}</span>
+                    <span className="text-slate-200 font-medium">{project.date ? new Date(project.date).getFullYear() : '2025'}</span>
+                  </li>
+                  <li className="flex justify-between">
+                    <span className="text-slate-400">{isAr ? 'النوع' : 'Type'}</span>
+                    <span className="text-slate-200 font-medium">{project.category || 'Web App'}</span>
+                  </li>
+                </ul>
               </div>
 
-              <div className="bg-gradient-to-br from-blue-900/20 to-purple-900/20 border border-white/10 p-6 rounded-2xl text-center">
-                <h5 className="text-white font-bold mb-2">{isAr ? 'بناء شيء مشابه؟' : 'Build something similar?'}</h5>
-                <p className="text-sm text-slate-400 mb-4">{isAr ? 'دعنا نناقش مشروعك.' : 'Let\'s discuss your project.'}</p>
-                <Link to="/contact" className="text-accent text-sm font-bold tracking-wider hover:text-white transition">{isAr ? 'ابدأ مشروع' : 'START A PROJECT'} &rarr;</Link>
+              {/* Call to Action */}
+              <div className="relative overflow-hidden rounded-2xl p-6 border border-white/10">
+                <div className={`absolute inset-0 bg-gradient-to-br ${cfg.gradient} opacity-10`} />
+                <h5 className="relative z-10 text-white font-bold mb-2">{isAr ? 'هل أعجبك العمل؟' : 'Like what you see?'}</h5>
+                <p className="relative z-10 text-sm text-slate-400 mb-4">{isAr ? 'تواصل معي لبناء مشروعك القادم.' : 'Contact me to build your next project.'}</p>
+                <Link to="/contact" className="relative z-10 block w-full text-center py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-white font-semibold transition-all">
+                  {isAr ? 'تواصل معي' : 'Get in Touch'}
+                </Link>
               </div>
 
             </div>
@@ -407,9 +395,9 @@ export default function ProjectDetails() {
 
         </div>
       </main>
-      <div className="pb-16">
-        <Footer />
-      </div>
+      
+      {/* FIXED: Removed explicit <Footer /> here to avoid Double Footer duplication. 
+          The Layout.js should handle the global footer. */}
     </div>
   )
 }
