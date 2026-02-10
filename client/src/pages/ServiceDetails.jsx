@@ -22,7 +22,7 @@ const ICON_MAP = {
   'cloud': FaCloud
 }
 
-// Map various database-related names to backend icon
+// Map various names to icon keys
 const ICONKEY_ALIASES = {
   'database': 'backend',
   'db': 'backend',
@@ -30,17 +30,44 @@ const ICONKEY_ALIASES = {
   'api': 'backend',
   'api-development': 'backend',
   'rest-api': 'backend',
-  'graphql': 'backend'
+  'graphql': 'backend',
+  'devops': 'cloud',
+  'infrastructure': 'cloud',
+  'ui': 'ui-ux',
+  'ux': 'ui-ux',
+  'design': 'ui-ux',
+  'frontend': 'product',
+  'app': 'mobile',
+  'native': 'mobile'
 }
 
-const normalizeIconKey = (iconKey) => {
-  if (!iconKey) return 'backend'
+// Extract iconKey from service title using keywords
+const deriveIconKeyFromTitle = (title) => {
+  if (!title) return 'product'
+  const lower = title.toLowerCase()
+  
+  // Check for keywords in title
+  if (lower.includes('full') || lower.includes('web') || lower.includes('stack')) return 'web-dev'
+  if (lower.includes('ui') || lower.includes('design') || lower.includes('ux')) return 'ui-ux'
+  if (lower.includes('product') || lower.includes('engineering')) return 'product'
+  if (lower.includes('mobile') || lower.includes('app')) return 'mobile'
+  if (lower.includes('backend') || lower.includes('api') || lower.includes('database') || lower.includes('server')) return 'backend'
+  if (lower.includes('cloud') || lower.includes('devops') || lower.includes('deploy') || lower.includes('infrastructure')) return 'cloud'
+  
+  return 'product' // default fallback
+}
+
+const normalizeIconKey = (iconKey, title = '') => {
+  if (!iconKey) return deriveIconKeyFromTitle(title)
   const normalized = iconKey.toLowerCase().trim()
-  return ICONKEY_ALIASES[normalized] || iconKey
+  const aliased = ICONKEY_ALIASES[normalized]
+  if (aliased && aliased in ICON_MAP) return aliased
+  if (normalized in ICON_MAP) return normalized
+  return deriveIconKeyFromTitle(title)
 }
 
-const getIcon = (iconKey) => {
-  const normalizedKey = normalizeIconKey(iconKey)
+const getIcon = (iconKey, title = '') => {
+  const normalizedKey = normalizeIconKey(iconKey, title)
   const IconComponent = ICON_MAP[normalizedKey] || FaRocket
   return <IconComponent />
 }
@@ -135,7 +162,7 @@ export default function ServiceDetails() {
       if (/^\d+$/.test(String(id))) {
         try {
           const res = await api.get(`/services/${id}`)
-          const normalizedIconKey = normalizeIconKey(res.data.iconKey || 'backend')
+          const normalizedIconKey = normalizeIconKey(res.data.iconKey, res.data.title)
           
           // Map normalized icon key to gradient
           const GRADIENT_MAP = {
@@ -253,7 +280,7 @@ export default function ServiceDetails() {
                 transition={{ type: "spring", stiffness: 300, damping: 10 }}
                 className="relative z-20 drop-shadow-2xl filter brightness-125 group-hover:brightness-150 transition-all text-shadow-lg"
               >
-                {getIcon(service.iconKey)}
+                {getIcon(service.iconKey, service.title)}
               </motion.span>
             </motion.div>
 
