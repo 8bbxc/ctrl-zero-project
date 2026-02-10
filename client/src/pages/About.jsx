@@ -88,6 +88,12 @@ export default function About() {
     { icon: <FaHandshake />, title: "Client Partnership", desc: "I don't just work for you; I work with you to succeed.", color: "from-purple-400 to-pink-500" }
   ]
 
+  const testimonials = [
+    { quote: t('about.testimonials.items.0.quote') || 'CTRL ZERO helped us launch a performant platform that scaled to millions of users.', author: 'Ahmed Al-Hadid', role: t('about.testimonials.items.0.role') || 'CEO, TechCorp' },
+    { quote: t('about.testimonials.items.1.quote') || 'Professional, timely, and deeply thoughtful engineering work.', author: 'Sara Khalil', role: t('about.testimonials.items.1.role') || 'Product Lead, RetailX' },
+    { quote: t('about.testimonials.items.2.quote') || 'Exceeded expectations in design and delivery.', author: 'Omar N.', role: t('about.testimonials.items.2.role') || 'Founder, Startly' }
+  ]
+
   return (
     <div ref={containerRef} className="min-h-screen bg-[#050505] pt-24 pb-32 relative overflow-hidden text-slate-50 font-sans selection:bg-cyan-500/30 overflow-x-hidden">
       
@@ -135,6 +141,28 @@ export default function About() {
           <StatCard icon={<FaProjectDiagram />} value="25+" label="Projects" delay={0.2} />
           <StatCard icon={<FaUserAstronaut />} value="10+" label="Happy Clients" delay={0.3} />
           <StatCard icon={<FaCoffee />} value="∞" label="Coffee Cups" delay={0.4} />
+        </div>
+      </section>
+
+      {/* --- Testimonials --- */}
+      <section className="container mx-auto px-6 mb-20 relative z-20">
+        <div className="text-center mb-8">
+          <h3 className="text-2xl md:text-3xl font-bold text-white">{t('about.testimonials.title') || 'What Clients Say'}</h3>
+          <p className="text-slate-400 max-w-2xl mx-auto">{t('about.testimonials.subtitle') || 'Selected testimonials from clients and partners.'}</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {testimonials.map((tst, i) => (
+            <motion.div key={i} initial={{ opacity:0, y:10 }} whileInView={{ opacity:1, y:0 }} viewport={{ once: true }} className="p-6 rounded-2xl bg-[#0A0A0A] border border-white/5">
+              <p className="text-slate-300 italic mb-4">"{tst.quote}"</p>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white font-bold">{tst.author[0]}</div>
+                <div>
+                  <div className="text-white font-bold">{tst.author}</div>
+                  <div className="text-slate-400 text-sm">{tst.role}</div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </section>
 
