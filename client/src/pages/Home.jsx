@@ -92,7 +92,14 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: "easeOut" }}
               className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.9] tracking-tighter mb-8"
             >
-              {t('hero.title') || 'CTRL'} <span className="text-transparent bg-clip-text bg-gradient-to-br from-cyan-300 via-blue-400 to-purple-400">{t('hero.zero') || 'ZERO'}</span>
+              {t('hero.title') || 'CTRL'} <motion.span 
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: 1, rotateY: 0 }}
+                transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+                className="inline-block text-transparent bg-clip-text bg-gradient-to-br from-cyan-300 via-blue-400 to-purple-400"
+              >
+                {t('hero.zero') || 'ZERO'}
+              </motion.span>
               <span className="block text-2xl md:text-4xl lg:text-5xl font-light text-slate-300 mt-2 tracking-normal">
                 Software Agency
               </span>
@@ -242,20 +249,34 @@ export default function Home() {
       {/* 6. TECH STACK (Vibrant) */}
       <section className="py-24 bg-[#0f172a]">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-sm font-mono uppercase tracking-[0.3em] text-slate-400 mb-16">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-sm font-mono uppercase tracking-[0.3em] text-slate-400 mb-16"
+          >
             {t('home.techTitle') || 'POWERED BY MODERN TECH'}
-          </h2>
+            <motion.span 
+              animate={{ opacity: [0.3, 1, 0.3] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="inline-block w-2 h-2 bg-cyan-400 rounded-full ml-3 mb-1"
+            />
+          </motion.h2>
           <div className="flex flex-wrap justify-center gap-12 md:gap-20 max-w-5xl mx-auto">
             {techStack.map((tech, i) => (
               <motion.div 
                 key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
                 whileHover={{ y: -10, scale: 1.1 }}
                 className="group flex flex-col items-center gap-4 cursor-default"
               >
-                <div className={`text-5xl md:text-6xl ${tech.color} drop-shadow-lg transition-all duration-300`}>
+                <div className={`text-5xl md:text-6xl ${tech.color} drop-shadow-lg transition-all duration-300 group-hover:drop-shadow-xl`}>
                   {tech.icon}
                 </div>
-                <span className="text-xs font-bold uppercase text-slate-500 group-hover:text-white transition-colors tracking-widest">
+                <span className="text-xs font-bold uppercase text-slate-500 group-hover:text-cyan-400 transition-colors tracking-widest">
                   {tech.name}
                 </span>
               </motion.div>

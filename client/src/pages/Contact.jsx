@@ -67,7 +67,13 @@ export default function Contact() {
             <div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-white mb-3 sm:mb-6 leading-tight break-words">
                 {t('contact.title') || 'Get in Touch'}
-                <span className="text-accent">.</span>
+                <motion.span 
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="inline-block text-cyan-400 ml-2"
+                >
+                  •
+                </motion.span>
               </h1>
               <p className="text-sm sm:text-base lg:text-lg text-slate-400 leading-relaxed break-words">
                 {t('contact.subtitle') || "Have a project in mind? We would love to hear from you. Let's build something amazing together."}

@@ -12,7 +12,8 @@ const resources = {
         contact: 'Contact' 
       },
       hero: { 
-        title: 'CTRL ZERO', 
+        title: 'CTRL',
+        zero: 'ZERO',
         badge: 'Available for new projects',
         viewWork: 'View Our Work',
         contact: 'Book a Call',
