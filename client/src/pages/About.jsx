@@ -10,11 +10,12 @@ const StatCard = ({ icon, value, label, delay }) => (
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
     transition={{ delay, duration: 0.5 }}
-    className="flex flex-col items-center justify-center p-6 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md hover:bg-white/10 transition-colors group"
+    className="flex flex-col items-center justify-center p-6 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-md hover:bg-white/10 transition-colors group relative overflow-hidden"
   >
-    <div className="text-3xl text-cyan-400 mb-2 group-hover:scale-110 transition-transform">{icon}</div>
-    <h3 className="text-4xl font-black text-white mb-1">{value}</h3>
-    <p className="text-sm text-slate-400 font-mono uppercase tracking-widest">{label}</p>
+    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+    <div className="text-3xl text-cyan-400 mb-2 group-hover:scale-110 transition-transform relative z-10">{icon}</div>
+    <h3 className="text-4xl font-black text-white mb-1 relative z-10">{value}</h3>
+    <p className="text-sm text-slate-400 font-mono uppercase tracking-widest relative z-10">{label}</p>
   </motion.div>
 )
 
@@ -23,39 +24,38 @@ export default function About() {
   const isRtl = i18n.dir() === 'rtl'
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: containerRef })
-  const y = useTransform(scrollYProgress, [0, 1], [0, -50])
+  
+  // تأثير الحركة للصور (Parallax)
+  const y = useTransform(scrollYProgress, [0, 1], [0, -100])
 
-  // بيانات الأقسام
+  // بيانات الأقسام (مع صورك الخاصة)
   const sections = [
     {
       id: 'intro',
       title: t('about.introTitle') || 'The Visionary',
-      subtitle: 'Who I really am',
+      subtitle: 'Who I Am',
       content: t('about.introBody') || 'I am not just a developer; I am a digital architect bridging the gap between imagination and reality.',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80', // استبدلها بصورتك
+      image: '/images/about/me.jpeg', // صورتك الشخصية
       icon: <FaUserAstronaut />,
       gradient: 'from-cyan-500 to-blue-600',
-      shadow: 'shadow-cyan-500/20'
     },
     {
       id: 'tech',
       title: t('about.techTitle') || 'The Engineer',
-      subtitle: 'Code is my poetry',
+      subtitle: 'Code is my Craft',
       content: t('about.techBody') || 'Writing clean, scalable, and efficient code is not just a job, it is a craft I have perfected over years of dedication.',
-      image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80',
+      image: '/images/about/Web-Development.jpg', // صورة التطوير
       icon: <FaCode />,
       gradient: 'from-emerald-400 to-green-600',
-      shadow: 'shadow-emerald-500/20'
     },
     {
       id: 'design',
       title: t('about.designTitle') || 'The Artist',
-      subtitle: 'Pixel perfection',
+      subtitle: 'Design Philosophy',
       content: t('about.designBody') || 'Functionality without beauty is boring. I blend aesthetics with usability to create immersive experiences.',
-      image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=800&q=80',
+      image: '/images/about/Web-Desgin.jpg', // صورة التصميم (تأكد من الاسم Desgin أو Design في ملفاتك)
       icon: <FaLayerGroup />,
       gradient: 'from-purple-500 to-pink-600',
-      shadow: 'shadow-purple-500/20'
     }
   ]
 
@@ -82,9 +82,9 @@ export default function About() {
               {t('about.pageTitle') || 'ABOUT ME'}
             </span>
             <h1 className="text-5xl md:text-7xl lg:text-9xl font-black text-white mb-6 tracking-tighter leading-[0.9]">
-              I BUILD <br />
+              ENGINEERING <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400 animate-gradient-x">
-                DIGITAL DREAMS
+                DIGITAL REALITY
               </span>
             </h1>
           </motion.div>
@@ -95,7 +95,7 @@ export default function About() {
             transition={{ delay: 0.4 }}
             className="text-lg md:text-2xl text-slate-400 max-w-2xl mx-auto font-light leading-relaxed"
           >
-            {t('about.heroDesc') || "Combining engineering precision with artistic vision to craft web experiences that leave a mark."}
+            {t('about.introBody') ? t('about.introBody').substring(0, 100) + '...' : "Combining engineering precision with artistic vision to craft web experiences that leave a mark."}
           </motion.p>
         </div>
         
@@ -144,20 +144,20 @@ export default function About() {
                 {/* Glow Behind */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${section.gradient} opacity-20 blur-[80px] group-hover:opacity-40 transition-opacity duration-700`} />
                 
-                {/* Image Container with 3D tilt effect idea */}
+                {/* Image Container */}
                 <div className="relative rounded-[2.5rem] overflow-hidden border border-white/10 bg-[#0A0A0A] p-2 shadow-2xl transform transition-transform duration-700 group-hover:scale-[1.02]">
                   <div className="rounded-[2rem] overflow-hidden aspect-[4/5] md:aspect-[4/3] relative">
-                    {/* Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-60" />
+                    {/* Dark Overlay that clears on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity duration-500 z-10" />
                     
                     <img 
                       src={section.image} 
                       alt={section.title} 
-                      className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out"
+                      className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out scale-105 group-hover:scale-100"
                     />
 
                     {/* Floating Icon Badge */}
-                    <div className={`absolute bottom-6 ${isRtl ? 'left-6' : 'right-6'} w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-3xl text-white shadow-lg`}>
+                    <div className={`absolute bottom-6 ${isRtl ? 'left-6' : 'right-6'} w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-3xl text-white shadow-lg z-20`}>
                       {section.icon}
                     </div>
                   </div>
@@ -178,15 +178,19 @@ export default function About() {
                     </span>
                   </div>
                   
-                  <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+                  <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
                     {section.title}
                   </h2>
                   
-                  <p className="text-lg text-slate-400 leading-relaxed font-light mb-8">
-                    {section.content}
-                  </p>
+                  <div className="relative">
+                     {/* Decorative Quote Mark */}
+                     <span className={`absolute -top-4 ${isRtl ? '-right-6' : '-left-6'} text-6xl text-white/5 font-serif`}>“</span>
+                     <p className="text-lg text-slate-400 leading-relaxed font-light mb-8">
+                       {section.content}
+                     </p>
+                  </div>
 
-                  {/* Decorative Elements */}
+                  {/* Decorative Dots */}
                   <div className={`flex gap-3 justify-center ${isRtl ? 'lg:justify-end' : 'lg:justify-start'}`}>
                      {[...Array(3)].map((_, i) => (
                        <div key={i} className={`w-2 h-2 rounded-full ${i === 0 ? 'bg-white' : 'bg-white/20'}`} />
@@ -200,7 +204,7 @@ export default function About() {
         })}
       </div>
 
-      {/* --- 5. Call to Action (Big & Bold) --- */}
+      {/* --- 5. Call to Action --- */}
       <section className="relative py-32 text-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-blue-900/10 pointer-events-none" />
         
@@ -208,19 +212,23 @@ export default function About() {
            <h2 className="text-4xl md:text-6xl font-black text-white mb-8">
              {t('contact.title') || 'Ready to Create Magic?'}
            </h2>
-           <p className="text-slate-400 mb-10 max-w-xl mx-auto text-lg">
+           <p className="text-slate-400 mb-10 max-w-xl mx-auto text-lg font-light">
              {t('contact.subtitle') || "Let's turn your vision into a digital masterpiece. I am available for freelance projects."}
            </p>
            
-           <motion.a 
-             href="/contact" 
+           <motion.div
              whileHover={{ scale: 1.05 }}
              whileTap={{ scale: 0.95 }}
-             className="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-white text-black font-bold text-lg hover:bg-cyan-50 transition-colors shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
+             className="inline-block"
            >
-             <span>{t('contact.btn') || 'Let\'s Talk'}</span>
-             {isRtl ? <FaArrowRight className="rotate-180" /> : <FaArrowRight />}
-           </motion.a>
+             <a 
+               href="/contact" 
+               className="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-white text-black font-bold text-lg hover:bg-cyan-50 transition-colors shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
+             >
+               <span>{t('contact.btn') || 'Let\'s Talk'}</span>
+               {isRtl ? <FaArrowRight className="rotate-180" /> : <FaArrowRight />}
+             </a>
+           </motion.div>
         </div>
       </section>
 

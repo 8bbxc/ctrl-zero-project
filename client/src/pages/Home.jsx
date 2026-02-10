@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import Typewriter from '../components/Typewriter'
 import Marquee from 'react-fast-marquee'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { FaReact, FaNodeJs, FaDocker, FaArrowRight, FaCode, FaLaptopCode } from 'react-icons/fa'
+import { FaReact, FaNodeJs, FaDocker, FaArrowRight, FaLaptopCode, FaCode } from 'react-icons/fa'
 import { SiTailwindcss, SiPostgresql, SiNextdotjs, SiTypescript, SiPrisma, SiMongodb, SiGraphql } from 'react-icons/si'
 
 export default function Home() {
@@ -14,9 +14,11 @@ export default function Home() {
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: containerRef })
   
-  // Parallax Effect for Hero
+  // Parallax Effect
   const yHero = useTransform(scrollYProgress, [0, 1], [0, 300])
   const opacityHero = useTransform(scrollYProgress, [0, 0.3], [1, 0])
+
+  // --- 1. المنطق والبيانات الخاصة بك (تمت استعادتها) ---
 
   // عبارات الآلة الكاتبة
   const phrases = t('hero.phrases', { returnObjects: true }) || [
@@ -25,10 +27,10 @@ export default function Home() {
     "Engineering the Future"
   ]
 
-  // صور الماركيز (تكرار لضمان الامتلاء)
+  // صور الماركيز (صورك الخاصة)
   const marqueeImages = [
     '/images/home/1.jpg','/images/home/2.jpg','/images/home/3.jpg','/images/home/4.jpg','/images/home/5.jpg',
-    '/images/home/1.jpg','/images/home/2.jpg','/images/home/3.jpg'
+    '/images/home/1.jpg','/images/home/2.jpg'
   ]
 
   // التقنيات
@@ -48,9 +50,9 @@ export default function Home() {
   return (
     <div ref={containerRef} className="bg-[#030712] text-slate-50 font-sans selection:bg-cyan-500/30 overflow-hidden">
       
-      {/* 1. HERO SECTION - Cinematic & Immersive */}
+      {/* --- 1. HERO SECTION (Cinema Style) --- */}
       <section className="relative min-h-screen flex items-center justify-center pt-20 pb-12 overflow-hidden">
-        {/* Animated Background Gradients */}
+        {/* الخلفية المتحركة */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-[-20%] left-[-10%] w-[1000px] h-[1000px] bg-blue-600/10 rounded-full blur-[150px] animate-pulse-slow" />
           <div className="absolute bottom-[-20%] right-[-10%] w-[1000px] h-[1000px] bg-purple-600/10 rounded-full blur-[150px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
@@ -61,7 +63,7 @@ export default function Home() {
           style={{ y: yHero, opacity: opacityHero }}
           className="container mx-auto px-4 relative z-10 text-center"
         >
-            {/* Status Badge */}
+            {/* Badge */}
             <motion.div 
               initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl mb-8 hover:bg-white/10 transition-colors cursor-default"
@@ -75,18 +77,18 @@ export default function Home() {
               </span>
             </motion.div>
 
-            {/* Main Title - Massive & Bold */}
+            {/* العنوان الضخم */}
             <motion.h1 
               initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: "easeOut" }}
-              className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.9] tracking-tighter mb-8 max-w-5xl mx-auto"
+              className="text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.9] tracking-tighter mb-8"
             >
-              CTRL <span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-400 to-slate-600">ZERO</span>
+              {t('hero.title') || 'CTRL'} <span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-400 to-slate-600">{t('hero.zero') || 'ZERO'}</span>
               <span className="block text-2xl md:text-4xl lg:text-5xl font-light text-slate-400 mt-2 tracking-normal">
-                Digital Engineering
+                Software Agency
               </span>
             </motion.h1>
 
-            {/* Typewriter Effect */}
+            {/* الآلة الكاتبة */}
             <motion.div 
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
               className="text-lg md:text-2xl text-slate-400 font-light mb-10 h-10 flex items-center justify-center gap-2"
@@ -94,11 +96,11 @@ export default function Home() {
                <span>{t('home.weCan') || 'We specialize in'}</span> 
                <span className="text-cyan-400 font-semibold relative">
                  <Typewriter texts={phrases} speed={50} pause={2500} deleteSpeed={30} />
-                 <span className={`absolute -bottom-1 ${isRtl ? 'right-0' : 'left-0'} w-full h-[2px] bg-cyan-400/50`}></span>
+                 <span className="absolute -bottom-1 left-0 w-full h-[2px] bg-cyan-400/50"></span>
                </span>
             </motion.div>
 
-            {/* CTAs */}
+            {/* الأزرار */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
@@ -114,17 +116,9 @@ export default function Home() {
               </Link>
             </motion.div>
         </motion.div>
-
-        {/* Scroll Indicator */}
-        <motion.div 
-          animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 2 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50"
-        >
-          <div className="w-[1px] h-16 bg-gradient-to-b from-slate-500 to-transparent"></div>
-        </motion.div>
       </section>
 
-      {/* 2. SKEWED MARQUEE - Dynamic Motion */}
+      {/* --- 2. SKEWED MARQUEE (مع صورك الخاصة) --- */}
       <section className="py-24 bg-[#030712] relative overflow-hidden z-20">
         <div className="transform -rotate-2 scale-110 origin-center">
           <div className="bg-[#0A0A0A] border-y border-white/5 py-10 shadow-2xl relative">
@@ -132,14 +126,17 @@ export default function Home() {
              <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#030712] to-transparent z-10" />
              <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#030712] to-transparent z-10" />
              
-             <Marquee gradient={false} speed={50} pauseOnHover={true} direction={isRtl ? 'right' : 'left'}>
+             <Marquee gradient={false} speed={40} pauseOnHover={true} direction={isRtl ? 'right' : 'left'}>
               {marqueeImages.map((src, i) => (
-                <div key={i} className="px-4 relative group cursor-pointer h-[20rem] md:h-[24rem] aspect-[3/4]">
-                  <div className="absolute inset-0 bg-cyan-500/0 group-hover:bg-cyan-500/10 transition-all duration-500 rounded-2xl z-10" />
+                <div key={i} className="px-4 relative group cursor-pointer h-[16rem] md:h-[20rem] aspect-video">
+                  {/* تأثير التوهج عند الهوفر */}
+                  <div className="absolute inset-0 bg-cyan-500/0 group-hover:bg-cyan-500/10 transition-all duration-500 rounded-xl z-10" />
+                  
+                  {/* الصورة الخاصة بك */}
                   <img 
                     src={src} 
-                    alt={t('home.projectAlt') || 'Project'} 
-                    className="h-full w-full object-cover rounded-2xl shadow-xl border border-white/5 grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out transform group-hover:scale-[1.03]" 
+                    alt={`Project ${i}`} 
+                    className="h-full w-full object-cover rounded-xl shadow-xl border border-white/10 grayscale group-hover:grayscale-0 transition-all duration-700 ease-in-out transform group-hover:scale-[1.02]" 
                   />
                 </div>
               ))}
@@ -148,7 +145,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. BENTO GRID SERVICES - Modern Layout */}
+      {/* --- 3. BENTO GRID SERVICES --- */}
       <section className="py-32 container mx-auto px-4 relative z-10">
         <div className="text-center mb-20">
           <motion.h2 
@@ -164,7 +161,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
           
-          {/* Card 1: Full Stack (Wide) */}
+          {/* Card 1: Full Stack */}
           <motion.div 
             whileHover={{ y: -5 }}
             className="md:col-span-2 p-10 rounded-[2.5rem] bg-[#0A0A0A] border border-white/5 hover:border-cyan-500/30 transition-all group relative overflow-hidden"
@@ -185,7 +182,7 @@ export default function Home() {
             </Link>
           </motion.div>
 
-          {/* Card 2: UI/UX (Tall) */}
+          {/* Card 2: UI/UX */}
           <motion.div 
             whileHover={{ y: -5 }}
             className="md:row-span-2 p-10 rounded-[2.5rem] bg-[#0A0A0A] border border-white/5 hover:border-purple-500/30 transition-all group relative overflow-hidden flex flex-col justify-between"
@@ -202,7 +199,7 @@ export default function Home() {
                </p>
              </div>
              
-             {/* Visual decorative element */}
+             {/* Decorative Element */}
              <div className="mt-10 p-4 rounded-xl bg-white/5 border border-white/5 relative overflow-hidden">
                 <div className="flex gap-2 mb-3">
                    <div className="w-3 h-3 rounded-full bg-red-500/50"/>
@@ -216,7 +213,7 @@ export default function Home() {
              </div>
           </motion.div>
 
-          {/* Card 3: Product (Standard) */}
+          {/* Card 3: Product */}
           <motion.div 
             whileHover={{ y: -5 }}
             className="p-10 rounded-[2.5rem] bg-[#0A0A0A] border border-white/5 hover:border-orange-500/30 transition-all group relative overflow-hidden"
@@ -230,7 +227,7 @@ export default function Home() {
              </p>
           </motion.div>
 
-           {/* Card 4: DevOps (Standard) */}
+           {/* Card 4: DevOps */}
            <motion.div 
             whileHover={{ y: -5 }}
             className="p-10 rounded-[2.5rem] bg-[#0A0A0A] border border-white/5 hover:border-emerald-500/30 transition-all group relative overflow-hidden"
@@ -246,7 +243,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. TECH STACK - Infinite Scroll / Grid */}
+      {/* 4. TECH STACK */}
       <section className="py-24 border-y border-white/5 bg-[#050505]">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-sm font-mono uppercase tracking-[0.3em] text-slate-500 mb-16">
@@ -267,7 +264,7 @@ export default function Home() {
                 <div className={`text-5xl md:text-6xl ${tech.color} filter drop-shadow-2xl opacity-70 group-hover:opacity-100 transition-all duration-300`}>
                   {tech.icon}
                 </div>
-                <span className="text-xs font-bold uppercase text-slate-600 tracking-widest opacity-100 md:opacity-0 md:group-hover:opacity-100 transform md:translate-y-2 md:group-hover:translate-y-0 transition-colors duration-300">
+                <span className="text-xs font-bold uppercase text-slate-600 group-hover:text-white transition-colors tracking-widest opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 duration-300">
                   {tech.name}
                 </span>
               </motion.div>
@@ -276,7 +273,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. BIG CTA - Final Impact */}
+      {/* 5. BIG CTA */}
       <section className="relative py-40 overflow-hidden text-center">
         <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent pointer-events-none" />
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-cyan-500/20 rounded-full blur-[120px] -z-10" />
