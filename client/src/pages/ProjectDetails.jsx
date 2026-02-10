@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next'
 import api from '../services/api'
 import Spinner from '../components/Spinner'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 
 // --- Icon Mapping for Sectors ---
 const SECTOR_ICON_MAP = {
@@ -407,8 +406,6 @@ export default function ProjectDetails() {
 
         </div>
       </main>
-      
-      <Footer />
     </div>
   )
 }
