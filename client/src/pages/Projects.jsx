@@ -7,7 +7,6 @@ import {
 } from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 
 // --- 1. تعريف القطاعات (نفس البيانات تماماً) ---
 const sectors = [
@@ -96,7 +95,7 @@ export default function Projects() {
   const isArabic = i18n.language === 'ar'
 
   return (
-    <div className="min-h-screen bg-[#030305] text-slate-50 font-sans selection:bg-white/20 overflow-hidden">
+    <div className="min-h-screen bg-[#050505] text-slate-50 font-sans selection:bg-cyan-500/30 overflow-hidden pb-24">
       <Navbar />
       
       {/* --- 2. خلفية فنية هادئة (Refined Background) --- */}
@@ -211,10 +210,6 @@ export default function Projects() {
           ))}
         </div>
 
-      </div>
-      
-      <div className="pb-10">
-        <Footer />
       </div>
     </div>
   )

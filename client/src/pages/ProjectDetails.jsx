@@ -142,7 +142,7 @@ export default function ProjectDetails() {
   const cfg = SECTOR_CONFIG[project.category] || { colorHex: '#60a5fa', colorClass: 'text-blue-400', gradient: 'from-blue-500 to-indigo-600', shadow: 'shadow-blue-500/20' }
 
   return (
-    <div className="min-h-screen bg-[#050505] text-slate-50 font-sans selection:bg-cyan-500/30 overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#050505] text-slate-50 font-sans selection:bg-cyan-500/30 overflow-x-hidden relative pb-24">
       <Navbar />
       
       {/* === PREMIUM BACKGROUND EFFECTS (Subtle Animations) === */}

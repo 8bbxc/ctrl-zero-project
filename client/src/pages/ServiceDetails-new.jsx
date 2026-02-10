@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next'
 import api from '../services/api'
 import Spinner from '../components/Spinner'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 
 // --- Default Services Data (Enhanced Colors) ---
 const DEFAULT_SERVICES = [
@@ -297,10 +296,6 @@ export default function ServiceDetails() {
           </div>
         </div>
       </section>
-
-      <div className="border-t border-white/5">
-        <Footer />
-      </div>
     </div>
   )
 }

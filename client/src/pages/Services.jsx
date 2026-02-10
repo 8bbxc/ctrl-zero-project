@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next'
 import api from '../services/api'
 import Spinner from '../components/Spinner'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 
 // --- 1. LOGIC & MAPPING (Keep Logic Intact) ---
 
@@ -174,7 +173,7 @@ export default function ServiceDetails() {
   )
 
   return (
-    <div className="min-h-screen bg-[#050505] text-slate-50 font-sans selection:bg-white/20 overflow-x-hidden">
+    <div className="min-h-screen bg-[#050505] text-slate-50 font-sans selection:bg-cyan-500/30 overflow-x-hidden pb-24">
       <Navbar />
 
       {/* ================= HERO SECTION ================= */}
@@ -339,8 +338,6 @@ export default function ServiceDetails() {
           </div>
         </div>
       </section>
-      
-      <Footer />
     </div>
   )
 }

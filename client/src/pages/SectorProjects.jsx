@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import api from '../services/api'
 import Spinner from '../components/Spinner'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 
 // --- SECTOR CONFIG (الألوان والصور) ---
 const SECTOR_CONFIG = {
@@ -285,8 +284,6 @@ export default function SectorProjects() {
           </motion.section>
         )}
       </main>
-      
-      <Footer />
     </div>
   )
 }
