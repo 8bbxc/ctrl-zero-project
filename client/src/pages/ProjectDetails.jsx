@@ -1,18 +1,70 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaArrowRight, FaCalendarAlt, FaLayerGroup, FaTimes, FaExpand } from 'react-icons/fa'
+import { 
+  FaGithub, FaExternalLinkAlt, FaArrowLeft, FaArrowRight, FaCalendarAlt, 
+  FaLayerGroup, FaTimes, FaExpand, FaHospital, FaShoppingCart, FaUtensils, 
+  FaBuilding, FaGraduationCap, FaHome 
+} from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 import api from '../services/api'
+import Spinner from '../components/Spinner'
+import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
+
+// --- Icon Mapping for Sectors ---
+const SECTOR_ICON_MAP = {
+  Medical: FaHospital,
+  'E-Commerce': FaShoppingCart,
+  Restaurant: FaUtensils,
+  Corporate: FaBuilding,
+  Education: FaGraduationCap,
+  'Real Estate': FaHome
+}
+
+const getSectorIcon = (sectorName) => {
+  const IconComponent = SECTOR_ICON_MAP[sectorName] || FaBuilding
+  return <IconComponent />
+}
 
 // Simple sector config for colors & heroes (used for glow and hero fallback)
 const SECTOR_CONFIG = {
-  Medical: { colorHex: '#fb7185', colorClass: 'text-rose-400' },
-  'E-Commerce': { colorHex: '#34d399', colorClass: 'text-emerald-400' },
-  Restaurant: { colorHex: '#fb923c', colorClass: 'text-orange-400' },
-  Corporate: { colorHex: '#60a5fa', colorClass: 'text-blue-400' },
-  Education: { colorHex: '#a78bfa', colorClass: 'text-purple-400' },
-  'Real Estate': { colorHex: '#06b6d4', colorClass: 'text-cyan-400' }
+  Medical: { 
+    colorHex: '#fb7185', 
+    colorClass: 'text-rose-400',
+    gradient: 'from-rose-500 to-pink-600',
+    shadow: 'shadow-rose-500/20'
+  },
+  'E-Commerce': { 
+    colorHex: '#34d399', 
+    colorClass: 'text-emerald-400',
+    gradient: 'from-emerald-500 to-teal-600',
+    shadow: 'shadow-emerald-500/20'
+  },
+  Restaurant: { 
+    colorHex: '#fb923c', 
+    colorClass: 'text-orange-400',
+    gradient: 'from-orange-500 to-amber-600',
+    shadow: 'shadow-orange-500/20'
+  },
+  Corporate: { 
+    colorHex: '#60a5fa', 
+    colorClass: 'text-blue-400',
+    gradient: 'from-blue-500 to-indigo-600',
+    shadow: 'shadow-blue-500/20'
+  },
+  Education: { 
+    colorHex: '#a78bfa', 
+    colorClass: 'text-purple-400',
+    gradient: 'from-purple-500 to-violet-600',
+    shadow: 'shadow-purple-500/20'
+  },
+  'Real Estate': { 
+    colorHex: '#06b6d4', 
+    colorClass: 'text-cyan-400',
+    gradient: 'from-cyan-500 to-blue-600',
+    shadow: 'shadow-cyan-500/20'
+  }
 }
 
 const defaultProject = {
@@ -87,10 +139,29 @@ export default function ProjectDetails() {
 
   if (!project) return null
 
-  const cfg = SECTOR_CONFIG[project.category] || { colorHex: '#60a5fa', colorClass: 'text-blue-400' }
+  const cfg = SECTOR_CONFIG[project.category] || { colorHex: '#60a5fa', colorClass: 'text-blue-400', gradient: 'from-blue-500 to-indigo-600', shadow: 'shadow-blue-500/20' }
 
   return (
-    <div className="min-h-screen bg-[#050505] text-slate-50 font-sans selection:bg-cyan-500/30">
+    <div className="min-h-screen bg-[#050505] text-slate-50 font-sans selection:bg-cyan-500/30 overflow-x-hidden relative">
+      <Navbar />
+      
+      {/* === PREMIUM BACKGROUND EFFECTS === */}
+      <div className="fixed inset-0 -z-20 overflow-hidden pointer-events-none">
+        {/* Primary Gradient Blob */}
+        <div className={`absolute top-[-15%] right-[-10%] w-[900px] h-[900px] bg-gradient-to-br ${cfg.gradient} rounded-full blur-3xl opacity-20 animate-pulse-slow`} />
+        
+        {/* Secondary Gradient Blob */}
+        <div className={`absolute bottom-[-20%] left-[-8%] w-[800px] h-[800px] bg-gradient-to-tr ${cfg.gradient} rounded-full blur-3xl opacity-15 animate-pulse-slower`} />
+        
+        {/* Accent Glow */}
+        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-gradient-to-br from-white/10 to-transparent rounded-full blur-3xl opacity-20" />
+        
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,.05)25%,transparent_25%,transparent_50%,rgba(255,255,255,.05)50%,rgba(255,255,255,.05)75%,transparent_75%,transparent)] bg-[length:50px_50px] opacity-50" />
+        
+        {/* Radial Gradient Vignette */}
+        <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#050505]/20 to-[#050505]/90" />
+      </div>
 
       {/* Lightbox */}
       <AnimatePresence>
@@ -102,15 +173,114 @@ export default function ProjectDetails() {
         )}
       </AnimatePresence>
 
-      {/* Hero */}
-      <header className="relative h-[60vh] lg:h-[72vh] overflow-hidden">
-        <img src={project.image || defaultProject.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover filter brightness-75 scale-105" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/25 via-transparent to-[#050505]/60" />
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-full flex items-end">
-          <div className="py-12 md:py-20 w-full">
-            <p className="text-sm uppercase tracking-wider text-slate-300 mb-2">{isAr ? 'مشروع' : 'Project'}</p>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight mb-4">{project.title} <span style={{ color: cfg.colorHex }}>.</span></h1>
-            <p className="text-lg text-slate-300 max-w-3xl">{project.description}</p>
+      {/* === HERO SECTION === */}
+      <header className="relative min-h-[70vh] flex items-center pt-32 pb-20 overflow-hidden z-10">
+        <img src={project.image || defaultProject.image} alt={project.title} className="absolute inset-0 w-full h-full object-cover filter brightness-75 scale-105 -z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/30 via-transparent to-[#050505]/80 -z-10" />
+        
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-8 flex items-center gap-3"
+          >
+            <Link to="/projects" className="inline-flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-white transition-all bg-white/5 hover:bg-white/10 backdrop-blur-lg px-5 py-2.5 rounded-full border border-white/10 hover:border-white/30 group">
+              <FaArrowLeft className="group-hover:-translate-x-1 transition-transform" />
+              <span>{isAr ? 'جميع المشاريع' : 'All Projects'}</span>
+            </Link>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            
+            {/* === PREMIUM ICON SECTION === */}
+            <motion.div 
+              initial={{ scale: 0.6, opacity: 0, y: 40 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 80, damping: 20, duration: 1 }}
+              className={`
+                relative group
+                w-52 h-52 lg:w-64 lg:h-64
+                rounded-3xl lg:rounded-[2.5rem]
+                bg-gradient-to-br ${cfg.gradient}
+                flex items-center justify-center
+                text-8xl lg:text-9xl text-white
+                shadow-2xl
+                overflow-hidden
+                mx-auto lg:mx-0
+              `}
+            >
+              {/* Outer Glow - Strongest */}
+              <div className={`absolute -inset-3 bg-gradient-to-br ${cfg.gradient} rounded-[2.5rem] opacity-50 blur-3xl -z-30 animate-pulse group-hover:opacity-70 transition-opacity`} />
+              
+              {/* Middle Glow */}
+              <div className={`absolute -inset-2 bg-gradient-to-br ${cfg.gradient} rounded-[2.5rem] opacity-40 blur-2xl -z-20 animate-pulse group-hover:opacity-60 transition-opacity`} />
+              
+              {/* Inner Layer Glow */}
+              <div className={`absolute -inset-1 bg-gradient-to-br ${cfg.gradient} rounded-[2.5rem] opacity-30 blur-xl -z-10 group-hover:opacity-50 transition-opacity`} />
+              
+              {/* Shine Effect on Hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-3xl lg:rounded-[2.5rem]" />
+              
+              {/* Icon with Heavy Effects */}
+              <motion.span 
+                whileHover={{ rotate: 20, scale: 1.3 }}
+                transition={{ type: "spring", stiffness: 300, damping: 10 }}
+                className="relative z-20 drop-shadow-2xl filter brightness-125 group-hover:brightness-150 transition-all text-shadow-lg"
+              >
+                {getSectorIcon(project.category)}
+              </motion.span>
+            </motion.div>
+
+            {/* === HERO TEXT SECTION === */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-center lg:text-left space-y-8"
+            >
+              {/* Project Badge */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+              >
+                <span className={`inline-block text-xs font-bold uppercase tracking-[0.25em] px-5 py-3 rounded-full bg-gradient-to-r ${cfg.gradient} text-white shadow-lg shadow-current/20 drop-shadow-lg`}>
+                  {isAr ? '⭐ مشروع متميز' : '⭐ FEATURED PROJECT'}
+                </span>
+              </motion.div>
+              
+              {/* Title */}
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight drop-shadow-lg">
+                {project.title}
+              </h1>
+              
+              {/* Subtitle */}
+              <p className="text-lg md:text-xl lg:text-2xl text-slate-300 font-light leading-relaxed max-w-2xl">
+                {project.description}
+              </p>
+
+              {/* Quick Info Badges */}
+              <div className="flex flex-wrap gap-4 justify-center lg:justify-start pt-4">
+                {project.category && (
+                  <motion.div 
+                    whileHover={{ y: -2 }}
+                    className="flex items-center gap-2 px-5 py-3 bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:border-white/40 transition-all hover:bg-white/15"
+                  >
+                    <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${cfg.gradient} shadow-lg shadow-current/50`} />
+                    <span className="text-sm font-bold text-slate-200">{project.category}</span>
+                  </motion.div>
+                )}
+                {project.date && (
+                  <motion.div 
+                    whileHover={{ y: -2 }}
+                    className="flex items-center gap-2 px-5 py-3 bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:border-white/40 transition-all hover:bg-white/15"
+                  >
+                    <FaCalendarAlt className="text-xs" />
+                    <span className="text-sm font-bold text-slate-200">{new Date(project.date).getFullYear()}</span>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
           </div>
         </div>
       </header>
@@ -237,6 +407,8 @@ export default function ProjectDetails() {
 
         </div>
       </main>
+      
+      <Footer />
     </div>
   )
 }
