@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FaArrowLeft, FaArrowRight, FaLaptopCode, FaPaintBrush, FaRocket, FaServer, FaMobileAlt, FaCloud, FaCheckCircle } from 'react-icons/fa'
+import { 
+  FaArrowLeft, FaArrowRight, FaLaptopCode, FaPaintBrush, 
+  FaRocket, FaServer, FaMobileAlt, FaCloud, FaCheckCircle, 
+  FaQuoteRight 
+} from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 import api from '../services/api'
 import Spinner from '../components/Spinner'
@@ -19,8 +23,8 @@ const ICON_MAP = {
 }
 
 const getIcon = (iconKey) => {
-  const IconComponent = ICON_MAP[iconKey]
-  return IconComponent ? <IconComponent /> : null
+  const IconComponent = ICON_MAP[iconKey] || FaRocket
+  return <IconComponent />
 }
 
 // --- Default Services Data ---
@@ -28,62 +32,62 @@ const DEFAULT_SERVICES = [
   {
     id: 'web-dev',
     title: 'Full-Stack Development',
-    shortDescription: 'Scalable, high-performance web applications',
-    fullContent: 'We build end-to-end web solutions using modern stacks like React, Node.js, and Postgres. Our approach includes strategic planning, beautiful UIs, robust backends, and seamless deployments.',
-    features: ['React/Vue/Angular', 'Node.js/Python', 'PostgreSQL/MongoDB', 'RESTful APIs'],
+    shortDescription: 'Scalable, high-performance web applications built for the future.',
+    fullContent: 'We build end-to-end web solutions using modern stacks like React, Node.js, and Postgres. Our approach includes strategic planning, beautiful UIs, robust backends, and seamless deployments to ensure your business stays ahead.',
+    features: ['React & Next.js Ecosystem', 'Node.js & Python Backends', 'High Performance Databases', 'Secure RESTful APIs'],
     iconKey: 'web-dev',
-    gradient: 'from-blue-500 to-cyan-400',
-    color: '#0891b2'
+    gradient: 'from-cyan-500 to-blue-600',
+    shadow: 'shadow-cyan-500/20'
   },
   {
     id: 'ui-ux',
     title: 'UI/UX Design',
-    shortDescription: 'Beautiful and intuitive user experiences',
-    fullContent: 'We craft interfaces that users love. Every pixel is intentional. Every interaction is smooth. We focus on accessibility, performance, and conversion optimization.',
-    features: ['Wireframing', 'Prototyping', 'Design Systems', 'User Testing'],
+    shortDescription: 'Crafting intuitive and engaging user experiences that convert.',
+    fullContent: 'We craft interfaces that users love. Every pixel is intentional. Every interaction is smooth. We focus on accessibility, performance, and conversion optimization to turn visitors into loyal customers.',
+    features: ['User Research & Personas', 'Wireframing & Prototyping', 'Interactive Design Systems', 'Usability Testing'],
     iconKey: 'ui-ux',
     gradient: 'from-purple-500 to-pink-500',
-    color: '#a855f7'
+    shadow: 'shadow-purple-500/20'
   },
   {
     id: 'product',
     title: 'Product Engineering',
-    shortDescription: 'Turn ideas into market-ready products',
-    fullContent: 'From concept to launch. We handle everything: strategy, design, development, testing, and deployment. Our goal is to help you build products that matter.',
-    features: ['MVP Strategy', 'Agile Development', 'Quality Assurance', 'Go-to-market'],
+    shortDescription: 'Turning raw ideas into market-ready digital products.',
+    fullContent: 'From concept to launch. We handle everything: strategy, design, development, testing, and deployment. Our goal is to help you build products that matter and solve real problems.',
+    features: ['MVP Strategy & Roadmap', 'Agile Development Cycle', 'Quality Assurance (QA)', 'Go-to-market Support'],
     iconKey: 'product',
     gradient: 'from-orange-500 to-red-500',
-    color: '#f97316'
+    shadow: 'shadow-orange-500/20'
   },
   {
     id: 'mobile',
     title: 'Mobile Development',
-    shortDescription: 'Native and cross-platform mobile apps',
-    fullContent: 'High-performance apps for iOS and Android. We use React Native for cross-platform efficiency or native technologies for maximum performance.',
-    features: ['React Native', 'Swift/Kotlin', 'Firebase', 'App Store Optimization'],
+    shortDescription: 'Native and cross-platform mobile apps for iOS and Android.',
+    fullContent: 'High-performance apps for iOS and Android. We use React Native for cross-platform efficiency or native technologies for maximum performance, ensuring a native feel on every device.',
+    features: ['React Native & Flutter', 'iOS (Swift) & Android (Kotlin)', 'Offline-First Architecture', 'App Store Optimization'],
     iconKey: 'mobile',
-    gradient: 'from-emerald-500 to-teal-400',
-    color: '#10b981'
+    gradient: 'from-emerald-500 to-teal-500',
+    shadow: 'shadow-emerald-500/20'
   },
   {
     id: 'backend',
     title: 'Backend & API',
-    shortDescription: 'Robust server-side architecture',
-    fullContent: 'We build scalable, secure, and lightning-fast backends. REST APIs, GraphQL, real-time websockets, and microservices - we know it all.',
-    features: ['REST/GraphQL', 'Database Design', 'Authentication/Security', 'Scalability'],
+    shortDescription: 'Robust server-side architecture for scalable systems.',
+    fullContent: 'We build scalable, secure, and lightning-fast backends. REST APIs, GraphQL, real-time websockets, and microservices. We ensure your data is secure and your system can handle growth.',
+    features: ['Microservices Architecture', 'Database Optimization', 'Advanced Security', 'Cloud Scalability'],
     iconKey: 'backend',
     gradient: 'from-indigo-500 to-violet-600',
-    color: '#6366f1'
+    shadow: 'shadow-indigo-500/20'
   },
   {
     id: 'cloud',
     title: 'Cloud & DevOps',
-    shortDescription: 'Automated deployment and infrastructure',
-    fullContent: 'From CI/CD pipelines to containerization and cloud management. We ensure your app is always available, secure, and performing at peak capacity.',
-    features: ['CI/CD Pipelines', 'Docker/Kubernetes', 'AWS/Azure/GCP', 'Monitoring & Logging'],
+    shortDescription: 'Automated deployment and resilient infrastructure.',
+    fullContent: 'From CI/CD pipelines to containerization and cloud management. We ensure your app is always available, secure, and performing at peak capacity using AWS, Azure, or Google Cloud.',
+    features: ['CI/CD Pipelines', 'Docker & Kubernetes', 'Infrastructure as Code', '24/7 Monitoring'],
     iconKey: 'cloud',
     gradient: 'from-sky-500 to-blue-600',
-    color: '#0ea5e9'
+    shadow: 'shadow-sky-500/20'
   }
 ]
 
@@ -98,31 +102,28 @@ export default function ServiceDetails() {
 
   useEffect(() => {
     const fetchService = async () => {
-      console.log('🔧 ServiceDetails - Fetching:', { id });
-      
       if (!id) {
-        setService(null)
         setLoading(false)
         return
       }
 
-      // Try local services first
       const localService = DEFAULT_SERVICES.find(s => s.id === id)
       if (localService) {
-        console.log('✅ Found local service:', id);
         setService(localService)
         setLoading(false)
         return
       }
 
-      // Try API if numeric ID
       if (/^\d+$/.test(String(id))) {
         try {
-          console.log('🌐 Fetching from API: /services/', id);
           const res = await api.get(`/services/${id}`)
-          setService(res.data)
+          setService({
+             ...res.data,
+             gradient: 'from-slate-700 to-slate-900',
+             shadow: 'shadow-white/10'
+          })
         } catch (err) {
-          console.error('❌ Error fetching service:', err)
+          console.error('Error fetching service:', err)
           setService(null)
         }
       } else {
@@ -134,164 +135,276 @@ export default function ServiceDetails() {
     fetchService()
   }, [id])
 
-  // Loading state
-  if (loading) return (
-    <div className="min-h-screen flex items-center justify-center bg-[#050505]">
-      <Spinner />
-    </div>
-  )
+  if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#050505]"><Spinner /></div>
 
-  // Not found state
   if (!service) return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#050505] text-white text-center px-4">
-      <h2 className="text-2xl sm:text-3xl font-bold mb-4">Service Not Found</h2>
-      <p className="text-slate-400 mb-8 text-sm sm:text-base">The service you're looking for doesn't exist.</p>
-      <Link to="/services" className="px-6 py-3 bg-white text-black rounded-full font-bold hover:bg-slate-200 transition-colors text-sm sm:text-base">
+      <h2 className="text-3xl font-bold mb-4">Service Not Found</h2>
+      <Link to="/services" className="px-8 py-3 bg-white text-black rounded-full font-bold hover:bg-slate-200 transition-colors">
         Back to Services
       </Link>
     </div>
   )
 
   return (
-    <div className="min-h-screen bg-[#050505] text-slate-50 font-sans selection:bg-cyan-500/30 overflow-x-hidden">
+    <div className="min-h-screen bg-[#050505] text-slate-50 font-sans selection:bg-cyan-500/30 overflow-x-hidden relative">
       <Navbar />
 
-      {/* --- Hero Section --- */}
-      <section className="relative pt-24 sm:pt-32 pb-12 sm:pb-20 overflow-hidden">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/50 via-[#050505] to-[#050505] -z-10" />
-        <div className="absolute top-0 right-1/4 w-96 sm:w-[600px] h-96 sm:h-[600px] bg-blue-600/10 rounded-full blur-[100px] -z-10" />
+      {/* === PREMIUM BACKGROUND EFFECTS === */}
+      <div className="fixed inset-0 -z-20 overflow-hidden pointer-events-none">
+        {/* Primary Gradient Blob */}
+        <div className={`absolute top-[-15%] right-[-10%] w-[900px] h-[900px] bg-gradient-to-br ${service.gradient} rounded-full blur-3xl opacity-20 animate-pulse-slow`} />
         
-        <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
-          {/* Back Button */}
-          <button 
+        {/* Secondary Gradient Blob */}
+        <div className={`absolute bottom-[-20%] left-[-8%] w-[800px] h-[800px] bg-gradient-to-tr ${service.gradient} rounded-full blur-3xl opacity-15 animate-pulse-slower`} />
+        
+        {/* Accent Glow */}
+        <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-gradient-to-br from-white/10 to-transparent rounded-full blur-3xl opacity-20" />
+        
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,.05)25%,transparent_25%,transparent_50%,rgba(255,255,255,.05)50%,rgba(255,255,255,.05)75%,transparent_75%,transparent)] bg-[length:50px_50px] opacity-50" />
+        
+        {/* Radial Gradient Vignette */}
+        <div className="absolute inset-0 bg-radial-gradient from-transparent via-[#050505]/20 to-[#050505]/90" />
+      </div>
+
+      {/* === HERO SECTION === */}
+      <section className="relative pt-32 pb-28 overflow-hidden min-h-[70vh] flex flex-col justify-center z-10">
+        <div className="container mx-auto px-6 max-w-7xl relative z-10">
+          
+          {/* Navigation Button */}
+          <motion.button 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
             onClick={() => navigate(-1)} 
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-300 hover:text-white transition-colors bg-white/5 hover:bg-white/10 backdrop-blur-md px-3 sm:px-5 py-2 sm:py-2.5 rounded-lg sm:rounded-full border border-white/10 hover:border-white/20 group mb-6 sm:mb-8"
+            className="inline-flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-white transition-all bg-white/5 hover:bg-white/10 backdrop-blur-lg px-5 py-2.5 rounded-full border border-white/10 hover:border-white/30 mb-12 group"
           >
-            {isRtl ? <FaArrowRight className="group-hover:translate-x-1 transition-transform" /> : <FaArrowLeft className="group-hover:-translate-x-1 transition-transform" />}
+            {isRtl ? <FaArrowRight size={16} className="group-hover:translate-x-1 transition-transform" /> : <FaArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />}
             <span>{isRtl ? 'الخدمات' : 'Services'}</span>
-          </button>
+          </motion.button>
 
-          {/* Icon & Title */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 mb-8 sm:mb-12"
-          >
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            
+            {/* === PREMIUM ICON SECTION === */}
             <motion.div 
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ type: 'spring', stiffness: 300 }}
-              className={`relative w-24 h-24 sm:w-32 sm:h-32 rounded-2xl sm:rounded-3xl bg-gradient-to-br ${service.gradient} flex items-center justify-center text-5xl sm:text-7xl flex-shrink-0 flex-col justify-center font-bold text-white shadow-2xl group`}
+              initial={{ scale: 0.6, opacity: 0, y: 40 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              transition={{ type: "spring", stiffness: 80, damping: 20, duration: 1 }}
+              className={`
+                relative group
+                w-52 h-52 lg:w-64 lg:h-64
+                rounded-3xl lg:rounded-[2.5rem]
+                bg-gradient-to-br ${service.gradient}
+                flex items-center justify-center
+                text-8xl lg:text-9xl text-white
+                shadow-2xl
+                overflow-hidden
+                mx-auto lg:mx-0
+              `}
             >
-              {/* Glow background layers */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-2xl sm:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className={`absolute -inset-1 bg-gradient-to-br ${service.gradient} rounded-2xl sm:rounded-3xl opacity-20 blur-xl group-hover:opacity-40 transition-opacity duration-300 -z-10`} />
-              <div className={`absolute -inset-3 bg-gradient-to-br ${service.gradient} rounded-full opacity-10 blur-2xl group-hover:opacity-30 transition-opacity duration-300 -z-10`} />
+              {/* Outer Glow - Strongest */}
+              <div className={`absolute -inset-3 bg-gradient-to-br ${service.gradient} rounded-[2.5rem] opacity-50 blur-3xl -z-30 animate-pulse group-hover:opacity-70 transition-opacity`} />
               
-              {/* Icon */}
-              <span className="relative z-10 drop-shadow-lg">
+              {/* Middle Glow */}
+              <div className={`absolute -inset-2 bg-gradient-to-br ${service.gradient} rounded-[2.5rem] opacity-40 blur-2xl -z-20 animate-pulse group-hover:opacity-60 transition-opacity`} />
+              
+              {/* Inner Layer Glow */}
+              <div className={`absolute -inset-1 bg-gradient-to-br ${service.gradient} rounded-[2.5rem] opacity-30 blur-xl -z-10 group-hover:opacity-50 transition-opacity`} />
+              
+              {/* Shine Effect on Hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 rounded-3xl lg:rounded-[2.5rem]" />
+              
+              {/* Icon with Heavy Effects */}
+              <motion.span 
+                whileHover={{ rotate: 20, scale: 1.3 }}
+                transition={{ type: "spring", stiffness: 300, damping: 10 }}
+                className="relative z-20 drop-shadow-2xl filter brightness-125 group-hover:brightness-150 transition-all text-shadow-lg"
+              >
                 {getIcon(service.iconKey)}
-              </span>
+              </motion.span>
             </motion.div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight">
-              {service.title}
-            </h1>
-          </motion.div>
 
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-base sm:text-lg md:text-xl text-slate-300 max-w-3xl leading-relaxed mb-8 sm:mb-12"
-          >
-            {service.shortDescription}
-          </motion.p>
+            {/* === HERO TEXT === */}
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-center lg:text-left space-y-8"
+            >
+              {/* Service Badge */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+              >
+                <span className={`inline-block text-xs font-bold uppercase tracking-[0.25em] px-5 py-3 rounded-full bg-gradient-to-r ${service.gradient} text-white shadow-lg shadow-current/20 drop-shadow-lg`}>
+                  {isRtl ? '⭐ خدمة متخصصة' : '⭐ Specialized Service'}
+                </span>
+              </motion.div>
+              
+              {/* Title */}
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tight drop-shadow-lg">
+                {service.title}
+              </h1>
+              
+              {/* Subtitle */}
+              <p className="text-lg md:text-xl lg:text-2xl text-slate-300 font-light leading-relaxed max-w-2xl">
+                {service.shortDescription}
+              </p>
 
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4"
-          >
-            <Link to="/contact" className="px-6 sm:px-8 py-2.5 sm:py-3 bg-white text-black rounded-lg sm:rounded-full font-bold hover:bg-slate-200 transition-all text-sm sm:text-base text-center">
-              {isRtl ? 'احصل على عرض' : 'Get a Quote'}
-            </Link>
-            <Link to="/services" className="px-6 sm:px-8 py-2.5 sm:py-3 border border-white/20 text-slate-300 hover:text-white rounded-lg sm:rounded-full font-bold hover:bg-white/5 transition-all backdrop-blur-md text-sm sm:text-base text-center">
-              {isRtl ? 'الخدمات الأخرى' : 'Other Services'}
-            </Link>
-          </motion.div>
+              {/* Quick Badges */}
+              <div className="flex flex-wrap gap-4 justify-center lg:justify-start pt-4">
+                <motion.div 
+                  whileHover={{ y: -2 }}
+                  className="flex items-center gap-2 px-5 py-3 bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:border-white/40 transition-all hover:bg-white/15"
+                >
+                  <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${service.gradient} shadow-lg shadow-current/50`} />
+                  <span className="text-sm font-bold text-slate-200">{isRtl ? '✓ متقدم' : '✓ Professional'}</span>
+                </motion.div>
+                <motion.div 
+                  whileHover={{ y: -2 }}
+                  className="flex items-center gap-2 px-5 py-3 bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl hover:border-white/40 transition-all hover:bg-white/15"
+                >
+                  <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${service.gradient} shadow-lg shadow-current/50`} />
+                  <span className="text-sm font-bold text-slate-200">{isRtl ? '✓ مضمون' : '✓ Guaranteed'}</span>
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
+
         </div>
       </section>
 
-      {/* --- Content Section --- */}
-      <section className="py-12 sm:py-20 relative">
-        <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
-          <div className="grid lg:grid-cols-3 gap-8 sm:gap-12">
+      {/* === CONTENT SECTION === */}
+      <section className="py-28 relative z-10">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="grid lg:grid-cols-3 gap-12 lg:gap-20">
+            
             {/* Main Content */}
-            <div className="lg:col-span-2 space-y-8 sm:space-y-12">
-              {/* Full Content */}
+            <div className="lg:col-span-2 space-y-16">
+              {/* Description */}
               <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="space-y-8"
+              >
+                <div className="flex items-center gap-4">
+                   <motion.div 
+                     className={`h-16 w-1.5 bg-gradient-to-b ${service.gradient} rounded-full shadow-lg shadow-current/30`}
+                   />
+                   <h2 className="text-4xl lg:text-5xl font-black text-white">
+                     {isRtl ? 'التفاصيل الكاملة' : 'Full Details'}
+                   </h2>
+                </div>
+                
+                <p className="text-slate-300 text-lg lg:text-xl leading-relaxed font-light">
+                  {service.fullContent}
+                </p>
+              </motion.div>
+
+              {/* Premium Quote Card */}
+              <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
+                whileHover={{ y: -8 }}
+                className={`
+                  group relative rounded-3xl p-10 lg:p-14 overflow-hidden
+                  border border-white/10 hover:border-white/40 transition-all
+                  hover:shadow-2xl hover:shadow-current/20 bg-gradient-to-br from-slate-900/40 to-slate-900/10 backdrop-blur-xl
+                `}
               >
-                <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 sm:mb-6 flex items-center gap-3">
-                  <span className="w-1.5 h-8 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-full"></span>
-                  {isRtl ? 'تفاصيل الخدمة' : 'About This Service'}
-                </h2>
-                <p className="text-base sm:text-lg text-slate-300 leading-relaxed whitespace-pre-wrap">
-                  {service.fullContent}
-                </p>
+                {/* Gradient Overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-5 blur transition-opacity -z-10`} />
+                
+                <div className="relative z-10">
+                  <FaQuoteRight className="text-6xl lg:text-7xl text-white/15 mb-6 group-hover:text-white/25 transition-colors" />
+                  <p className="text-2xl lg:text-3xl font-bold text-white leading-relaxed">
+                    "{isRtl ? 'لا نكتب أكوادا فقط، بل نهندس حلولاً تحفز النمو' : 'We engineer solutions that drive real business growth.'}"
+                  </p>
+                </div>
               </motion.div>
             </div>
 
             {/* Sidebar */}
-            <div className="lg:col-span-1 space-y-6 sm:space-y-8">
-              {/* Features Card */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
+            <div className="lg:col-span-1">
+              {/* Premium Features Card */}
+              <motion.div 
+                initial={{ opacity: 0, x: 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                className="sticky top-24 sm:top-28 bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-xl sm:rounded-2xl p-5 sm:p-6 space-y-4"
+                className={`
+                  group sticky top-32
+                  rounded-3xl overflow-hidden
+                  bg-gradient-to-br from-slate-900/70 to-slate-900/40 backdrop-blur-2xl
+                  border border-white/10 hover:border-white/40
+                  p-10 shadow-2xl
+                  transition-all hover:shadow-2xl hover:shadow-current/30
+                `}
               >
-                <h3 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
-                  <FaCheckCircle className="text-emerald-400" /> 
-                  <span>{isRtl ? 'الميزات' : 'Features'}</span>
-                </h3>
-                <div className="space-y-2 sm:space-y-3">
-                  {service.features && service.features.map((feature, idx) => (
-                    <motion.div
-                      key={idx}
-                      initial={{ opacity: 0, x: -10 }}
+                {/* Animated Gradient Background */}
+                <div className={`absolute -inset-1 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-10 blur-lg transition-opacity -z-10`} />
+                
+                {/* Header */}
+                <div className="flex items-center gap-3 mb-8 pb-6 border-b border-white/10 group-hover:border-white/20 transition-colors">
+                  <div className={`p-2.5 rounded-xl bg-gradient-to-br ${service.gradient} shadow-lg shadow-current/30`}>
+                    <FaCheckCircle className="text-white text-2xl" />
+                  </div>
+                  <h3 className="text-xl lg:text-2xl font-black text-white uppercase tracking-wider">
+                    {isRtl ? 'الميزات' : 'Features'}
+                  </h3>
+                </div>
+                
+                {/* Features List */}
+                <ul className="space-y-5 mb-10">
+                  {service.features && service.features.map((feature, i) => (
+                    <motion.li 
+                      key={i}
+                      initial={{ opacity: 0, x: -15 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
-                      transition={{ delay: idx * 0.1 }}
-                      className="flex items-start gap-2 sm:gap-3"
+                      transition={{ delay: i * 0.12 }}
+                      className="flex items-start gap-3 group/item"
                     >
-                      <span className="text-emerald-400 mt-1 flex-shrink-0">✓</span>
-                      <span className="text-slate-300 text-sm sm:text-base">{feature}</span>
-                    </motion.div>
+                      <div className={`min-w-max mt-1 p-2 rounded-lg bg-gradient-to-br ${service.gradient} shadow-lg shadow-current/20 group-hover/item:scale-125 transition-transform group-hover/item:shadow-lg group-hover/item:shadow-current/40`}>
+                        <FaCheckCircle className="text-white text-base" />
+                      </div>
+                      <span className="text-slate-300 font-semibold text-base group-hover/item:text-white transition-colors leading-relaxed">
+                        {feature}
+                      </span>
+                    </motion.li>
                   ))}
+                </ul>
+
+                {/* CTA Button Area */}
+                <div className="pt-8 border-t border-white/10 space-y-4">
+                   <p className="text-slate-400 text-sm text-center font-bold tracking-wide">
+                     {isRtl ? '🚀 ابدأ مشروعك الآن' : '🚀 Start Your Project'}
+                   </p>
+                   <motion.div
+                     whileHover={{ scale: 1.08 }}
+                     whileTap={{ scale: 0.92 }}
+                   >
+                     <Link 
+                       to="/contact" 
+                       className={`
+                         block w-full py-4 px-6 rounded-2xl font-bold text-center text-white
+                         bg-gradient-to-r ${service.gradient}
+                         shadow-xl shadow-current/40
+                         hover:shadow-2xl hover:shadow-current/60
+                         transition-all relative overflow-hidden group/btn
+                         hover:scale-105 duration-300
+                       `}
+                     >
+                       <div className="absolute inset-0 bg-white/20 opacity-0 group-hover/btn:opacity-100 transition-opacity" />
+                       <span className="relative font-black uppercase tracking-wide">{isRtl ? 'اطلب الخدمة' : 'Get Started'}</span>
+                     </Link>
+                   </motion.div>
                 </div>
               </motion.div>
-
-              {/* CTA Card */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                className="bg-gradient-to-br from-blue-600/20 to-cyan-600/20 backdrop-blur-xl border border-blue-500/20 rounded-xl sm:rounded-2xl p-5 sm:p-6 text-center"
-              >
-                <p className="text-xs sm:text-sm text-slate-400 mb-3 sm:mb-4">Ready to get started?</p>
-                <Link to="/contact" className="block w-full px-4 sm:px-6 py-2.5 sm:py-3 bg-white text-black rounded-lg sm:rounded-full font-bold hover:bg-slate-200 transition-all text-sm sm:text-base">
-                  {isRtl ? 'تواصل معنا' : 'Contact Us'}
-                </Link>
-              </motion.div>
             </div>
+
           </div>
         </div>
       </section>
