@@ -17,8 +17,26 @@ const ICON_MAP = {
   'cloud': FaCloud
 }
 
+// Map various database-related names to backend icon
+const ICONKEY_ALIASES = {
+  'database': 'backend',
+  'db': 'backend',
+  'database-design': 'backend',
+  'api': 'backend',
+  'api-development': 'backend',
+  'rest-api': 'backend',
+  'graphql': 'backend'
+}
+
+const normalizeIconKey = (iconKey) => {
+  if (!iconKey) return 'backend'
+  const normalized = iconKey.toLowerCase().trim()
+  return ICONKEY_ALIASES[normalized] || iconKey
+}
+
 const getIcon = (iconKey) => {
-  const IconComponent = ICON_MAP[iconKey]
+  const normalizedKey = normalizeIconKey(iconKey)
+  const IconComponent = ICON_MAP[normalizedKey]
   return IconComponent ? <IconComponent /> : null
 }
 
@@ -88,11 +106,26 @@ export default function Services() {
         const data = Array.isArray(res.data) ? res.data : (res.data.items || [])
         
         if (data.length > 0) {
-          // Merge API data with default styling if needed, or just use API data
-          // Here we map API data to our card structure, preserving gradients if we match IDs
-          const merged = data.map((item, index) => {
-             const def = DEFAULT_SERVICES[index % DEFAULT_SERVICES.length] // Cycle through defaults for colors
-             return { ...def, ...item, gradient: def.gradient, shadow: def.shadow, iconKey: item.iconKey || def.iconKey }
+          // Map gradients to normalized icon keys
+          const GRADIENT_MAP = {
+            'web-dev': { gradient: 'from-blue-500 to-cyan-400', shadow: 'group-hover:shadow-blue-500/20' },
+            'ui-ux': { gradient: 'from-purple-500 to-pink-500', shadow: 'group-hover:shadow-purple-500/20' },
+            'product': { gradient: 'from-orange-500 to-red-500', shadow: 'group-hover:shadow-orange-500/20' },
+            'mobile': { gradient: 'from-emerald-500 to-teal-400', shadow: 'group-hover:shadow-emerald-500/20' },
+            'backend': { gradient: 'from-indigo-500 to-violet-600', shadow: 'group-hover:shadow-indigo-500/20' },
+            'cloud': { gradient: 'from-sky-500 to-blue-600', shadow: 'group-hover:shadow-sky-500/20' }
+          }
+          
+          // Merge API data with normalized icon key and correct gradient
+          const merged = data.map((item) => {
+             const normalizedIconKey = normalizeIconKey(item.iconKey)
+             const gradientConfig = GRADIENT_MAP[normalizedIconKey] || GRADIENT_MAP['backend']
+             return { 
+               ...item, 
+               iconKey: normalizedIconKey,
+               gradient: gradientConfig.gradient, 
+               shadow: gradientConfig.shadow
+             }
           })
           setServices(merged)
         } else {

@@ -22,8 +22,26 @@ const ICON_MAP = {
   'cloud': FaCloud
 }
 
+// Map various database-related names to backend icon
+const ICONKEY_ALIASES = {
+  'database': 'backend',
+  'db': 'backend',
+  'database-design': 'backend',
+  'api': 'backend',
+  'api-development': 'backend',
+  'rest-api': 'backend',
+  'graphql': 'backend'
+}
+
+const normalizeIconKey = (iconKey) => {
+  if (!iconKey) return 'backend'
+  const normalized = iconKey.toLowerCase().trim()
+  return ICONKEY_ALIASES[normalized] || iconKey
+}
+
 const getIcon = (iconKey) => {
-  const IconComponent = ICON_MAP[iconKey] || FaRocket
+  const normalizedKey = normalizeIconKey(iconKey)
+  const IconComponent = ICON_MAP[normalizedKey] || FaRocket
   return <IconComponent />
 }
 
@@ -117,10 +135,25 @@ export default function ServiceDetails() {
       if (/^\d+$/.test(String(id))) {
         try {
           const res = await api.get(`/services/${id}`)
+          const normalizedIconKey = normalizeIconKey(res.data.iconKey || 'backend')
+          
+          // Map normalized icon key to gradient
+          const GRADIENT_MAP = {
+            'web-dev': { gradient: 'from-cyan-500 to-blue-600', shadow: 'shadow-cyan-500/20' },
+            'ui-ux': { gradient: 'from-purple-500 to-pink-500', shadow: 'shadow-purple-500/20' },
+            'product': { gradient: 'from-orange-500 to-red-500', shadow: 'shadow-orange-500/20' },
+            'mobile': { gradient: 'from-emerald-500 to-teal-500', shadow: 'shadow-emerald-500/20' },
+            'backend': { gradient: 'from-indigo-500 to-violet-600', shadow: 'shadow-indigo-500/20' },
+            'cloud': { gradient: 'from-sky-500 to-blue-600', shadow: 'shadow-sky-500/20' }
+          }
+          
+          const gradientConfig = GRADIENT_MAP[normalizedIconKey] || { gradient: 'from-slate-700 to-slate-900', shadow: 'shadow-white/10' }
+          
           setService({
-             ...res.data,
-             gradient: 'from-slate-700 to-slate-900',
-             shadow: 'shadow-white/10'
+            ...res.data,
+            iconKey: normalizedIconKey,
+            gradient: gradientConfig.gradient,
+            shadow: gradientConfig.shadow
           })
         } catch (err) {
           console.error('Error fetching service:', err)
