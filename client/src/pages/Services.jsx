@@ -283,7 +283,9 @@ export default function Services() {
         </motion.div>
 
       </div>
-      <Footer />
+      <div className="pb-16">
+        <Footer />
+      </div>
     </div>
   )
 }

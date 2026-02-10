@@ -263,10 +263,10 @@ export default function ServiceDetails() {
               `}
             >
               {/* Outer Glow - Strongest */}
-              <div className={`absolute -inset-3 bg-gradient-to-br ${service.gradient} rounded-[2.5rem] opacity-50 blur-3xl -z-30 animate-pulse group-hover:opacity-70 transition-opacity`} />
+              <div className={`absolute -inset-3 bg-gradient-to-br ${service.gradient} rounded-[2.5rem] opacity-50 blur-3xl -z-30 animate-pulse-slow group-hover:opacity-70 transition-opacity`} />
               
               {/* Middle Glow */}
-              <div className={`absolute -inset-2 bg-gradient-to-br ${service.gradient} rounded-[2.5rem] opacity-40 blur-2xl -z-20 animate-pulse group-hover:opacity-60 transition-opacity`} />
+              <div className={`absolute -inset-2 bg-gradient-to-br ${service.gradient} rounded-[2.5rem] opacity-40 blur-2xl -z-20 animate-pulse-slower group-hover:opacity-60 transition-opacity`} />
               
               {/* Inner Layer Glow */}
               <div className={`absolute -inset-1 bg-gradient-to-br ${service.gradient} rounded-[2.5rem] opacity-30 blur-xl -z-10 group-hover:opacity-50 transition-opacity`} />
@@ -468,7 +468,9 @@ export default function ServiceDetails() {
           </div>
         </div>
       </section>
-      <Footer />
+      <div className="pb-16">
+        <Footer />
+      </div>
     </div>
   )
 }

@@ -216,8 +216,9 @@ export default function Projects() {
         </div>
 
       </div>
-      
-      <Footer />
+      <div className="pb-16">
+        <Footer />
+      </div>
     </div>
   )
 }

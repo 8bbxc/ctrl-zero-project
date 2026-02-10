@@ -407,7 +407,9 @@ export default function ProjectDetails() {
 
         </div>
       </main>
-      <Footer />
+      <div className="pb-16">
+        <Footer />
+      </div>
     </div>
   )
 }
