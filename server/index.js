@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const compression = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');
 const path = require('path');
@@ -52,6 +53,17 @@ app.use(cors({
 // يسمح بتحميل الصور من السيرفر في الفرونت إند
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }, 
+}));
+
+// 2.5. Compression Middleware (تحسين الأداء)
+app.use(compression({
+  filter: (req, res) => {
+    if (req.headers['x-no-compression']) {
+      return false;
+    }
+    return compression.filter(req, res);
+  },
+  level: 6 // compression level (1-9, حيث 6 هو التوازن الجيد)
 }));
 
 // 3. Body Parser

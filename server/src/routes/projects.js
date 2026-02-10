@@ -49,8 +49,22 @@ const parseArray = (input) => {
 // 1. جلب كل المشاريع (عام)
 router.get('/', async (req, res) => {
   try {
+    // إضافة caching headers للـ public endpoints
+    res.set('Cache-Control', 'public, max-age=300'); // 5 دقائق caching
+    
     const projects = await prisma.project.findMany({
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        titleAr: true,
+        description: true,
+        descriptionAr: true,
+        image: true,
+        category: true,
+        // تجنب تحميل الـ fullDescription و gallery في الـ list view
+      }
     });
     res.json(projects);
   } catch (error) {
@@ -62,13 +76,30 @@ router.get('/', async (req, res) => {
 // 2. جلب مشروع واحد عبر الـ Slug (عام)
 router.get('/:slug', async (req, res) => {
   try {
+    res.set('Cache-Control', 'public, max-age=300'); // 5 دقائق caching
+    
     const { slug } = req.params;
     
     // إذا كان الـ slug رقم (ID) بالخطأ، نحاول البحث بالـ ID
     const whereClause = isNaN(slug) ? { slug } : { id: parseInt(slug) };
 
     const project = await prisma.project.findFirst({
-      where: whereClause
+      where: whereClause,
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        titleAr: true,
+        description: true,
+        descriptionAr: true,
+        fullDescription: true,
+        fullDescriptionAr: true,
+        image: true,
+        gallery: true,
+        category: true,
+        tags: true,
+        status: true
+      }
     });
 
     if (!project) return res.status(404).json({ error: 'Project not found' });

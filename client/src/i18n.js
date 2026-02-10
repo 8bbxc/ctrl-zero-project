@@ -91,6 +91,7 @@ const resources = {
       contact: { 
         title: 'Get in Touch', 
         subtitle: "Have a project in mind? We would love to hear from you. Let's build something amazing together.",
+        btn: "Let's Talk",
         name: 'Full Name', 
         email: 'Email Address', 
         subject: 'Subject', 
@@ -244,6 +245,7 @@ const resources = {
       contact: { 
         title: 'تواصل معنا', 
         subtitle: 'هل لديك فكرة مشروع في ذهنك؟ نود أن نسمع منك. دعنا نبني معاً شيئاً مذهلاً.',
+        btn: "هيا نتحدث",
         name: 'الاسم الكامل', 
         email: 'البريد الإلكتروني', 
         subject: 'الموضوع', 
@@ -256,7 +258,7 @@ const resources = {
         phone: 'الهاتف',
         location: 'الموقع',
         social: 'تابعنا على',
-        sent: 'تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.', 
+        sent: 'تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.',
         failed: 'فشل الإرسال. يرجى المحاولة مرة أخرى لاحقاً.' 
       },
       projects: {

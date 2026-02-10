@@ -95,14 +95,14 @@ export default function Projects() {
   const isArabic = i18n.language === 'ar'
 
   return (
-    <div className="min-h-screen bg-[#050505] text-slate-50 font-sans selection:bg-cyan-500/30 overflow-hidden pb-24">
+    <div className="min-h-screen bg-[#050505] text-slate-100 font-sans selection:bg-cyan-500/20 overflow-hidden pb-24">
       <Navbar />
       
       {/* --- 2. خلفية فنية هادئة (Refined Background) --- */}
       <div className="fixed inset-0 pointer-events-none z-0">
         {/* Gradients are darker and more subtle now */}
-        <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-indigo-900/20 rounded-full blur-[120px] opacity-40" />
-        <div className="absolute bottom-[-20%] left-[-10%] w-[800px] h-[800px] bg-cyan-900/20 rounded-full blur-[120px] opacity-40" />
+        <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-indigo-900/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-20%] left-[-10%] w-[800px] h-[800px] bg-cyan-900/10 rounded-full blur-[120px]" />
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.02] mix-blend-overlay"></div>
       </div>
 
@@ -115,22 +115,22 @@ export default function Projects() {
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/5 border border-white/10 text-slate-300 font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] mb-8 backdrop-blur-md hover:bg-white/10 transition-colors cursor-default">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+            <div className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/3 border border-white/10 text-slate-400 font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] mb-8 backdrop-blur-md hover:bg-white/5 transition-colors cursor-default">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></span>
               {isArabic ? 'استكشف قطاعاتنا' : 'OUR EXPERTISE'}
             </div>
             
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-white leading-[1.1] tracking-tight">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-slate-50 leading-[1.1] tracking-tight">
               {isArabic ? 'مشاريعنا حسب' : 'Crafting Digital'} <br/> 
               <span className="relative inline-block">
-                <span className="absolute -inset-1 blur-2xl opacity-30 bg-gradient-to-r from-cyan-400 to-purple-600"></span>
-                <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-white to-purple-300">
+                <span className="absolute -inset-1 blur-2xl opacity-20 bg-gradient-to-r from-cyan-500 to-purple-600"></span>
+                <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-slate-100 to-blue-500">
                   {isArabic ? 'القطاع' : 'Industries'}
                 </span>
               </span>
             </h1>
             
-            <p className="text-base md:text-lg text-slate-400 font-light max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base md:text-lg text-slate-500 font-light max-w-2xl mx-auto leading-relaxed">
               {isArabic 
                 ? 'نحول الرؤى إلى واقع رقمي عبر قطاعات متعددة. اختر المجال لاستكشاف دراسات الحالة.' 
                 : 'Transforming visions into digital reality across tailored sectors. Select an industry to explore our case studies.'}
@@ -152,7 +152,7 @@ export default function Projects() {
                 to={`/projects/sector/${sector.id}`}
                 className={`
                   group relative block h-[280px] rounded-2xl overflow-hidden 
-                  bg-[#0A0A0A] border border-white/5
+                  bg-slate-900/30 border border-slate-800/40
                   transition-all duration-500 ease-out
                   hover:-translate-y-2
                   ${sector.borderColor}
@@ -161,7 +161,7 @@ export default function Projects() {
                 {/* تأثير الإضاءة الخلفية عند الهوفر - Spotlight Effect */}
                 <div className={`
                     absolute top-0 right-0 w-[300px] h-[300px] rounded-full blur-[80px] opacity-0 
-                    group-hover:opacity-20 transition-opacity duration-700
+                    group-hover:opacity-10 transition-opacity duration-700
                     ${sector.glowColor} -mr-20 -mt-20 pointer-events-none
                 `} />
 
@@ -172,7 +172,7 @@ export default function Projects() {
                     {/* وعاء الأيقونة المتطور */}
                     <div className={`
                       relative w-14 h-14 rounded-xl flex items-center justify-center text-2xl
-                      bg-white/5 border border-white/5 shadow-inner backdrop-blur-sm
+                      bg-slate-950/50 border border-slate-800/40 shadow-inner backdrop-blur-sm
                       transition-all duration-500 ease-out
                       ${sector.iconColor}
                       group-hover:scale-110 group-hover:bg-gradient-to-br ${sector.gradient} group-hover:text-white group-hover:border-transparent group-hover:shadow-lg
@@ -182,10 +182,10 @@ export default function Projects() {
 
                     {/* زر السهم الدائري */}
                     <div className={`
-                      w-10 h-10 rounded-full border border-white/5 flex items-center justify-center
-                      text-slate-500 bg-transparent
+                      w-10 h-10 rounded-full border border-slate-700/50 flex items-center justify-center
+                      text-slate-600 bg-transparent
                       transition-all duration-300
-                      group-hover:border-white/20 group-hover:text-white group-hover:rotate-[-45deg]
+                      group-hover:border-slate-500 group-hover:text-slate-100 group-hover:rotate-[-45deg]
                       ${isArabic ? 'group-hover:rotate-[45deg]' : 'group-hover:rotate-[-45deg]'}
                     `}>
                       <FaArrowRight className={`text-sm transform ${isArabic ? 'rotate-180' : ''}`} />
@@ -194,16 +194,16 @@ export default function Projects() {
 
                   {/* النصوص */}
                   <div className="space-y-3">
-                    <h3 className="text-2xl font-bold text-white group-hover:text-white transition-colors duration-300">
+                    <h3 className="text-2xl font-bold text-slate-100 group-hover:text-slate-50 transition-colors duration-300">
                       {isArabic ? sector.labelAr : sector.label}
                     </h3>
-                    <p className="text-slate-500 text-sm font-light leading-relaxed group-hover:text-slate-300 transition-colors duration-300 border-l-2 border-transparent pl-0 group-hover:pl-3 group-hover:border-white/20">
+                    <p className="text-slate-500 text-sm font-light leading-relaxed group-hover:text-slate-400 transition-colors duration-300 border-l-2 border-transparent pl-0 group-hover:pl-3 group-hover:border-slate-600">
                       {isArabic ? sector.descAr : sector.desc}
                     </p>
                   </div>
 
                   {/* خط سفلي نحيف جداً يتوهج */}
-                  <div className={`absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r ${sector.gradient} transition-all duration-500 group-hover:w-full`} />
+                  <div className={`absolute bottom-0 left-0 h-[1.5px] w-0 bg-gradient-to-r ${sector.gradient} transition-all duration-500 group-hover:w-full`} />
                 </div>
               </Link>
             </motion.div>
