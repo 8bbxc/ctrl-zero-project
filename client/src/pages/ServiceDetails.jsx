@@ -76,57 +76,85 @@ const DEFAULT_SERVICES = [
   {
     id: 'web-dev',
     title: 'Full-Stack Development',
+    titleAr: 'تطوير متكامل',
     shortDescription: 'Scalable, high-performance web applications built for the future.',
+    shortDescriptionAr: 'تطبيقات ويب قابلة للتوسع والأداء العالي.',
     fullContent: 'We build end-to-end web solutions using modern stacks like React, Node.js, and Postgres. Our approach includes strategic planning, beautiful UIs, robust backends, and seamless deployments to ensure your business stays ahead.',
+    fullContentAr: 'نبني حلول ويب شاملة باستخدام React وNode.js وPostgres، مع تركيز على الأداء والاستقرار.',
     features: ['React & Next.js Ecosystem', 'Node.js & Python Backends', 'High Performance Databases', 'Secure RESTful APIs'],
+    featuresAr: ['إطارات React و Next.js', 'خوادم Node.js و Python', 'قواعد بيانات عالية الأداء', 'واجهات API آمنة'],
     iconKey: 'web-dev'
   },
   {
     id: 'ui-ux',
     title: 'UI/UX Design',
+    titleAr: 'تصميم تجربة المستخدم',
     shortDescription: 'Crafting intuitive and engaging user experiences that convert.',
+    shortDescriptionAr: 'تصميم تجارب مستخدم جذابة وسهلة.',
     fullContent: 'We craft interfaces that users love. Every pixel is intentional. Every interaction is smooth. We focus on accessibility, performance, and conversion optimization to turn visitors into loyal customers.',
+    fullContentAr: 'نصمم واجهات محببة للمستخدم مع اهتمام بالتفاصيل والوصول وأداء عالي.',
     features: ['User Research & Personas', 'Wireframing & Prototyping', 'Interactive Design Systems', 'Usability Testing'],
+    featuresAr: ['بحث المستخدم والشخصيات', 'نماذج أولية', 'أنظمة تصميم تفاعلية', 'اختبارات القابلية للاستخدام'],
     iconKey: 'ui-ux'
   },
   {
     id: 'product',
     title: 'Product Engineering',
+    titleAr: 'هندسة المنتجات',
     shortDescription: 'Turning raw ideas into market-ready digital products.',
+    shortDescriptionAr: 'تحويل الأفكار إلى منتجات جاهزة للسوق.',
     fullContent: 'From concept to launch. We handle everything: strategy, design, development, testing, and deployment. Our goal is to help you build products that matter and solve real problems.',
+    fullContentAr: 'من الفكرة حتى الإطلاق، نقدم استراتيجية كاملة، تصميم، تطوير واختبارات.',
     features: ['MVP Strategy & Roadmap', 'Agile Development Cycle', 'Quality Assurance (QA)', 'Go-to-market Support'],
+    featuresAr: ['استراتيجية MVP وخريطة طريق', 'دورة تطوير رشيقة', 'ضمان جودة', 'دعم الإطلاق'],
     iconKey: 'product'
   },
   {
     id: 'frontend',
     title: 'Frontend Development',
+    titleAr: 'تطوير الواجهات',
     shortDescription: 'Pixel-perfect, performance-first frontends using React and modern CSS.',
+    shortDescriptionAr: 'واجهات دقيقة ومسرّعة تركز على تجربة المستخدم.',
     fullContent: 'We craft responsive, accessible, high-performance frontends with a strong emphasis on user experience and animation.',
+    fullContentAr: 'نصمم واجهات متجاوبة وسريعة مع اهتمام كبير بالتجربة البصرية والحركات.',
     features: ['Responsive Design', 'Accessibility (a11y)', 'Performance Optimization', 'Interactive Animations'],
+    featuresAr: ['تصميم متجاوب', 'قابلية الوصول', 'تحسين الأداء', 'حركات تفاعلية'],
     iconKey: 'frontend'
   },
   {
     id: 'mobile',
     title: 'Mobile Development',
+    titleAr: 'تطوير الموبايل',
     shortDescription: 'Native and cross-platform mobile apps for iOS and Android.',
+    shortDescriptionAr: 'تطبيقات أصلية وعبر المنصات لأداء ممتاز.',
     fullContent: 'High-performance apps for iOS and Android. We use React Native for cross-platform efficiency or native technologies for maximum performance, ensuring a native feel on every device.',
+    fullContentAr: 'تطبيقات عالية الأداء على iOS وAndroid، مع تركيز على سلاسة التجربة.',
     features: ['React Native & Flutter', 'iOS (Swift) & Android (Kotlin)', 'Offline-First Architecture', 'App Store Optimization'],
+    featuresAr: ['React Native و Flutter', 'iOS (Swift) و Android (Kotlin)', 'بنية دون اتصال', 'تحسين المتاجر'],
     iconKey: 'mobile'
   },
   {
     id: 'backend',
     title: 'Backend & API',
+    titleAr: 'الخوادم وواجهات API',
     shortDescription: 'Robust server-side architecture for scalable systems.',
+    shortDescriptionAr: 'بنية خوادم قوية لأنظمة قابلة للتوسع.',
     fullContent: 'We build scalable, secure, and lightning-fast backends. REST APIs, GraphQL, real-time websockets, and microservices. We ensure your data is secure and your system can handle growth.',
+    fullContentAr: 'نبني خوادم آمنة وسريعة مع دعم REST، GraphQL و WebSockets.',
     features: ['Microservices Architecture', 'Database Optimization', 'Advanced Security', 'Cloud Scalability'],
+    featuresAr: ['هندسة مايكروسيرفيس', 'تحسين قواعد البيانات', 'أمان متقدم', 'قابلية التوسع السحابي'],
     iconKey: 'backend'
   },
   {
     id: 'cloud',
     title: 'Cloud & DevOps',
+    titleAr: 'السحابة و DevOps',
     shortDescription: 'Automated deployment and resilient infrastructure.',
+    shortDescriptionAr: 'نشر آلي وبنية تحتية مرنة وموثوقة.',
     fullContent: 'From CI/CD pipelines to containerization and cloud management. We ensure your app is always available, secure, and performing at peak capacity using AWS, Azure, or Google Cloud.',
+    fullContentAr: 'من خطوط CI/CD إلى الحاويات وإدارة السحابة — بنية متينة للنشر.',
     features: ['CI/CD Pipelines', 'Docker & Kubernetes', 'Infrastructure as Code', '24/7 Monitoring'],
+    featuresAr: ['خطوط CI/CD', 'Docker & Kubernetes', 'البنية ككود', 'مراقبة 24/7'],
     iconKey: 'cloud'
   }
 ]
@@ -164,11 +192,18 @@ export default function ServiceDetails() {
           if (!res || !res.data) { navigate('/services'); return }
           const normKey = normalizeIconKey(res.data.iconKey, res.data.title)
           const theme = THEME_MAP[normKey] || THEME_MAP['product']
+          const defaults = DEFAULT_SERVICES.find(s => s.id === normKey) || {}
           
           setService({
+            ...defaults,
             ...res.data,
             iconKey: normKey,
-            ...theme
+            ...theme,
+            titleAr: res.data.titleAr || defaults.titleAr,
+            shortDescriptionAr: res.data.shortDescriptionAr || defaults.shortDescriptionAr,
+            fullContentAr: res.data.fullContentAr || defaults.fullContentAr,
+            features: res.data.features || defaults.features || [],
+            featuresAr: res.data.featuresAr || defaults.featuresAr || []
           })
         } catch (err) {
           console.error('Error fetching service:', err)
@@ -261,10 +296,10 @@ export default function ServiceDetails() {
               className="text-center lg:text-left lg:pt-4"
             >
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 leading-[1.1] tracking-tight">
-                {service.title}
+                {isRtl ? (service.titleAr || service.title) : service.title}
               </h1>
               <p className="text-xl md:text-2xl text-slate-300 font-light max-w-2xl leading-relaxed">
-                {service.shortDescription}
+                {isRtl ? (service.shortDescriptionAr || service.shortDescription) : service.shortDescription}
               </p>
             </motion.div>
           </div>
@@ -290,7 +325,7 @@ export default function ServiceDetails() {
                   {isRtl ? 'تفاصيل الخدمة' : 'About the Service'}
                 </h3>
                 <p className="text-slate-400 leading-9 text-lg font-light">
-                  {service.fullContent}
+                  {isRtl ? (service.fullContentAr || service.fullContent) : service.fullContent}
                 </p>
               </div>
 
@@ -327,7 +362,7 @@ export default function ServiceDetails() {
                   </h3>
                   
                   <ul className="space-y-4">
-                    {service.features?.map((feature, idx) => (
+                    {(isRtl ? (service.featuresAr || service.features) : service.features)?.map((feature, idx) => (
                       <li key={idx} className="flex items-start gap-3 text-slate-300 group">
                          <span 
                            className="flex-shrink-0 mt-1 w-5 h-5 rounded-full flex items-center justify-center bg-white/5 text-[10px] transition-colors group-hover:bg-white/10"
