@@ -38,3 +38,7 @@ services:
         sync: true
       - key: CLIENT_ORIGIN
         sync: true
+      - key: TELEGRAM_BOT_TOKEN
+        sync: true
+      - key: TELEGRAM_CHAT_ID
+        sync: true
