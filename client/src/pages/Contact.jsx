@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaPaperPlane, FaWhatsapp, FaLinkedinIn, FaGithub, FaCheck, FaTimes } from 'react-icons/fa'
 import { ImSpinner8 } from 'react-icons/im'
 import api from '../services/api'
+import Footer from '../components/Footer'
 
 export default function Contact() {
   const { t, i18n } = useTranslation()
@@ -345,6 +346,9 @@ export default function Contact() {
 
         </div>
       </div>
+      
+      {/* Footer Component */}
+      <Footer />
     </div>
   )
 }
