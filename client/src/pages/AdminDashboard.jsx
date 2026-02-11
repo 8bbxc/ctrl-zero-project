@@ -142,7 +142,8 @@ export default function AdminDashboard() {
 
   // --- منطق فتح النافذة (Modal) ---
   const openModal = (item = null) => {
-    if (activeTab === 'messages') return; 
+    // Allow viewing messages (item provided) but prevent creating new message
+    if (activeTab === 'messages' && !item) return;
     setEditingItem(item)
     
     if (activeTab === 'projects') {
@@ -155,7 +156,12 @@ export default function AdminDashboard() {
         gallery: [] 
       })
     } else {
-      setFormData(item || { title: '', shortDescription: '', fullContent: '', icon: '', image: '' })
+      // For services and messages we set appropriate form data
+      if (activeTab === 'messages') {
+        setFormData(item || { name: '', email: '', subject: '', message: '', date: '' })
+      } else {
+        setFormData(item || { title: '', shortDescription: '', fullContent: '', icon: '', image: '' })
+      }
     }
     setShowModal(true)
   }
@@ -508,7 +514,54 @@ export default function AdminDashboard() {
                     </AnimatePresence>
                   </div>
                 )}
-                {/* Add Services & Messages rendering here if needed same as before */}
+                {/* Services view (simple grid) */}
+                {activeTab === 'services' && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+                    <AnimatePresence>
+                      {filteredItems.map((item) => (
+                        <motion.div key={item.id} layout className="group relative bg-slate-900/40 backdrop-blur-sm border border-white/5 rounded-3xl overflow-hidden hover:border-accent/30 hover:shadow-2xl transition-all duration-500 flex flex-col">
+                          <div className="h-40 overflow-hidden relative bg-slate-950">
+                            <img src={item.image || item.icon} onError={(e) => { e.target.src = FALLBACK_SVG }} className="w-full h-full object-cover" />
+                          </div>
+                          <div className="p-4 flex-1">
+                            <h3 className="font-bold text-white truncate mb-1">{item.title}</h3>
+                            <p className="text-xs text-slate-400 line-clamp-2">{item.shortDescription}</p>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+                  </div>
+                )}
+
+                {/* Messages view (list) */}
+                {activeTab === 'messages' && (
+                  <div className="space-y-4">
+                    {filteredItems.length === 0 && (
+                      <div className="text-slate-400 text-sm">No messages found.</div>
+                    )}
+                    <div className="space-y-3">
+                      {filteredItems.map(msg => (
+                        <div key={msg.id} className="bg-slate-900/40 border border-white/5 rounded-xl p-4 flex items-start justify-between gap-4">
+                          <div className="flex-1">
+                            <div className="flex items-start justify-between gap-4">
+                              <div>
+                                <h4 className="font-bold text-white">{msg.name} <span className="text-xs text-slate-400 font-mono">{msg.email}</span></h4>
+                                <p className="text-sm text-slate-300 mt-1">{msg.subject || 'No subject'}</p>
+                              </div>
+                              <div className="text-xs text-slate-500">{new Date(msg.createdAt).toLocaleString()}</div>
+                            </div>
+                            <p className="text-slate-400 text-sm mt-3 line-clamp-3">{msg.message}</p>
+                          </div>
+                          <div className="flex flex-col items-end gap-2">
+                            <button onClick={() => openModal(msg)} className="px-3 py-2 bg-white/5 rounded-lg text-xs font-bold hover:bg-white/10">View</button>
+                            <button onClick={() => setConfirmDelete({ open: true, id: msg.id })} className="px-3 py-2 bg-red-600 rounded-lg text-xs font-bold hover:bg-red-700">Delete</button>
+                            <a href={`mailto:${msg.email}?subject=Re:%20${encodeURIComponent(msg.subject||'')}`} className="text-xs text-accent mt-2">Reply</a>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </motion.div>
             )}
           </div>
@@ -532,64 +585,79 @@ export default function AdminDashboard() {
 
               {/* Form */}
               <div className="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 md:p-8">
-                <form id="itemForm" onSubmit={handleSave} className="space-y-6 sm:space-y-8">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+                {activeTab === 'messages' ? (
+                  <div className="space-y-4">
+                    <div className="bg-slate-900/40 border border-white/5 rounded-xl p-6">
+                      <div className="flex items-start justify-between gap-4">
+                        <div>
+                          <h3 className="text-xl font-bold text-white">{formData.name}</h3>
+                          <p className="text-xs text-slate-400 font-mono">{formData.email}</p>
+                          <p className="text-sm text-slate-300 mt-2 font-semibold">{formData.subject || 'No subject'}</p>
+                        </div>
+                        <div className="text-xs text-slate-500">{formData.date ? new Date(formData.date).toLocaleString() : ''}</div>
+                      </div>
+                      <div className="mt-4 text-slate-200 whitespace-pre-wrap">{formData.message}</div>
+                      <div className="mt-6 flex justify-end gap-2">
+                        <button onClick={() => { setConfirmDelete({ open: true, id: editingItem?.id }); setShowModal(false); }} className="px-4 py-2 bg-red-600 rounded-lg text-sm font-bold">Delete</button>
+                        <a href={`mailto:${formData.email}?subject=Re:%20${encodeURIComponent(formData.subject||'')}`} className="px-4 py-2 bg-white/5 rounded-lg text-sm font-bold text-accent">Reply</a>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <form id="itemForm" onSubmit={handleSave} className="space-y-6 sm:space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
                       {/* Left: Text Inputs */}
                       <div className="md:col-span-2 space-y-6">
-                          <InputGroup label="Title" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} required placeholder="Enter title..." />
-                          
-                          {/* --- هنا الإضافة المهمة: قائمة التصنيف --- */}
-                          {activeTab === 'projects' && (
-                            <div className="space-y-2">
-                              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1 block">Project Sector (Category)</label>
-                              <select 
-                                value={formData.category || 'General'}
-                                onChange={e => setFormData({...formData, category: e.target.value})}
-                                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-accent outline-none cursor-pointer"
-                              >
-                                {/* Default option */}
-                                <option value="General">General (Uncategorized)</option>
-                                {/* Sectors from list */}
-                                {SECTORS.map(sec => <option key={sec} value={sec}>{sec}</option>)}
-                              </select>
+                        <InputGroup label="Title" value={formData.title} onChange={e => setFormData({...formData, title: e.target.value})} required placeholder="Enter title..." />
+                        {activeTab === 'projects' && (
+                          <div className="space-y-2">
+                            <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1 block">Project Sector (Category)</label>
+                            <select 
+                              value={formData.category || 'General'}
+                              onChange={e => setFormData({...formData, category: e.target.value})}
+                              className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-accent outline-none cursor-pointer"
+                            >
+                              <option value="General">General (Uncategorized)</option>
+                              {SECTORS.map(sec => <option key={sec} value={sec}>{sec}</option>)}
+                            </select>
+                          </div>
+                        )}
+
+                        {activeTab === 'projects' && (
+                          <div className="space-y-3">
+                            <div className="flex justify-between items-center">
+                              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Slug (URL)</label>
+                              <button type="button" onClick={generateSlug} className="text-xs text-accent hover:text-accent/80 flex items-center gap-1"><FaMagic size={12} /> Auto</button>
                             </div>
-                          )}
+                            <input 
+                              type="text" 
+                              value={formData.slug || ''} 
+                              onChange={e => setFormData({...formData, slug: e.target.value})} 
+                              placeholder="auto-generated-slug"
+                              className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-accent outline-none font-mono"
+                            />
+                            {formData.slug && <p className="text-[10px] text-slate-500">URL: /{formData.slug}</p>}
+                          </div>
+                        )}
 
-                          {activeTab === 'projects' && (
-                             <div className="space-y-3">
-                                <div className="flex justify-between items-center">
-                                   <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">Slug (URL)</label>
-                                   <button type="button" onClick={generateSlug} className="text-xs text-accent hover:text-accent/80 flex items-center gap-1"><FaMagic size={12} /> Auto</button>
-                                </div>
-                                <input 
-                                   type="text" 
-                                   value={formData.slug || ''} 
-                                   onChange={e => setFormData({...formData, slug: e.target.value})} 
-                                   placeholder="auto-generated-slug"
-                                   className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-accent outline-none font-mono"
-                                />
-                                {formData.slug && <p className="text-[10px] text-slate-500">URL: /{formData.slug}</p>}
-                             </div>
-                          )}
-
-                          <InputGroup label="Description" isTextArea value={formData.description || formData.shortDescription} onChange={e => setFormData({...formData, [activeTab === 'projects' ? 'description' : 'shortDescription']: e.target.value})} placeholder="Brief summary..." />
+                        <InputGroup label="Description" isTextArea value={formData.description || formData.shortDescription} onChange={e => setFormData({...formData, [activeTab === 'projects' ? 'description' : 'shortDescription']: e.target.value})} placeholder="Brief summary..." />
                       </div>
 
                       {/* Right: Image */}
                       <div className="md:col-span-1">
-                          <UploadBox label="Cover Image" preview={formData.image} onChange={(e) => handleUpload(e, 'image')} loading={isUploading} onRemove={() => removeImageField('image')} />
+                        <UploadBox label="Cover Image" preview={formData.image} onChange={(e) => handleUpload(e, 'image')} loading={isUploading} onRemove={() => removeImageField('image')} />
                       </div>
-                  </div>
-                  
-                  {/* Detailed Content & Gallery */}
-                  <div className="pt-6 border-t border-white/5 space-y-6">
+                    </div>
+
+                    {/* Detailed Content & Gallery */}
+                    <div className="pt-6 border-t border-white/5 space-y-6">
                       <InputGroup label="Full Content (Markdown)" isTextArea value={formData.content || formData.fullContent} onChange={e => setFormData({...formData, [activeTab === 'projects' ? 'content' : 'fullContent']: e.target.value})} />
-                      
                       {activeTab === 'projects' && (
-                          <UploadBox label="Project Gallery" isGallery gallery={formData.gallery} onChange={handleGalleryUpload} loading={isUploading} onRemoveGallery={removeGalleryImage} multiple />
+                        <UploadBox label="Project Gallery" isGallery gallery={formData.gallery} onChange={handleGalleryUpload} loading={isUploading} onRemoveGallery={removeGalleryImage} multiple />
                       )}
-                  </div>
-                </form>
+                    </div>
+                  </form>
+                )}
               </div>
 
               {/* Footer */}
