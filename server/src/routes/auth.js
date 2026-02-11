@@ -4,6 +4,14 @@ const prisma = require('../utils/prisma');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+// Generate tokens helper
+function generateTokens(payload) {
+  const secret = process.env.JWT_SECRET || 'fallback_secret_dont_use_in_production';
+  const accessToken = jwt.sign(payload, secret, { expiresIn: '1h' }); // Short-lived access token
+  const refreshToken = jwt.sign(payload, secret, { expiresIn: '7d' }); // Longer-lived refresh token
+  return { accessToken, refreshToken };
+}
+
 // Register admin: protected by ADMIN_SETUP_TOKEN env var to allow initial setup
 router.post('/register', async (req, res) => {
   const { token } = req.body;
@@ -29,8 +37,8 @@ router.post('/login', async (req, res) => {
       if (!user) return res.status(401).json({ error: 'Invalid credentials' });
       const ok = await bcrypt.compare(password, user.password);
       if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
-      const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '12h' });
-      return res.json({ token });
+      const { accessToken, refreshToken } = generateTokens({ id: user.id, email: user.email });
+      return res.json({ accessToken, refreshToken });
     } catch (err) {
       console.error('Auth error (production):', err.message);
       return res.status(500).json({ error: 'Server error' });
@@ -43,8 +51,8 @@ router.post('/login', async (req, res) => {
     if (user) {
       const ok = await bcrypt.compare(password, user.password);
       if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
-      const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '12h' });
-      return res.json({ token });
+      const { accessToken, refreshToken } = generateTokens({ id: user.id, email: user.email });
+      return res.json({ accessToken, refreshToken });
     }
   } catch (err) {
     console.warn('DB error when looking for admin user, falling back to env/file', err.message)
@@ -56,8 +64,8 @@ router.post('/login', async (req, res) => {
     if (fp && fp.admin && fp.admin.email === email) {
       const ok = await bcrypt.compare(password, fp.admin.password)
       if (!ok) return res.status(401).json({ error: 'Invalid credentials' })
-      const token = jwt.sign({ email: fp.admin.email }, process.env.JWT_SECRET, { expiresIn: '12h' })
-      return res.json({ token })
+      const { accessToken, refreshToken } = generateTokens({ email: fp.admin.email });
+      return res.json({ accessToken, refreshToken })
     }
   } catch (e) {
     // no fallback file
@@ -65,11 +73,29 @@ router.post('/login', async (req, res) => {
 
   // Final fallback: environment variables (only if set)
   if (process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD && process.env.ADMIN_EMAIL === email && process.env.ADMIN_PASSWORD === password) {
-    const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: '12h' })
-    return res.json({ token })
+    const { accessToken, refreshToken } = generateTokens({ email });
+    return res.json({ accessToken, refreshToken })
   }
 
   return res.status(401).json({ error: 'Invalid credentials' });
+});
+
+// Refresh token endpoint: exchange refreshToken for new accessToken
+router.post('/refresh', async (req, res) => {
+  const { refreshToken } = req.body;
+  if (!refreshToken) {
+    return res.status(401).json({ error: 'Missing refresh token' });
+  }
+
+  try {
+    const secret = process.env.JWT_SECRET || 'fallback_secret_dont_use_in_production';
+    const payload = jwt.verify(refreshToken, secret);
+    const { accessToken, refreshToken: newRefreshToken } = generateTokens(payload);
+    return res.json({ accessToken, refreshToken: newRefreshToken });
+  } catch (err) {
+    console.error('Refresh token error:', err.message);
+    return res.status(401).json({ error: 'Invalid or expired refresh token' });
+  }
 });
 
 module.exports = router;

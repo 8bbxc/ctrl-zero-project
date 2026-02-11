@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { getToken } from './auth'
+import { getToken, setTokens, logout } from './auth'
 
 // تحديد الرابط الصحيح حسب البيئة
 // للـ Production في Vercel: استخدم الـ backend المنشور على Render
@@ -38,10 +38,41 @@ api.interceptors.request.use(
   }
 )
 
-// 3. Response Interceptor: التعامل مع الأخطاء
+// 3. Response Interceptor: التعامل مع الأخطاء والتوكن المنتهي
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
+    const originalRequest = error.config;
+
+    // إذا كان الخطأ 401 والتوكن منتهي الصلاحية، جرب إعادة تحميل باستخدام refresh token
+    if (error.response?.status === 401 && error.response?.data?.code === 'TOKEN_EXPIRED') {
+      // تأكد من عدم محاولة التحديث مرارًا وتكرارًا
+      if (!originalRequest._retry) {
+        originalRequest._retry = true;
+        
+        try {
+          // استدعِ /auth/refresh للحصول على access token جديد
+          const refreshResponse = await axios.post(`${BASE_URL}/api/auth/refresh`, {
+            refreshToken: localStorage.getItem('refreshToken')
+          });
+
+          const { accessToken, refreshToken: newRefreshToken } = refreshResponse.data;
+          
+          // حفظ التوكنات الجديدة
+          setTokens(accessToken, newRefreshToken);
+
+          // أعد محاولة الطلب الأصلي بالتوكن الجديد
+          originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
+          return api(originalRequest);
+        } catch (refreshError) {
+          console.error('❌ Token refresh failed:', refreshError.message);
+          // إذا فشل التحديث، سجل الخروج
+          logout();
+          return Promise.reject(refreshError);
+        }
+      }
+    }
+
     if (error.response) {
       // السيرفر رد بخطأ (مثل 400 أو 500)
       console.error('❌ API Error:', error.response.data);

@@ -19,12 +19,22 @@ function requireAuth(req, res, next) {
     next();
   } catch (err) {
     console.error('Auth verification failed:', err.message);
-    const statusCode = err.name === 'TokenExpiredError' ? 401 : 401;
-    const errorMsg = err.name === 'TokenExpiredError' 
-      ? 'Token has expired. Please log in again.' 
-      : 'Invalid or malformed token';
     
-    return res.status(statusCode).json({
+    // If token is expired, send a specific response indicating the client should refresh
+    if (err.name === 'TokenExpiredError') {
+      return res.status(401).json({
+        error: 'Token expired',
+        message: 'Your access token has expired. Please use your refresh token to get a new access token.',
+        code: 'TOKEN_EXPIRED'
+      });
+    }
+    
+    // For other auth errors
+    const errorMsg = err.name === 'JsonWebTokenError' 
+      ? 'Invalid or malformed token' 
+      : 'Authentication failed';
+    
+    return res.status(401).json({
       error: 'Authentication failed',
       message: errorMsg
     });

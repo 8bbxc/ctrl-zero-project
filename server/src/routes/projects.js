@@ -98,7 +98,9 @@ router.get('/:slug', async (req, res) => {
         gallery: true,
         category: true,
         tags: true,
-        status: true
+        status: true,
+        features: true,
+        featuresAr: true
       }
     });
 
