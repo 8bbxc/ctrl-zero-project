@@ -21,6 +21,19 @@ module.exports = async function handler(req, res) {
 
   setCorsHeaders(res);
 
+  // DEBUG: log invocation details to help diagnose 405 issues in production
+  try {
+    console.log('contact.fn invoked', {
+      method: req.method,
+      url: req.url || req.path || '/',
+      origin: req.headers?.origin,
+      host: req.headers?.host,
+      'content-type': req.headers?.['content-type']
+    });
+  } catch (e) {
+    console.warn('contact.fn debug log failed', e && e.message);
+  }
+
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'Method Not Allowed' });
@@ -37,6 +50,22 @@ module.exports = async function handler(req, res) {
   }
 
   const { name, email, subject, message } = body || {};
+
+  // DEBUG: small preview of the incoming body (do not log secrets)
+  try {
+    if (body && typeof body === 'object') {
+      console.log('contact.body.preview', {
+        name: body.name ? String(body.name).slice(0, 100) : undefined,
+        email: body.email,
+        subject: body.subject ? String(body.subject).slice(0, 120) : undefined,
+        messageLength: body.message ? String(body.message).length : 0
+      });
+    } else {
+      console.log('contact.body.type', typeof body);
+    }
+  } catch (e) {
+    console.warn('contact.body preview failed', e && e.message);
+  }
 
   if (!name || !email || !subject || !message) {
     return res.status(400).json({ error: 'Missing required fields: name, email, subject, message' });
