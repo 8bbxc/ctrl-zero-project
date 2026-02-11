@@ -52,7 +52,7 @@ api.interceptors.response.use(
         
         try {
           // استدعِ /auth/refresh للحصول على access token جديد
-          const refreshResponse = await axios.post(`${BASE_URL}/api/auth/refresh`, {
+          const refreshResponse = await axios.post(`${BASE_URL}/api/admin/refresh`, {
             refreshToken: localStorage.getItem('refreshToken')
           });
 

@@ -42,7 +42,7 @@ export const logout = () => {
 
 // Login: submit credentials and store both tokens
 export const login = async (email, password) => {
-  const response = await api.post('/auth/login', { email, password })
+  const response = await api.post('/admin/login', { email, password })
   if (response.data.accessToken && response.data.refreshToken) {
     setTokens(response.data.accessToken, response.data.refreshToken)
   }
@@ -58,7 +58,7 @@ export const refreshAccessToken = async () => {
   }
 
   try {
-    const response = await api.post('/auth/refresh', { refreshToken })
+    const response = await api.post('/admin/refresh', { refreshToken })
     if (response.data.accessToken && response.data.refreshToken) {
       setTokens(response.data.accessToken, response.data.refreshToken)
     }
