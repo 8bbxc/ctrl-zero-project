@@ -11,18 +11,22 @@ router.get('/', async (req, res) => {
     // إضافة caching headers للـ public endpoints
     res.set('Cache-Control', 'public, max-age=300'); // 5 دقائق caching
     
-    const services = await prisma.service.findMany({ 
+    const cols = await require('../utils/dbMeta').getTableColumns('Service');
+
+    const select = {
+      id: true,
+      title: true,
+      shortDescription: true,
+      icon: true,
+      image: true
+    };
+
+    if (cols.has('titleAr')) select.titleAr = true;
+    if (cols.has('shortDescriptionAr')) select.shortDescriptionAr = true;
+
+    const services = await prisma.service.findMany({
       orderBy: { id: 'asc' },
-      select: {
-        id: true,
-        title: true,
-        titleAr: true,
-        shortDescription: true,
-        shortDescriptionAr: true,
-        icon: true,
-        image: true,
-        // تجنب تحميل الـ fullContent هنا للـ list view
-      }
+      select
     });
     res.json(services);
   } catch (err) {
@@ -37,21 +41,27 @@ router.get('/:id', async (req, res) => {
     res.set('Cache-Control', 'public, max-age=300'); // 5 دقائق caching
     
     const id = parseInt(req.params.id);
-    const service = await prisma.service.findUnique({ 
+
+    const cols = await require('../utils/dbMeta').getTableColumns('Service');
+
+    const select = {
+      id: true,
+      title: true,
+      shortDescription: true,
+      fullContent: true,
+      icon: true,
+      image: true,
+      features: true
+    };
+
+    if (cols.has('titleAr')) select.titleAr = true;
+    if (cols.has('shortDescriptionAr')) select.shortDescriptionAr = true;
+    if (cols.has('fullContentAr')) select.fullContentAr = true;
+    if (cols.has('featuresAr')) select.featuresAr = true;
+
+    const service = await prisma.service.findUnique({
       where: { id },
-      select: {
-        id: true,
-        title: true,
-        titleAr: true,
-        shortDescription: true,
-        shortDescriptionAr: true,
-        fullContent: true,
-        fullContentAr: true,
-        icon: true,
-        image: true,
-        features: true,
-        featuresAr: true
-      }
+      select
     });
     
     if (!service) return res.status(404).json({ error: 'Service not found' });

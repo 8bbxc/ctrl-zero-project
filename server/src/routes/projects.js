@@ -52,19 +52,24 @@ router.get('/', async (req, res) => {
     // إضافة caching headers للـ public endpoints
     res.set('Cache-Control', 'public, max-age=300'); // 5 دقائق caching
     
+    // Build a safe select object depending on available DB columns (prevents P2022 when migrations not applied yet)
+    const cols = await require('../utils/dbMeta').getTableColumns('Project');
+
+    const select = {
+      id: true,
+      slug: true,
+      title: true,
+      description: true,
+      image: true,
+      category: true
+    };
+
+    if (cols.has('titleAr')) select.titleAr = true;
+    if (cols.has('descriptionAr')) select.descriptionAr = true;
+
     const projects = await prisma.project.findMany({
       orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        slug: true,
-        title: true,
-        titleAr: true,
-        description: true,
-        descriptionAr: true,
-        image: true,
-        category: true,
-        // تجنب تحميل الـ fullDescription و gallery في الـ list view
-      }
+      select
     });
     res.json(projects);
   } catch (error) {
@@ -83,25 +88,30 @@ router.get('/:slug', async (req, res) => {
     // إذا كان الـ slug رقم (ID) بالخطأ، نحاول البحث بالـ ID
     const whereClause = isNaN(slug) ? { slug } : { id: parseInt(slug) };
 
+    const cols = await require('../utils/dbMeta').getTableColumns('Project');
+
+    const select = {
+      id: true,
+      slug: true,
+      title: true,
+      description: true,
+      fullDescription: true,
+      image: true,
+      gallery: true,
+      category: true,
+      tags: true,
+      status: true,
+      features: true
+    };
+
+    if (cols.has('titleAr')) select.titleAr = true;
+    if (cols.has('descriptionAr')) select.descriptionAr = true;
+    if (cols.has('fullDescriptionAr')) select.fullDescriptionAr = true;
+    if (cols.has('featuresAr')) select.featuresAr = true;
+
     const project = await prisma.project.findFirst({
       where: whereClause,
-      select: {
-        id: true,
-        slug: true,
-        title: true,
-        titleAr: true,
-        description: true,
-        descriptionAr: true,
-        fullDescription: true,
-        fullDescriptionAr: true,
-        image: true,
-        gallery: true,
-        category: true,
-        tags: true,
-        status: true,
-        features: true,
-        featuresAr: true
-      }
+      select
     });
 
     if (!project) return res.status(404).json({ error: 'Project not found' });
