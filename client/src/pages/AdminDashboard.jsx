@@ -73,9 +73,9 @@ export default function AdminDashboard() {
   const fetchCounts = async () => {
     try {
       const [projRes, svcRes, msgRes] = await Promise.all([
-        api.get('/projects').catch(() => ({ data: [] })),
-        api.get('/services').catch(() => ({ data: [] })),
-        api.get('/messages').catch(async (err) => {
+        api.get('/api/projects').catch(() => ({ data: [] })),
+        api.get('/api/services').catch(() => ({ data: [] })),
+        api.get('/api/messages').catch(async (err) => {
           // If unauthorized, try public messages list
           if (err?.response?.status === 401) {
             try {
@@ -110,7 +110,7 @@ export default function AdminDashboard() {
     try {
       let res
       try {
-        res = await api.get(`/${activeTab}`)
+        res = await api.get(`/api/${activeTab}`)
       } catch (err) {
         // If messages endpoint is unauthorized, try public listing
         if (activeTab === 'messages' && err?.response?.status === 401) {
@@ -267,11 +267,11 @@ export default function AdminDashboard() {
       });
 
       if (editingItem) {
-        const updatedRes = await api.put(`/${activeTab}/${editingItem.id}`, dataToSend);
+        const updatedRes = await api.put(`/api/${activeTab}/${editingItem.id}`, dataToSend);
         console.log('✅ Server UPDATE response:', updatedRes.data);
         addToast('success', 'Updated successfully!');
       } else {
-        const createdRes = await api.post(`/${activeTab}`, dataToSend);
+        const createdRes = await api.post(`/api/${activeTab}`, dataToSend);
         console.log('✅ Server CREATE response:', createdRes.data);
         addToast('success', 'Created successfully!');
       }
@@ -296,7 +296,7 @@ export default function AdminDashboard() {
 
   const handleDelete = async () => {
     try {
-      await api.delete(`/${activeTab}/${confirmDelete.id}`)
+      await api.delete(`/api/${activeTab}/${confirmDelete.id}`)
       addToast('success', 'Deleted successfully')
       setConfirmDelete({ open: false, id: null })
       await fetchData()
@@ -337,7 +337,7 @@ export default function AdminDashboard() {
       const fd = new FormData();
       fd.append('files', file);
       
-      const res = await api.post('/upload', fd, {
+      const res = await api.post('/api/upload', fd, {
         headers: { 'Content-Type': 'multipart/form-data' },
         timeout: 30000
       });
@@ -392,7 +392,7 @@ export default function AdminDashboard() {
     files.forEach(f => fd.append('files', f));
     
     try {
-      const res = await api.post('/upload', fd, {
+      const res = await api.post('/api/upload', fd, {
         headers: { 'Content-Type': 'multipart/form-data' },
         timeout: 60000
       });
@@ -494,7 +494,7 @@ export default function AdminDashboard() {
     
     try {
       for (const id of selectedItems) {
-        await api.delete(`/${activeTab}/${id}`);
+        await api.delete(`/api/${activeTab}/${id}`);
       }
       addToast('success', `Deleted ${selectedItems.size} item(s)`);
       setSelectedItems(new Set());
