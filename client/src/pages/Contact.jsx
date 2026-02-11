@@ -264,7 +264,7 @@ export default function Contact() {
                     className="w-full py-4 sm:py-5 rounded-2xl bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 text-black font-bold text-lg hover:shadow-[0_8px_40px_rgba(59,130,246,0.25)] transition-transform transform hover:-translate-y-0.5 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {status === 'loading' ? (
-                      <><ImSpinner8 className="animate-spin text-xl" /> <span>{t('loading') || (isArabic ? 'جاري الإرسال...' : 'Sending...')}</span></>
+                      <><ImSpinner8 className="animate-spin text-xl" /> <span>{t('loading') || (isArabic ? 'جاري الإرسال (قد يأخذ وقتاً)...' : 'Sending (please wait)...')}</span></>
                     ) : (
                       <><FaPaperPlane className="text-xl" /> <span>{t('contact.send') || (isArabic ? 'إرسال الرسالة' : 'Send Message')}</span></>
                     )}

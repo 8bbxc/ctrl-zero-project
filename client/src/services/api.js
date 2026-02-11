@@ -16,7 +16,7 @@ console.log('🔗 API URL:', API_URL, '| Environment:', import.meta.env.MODE);
 const api = axios.create({
   baseURL: API_URL,
   withCredentials: true,
-  timeout: 15000
+  timeout: 45000  // Increased for slow free-tier servers (Render, Vercel)
 })
 
 // 2. Request Interceptor: إضافة التوكن
