@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaPaperPlane, FaWhatsapp, FaLinkedinIn, FaGithub, FaCheck, FaTimes } from 'react-icons/fa'
@@ -20,29 +20,68 @@ export default function Contact() {
     message: '' 
   })
   const [status, setStatus] = useState('idle') 
+  const [statusMessage, setStatusMessage] = useState('')
   const [hoveredCard, setHoveredCard] = useState(null)
+  const messageRef = useRef(null)
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
 
+  const isValidEmail = (email) => {
+    if (!email) return false
+    // Basic email regex
+    return /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    // Prevent double submits
+    if (status === 'loading') return
+
+    // Client-side validation
+    const trimmedMessage = (formData.message || '').trim()
+    if (!trimmedMessage || trimmedMessage.length < 5) {
+      setStatus('error')
+      setStatusMessage('Message is required (min 5 characters).')
+      messageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      setTimeout(() => setStatus('idle'), 3000)
+      return
+    }
+
+    if (formData.email && !isValidEmail(formData.email)) {
+      setStatus('error')
+      setStatusMessage('Please provide a valid email address.')
+      messageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      setTimeout(() => setStatus('idle'), 3000)
+      return
+    }
+
     setStatus('loading')
+    setStatusMessage('')
 
     try {
       const res = await api.post('/contact', formData)
 
       if (res && (res.status === 201 || res.status === 200)) {
         setStatus('success')
+        setStatusMessage('Message sent successfully!')
         setFormData({ name: '', email: '', subject: '', message: '' })
+        messageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
         setTimeout(() => setStatus('idle'), 4000)
       } else {
+        const msg = (res && res.data && res.data.error) ? res.data.error : 'Failed to send message. Please try again.'
         setStatus('error')
+        setStatusMessage(msg)
+        messageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
         setTimeout(() => setStatus('idle'), 3000)
       }
     } catch (err) {
       console.error('Contact submit failed:', err?.message || err)
+      const serverMsg = err?.response?.data?.error || err?.message || 'Network or Server error. Please try again later.'
       setStatus('error')
-      setTimeout(() => setStatus('idle'), 3000)
+      setStatusMessage(serverMsg)
+      messageRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      setTimeout(() => setStatus('idle'), 4000)
     }
   }
 
@@ -232,16 +271,18 @@ export default function Contact() {
                   </button>
 
                   {/* رسائل الحالة */}
-                  {status === 'success' && (
-                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center gap-3">
-                      <FaCheck /> <span>{t('contact.sent') || (isArabic ? 'تم الإرسال بنجاح!' : 'Message sent successfully!')}</span>
-                    </motion.div>
-                  )}
-                  {status === 'error' && (
-                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 flex items-center gap-3">
-                      <FaTimes /> <span>{t('contact.failed') || (isArabic ? 'فشل الإرسال، حاول لاحقاً.' : 'Failed to send message.')}</span>
-                    </motion.div>
-                  )}
+                  <div ref={messageRef}>
+                    {status === 'success' && (
+                      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center gap-3">
+                        <FaCheck /> <span>{statusMessage || t('contact.sent') || (isArabic ? 'تم الإرسال بنجاح!' : 'Message sent successfully!')}</span>
+                      </motion.div>
+                    )}
+                    {status === 'error' && (
+                      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 flex items-center gap-3">
+                        <FaTimes /> <span>{statusMessage || t('contact.failed') || (isArabic ? 'فشل الإرسال، حاول لاحقاً.' : 'Failed to send message.')}</span>
+                      </motion.div>
+                    )}
+                  </div>
                 </form>
               </div>
             </div>
