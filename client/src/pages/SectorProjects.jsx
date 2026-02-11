@@ -88,7 +88,7 @@ export default function SectorProjects() {
     const fetchProjects = async () => {
       setLoading(true)
       try {
-        const res = await api.get('/projects')
+        const res = await api.get('/api/projects')
         const all = Array.isArray(res.data) ? res.data : (res.data.items || [])
         
         // Filter logic preserved exactly as requested

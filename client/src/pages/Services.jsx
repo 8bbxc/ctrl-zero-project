@@ -163,7 +163,7 @@ export default function Services() {
     const fetchServices = async () => {
       setLoading(true)
       try {
-        const res = await api.get('/services')
+        const res = await api.get('/api/services')
         const data = Array.isArray(res.data) ? res.data : (res.data.items || [])
         
         if (data.length > 0) {

@@ -115,7 +115,7 @@ export default function ProjectDetails() {
     let mounted = true
     const fetchSiblings = async () => {
       try {
-        const res = await api.get('/projects')
+        const res = await api.get('/api/projects')
         const all = Array.isArray(res.data) ? res.data : (res.data.items || [])
         const siblings = all.filter(p => p.category === project.category)
         const idx = siblings.findIndex(p => (p.slug || p.id) === (project.slug || project.id))
