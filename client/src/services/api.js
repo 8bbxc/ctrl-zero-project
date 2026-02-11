@@ -1,9 +1,15 @@
 import axios from 'axios'
 import { getToken, setTokens, logout } from './auth'
 
-// Use relative `/api` for all environments so requests route to Vercel functions
-// When running locally and backend is separate, Vite proxy or local backend should handle routing.
-const API_URL = '/api';
+// Prefer an explicit API base in production (e.g., Render backend URL) via `VITE_API_BASE`.
+// Falls back to relative `/api` so Vercel functions still work when present.
+const API_URL = (() => {
+  try {
+    const envBase = import.meta.env.VITE_API_BASE;
+    if (envBase) return envBase;
+  } catch (e) {}
+  return '/api';
+})();
 
 console.log('🔗 API URL:', API_URL, '| Environment:', import.meta.env.MODE);
 

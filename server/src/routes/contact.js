@@ -3,6 +3,12 @@ const router = express.Router();
 // ⚠️ تعديل هام: استخدام النسخة المشتركة لمنع مشاكل الاتصال
 const prisma = require('../utils/prisma'); 
 const nodemailer = require('nodemailer');
+const axios = require('axios');
+
+// Helper to escape Telegram MarkdownV2
+function escapeMarkdown(text = '') {
+  return String(text).replace(/([_\*\[\]\(\)~`>#\+\-\=\|\{\}\.\\!\\\\])/g, '\\$1');
+}
 
 router.post('/', async (req, res) => {
   try {
@@ -63,7 +69,34 @@ router.post('/', async (req, res) => {
       }
     }
 
-    // 5. الرد بنجاح
+    // 5. إرسال إشعار عبر تيليغرام (إذا كانت المفاتيح موجودة)
+    try {
+      const botToken = process.env.TELEGRAM_BOT_TOKEN;
+      const chatId = process.env.TELEGRAM_CHAT_ID;
+      if (botToken && chatId) {
+        const text = `*New Contact Message*\n` +
+          `*Name:* ${escapeMarkdown(finalData.name)}\n` +
+          `*Email:* ${escapeMarkdown(finalData.email)}\n` +
+          `*Subject:* ${escapeMarkdown(finalData.subject)}\n` +
+          `*Message:*\n${escapeMarkdown(finalData.message)}`;
+
+        const tgRes = await axios.post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          chat_id: chatId,
+          text,
+          parse_mode: 'MarkdownV2'
+        }, { timeout: 10000 });
+
+        if (tgRes?.data?.ok) {
+          console.log('✅ Telegram notification sent, message_id=', tgRes.data.result?.message_id);
+        } else {
+          console.warn('⚠️ Telegram did not accept message', tgRes?.data);
+        }
+      }
+    } catch (tgErr) {
+      console.warn('⚠️ Telegram notification failed:', tgErr?.message || tgErr);
+    }
+
+    // 6. الرد بنجاح
     res.status(201).json({ success: true, message: 'Message sent successfully', data: newMessage });
 
   } catch (err) {
