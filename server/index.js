@@ -157,11 +157,8 @@ if (process.env.NODE_ENV === 'production') {
     console.error('FATAL: DATABASE_URL is required in production. Exiting.');
     process.exit(1);
   }
-  
-  app.use(express.static(path.join(__dirname, '..', '..', 'client', 'dist')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', '..', 'client', 'dist', 'index.html'));
-  });
+  // Note: Frontend is deployed separately on Vercel, so we don't serve static files here.
+  // The server only handles API endpoints.
 }
 
 // --- Error Handling Middleware ---
