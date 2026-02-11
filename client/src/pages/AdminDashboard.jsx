@@ -7,7 +7,8 @@ import {
   FaImages, FaClock, FaGlobe, FaUser, FaLink, FaTag, FaMagic
 } from 'react-icons/fa'
 import { logout } from '../services/auth'
-import api from '../services/api'
+import api, { API_URL } from '../services/api'
+import axios from 'axios'
 import Toast from '../components/Toast'
 import Spinner from '../components/Spinner'
 import ConfirmDialog from '../components/ConfirmDialog'
@@ -71,7 +72,18 @@ export default function AdminDashboard() {
       const [projRes, svcRes, msgRes] = await Promise.all([
         api.get('/projects').catch(() => ({ data: [] })),
         api.get('/services').catch(() => ({ data: [] })),
-        api.get('/messages').catch(() => ({ data: [] })),
+        api.get('/messages').catch(async (err) => {
+          // If unauthorized, try public messages list
+          if (err?.response?.status === 401) {
+            try {
+              const publicRes = await axios.get(`${API_URL}/messages/public`)
+              return publicRes
+            } catch (e) {
+              return { data: [] }
+            }
+          }
+          return { data: [] }
+        }),
       ])
       
       const getCount = (res) => {
@@ -93,7 +105,18 @@ export default function AdminDashboard() {
   const fetchData = async () => {
     setLoading(true)
     try {
-      const res = await api.get(`/${activeTab}`)
+      let res
+      try {
+        res = await api.get(`/${activeTab}`)
+      } catch (err) {
+        // If messages endpoint is unauthorized, try public listing
+        if (activeTab === 'messages' && err?.response?.status === 401) {
+          const publicRes = await axios.get(`${API_URL}/messages/public`)
+          res = publicRes
+        } else {
+          throw err
+        }
+      }
       let data = [];
       if (Array.isArray(res.data)) {
         data = res.data;
