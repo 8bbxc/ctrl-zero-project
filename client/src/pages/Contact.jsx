@@ -65,7 +65,8 @@ export default function Contact() {
   }
 
   return (
-    <div className={`min-h-screen py-12 sm:py-16 lg:py-24 relative overflow-hidden bg-slate-950 text-slate-50 font-sans selection:bg-accent selection:text-black ${dir}`}>
+    <>
+      <div className={`min-h-screen py-12 sm:py-16 lg:py-24 relative overflow-hidden bg-slate-950 text-slate-50 font-sans selection:bg-accent selection:text-black ${dir}`}>
       
       {/* === ANIMATED BACKGROUND WITH MULTIPLE LAYERS === */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
@@ -346,10 +347,11 @@ export default function Contact() {
 
         </div>
       </div>
-      
-      {/* Footer Component */}
-      <Footer />
     </div>
+    
+    {/* Footer Component */}
+    <Footer />
+    </>
   )
 }
 
