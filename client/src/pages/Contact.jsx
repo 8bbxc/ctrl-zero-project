@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaPaperPlane, FaWhatsapp, FaLinkedinIn, FaGithub, FaCheck, FaTimes } from 'react-icons/fa'
 import { ImSpinner8 } from 'react-icons/im'
 import api from '../services/api'
-import Footer from '../components/Footer'
 
 export default function Contact() {
   const { t, i18n } = useTranslation()
@@ -65,8 +64,7 @@ export default function Contact() {
   }
 
   return (
-    <>
-      <div className={`min-h-screen py-12 sm:py-16 lg:py-24 relative overflow-hidden bg-slate-950 text-slate-50 font-sans selection:bg-accent selection:text-black ${dir}`}>
+    <div className={`min-h-screen py-12 sm:py-16 lg:py-24 relative overflow-hidden bg-slate-950 text-slate-50 font-sans selection:bg-accent selection:text-black ${dir}`}>
       
       {/* === ANIMATED BACKGROUND WITH MULTIPLE LAYERS === */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
@@ -348,10 +346,6 @@ export default function Contact() {
         </div>
       </div>
     </div>
-    
-    {/* Footer Component */}
-    <Footer />
-    </>
   )
 }
 
