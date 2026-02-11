@@ -60,7 +60,7 @@ export default function Contact() {
     setStatusMessage('')
 
     try {
-      const res = await api.post('/contact', formData)
+      const res = await api.post('/api/contact', formData)
 
       if (res && (res.status === 201 || res.status === 200)) {
         setStatus('success')
