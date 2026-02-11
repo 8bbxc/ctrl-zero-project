@@ -286,22 +286,50 @@ export default function AdminDashboard() {
       console.error("❌ Save Error Details:", {
         message: err.message,
         status: err.response?.status,
+        statusText: err.response?.statusText,
         data: err.response?.data,
+        headers: err.config?.headers,
+        endpoint: `/api/${activeTab}/${editingItem?.id || 'new'}`,
         fullError: err
       });
-      const errorMsg = err.response?.data?.error || err.response?.data?.details || err.message || 'Operation failed. Please try again.';
+      let errorMsg = 'Operation failed. Please try again.';
+      if (err.response?.status === 401) {
+        errorMsg = '⚠️ Not authorized. Please log in again.';
+      } else if (err.response?.status === 403) {
+        errorMsg = '⚠️ You don\'t have permission to perform this action.';
+      } else if (err.response?.status === 400) {
+        errorMsg = `❌ Validation error: ${err.response?.data?.error || 'Invalid data'}`;
+      } else if (err.response?.status === 404) {
+        errorMsg = '❌ Item not found. It may have been deleted.';
+      } else if (err.response?.status === 500) {
+        errorMsg = '❌ Server error. Please try again later.';
+      } else {
+        errorMsg = err.response?.data?.error || err.response?.data?.details || err.message || errorMsg;
+      }
       addToast('error', errorMsg);
     }
   }
 
   const handleDelete = async () => {
     try {
-      await api.delete(`/api/${activeTab}/${confirmDelete.id}`)
-      addToast('success', 'Deleted successfully')
-      setConfirmDelete({ open: false, id: null })
-      await fetchData()
+      console.log('🗑️ Attempting to delete:', `/api/${activeTab}/${confirmDelete.id}`);
+      const res = await api.delete(`/api/${activeTab}/${confirmDelete.id}`);
+      console.log('✅ Delete response:', res.data);
+      addToast('success', 'Deleted successfully');
+      setConfirmDelete({ open: false, id: null });
+      await fetchData();
     } catch (err) {
-      addToast('error', 'Delete failed')
+      console.error('❌ Delete Error:', {
+        message: err.message,
+        status: err.response?.status,
+        data: err.response?.data,
+        endpoint: `/api/${activeTab}/${confirmDelete.id}`,
+        fullError: err
+      });
+      const errorMsg = err.response?.status === 401 
+        ? '⚠️ Not authorized. Please log in again.'
+        : err.response?.data?.error || err.response?.data?.message || 'Delete failed. Please try again.';
+      addToast('error', errorMsg);
     }
   }
 
@@ -493,14 +521,31 @@ export default function AdminDashboard() {
     if (!confirmed) return;
     
     try {
+      let failed = 0;
+      let succeeded = 0;
       for (const id of selectedItems) {
-        await api.delete(`/api/${activeTab}/${id}`);
+        try {
+          console.log(`🗑️ Deleting item ${id}...`);
+          await api.delete(`/api/${activeTab}/${id}`);
+          succeeded++;
+        } catch (itemErr) {
+          console.error(`❌ Failed to delete item ${id}:`, itemErr.response?.data || itemErr.message);
+          failed++;
+        }
       }
-      addToast('success', `Deleted ${selectedItems.size} item(s)`);
+      if (failed > 0) {
+        addToast('warning', `Deleted ${succeeded} item(s), failed to delete ${failed}`);
+      } else {
+        addToast('success', `Deleted ${succeeded} item(s)`);
+      }
       setSelectedItems(new Set());
       await fetchData();
     } catch (err) {
-      addToast('error', 'Failed to delete some items');
+      console.error('❌ Bulk delete error:', err);
+      const errorMsg = err.response?.status === 401 
+        ? '⚠️ Not authorized. Please log in again.'
+        : 'Failed to delete some items. Please try again.';
+      addToast('error', errorMsg);
     }
   };
 
