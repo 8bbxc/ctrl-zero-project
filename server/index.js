@@ -192,6 +192,41 @@ app.get('/api/diagnostic/project/:id', async (req, res) => {
   }
 });
 
+// --- Emergency Re-seed Endpoint (protected with token) ---
+app.post('/api/admin/reseed', async (req, res) => {
+  try {
+    const token = req.headers['x-admin-setup-token'] || req.body.token;
+    if (!token || token !== process.env.ADMIN_SETUP_TOKEN) {
+      return res.status(401).json({ error: 'Unauthorized. Invalid setup token.' });
+    }
+
+    console.log('🔄 Starting emergency re-seed...');
+
+    const projects = [
+      { title: 'DevLens AI', slug: 'devlens-ai', description: 'AI web application with Gemini API.', content: 'Deep analysis with AI.', image: 'https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200&q=80', gallery: ['https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1400&q=80'], category: 'Corporate', tags: ['AI', 'React'] },
+      { title: 'Najah Hub', slug: 'najah-hub', description: 'Full-stack platform.', content: 'Education hub.', image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&q=80', gallery: ['https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1400&q=80'], category: 'Education', tags: ['React', 'Node.js'] },
+      { title: 'My Portfolio', slug: 'my-portfolio', description: 'Portfolio with dashboard.', content: 'Showcase projects.', image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1200&q=80', gallery: ['https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1400&q=80'], category: 'Corporate', tags: ['Prisma', 'PostgreSQL'] }
+    ];
+
+    const deleted = await prisma.project.deleteMany({});
+    console.log(`✅ Deleted ${deleted.count} old projects`);
+
+    let created = 0;
+    for (const p of projects) {
+      await prisma.project.create({ data: p });
+      created++;
+    }
+
+    const finalCount = await prisma.project.count();
+    console.log(`✅ Re-seed done: ${created} created, Total: ${finalCount}`);
+
+    res.json({ success: true, message: `Re-seeded with ${created} projects`, stats: { deleted: deleted.count, created, total: finalCount } });
+  } catch (error) {
+    console.error('❌ Re-seed failed:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // --- Production Settings ---
 if (process.env.NODE_ENV === 'production') {
   if (!process.env.DATABASE_URL) {
