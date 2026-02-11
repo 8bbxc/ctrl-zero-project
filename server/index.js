@@ -87,14 +87,26 @@ app.use('/api/services', servicesRoutes);
 
 // --- Health Check ---
 app.get('/health', async (req, res) => {
-  const result = { server: true };
+  const result = { server: true, timestamp: new Date().toISOString() };
   try {
     await prisma.$queryRaw`SELECT 1`;
     result.database = true;
     return res.json({ ok: true, ...result });
   } catch (err) {
     console.error('Health check failed (DB):', err.message);
-    return res.status(500).json({ ok: false, server: true, database: false, error: 'Database unavailable' });
+    return res.status(500).json({ ok: false, server: true, database: false, error: 'Database unavailable', timestamp: new Date().toISOString() });
+  }
+});
+
+// --- Quick DB Check (no complex queries, just ping) ---
+app.get('/api/db-check', async (req, res) => {
+  try {
+    const startTime = Date.now();
+    await prisma.$queryRaw`SELECT 1`;
+    const duration = Date.now() - startTime;
+    res.json({ ok: true, duration: `${duration}ms` });
+  } catch (err) {
+    res.status(500).json({ ok: false, error: err.message });
   }
 });
 

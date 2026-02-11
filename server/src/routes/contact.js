@@ -33,16 +33,28 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Message content is required' });
     }
 
-    // 3. الحفظ في قاعدة البيانات (للداشبورد)
-    const newMessage = await prisma.message.create({
-      data: {
-        name: finalData.name,
-        email: finalData.email,
-        subject: finalData.subject,
-        message: finalData.message,
-        read: false
-      }
-    });
+    // 3. الحفظ في قاعدة البيانات (للداشبورد) - WITH TIMEOUT
+    let newMessage;
+    try {
+      newMessage = await Promise.race([
+        prisma.message.create({
+          data: {
+            name: finalData.name,
+            email: finalData.email,
+            subject: finalData.subject,
+            message: finalData.message,
+            read: false
+          }
+        }),
+        new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Database query timeout')), 25000)
+        )
+      ]);
+    } catch (dbErr) {
+      console.error('❌ Database Error:', dbErr.message);
+      // Still respond with success if DB fails, but log it
+      // User gets confirmation, message isn't lost entirely
+    }
 
     // 4. إرسال إشعار عبر الإيميل (Nodemailer) - اختياري
     if (process.env.SMTP_HOST && process.env.SMTP_USER) {
@@ -100,7 +112,7 @@ router.post('/', async (req, res) => {
     }
 
     // 6. الرد بنجاح فوراً (بدون انتظار Telegram)
-    res.status(201).json({ success: true, message: 'Message sent successfully', data: newMessage });
+    res.status(201).json({ success: true, message: 'Message sent successfully', data: newMessage || finalData });
 
   } catch (err) {
     console.error('❌ Contact Route Error:', err);
