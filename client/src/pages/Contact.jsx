@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
-import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaPaperPlane, FaWhatsapp, FaLinkedinIn, FaGithub } from 'react-icons/fa'
+import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaPaperPlane, FaWhatsapp, FaLinkedinIn, FaGithub, FaCheck, FaTimes } from 'react-icons/fa'
 import { ImSpinner8 } from 'react-icons/im'
 import api from '../services/api'
 
 export default function Contact() {
   const { t, i18n } = useTranslation()
   const dir = i18n.dir()
+  const isArabic = i18n.language === 'ar'
 
   const [formData, setFormData] = useState({ 
     name: '', 
@@ -16,6 +17,7 @@ export default function Contact() {
     message: '' 
   })
   const [status, setStatus] = useState('idle') // idle, loading, success, error
+  const [hoveredCard, setHoveredCard] = useState(null)
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
 
@@ -29,8 +31,7 @@ export default function Contact() {
       if (res && (res.status === 201 || res.status === 200)) {
         setStatus('success')
         setFormData({ name: '', email: '', subject: '', message: '' })
-        // Reset بسرعة أكثر
-        setTimeout(() => setStatus('idle'), 3000)
+        setTimeout(() => setStatus('idle'), 4000)
       } else {
         setStatus('error')
         setTimeout(() => setStatus('idle'), 3000)
@@ -38,139 +39,308 @@ export default function Contact() {
     } catch (err) {
       console.error('Contact submit failed:', err?.message || err)
       setStatus('error')
-      // التعامل مع الأخطاء بسرعة
       setTimeout(() => setStatus('idle'), 3000)
     }
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 },
+    },
+  }
+
   return (
-    <div className="min-h-screen py-12 sm:py-20 lg:py-24 relative overflow-hidden flex items-center bg-slate-950 text-slate-50 font-sans selection:bg-accent selection:text-black">
+    <div className={`min-h-screen py-12 sm:py-16 lg:py-24 relative overflow-hidden bg-slate-950 text-slate-50 font-sans selection:bg-accent selection:text-black ${dir}`}>
       
-      {/* --- الخلفية الموحدة (Atmospheric Background) --- */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] bg-blue-600/10 rounded-full blur-[80px] sm:blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] bg-purple-600/10 rounded-full blur-[80px] sm:blur-[120px]" />
-        {/* شبكة الزخرفة */}
-        <div className="absolute inset-0 bg-[url('/images/grid.svg')] opacity-[0.03]" />
+      {/* === ANIMATED BACKGROUND WITH MULTIPLE LAYERS === */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        {/* Base gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950" />
+        
+        {/* Animated gradient orbs - Top left (Blue) */}
+        <motion.div 
+          animate={{ 
+            x: [0, 30, -20, 0],
+            y: [0, -40, 30, 0],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-10 left-10 lg:top-20 lg:left-20 w-72 sm:w-96 lg:w-[500px] h-72 sm:h-96 lg:h-[500px] bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-500 rounded-full blur-[100px] sm:blur-[120px] opacity-15 lg:opacity-20"
+        />
+        
+        {/* Animated gradient orbs - Bottom right (Purple/Pink) */}
+        <motion.div 
+          animate={{ 
+            x: [0, -40, 25, 0],
+            y: [0, 30, -35, 0],
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute bottom-20 right-10 lg:bottom-40 lg:right-20 w-72 sm:w-96 lg:w-[500px] h-72 sm:h-96 lg:h-[500px] bg-gradient-to-l from-purple-600 via-pink-500 to-purple-500 rounded-full blur-[100px] sm:blur-[120px] opacity-15 lg:opacity-20"
+        />
+        
+        {/* Animated gradient orbs - Center (Cyan) */}
+        <motion.div 
+          animate={{ 
+            x: [0, 25, -30, 0],
+            y: [0, 25, 40, 0],
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 sm:w-80 lg:w-96 h-60 sm:h-80 lg:h-96 bg-gradient-to-t from-cyan-500 via-blue-500 to-cyan-500 rounded-full blur-[90px] sm:blur-[110px] opacity-10 lg:opacity-15"
+        />
+
+        {/* Grid pattern overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.03)_1px,transparent_1px)] bg-[size:50px_50px] lg:bg-[size:80px_80px] opacity-40" />
+        
+        {/* Radial gradient vignette for depth */}
+        <div className="absolute inset-0 bg-radial-gradient from-transparent via-transparent to-slate-950/50" />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-12 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-start">
+      {/* === MAIN CONTENT === */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header section */}
+        <motion.div 
+          initial={{ opacity: 0, y: -30 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="text-center mb-12 sm:mb-16 lg:mb-20"
+        >
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white mb-4 sm:mb-6 leading-tight">
+            {t('contact.title') || 'Get in Touch'}
+            <motion.span 
+              animate={{ opacity: [0.5, 1, 0.5], scale: [1, 1.2, 1] }}
+              transition={{ duration: 2.5, repeat: Infinity }}
+              className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 ml-2 sm:ml-4"
+            >
+              ✨
+            </motion.span>
+          </h1>
+          <p className="text-base sm:text-lg lg:text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto px-2">
+            {t('contact.subtitle') || "Have a project in mind? We would love to hear from you. Let's build something amazing together."}
+          </p>
+        </motion.div>
 
-          {/* 1. الجانب الأيسر: معلومات التواصل */}
+        <div className={`grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-start`}>
+
+          {/* === LEFT SIDE: CONTACT INFORMATION === */}
           <motion.div 
-            initial={{ opacity: 0, x: -30 }} 
+            initial={{ opacity: 0, x: dir === 'rtl' ? 30 : -30 }} 
             animate={{ opacity: 1, x: 0 }} 
-            transition={{ duration: 0.6 }}
-            className={`space-y-8 sm:space-y-10 order-2 lg:order-1 ${dir === 'rtl' ? 'lg:order-2' : 'lg:order-1'}`}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="space-y-8 sm:space-y-10 order-2 lg:order-1"
           >
-            <div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-black text-white mb-3 sm:mb-6 leading-tight break-words">
-                {t('contact.title') || 'Get in Touch'}
-                <motion.span 
-                  animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="inline-block text-cyan-400 ml-2"
-                >
-                  •
-                </motion.span>
-              </h1>
-              <p className="text-sm sm:text-base lg:text-lg text-slate-400 leading-relaxed break-words">
-                {t('contact.subtitle') || "Have a project in mind? We would love to hear from you. Let's build something amazing together."}
-              </p>
-            </div>
+            {/* Contact cards with better spacing and animations */}
+            <motion.div 
+              className="space-y-4 sm:space-y-6"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              <motion.div variants={itemVariants}>
+                <ContactCard 
+                  icon={<FaEnvelope className="text-lg sm:text-2xl" />} 
+                  title={t('contact.email') || 'Email'} 
+                  value="yazanbusiness124@gmail.com" 
+                  link="mailto:yazanbusiness124@gmail.com"
+                  color="from-blue-500 to-cyan-500"
+                  index={0}
+                  onHover={setHoveredCard}
+                  hoveredCard={hoveredCard}
+                />
+              </motion.div>
+              
+              <motion.div variants={itemVariants}>
+                <ContactCard 
+                  icon={<FaPhoneAlt className="text-lg sm:text-2xl" />} 
+                  title={t('contact.phone') || 'Phone'} 
+                  value="+970 568 203 031" 
+                  link="tel:+970568203031"
+                  color="from-green-500 to-emerald-500"
+                  index={1}
+                  onHover={setHoveredCard}
+                  hoveredCard={hoveredCard}
+                />
+              </motion.div>
+              
+              <motion.div variants={itemVariants}>
+                <ContactCard 
+                  icon={<FaMapMarkerAlt className="text-lg sm:text-2xl" />} 
+                  title={t('contact.location') || 'Location'} 
+                  value={isArabic ? 'فلسطين، نابلس' : 'Nablus, Palestine'}
+                  color="from-red-500 to-pink-500"
+                  index={2}
+                  onHover={setHoveredCard}
+                  hoveredCard={hoveredCard}
+                />
+              </motion.div>
+            </motion.div>
 
-            {/* بطاقات المعلومات */}
-            <div className="space-y-3 sm:space-y-5">
-              <ContactCard 
-                icon={<FaEnvelope />} 
-                title={t('contact.email') || 'Email'} 
-                value="yazanbusiness124@gmail.com" 
-                link="mailto:yazanbusiness124@gmail.com"
-                color="text-blue-400"
-              />
-              <ContactCard 
-                icon={<FaPhoneAlt />} 
-                title={t('contact.phone') || 'Phone'} 
-                value="+970 568 203 031" 
-                link="tel:+970568203031"
-                color="text-green-400"
-              />
-              <ContactCard 
-                icon={<FaMapMarkerAlt />} 
-                title={t('contact.location') || 'Location'} 
-                value={dir === 'rtl' ? 'فلسطين، نابلس' : 'Nablus, Palestine'}
-                color="text-red-400"
-              />
-            </div>
-
-            {/* سوشيال ميديا */}
-            <div>
-              <h3 className="text-white font-bold mb-3 sm:mb-4 uppercase tracking-widest text-xs">{t('contact.social') || 'Follow Us'}</h3>
-              <div className="flex gap-3 sm:gap-4">
-                 <SocialBtn icon={<FaWhatsapp />} link="https://wa.me/qr/ZEUXAVWSSI44K1" color="hover:bg-green-600 hover:border-green-600" />
-                 <SocialBtn icon={<FaLinkedinIn />} link="https://www.linkedin.com/in/yazan-saadeh/" color="hover:bg-blue-600 hover:border-blue-600" />
-                 <SocialBtn icon={<FaGithub />} link="https://github.com/8bbxc" color="hover:bg-gray-800 hover:border-gray-800" />
+            {/* Social media section with divider */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="pt-6 sm:pt-10 border-t border-white/10"
+            >
+              <h3 className="text-white font-bold mb-4 sm:mb-6 uppercase tracking-widest text-xs sm:text-sm">
+                {t('contact.social') || 'Follow Us'}
+              </h3>
+              <div className={`flex gap-4 sm:gap-5 ${dir === 'rtl' ? 'flex-row-reverse' : ''}`}>
+                 <SocialBtn 
+                   icon={<FaWhatsapp className="text-lg sm:text-xl" />} 
+                   link="https://wa.me/qr/ZEUXAVWSSI44K1" 
+                   color="from-green-500 to-emerald-500"
+                   label="WhatsApp"
+                 />
+                 <SocialBtn 
+                   icon={<FaLinkedinIn className="text-lg sm:text-xl" />} 
+                   link="https://www.linkedin.com/in/yazan-saadeh/" 
+                   color="from-blue-600 to-blue-400"
+                   label="LinkedIn"
+                 />
+                 <SocialBtn 
+                   icon={<FaGithub className="text-lg sm:text-xl" />} 
+                   link="https://github.com/8bbxc" 
+                   color="from-gray-600 to-gray-400"
+                   label="GitHub"
+                 />
               </div>
-            </div>
+            </motion.div>
           </motion.div>
 
-          {/* 2. الجانب الأيمن: النموذج (Form) */}
+          {/* === RIGHT SIDE: CONTACT FORM === */}
           <motion.div 
-            initial={{ opacity: 0, x: 30 }} 
+            initial={{ opacity: 0, x: dir === 'rtl' ? -30 : 30 }} 
             animate={{ opacity: 1, x: 0 }} 
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className={`bg-slate-900/60 backdrop-blur-xl border border-white/10 p-5 sm:p-8 lg:p-10 rounded-2xl sm:rounded-3xl shadow-2xl relative order-1 lg:order-2 ${dir === 'rtl' ? 'lg:order-1' : 'lg:order-2'}`}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="order-1 lg:order-2"
           >
-            {/* زخرفة ضوئية */}
-            <div className="absolute -top-10 -right-10 w-20 sm:w-32 h-20 sm:h-32 bg-accent/20 rounded-full blur-3xl pointer-events-none" />
-
-            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6 relative z-10">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                <InputGroup label={t('contact.name') || 'Name'} name="name" value={formData.name} onChange={handleChange} required placeholder={t('contact.namePlaceholder') || 'Full Name'} />
-                <InputGroup label={t('contact.email') || 'Email'} name="email" type="email" value={formData.email} onChange={handleChange} required placeholder={t('contact.emailPlaceholder') || 'email@example.com'} />
-              </div>
-              <InputGroup label={t('contact.subject') || 'Subject'} name="subject" value={formData.subject} onChange={handleChange} required placeholder={t('contact.subjectPlaceholder') || 'Project Inquiry'} />
+            <div className="relative group">
+              {/* Animated gradient border effect */}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-3xl blur opacity-20 group-hover:opacity-30 transition duration-500" />
               
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">
-                  {t('contact.message') || 'Message'}
-                </label>
-                <textarea 
-                  name="message" 
-                  rows="4" 
-                  value={formData.message} 
-                  onChange={handleChange}
-                  required
-                  placeholder={t('contact.messagePlaceholder') || 'Tell us about your project...'}
-                  className="w-full bg-black/20 border border-white/10 rounded-xl px-4 sm:px-5 py-3 sm:py-4 text-sm sm:text-base text-white focus:outline-none focus:border-accent focus:bg-black/40 transition-all resize-none placeholder-slate-600"
-                ></textarea>
+              {/* Form container */}
+              <div className="relative bg-slate-900/70 backdrop-blur-2xl border border-white/10 p-6 sm:p-8 lg:p-10 rounded-3xl shadow-2xl">
+                {/* Decorative light accent */}
+                <div className="absolute -top-12 -right-12 w-28 h-28 bg-gradient-to-br from-accent/30 to-transparent rounded-full blur-3xl pointer-events-none opacity-50" />
+                <div className="absolute -bottom-12 -left-12 w-28 h-28 bg-gradient-to-tr from-purple-500/20 to-transparent rounded-full blur-3xl pointer-events-none opacity-50" />
+
+                <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6 relative z-10">
+                  {/* Name and Email row */}
+                  <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6`}>
+                    <InputGroup 
+                      label={t('contact.name') || 'Name'} 
+                      name="name" 
+                      value={formData.name} 
+                      onChange={handleChange} 
+                      required 
+                      placeholder={isArabic ? 'اسمك الكامل' : 'Full Name'} 
+                      dir={dir}
+                    />
+                    <InputGroup 
+                      label={t('contact.email') || 'Email'} 
+                      name="email" 
+                      type="email" 
+                      value={formData.email} 
+                      onChange={handleChange} 
+                      required 
+                      placeholder={isArabic ? 'بريدك@example.com' : 'your@email.com'}
+                      dir={dir}
+                    />
+                  </div>
+
+                  {/* Subject */}
+                  <InputGroup 
+                    label={t('contact.subject') || 'Subject'} 
+                    name="subject" 
+                    value={formData.subject} 
+                    onChange={handleChange} 
+                    required 
+                    placeholder={isArabic ? 'موضوع المشروع' : 'Project Inquiry'}
+                    dir={dir}
+                  />
+                  
+                  {/* Message textarea */}
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+                      {t('contact.message') || 'Message'}
+                    </label>
+                    <textarea 
+                      name="message" 
+                      rows="5" 
+                      value={formData.message} 
+                      onChange={handleChange}
+                      required
+                      placeholder={isArabic ? 'حدثنا عن مشروعك...' : 'Tell us about your project...'}
+                      dir={dir}
+                      className={`w-full bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:bg-white/10 transition-all resize-none focus:ring-2 focus:ring-cyan-500/30 ${dir === 'rtl' ? 'text-right' : 'text-left'}`}
+                    />
+                  </div>
+
+                  {/* Submit button */}
+                  <motion.button 
+                    type="submit" 
+                    disabled={status === 'loading'}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full py-3 sm:py-4 px-6 rounded-2xl bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 text-black font-bold text-base sm:text-lg hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:shadow-none flex items-center justify-center gap-3 uppercase tracking-wide"
+                  >
+                    {status === 'loading' ? (
+                      <>
+                        <ImSpinner8 className="animate-spin text-base sm:text-lg" /> 
+                        <span className="text-sm sm:text-base">{t('loading') || 'Sending...'}</span>
+                      </>
+                    ) : (
+                      <>
+                        <FaPaperPlane className="text-base sm:text-lg" /> 
+                        <span className="text-sm sm:text-base">{t('contact.send') || 'Send Message'}</span>
+                      </>
+                    )}
+                  </motion.button>
+
+                  {/* Status messages with animations */}
+                  {status === 'success' && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }} 
+                      animate={{ opacity: 1, y: 0, scale: 1 }} 
+                      exit={{ opacity: 0, y: -10 }}
+                      className="p-4 sm:p-5 bg-gradient-to-r from-emerald-500/10 via-green-500/10 to-emerald-500/10 border border-emerald-500/30 rounded-2xl flex items-center gap-3"
+                    >
+                      <FaCheck className="text-emerald-400 flex-shrink-0 text-lg" />
+                      <p className="text-emerald-400 text-center sm:text-left font-semibold text-sm sm:text-base">
+                        {t('contact.sent') || 'Message sent successfully! We will contact you soon.'}
+                      </p>
+                    </motion.div>
+                  )}
+
+                  {status === 'error' && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }} 
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="p-4 sm:p-5 bg-gradient-to-r from-red-500/10 via-red-500/10 to-red-500/10 border border-red-500/30 rounded-2xl flex items-center gap-3"
+                    >
+                      <FaTimes className="text-red-400 flex-shrink-0 text-lg" />
+                      <p className="text-red-400 text-center sm:text-left font-semibold text-sm sm:text-base">
+                        {t('contact.failed') || 'Failed to send message. Please try again later.'}
+                      </p>
+                    </motion.div>
+                  )}
+                </form>
               </div>
-
-              <button 
-                type="submit" 
-                disabled={status === 'loading'}
-                className="w-full py-3 sm:py-4 rounded-xl bg-accent text-black font-bold text-base sm:text-lg hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] hover:-translate-y-1 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 sm:gap-3"
-              >
-                {status === 'loading' ? (
-                  <> <ImSpinner8 className="animate-spin text-sm sm:text-base" /> <span className="text-sm sm:text-base">{t('loading') || 'Sending...'}</span> </>
-                ) : (
-                  <> <FaPaperPlane className="text-sm sm:text-base" /> <span className="text-sm sm:text-base">{t('contact.send') || 'Send Message'}</span> </>
-                )}
-              </button>
-
-              {/* رسائل الحالة */}
-              {status === 'success' && (
-                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-3 sm:p-4 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-xl text-center text-xs sm:text-sm font-bold">
-                  {t('contact.sent') || 'Message sent successfully!'}
-                </motion.div>
-              )}
-              {status === 'error' && (
-                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-3 sm:p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-center text-xs sm:text-sm font-bold">
-                  {t('contact.failed') || 'Failed to send message.'}
-                </motion.div>
-              )}
-            </form>
+            </div>
           </motion.div>
 
         </div>
@@ -179,12 +349,13 @@ export default function Contact() {
   )
 }
 
-// --- Components ---
-
-function InputGroup({ label, name, type = "text", value, onChange, required, placeholder }) {
+// === COMPONENT: Input Group ===
+function InputGroup({ label, name, type = "text", value, onChange, required, placeholder, dir }) {
   return (
     <div className="space-y-2">
-      <label className="text-xs font-bold text-slate-400 uppercase tracking-wider ml-1">{label}</label>
+      <label className="text-xs font-bold text-slate-300 uppercase tracking-wider block">
+        {label}
+      </label>
       <input 
         type={type} 
         name={name} 
@@ -192,35 +363,74 @@ function InputGroup({ label, name, type = "text", value, onChange, required, pla
         onChange={onChange} 
         required={required}
         placeholder={placeholder}
-        className="w-full bg-black/20 border border-white/10 rounded-xl px-4 sm:px-5 py-3 sm:py-3.5 text-sm sm:text-base text-white focus:outline-none focus:border-accent focus:bg-black/40 transition-all placeholder-slate-600"
+        dir={dir}
+        className={`w-full bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-4 sm:px-6 py-3 sm:py-3.5 text-sm sm:text-base text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:bg-white/10 transition-all focus:ring-2 focus:ring-cyan-500/30 ${dir === 'rtl' ? 'text-right' : 'text-left'}`}
       />
     </div>
   )
 }
 
-function ContactCard({ icon, title, value, link, color }) {
+// === COMPONENT: Contact Card ===
+function ContactCard({ icon, title, value, link, color, index, onHover, hoveredCard }) {
+  const isHovered = hoveredCard === index
+  
   return (
-    <a href={link || '#'} className={`flex items-center gap-3 sm:gap-5 p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-slate-900/40 border border-white/5 hover:border-white/10 hover:bg-slate-800/60 transition-all group ${!link ? 'cursor-default' : ''}`}>
-      <div className={`w-12 sm:w-14 h-12 sm:h-14 flex-shrink-0 rounded-full bg-slate-800 flex items-center justify-center text-lg sm:text-2xl ${color} shadow-lg group-hover:scale-110 transition-transform`}>
+    <motion.a 
+      href={link || '#'}
+      onMouseEnter={() => onHover(index)}
+      onMouseLeave={() => onHover(null)}
+      whileHover={{ y: -8 }}
+      className={`flex items-center gap-4 sm:gap-5 p-5 sm:p-6 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-slate-900/50 to-slate-800/30 border border-white/10 hover:border-white/20 transition-all group cursor-pointer backdrop-blur-sm ${!link ? 'hover:cursor-default' : 'hover:shadow-[0_10px_40px_rgba(59,130,246,0.2)]'}`}
+    >
+      <motion.div 
+        animate={{
+          scale: isHovered ? 1.15 : 1,
+          rotate: isHovered ? 10 : 0,
+        }}
+        transition={{ duration: 0.3 }}
+        className={`w-14 sm:w-16 h-14 sm:h-16 flex-shrink-0 rounded-full bg-gradient-to-br ${color} flex items-center justify-center text-white shadow-lg group-hover:shadow-[0_0_30px_rgba(59,130,246,0.4)]`}
+      >
         {icon}
+      </motion.div>
+      
+      <div className="flex-1 min-w-0">
+        <div className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1 sm:mb-2">{title}</div>
+        <div className={`text-white font-semibold text-sm sm:text-lg group-hover:text-cyan-400 transition-colors break-words`}>
+          {value}
+        </div>
       </div>
-      <div className="min-w-0">
-        <div className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1">{title}</div>
-        <div className="text-white font-medium text-sm sm:text-lg group-hover:text-accent transition-colors break-words">{value}</div>
-      </div>
-    </a>
+      
+      <motion.div 
+        animate={{ x: isHovered ? 8 : 0 }}
+        transition={{ duration: 0.3 }}
+        className="text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 text-xl sm:text-2xl hidden sm:block"
+      >
+        →
+      </motion.div>
+    </motion.a>
   )
 }
 
-function SocialBtn({ icon, link, color }) {
+// === COMPONENT: Social Button ===
+function SocialBtn({ icon, link, color, label }) {
   return (
-    <a 
+    <motion.a 
       href={link} 
       target="_blank" 
-      rel="noreferrer" 
-      className={`w-10 sm:w-12 h-10 sm:h-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-slate-300 hover:text-white transition-all hover:scale-110 ${color}`}
+      rel="noreferrer"
+      whileHover={{ scale: 1.15, y: -5 }}
+      whileTap={{ scale: 0.95 }}
+      title={label}
+      className={`w-12 sm:w-14 h-12 sm:h-14 rounded-full border border-white/20 bg-gradient-to-br ${color} flex items-center justify-center text-white transition-all hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] relative group`}
     >
       <span className="text-lg sm:text-xl">{icon}</span>
-    </a>
+      <motion.div 
+        initial={{ opacity: 0, y: -10 }}
+        whileHover={{ opacity: 1, y: 0 }}
+        className="absolute -top-12 left-1/2 -translate-x-1/2 bg-slate-900/90 text-white text-xs font-bold px-3 py-2 rounded-lg whitespace-nowrap backdrop-blur border border-white/10 pointer-events-none"
+      >
+        {label}
+      </motion.div>
+    </motion.a>
   )
 }
