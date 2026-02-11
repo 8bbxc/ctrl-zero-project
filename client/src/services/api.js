@@ -1,25 +1,9 @@
 import axios from 'axios'
 import { getToken, setTokens, logout } from './auth'
 
-// Determine API base depending on environment
-// - Local development: use full localhost address (backend running separately)
-// - Production (Vite build on Vercel): use relative `/api` so requests go to Vercel Serverless functions
-const API_URL = (() => {
-  try {
-    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
-      return 'http://localhost:4000/api';
-    }
-  } catch (e) {
-    // noop
-  }
-
-  if (import.meta.env.PROD) {
-    return '/api';
-  }
-
-  // Default fallback for dev
-  return 'http://localhost:4000/api';
-})();
+// Use relative `/api` for all environments so requests route to Vercel functions
+// When running locally and backend is separate, Vite proxy or local backend should handle routing.
+const API_URL = '/api';
 
 console.log('🔗 API URL:', API_URL, '| Environment:', import.meta.env.MODE);
 
