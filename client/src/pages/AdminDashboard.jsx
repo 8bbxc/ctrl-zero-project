@@ -45,6 +45,8 @@ export default function AdminDashboard() {
   const [items, setItems] = useState([]) 
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('All')
+  const [sortBy, setSortBy] = useState('newest')
   const [counts, setCounts] = useState({ projects: 0, services: 0, messages: 0 })
   
   const [showModal, setShowModal] = useState(false)
@@ -54,6 +56,7 @@ export default function AdminDashboard() {
   
   const [formData, setFormData] = useState({}) 
   const [isUploading, setIsUploading] = useState(false)
+  const [selectedItems, setSelectedItems] = useState(new Set())
 
   useEffect(() => {
     // Use updated token storage key (accessToken) and fallback to refresh token
@@ -441,11 +444,65 @@ export default function AdminDashboard() {
   }
 
   const safeItems = Array.isArray(items) ? items : []
-  const filteredItems = safeItems.filter(i => {
+  
+  // Advanced filtering and sorting
+  const filteredItems = safeItems
+    .filter(i => {
       const search = searchTerm.toLowerCase();
-      return (i.title?.toLowerCase().includes(search)) || 
-             (i.category?.toLowerCase().includes(search));
-  })
+      const matchesSearch = (i.title?.toLowerCase().includes(search)) || 
+                           (i.description?.toLowerCase().includes(search)) ||
+                           (i.category?.toLowerCase().includes(search));
+      
+      if (activeTab === 'projects') {
+        const matchesCategory = selectedCategory === 'All' || i.category === selectedCategory;
+        return matchesSearch && matchesCategory;
+      }
+      return matchesSearch;
+    })
+    .sort((a, b) => {
+      if (sortBy === 'newest') return new Date(b.createdAt) - new Date(a.createdAt);
+      if (sortBy === 'oldest') return new Date(a.createdAt) - new Date(b.createdAt);
+      if (sortBy === 'title-asc') return (a.title || '').localeCompare(b.title || '');
+      if (sortBy === 'title-desc') return (b.title || '').localeCompare(a.title || '');
+      return 0;
+    });
+  
+  const selectItem = (id) => {
+    const newSelected = new Set(selectedItems);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
+    } else {
+      newSelected.add(id);
+    }
+    setSelectedItems(newSelected);
+  };
+  
+  const selectAllVisible = () => {
+    const newSelected = new Set();
+    filteredItems.forEach(item => newSelected.add(item.id));
+    setSelectedItems(newSelected);
+  };
+  
+  const clearSelection = () => {
+    setSelectedItems(new Set());
+  };
+  
+  const deleteSelected = async () => {
+    if (selectedItems.size === 0) return;
+    const confirmed = window.confirm(`Delete ${selectedItems.size} item(s)?`);
+    if (!confirmed) return;
+    
+    try {
+      for (const id of selectedItems) {
+        await api.delete(`/${activeTab}/${id}`);
+      }
+      addToast('success', `Deleted ${selectedItems.size} item(s)`);
+      setSelectedItems(new Set());
+      await fetchData();
+    } catch (err) {
+      addToast('error', 'Failed to delete some items');
+    }
+  };
 
   const generateSlug = () => {
     if (formData.title) {
@@ -487,16 +544,84 @@ export default function AdminDashboard() {
 
         {/* Main Content */}
         <main className="flex-1 flex flex-col h-full overflow-hidden relative">
-          <header className="px-4 sm:px-6 py-4 sm:py-6 border-b border-white/5 bg-slate-900/20 backdrop-blur-md flex flex-col sm:flex-row sm:flex-wrap justify-between items-start sm:items-center gap-3 sm:gap-4">
-            <div className="min-w-0 flex-1">
-              <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight capitalize truncate">{activeTab}</h1>
-              <p className="text-xs text-slate-500 font-mono mt-1">Manage your {activeTab} content</p>
+          <header className="px-4 sm:px-6 py-4 sm:py-6 border-b border-white/5 bg-slate-900/20 backdrop-blur-md">
+            <div className="flex flex-col gap-4">
+              {/* Title + Action Buttons */}
+              <div className="flex flex-col sm:flex-row sm:flex-wrap justify-between items-start sm:items-center gap-3 sm:gap-4">
+                <div className="min-w-0 flex-1">
+                  <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight capitalize truncate">{activeTab}</h1>
+                  <p className="text-xs text-slate-500 font-mono mt-1">Manage your {activeTab} content</p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {selectedItems.size > 0 && (
+                    <>
+                      <span className="text-xs text-slate-400 px-3 py-2">{selectedItems.size} selected</span>
+                      <button onClick={clearSelection} className="text-xs px-3 py-2 bg-white/5 rounded-lg hover:bg-white/10 text-slate-300">Clear</button>
+                      <button onClick={deleteSelected} className="text-xs px-3 py-2 bg-red-600 rounded-lg text-white hover:bg-red-700">Delete All</button>
+                    </>
+                  )}
+                  {activeTab !== 'messages' && (
+                    <button onClick={() => openModal()} className="btn-primary flex items-center gap-2 px-4 sm:px-5 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-lg hover:-translate-y-1 transition-all whitespace-nowrap">
+                      <FaPlus /> <span>New Item</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Advanced Filters */}
+              <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-white/5">
+                {/* Search */}
+                <div className="flex-1 relative">
+                  <FaSearch className="absolute left-3 top-3 text-slate-500 text-xs" />
+                  <input 
+                    type="text"
+                    placeholder="Search by title, description, or category..."
+                    value={searchTerm}
+                    onChange={e => setSearchTerm(e.target.value)}
+                    className="w-full bg-black/40 border border-white/10 rounded-lg px-3 py-2 pl-7 text-xs text-white placeholder-slate-500 focus:border-accent outline-none"
+                  />
+                </div>
+
+                {/* Category Filter (Projects only) */}
+                {activeTab === 'projects' && (
+                  <select 
+                    value={selectedCategory}
+                    onChange={e => setSelectedCategory(e.target.value)}
+                    className="bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:border-accent outline-none cursor-pointer"
+                  >
+                    <option value="All">All Categories</option>
+                    {SECTORS.map(sec => <option key={sec} value={sec}>{sec}</option>)}
+                  </select>
+                )}
+
+                {/* Sort */}
+                <select 
+                  value={sortBy}
+                  onChange={e => setSortBy(e.target.value)}
+                  className="bg-black/40 border border-white/10 rounded-lg px-3 py-2 text-xs text-white focus:border-accent outline-none cursor-pointer"
+                >
+                  <option value="newest">Newest First</option>
+                  <option value="oldest">Oldest First</option>
+                  <option value="title-asc">Title (A-Z)</option>
+                  <option value="title-desc">Title (Z-A)</option>
+                </select>
+
+                {/* Results Count */}
+                <div className="text-xs text-slate-400 px-3 py-2 whitespace-nowrap">
+                  {filteredItems.length} of {safeItems.length}
+                </div>
+
+                {/* Select All Visible (Projects only) */}
+                {activeTab === 'projects' && filteredItems.length > 0 && (
+                  <button 
+                    onClick={selectAllVisible}
+                    className="text-xs px-3 py-2 bg-white/5 rounded-lg hover:bg-white/10 text-slate-300 whitespace-nowrap"
+                  >
+                    Select All ({filteredItems.length})
+                  </button>
+                )}
+              </div>
             </div>
-            {activeTab !== 'messages' && (
-              <button onClick={() => openModal()} className="btn-primary flex items-center gap-2 px-4 sm:px-5 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-lg hover:-translate-y-1 transition-all whitespace-nowrap">
-                <FaPlus /> <span>New Item</span>
-              </button>
-            )}
           </header>
 
           <div className="flex-1 overflow-y-auto px-6 py-8 custom-scrollbar pb-24">
@@ -514,6 +639,16 @@ export default function AdminDashboard() {
                           layout
                           className="group relative bg-slate-900/40 backdrop-blur-sm border border-white/5 rounded-3xl overflow-hidden hover:border-accent/30 hover:shadow-2xl hover:shadow-accent/5 transition-all duration-500 flex flex-col"
                         >
+                          {/* Checkbox (top-left) */}
+                          <div className="absolute top-3 left-3 z-10">
+                            <input 
+                              type="checkbox"
+                              checked={selectedItems.has(item.id)}
+                              onChange={() => selectItem(item.id)}
+                              className="w-4 h-4 accent-accent cursor-pointer"
+                            />
+                          </div>
+
                           {/* Image */}
                           <div className="h-48 overflow-hidden relative bg-slate-950">
                              <img src={item.image || item.icon} onError={(e) => { e.target.src = FALLBACK_SVG }} className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100" />
@@ -523,7 +658,7 @@ export default function AdminDashboard() {
                                <button onClick={() => setConfirmDelete({ open: true, id: item.id })} className="p-2 bg-black/40 backdrop-blur-md rounded-xl text-red-400 hover:bg-red-500 hover:text-white transition-colors shadow-lg"><FaTrash /></button>
                              </div>
                              {/* Badge */}
-                             <span className="absolute top-4 left-4 bg-black/50 backdrop-blur-md text-[10px] font-bold px-2 py-1 rounded text-white border border-white/5">
+                             <span className="absolute top-4 left-14 bg-black/50 backdrop-blur-md text-[10px] font-bold px-2 py-1 rounded text-white border border-white/5">
                                 {item.category || 'Uncategorized'}
                              </span>
                           </div>
@@ -531,6 +666,7 @@ export default function AdminDashboard() {
                           <div className="p-5 flex-1 flex flex-col">
                             <h3 className="font-bold text-white text-lg truncate mb-2">{item.title}</h3>
                             <p className="text-xs text-slate-400 line-clamp-2 mb-4 flex-1">{item.description}</p>
+                            <p className="text-[10px] text-slate-500 font-mono">{new Date(item.createdAt).toLocaleDateString()}</p>
                           </div>
                         </motion.div>
                       ))}
