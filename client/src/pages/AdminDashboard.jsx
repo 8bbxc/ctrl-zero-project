@@ -55,8 +55,10 @@ export default function AdminDashboard() {
   const [isUploading, setIsUploading] = useState(false)
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token) {
+    // Use updated token storage key (accessToken) and fallback to refresh token
+    const access = localStorage.getItem('accessToken')
+    const refresh = localStorage.getItem('refreshToken')
+    if (!access && !refresh) {
       navigate('/admin/login')
       return
     }
