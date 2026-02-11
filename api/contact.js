@@ -26,7 +26,17 @@ module.exports = async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
-  const { name, email, subject, message } = req.body || {};
+  // Normalize body: sometimes platforms deliver a string body
+  let body = req.body || {};
+  if (typeof body === 'string') {
+    try {
+      body = JSON.parse(body);
+    } catch (err) {
+      console.warn('Contact: failed to parse string body');
+    }
+  }
+
+  const { name, email, subject, message } = body || {};
 
   if (!name || !email || !subject || !message) {
     return res.status(400).json({ error: 'Missing required fields: name, email, subject, message' });
@@ -55,16 +65,18 @@ module.exports = async function handler(req, res) {
     };
 
     const telegramRes = await axios.post(url, payload, { timeout: 10000 });
-    if (telegramRes.data && telegramRes.data.ok) {
-      return res.status(200).json({ ok: true });
+
+    if (telegramRes?.data?.ok) {
+      console.log('Contact -> Telegram sent, message_id=', telegramRes.data.result?.message_id);
+      return res.status(200).json({ ok: true, message_id: telegramRes.data.result?.message_id });
     }
 
-    console.error('Unexpected Telegram response', telegramRes.data);
-    return res.status(500).json({ error: 'Failed to send message' });
+    console.error('Unexpected Telegram response', telegramRes?.data);
+    return res.status(502).json({ error: 'Failed to send message', details: telegramRes?.data });
   } catch (err) {
-    console.error('Telegram API error:', err.message || err);
+    console.error('Telegram API error:', err?.message || err);
     const status = err.response?.status || 500;
     const msg = err.response?.data || { error: 'Telegram API error' };
-    return res.status(500).json({ error: 'Failed to send message', details: msg });
+    return res.status(502).json({ error: 'Failed to send message', details: msg });
   }
 };
