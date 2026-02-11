@@ -64,10 +64,10 @@ export default function Contact() {
   }
 
   return (
-    <div className={`min-h-screen py-12 sm:py-16 lg:py-24 relative overflow-hidden bg-slate-950 text-slate-50 font-sans selection:bg-accent selection:text-black ${dir}`}>
+    <div className={`py-12 sm:py-16 lg:py-24 relative bg-slate-950 text-slate-50 font-sans selection:bg-accent selection:text-black ${dir}`}>
       
       {/* === ANIMATED BACKGROUND WITH MULTIPLE LAYERS === */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+      <div className="fixed inset-0 pointer-events-none overflow-hidden -z-50">
         {/* Base gradient background */}
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950" />
         
