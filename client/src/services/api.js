@@ -1,27 +1,32 @@
 import axios from 'axios'
 import { getToken, setTokens, logout } from './auth'
 
-// تحديد الرابط الصحيح حسب البيئة
-// للـ Production في Vercel: استخدم الـ backend المنشور على Render
-// للـ Development محليّاً: استخدم localhost:4000
-const BASE_URL = (() => {
-  // في Production (Vercel)
-  if (import.meta.env.PROD) {
-    return 'https://ctrl-zero-0.onrender.com'; // السيرفر الحقيقي على Render
+// Determine API base depending on environment
+// - Local development: use full localhost address (backend running separately)
+// - Production (Vite build on Vercel): use relative `/api` so requests go to Vercel Serverless functions
+const API_URL = (() => {
+  try {
+    if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+      return 'http://localhost:4000/api';
+    }
+  } catch (e) {
+    // noop
   }
-  // في Development محليّاً
-  return 'http://localhost:4000';
+
+  if (import.meta.env.PROD) {
+    return '/api';
+  }
+
+  // Default fallback for dev
+  return 'http://localhost:4000/api';
 })();
 
-// نقوم بإضافة /api للرابط
-const API_URL = `${BASE_URL}/api`;
-
-console.log('🔗 API URL:', API_URL, '| Environment:', import.meta.env.MODE); // للـ debugging
+console.log('🔗 API URL:', API_URL, '| Environment:', import.meta.env.MODE);
 
 const api = axios.create({
   baseURL: API_URL,
-  withCredentials: true, // مهم جداً لضمان عمل CORS بشكل صحيح
-  timeout: 15000 // Timeout بعد 15 ثانية (زيادة المدة للـ database queries)
+  withCredentials: true,
+  timeout: 15000
 })
 
 // 2. Request Interceptor: إضافة التوكن
@@ -52,7 +57,7 @@ api.interceptors.response.use(
         
         try {
           // استدعِ /auth/refresh للحصول على access token جديد
-          const refreshResponse = await axios.post(`${BASE_URL}/api/admin/refresh`, {
+          const refreshResponse = await axios.post(`${API_URL}/admin/refresh`, {
             refreshToken: localStorage.getItem('refreshToken')
           });
 
