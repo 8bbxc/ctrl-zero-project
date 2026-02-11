@@ -110,6 +110,35 @@ app.get('/api/db-check', async (req, res) => {
   }
 });
 
+// --- Data Statistics Endpoint ---
+app.get('/api/stats', async (req, res) => {
+  try {
+    const [projectCount, serviceCount, messageCount] = await Promise.all([
+      prisma.project.count(),
+      prisma.service.count(),
+      prisma.message.count()
+    ]);
+
+    const projects = await prisma.project.findMany({
+      select: { id: true, title: true, slug: true, category: true },
+      orderBy: { id: 'desc' },
+      take: 10
+    });
+
+    res.json({
+      stats: {
+        projects: projectCount,
+        services: serviceCount,
+        messages: messageCount
+      },
+      latestProjects: projects
+    });
+  } catch (error) {
+    console.error('Stats Error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // --- Diagnostic Endpoint (for debugging) ---
 app.get('/api/diagnostic/project/:id', async (req, res) => {
   try {

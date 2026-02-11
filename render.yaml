@@ -10,7 +10,7 @@ services:
     buildCommand: npm ci
     startCommand: npm start
     healthCheckPath: /health
-    releaseCommand: npx prisma migrate deploy && npm run seed || true
+    releaseCommand: npx prisma migrate deploy || true && npx prisma generate || true
     envVars:
       - key: NODE_ENV
         value: production
