@@ -2,10 +2,25 @@ const axios = require('axios');
 
 // Escape text for Telegram MarkdownV2
 function escapeMarkdown(text = '') {
-  return String(text).replace(/([_\*\[\]\(\)~`>#\+\-\=\|\{\}\.\!\\])/g, '\\$1');
+  return String(text).replace(/([_\*\[\]\(\)~`>#\+\-\=\|\{\}\.\\!\\\\])/g, '\\$1');
+}
+
+function setCorsHeaders(res) {
+  // Allow all origins for simplicity; restrict in production if needed
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 }
 
 module.exports = async function handler(req, res) {
+  // Handle CORS preflight
+  if (req.method === 'OPTIONS') {
+    setCorsHeaders(res);
+    return res.status(204).end();
+  }
+
+  setCorsHeaders(res);
+
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'Method Not Allowed' });
