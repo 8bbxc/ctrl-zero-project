@@ -91,6 +91,7 @@ const resources = {
       contact: { 
         title: 'Get in Touch', 
         subtitle: "Have a project in mind? We would love to hear from you. Let's build something amazing together.",
+        formTitle: 'Send us a message',
         btn: "Let's Talk",
         name: 'Full Name', 
         email: 'Email Address', 
@@ -245,6 +246,7 @@ const resources = {
       contact: { 
         title: 'تواصل معنا', 
         subtitle: 'هل لديك فكرة مشروع في ذهنك؟ نود أن نسمع منك. دعنا نبني معاً شيئاً مذهلاً.',
+        formTitle: 'أرسل لنا رسالة',
         btn: "هيا نتحدث",
         name: 'الاسم الكامل', 
         email: 'البريد الإلكتروني', 

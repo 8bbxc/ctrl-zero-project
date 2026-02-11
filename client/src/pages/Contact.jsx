@@ -80,18 +80,15 @@ export default function Contact() {
           className="text-center mb-16 lg:mb-24 mt-12"
         >
           <span className="inline-block py-1 px-3 rounded-full bg-cyan-900/20 border border-cyan-500/20 text-cyan-400 font-mono text-xs uppercase tracking-[0.3em] mb-6 backdrop-blur-md">
-            {t('contact.subtitle') || (isArabic ? 'تواصل معنا' : 'CONTACT US')}
+            {t('contact.btn') || (isArabic ? 'هيا نتحدث' : 'LET’S TALK')}
           </span>
           <h1 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight leading-tight">
-            {isArabic ? 'لنبدأ ' : "Let's Start a "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500">
-              {isArabic ? 'محادثة مثمرة.' : 'Conversation.'}
-            </span>
+            {t('contact.title')}
           </h1>
           <p className="text-lg text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
-            {t('contact.desc') || (isArabic 
+            {t('contact.subtitle') || (isArabic 
               ? "لديك مشروع في ذهنك؟ نود أن نسمع منك. دعنا نبني شيئاً مذهلاً معاً." 
-              : "Have a project in mind? We would love to hear from you. Let's build something amazing together.")}
+              : "Have a project in mind? We would love to hear from you. Let's build something amazing together.") }
           </p>
         </motion.div>
 
@@ -164,9 +161,9 @@ export default function Contact() {
           >
             <div className="relative group">
               {/* توهج خلفي للنموذج */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-[2.5rem] blur opacity-20 group-hover:opacity-40 transition duration-1000" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-[2.5rem] blur opacity-12 group-hover:opacity-28 transition duration-700" />
               
-              <div className="relative bg-[#0A0A0A] border border-white/10 p-8 sm:p-12 rounded-[2.5rem] shadow-2xl">
+              <div className="relative bg-[#0A0A0A] border border-white/10 p-8 sm:p-12 rounded-[2.5rem] shadow-2xl max-w-xl mx-auto lg:mx-0">
                 
                 <h3 className="text-2xl font-bold text-white mb-8">
                   {t('contact.formTitle') || (isArabic ? 'أرسل لنا رسالة' : 'Send us a message')}
@@ -225,7 +222,7 @@ export default function Contact() {
                   <button 
                     type="submit" 
                     disabled={status === 'loading'}
-                    className="w-full py-5 rounded-2xl bg-white text-black font-bold text-lg hover:bg-cyan-50 transition-all flex items-center justify-center gap-3 shadow-[0_0_30px_-5px_rgba(255,255,255,0.3)] hover:shadow-[0_0_40px_-5px_rgba(6,182,212,0.5)] hover:scale-[1.01] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full py-4 sm:py-5 rounded-2xl bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 text-black font-bold text-lg hover:shadow-[0_8px_40px_rgba(59,130,246,0.25)] transition-transform transform hover:-translate-y-0.5 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {status === 'loading' ? (
                       <><ImSpinner8 className="animate-spin text-xl" /> <span>{t('loading') || (isArabic ? 'جاري الإرسال...' : 'Sending...')}</span></>
