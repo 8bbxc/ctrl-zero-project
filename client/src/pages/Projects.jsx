@@ -138,19 +138,22 @@ export default function Projects() {
                 ? 'نقدم خلاً رقمياً متخصصاً في كل قطاع. اختر المجال لاستكشاف مشاريعنا الناجحة والحالات العملية.'
                 : 'We deliver specialized digital solutions tailored to each industry. Explore our successful projects and real-world case studies.'}
             </p>
-
-            {/* Link to All Projects */}
-            <div className="mt-8 flex justify-center">
-              <Link
-                to="/projects/all"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-sm md:text-base hover:scale-105 transition-transform duration-300 shadow-lg shadow-cyan-500/30"
-              >
-                <span>{isArabic ? 'عرض جميع المشاريع' : 'View All Projects'}</span>
-                <FaArrowRight className={isArabic ? 'rotate-180' : ''} />
-              </Link>
-            </div>
           </motion.div>
         </div>
+
+        {/* --- Link to All Projects --- */}
+        <div className="text-center mb-12 md:mb-20">
+          <Link
+            to="/projects/all"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-sm md:text-base hover:scale-105 transition-transform duration-300 shadow-lg shadow-cyan-500/30"
+          >
+            <span>{isArabic ? 'عرض جميع المشاريع' : 'View All Projects'}</span>
+            <FaArrowRight className={isArabic ? 'rotate-180' : ''} />
+          </Link>
+        </div>
+
+        {/* --- Professional Grid with Enhanced Cards --- */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-6">
           {sectors.map((sector, index) => (
             <motion.div
               key={sector.id}
