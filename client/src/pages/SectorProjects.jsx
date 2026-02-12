@@ -208,84 +208,140 @@ export default function SectorProjects() {
           </motion.div>
         ) : (
           // --- Projects List ---
-          <motion.section 
-            variants={containerVariants} 
-            initial="hidden" 
-            animate="show" 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            {projects.map((project) => (
-              <motion.article 
-                key={project.slug || project.id} 
-                variants={cardVariants} 
-                className="group h-full"
-              >
-                <Link 
-                  to={`/projects/${project.slug || project.id}`} 
-                  className="block h-full rounded-xl overflow-hidden bg-slate-800/50 border border-slate-700 transition-all duration-500 hover:border-slate-600 hover:shadow-xl hover:shadow-slate-900/50"
-                  style={{ '--hover-color': config.colorHex }}
+          <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mb-12"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+                {isArabic ? 'مشاريعنا المميزة' : 'Featured Projects'}
+              </h2>
+              <div 
+                className="w-20 h-1 rounded-full"
+                style={{ backgroundColor: config.colorHex }}
+              />
+            </motion.div>
+
+            <motion.section 
+              variants={containerVariants} 
+              initial="hidden" 
+              animate="show" 
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              {projects.map((project) => (
+                <motion.article 
+                  key={project.slug || project.id} 
+                  variants={cardVariants} 
+                  className="group h-full"
                 >
-                  {/* Image Area */}
-                  <div className="relative w-full h-56 overflow-hidden bg-slate-900">
-                    {project.image ? (
-                      <img 
-                        src={project.image} 
-                        alt={project.title} 
-                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" 
-                      />
-                    ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-700 to-slate-800 gap-4">
-                        <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${config.gradient} flex items-center justify-center text-white/40`}>
-                           <FaImages size={28} />
-                        </div>
-                        <p className="text-slate-400 text-sm font-light">{isArabic ? 'لا توجد صورة' : 'No Image'}</p>
-                      </div>
-                    )}
-                    
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80" />
-                    
-                    {/* Category Badge */}
-                    <div className="absolute top-4 left-4 z-20">
-                      <span 
-                        className="text-xs font-bold uppercase tracking-wider text-white px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/20"
-                        style={{ borderColor: `${config.colorHex}40` }}
-                      >
-                        {project.category || config.title}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Content Area */}
-                  <div className="p-6 relative z-10 flex flex-col h-auto min-h-[140px] justify-between">
-                    {/* Title & Description */}
-                    <div className="mb-4">
-                      <h3 className="text-lg font-bold text-white mb-2 leading-tight group-hover:text-slate-50 transition-colors duration-300 line-clamp-2">
-                        {project.title}
-                      </h3>
-                      <p className="text-slate-400 text-sm font-light line-clamp-2 leading-relaxed group-hover:text-slate-300 transition-colors">
-                        {project.description}
-                      </p>
-                    </div>
-
-                    {/* Footer with Year and Arrow */}
-                    <div className="flex items-center justify-between pt-4 border-t border-slate-700 group-hover:border-slate-600 transition-colors">
-                      <span className="text-xs text-slate-500 font-mono uppercase tracking-wider">
-                        {new Date(project.date || Date.now()).getFullYear()}
-                      </span>
-                      
+                  <Link 
+                    to={`/projects/${project.slug || project.id}`} 
+                    className="block h-full"
+                  >
+                    {/* Card Container with Premium Styling */}
+                    <div className="relative h-full rounded-2xl overflow-hidden bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl border border-slate-700/50 transition-all duration-500 hover:border-slate-600 shadow-lg hover:shadow-2xl group-hover:shadow-xl"
+                      style={{
+                        boxShadow: `0 0 0 1px rgba(15, 23, 42, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1)`
+                      }}
+                    >
+                      {/* Gradient Overlay for Hover */}
                       <div 
-                        className="w-8 h-8 rounded-full border border-slate-600 flex items-center justify-center text-slate-400 transition-all duration-300 group-hover:border-white group-hover:text-white"
-                        style={{ backgroundColor: `${config.colorHex}15` }}
-                      >
-                        <FaArrowRight className={`text-xs transition-transform ${isArabic ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
+                        className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 z-0"
+                        style={{ backgroundColor: config.colorHex }}
+                      />
+
+                      {/* Image Area with Enhanced Styling */}
+                      <div className="relative w-full h-64 overflow-hidden bg-gradient-to-br from-slate-900 to-slate-950">
+                        {project.image ? (
+                          <>
+                            <img 
+                              src={project.image} 
+                              alt={project.title} 
+                              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 filter group-hover:brightness-110" 
+                            />
+                            {/* Image Gradient Overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent opacity-60" />
+                          </>
+                        ) : (
+                          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900 gap-4 relative z-10">
+                            <div 
+                              className="w-20 h-20 rounded-full bg-opacity-20 flex items-center justify-center transition-all duration-300"
+                              style={{ backgroundColor: `${config.colorHex}30` }}
+                            >
+                              <FaImages size={32} className="text-slate-400" />
+                            </div>
+                            <p className="text-slate-400 text-sm font-light">{isArabic ? 'بدون صورة' : 'No Image'}</p>
+                          </div>
+                        )}
+                        
+                        {/* Category Badge - Premium Style */}
+                        <div className="absolute top-4 right-4 z-20">
+                          <div 
+                            className="text-xs font-bold uppercase tracking-widest text-white px-4 py-2 rounded-full backdrop-blur-md border transition-all duration-300 group-hover:scale-105"
+                            style={{ 
+                              backgroundColor: `${config.colorHex}20`,
+                              borderColor: `${config.colorHex}60`,
+                              boxShadow: `0 0 12px ${config.colorHex}30`
+                            }}
+                          >
+                            {project.category || displayTitle.split(' ')[0]}
+                          </div>
+                        </div>
                       </div>
+
+                      {/* Content Area - Enhanced */}
+                      <div className="p-6 relative z-10 flex flex-col h-auto min-h-[160px] justify-between">
+                        {/* Title with Enhanced Typography */}
+                        <div className="mb-4 flex-grow">
+                          <h3 className="text-xl font-bold text-white mb-3 leading-snug group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r transition-all duration-300 line-clamp-2"
+                            style={{
+                              backgroundImage: `linear-gradient(to right, #ffffff, ${config.colorHex})`,
+                            }}
+                          >
+                            {project.title}
+                          </h3>
+                          <p className="text-slate-400 text-sm font-light line-clamp-3 leading-relaxed group-hover:text-slate-300 transition-colors duration-300">
+                            {project.description}
+                          </p>
+                        </div>
+
+                        {/* Footer with Enhanced Styling */}
+                        <div className="flex items-center justify-between pt-5 border-t border-slate-700/50 group-hover:border-slate-600/50 transition-colors">
+                          <div className="flex items-center gap-2">
+                            <span 
+                              className="w-2 h-2 rounded-full animate-pulse transition-colors duration-300"
+                              style={{ backgroundColor: config.colorHex }}
+                            />
+                            <span className="text-xs text-slate-500 font-mono uppercase tracking-widest group-hover:text-slate-400 transition-colors">
+                              {isArabic ? 'عرض' : 'View'}
+                            </span>
+                          </div>
+                          
+                          <div 
+                            className="w-9 h-9 rounded-full border flex items-center justify-center text-slate-300 transition-all duration-300 group-hover:scale-110 group-hover:text-white"
+                            style={{ 
+                              borderColor: `${config.colorHex}60`,
+                              backgroundColor: `${config.colorHex}10`
+                            }}
+                          >
+                            <FaArrowRight className={`text-sm transition-transform duration-300 ${isArabic ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Corner Accent */}
+                      <div 
+                        className="absolute bottom-0 right-0 w-32 h-32 rounded-tl-full opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none"
+                        style={{ backgroundColor: config.colorHex }}
+                      />
                     </div>
-                  </div>
-                </Link>
-              </motion.article>
-            ))}
-          </motion.section>
+                  </Link>
+                </motion.article>
+              ))}
+            </motion.section>
+          </div>
         )}
       </main>
     </div>

@@ -7,6 +7,7 @@ const Home = React.lazy(() => import('./pages/Home'))
 const Projects = React.lazy(() => import('./pages/Projects'))
 const ProjectDetails = React.lazy(() => import('./pages/ProjectDetails'))
 const SectorProjects = React.lazy(() => import('./pages/SectorProjects'))
+const ComingSoon = React.lazy(() => import('./pages/ComingSoon'))
 const About = React.lazy(() => import('./pages/About'))
 const Contact = React.lazy(() => import('./pages/Contact'))
 const Services = React.lazy(() => import('./pages/Services')) // صفحة القائمة
@@ -77,7 +78,8 @@ export default function App() {
             {/* === المشاريع === */}
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/sector/:sector" element={<SectorProjects />} />
-            <Route path="/projects/:slug" element={<ProjectDetails />} />
+            <Route path="/projects/:slug" element={<ComingSoon />} />
+            {/* ProjectDetails page still available but not linked from cards */}
             
             {/* === الخدمات (الحل الجذري للمشكلة) === */}
             {/* 1. هذا الرابط يعرض قائمة الخدمات (البطاقات) */}
