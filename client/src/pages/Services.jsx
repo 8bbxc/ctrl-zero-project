@@ -186,20 +186,22 @@ export default function Services() {
              const normalizedIconKey = normalizeIconKey(iconKeyStr, titleStr)
              const config = GRADIENT_MAP[normalizedIconKey] || GRADIENT_MAP['product']
              
-             // Try to find in DEFAULT_SERVICES by normalized key, or fall back to index
+             // Find matching service in DEFAULT_SERVICES by normalized key
+             // This is important - we match by the derived key, not by API index
              let defaults = DEFAULT_SERVICES.find(s => s.id === normalizedIconKey)
-             if (!defaults && DEFAULT_SERVICES[apiIndex]) {
-               defaults = DEFAULT_SERVICES[apiIndex]
+             if (!defaults) {
+               defaults = {}
              }
-             defaults = defaults || {}
              
              // Determine the best ID to use for routing
-             let routeId = item.id || defaults.id || normalizedIconKey
+             // ALWAYS use the normalized string ID (web-dev, ui-ux, etc)
+             // This is more reliable than numeric index
+             let routeId = normalizedIconKey || defaults.id || normalizedIconKey
              
              return { 
                ...defaults,
                ...item,
-               id: routeId, // Use this for routing to /services/${id}
+               id: routeId, // Use normalized string ID for routing to /services/${id}
                iconKey: normalizedIconKey,
                gradient: config.gradient, 
                shadow: config.shadow,

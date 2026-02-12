@@ -177,13 +177,14 @@ export default function ServiceDetails() {
 
       // ✅ Try both string ID (e.g., 'web-dev') AND numeric index (e.g., '1', '2')
       let localService = null
+      const idStr = String(id).toLowerCase().trim()
 
-      // First: Try direct string ID match
-      localService = DEFAULT_SERVICES.find(s => s.id === String(id).toLowerCase())
+      // First: Try direct string ID match  (e.g., 'web-dev', 'ui-ux')
+      localService = DEFAULT_SERVICES.find(s => s.id === idStr)
 
       // Second: If ID is numeric, use it as array index
-      if (!localService && /^\d+$/.test(String(id))) {
-        const idx = parseInt(id)
+      if (!localService && /^\d+$/.test(idStr)) {
+        const idx = parseInt(idStr)
         if (idx >= 0 && idx < DEFAULT_SERVICES.length) {
           localService = DEFAULT_SERVICES[idx]
         }
@@ -204,7 +205,7 @@ export default function ServiceDetails() {
         setLoading(false)
       } else {
         // Service ID not found - redirect
-        console.warn(`Service "${id}" not found in DEFAULT_SERVICES`)
+        console.warn(`Service "${id}" (normalized: "${idStr}") not found in DEFAULT_SERVICES`)
         navigate('/services')
       }
     }
