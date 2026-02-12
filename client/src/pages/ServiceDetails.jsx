@@ -188,7 +188,7 @@ export default function ServiceDetails() {
 
       if (/^\d+$/.test(String(id))) {
         try {
-          const res = await api.get(`/services/${id}`)
+          const res = await api.get(`/api/services/${id}`)
           if (!res || !res.data) { navigate('/services'); return }
           const normKey = normalizeIconKey(res.data.iconKey, res.data.title)
           const theme = THEME_MAP[normKey] || THEME_MAP['product']

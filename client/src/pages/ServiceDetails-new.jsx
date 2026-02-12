@@ -108,7 +108,7 @@ export default function ServiceDetails() {
       // 2. Try API (fallback)
       if (/^\d+$/.test(String(id))) {
         try {
-          const res = await api.get(`/services/${id}`)
+          const res = await api.get(`/api/services/${id}`)
           setService(res.data)
         } catch (err) {
           console.error('Error fetching service:', err)
