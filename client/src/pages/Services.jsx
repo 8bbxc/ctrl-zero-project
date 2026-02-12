@@ -177,18 +177,27 @@ export default function Services() {
             'cloud': { gradient: 'from-sky-500 to-blue-600', shadow: 'shadow-sky-500/20' }
           }
           
-          const merged = data.map((item) => {
-             const normalizedIconKey = normalizeIconKey(item.iconKey, item.title)
+          // If API returns numeric IDs, map them to DEFAULT_SERVICES by index
+          const merged = data.map((item, apiIndex) => {
+             const normalizedIconKey = normalizeIconKey(item.iconKey || item.id, item.title)
              const config = GRADIENT_MAP[normalizedIconKey] || GRADIENT_MAP['product']
-             const defaults = DEFAULT_SERVICES.find(s => s.id === normalizedIconKey) || {}
+             
+             // Try to find in DEFAULT_SERVICES by normalized key, or fall back to index
+             let defaults = DEFAULT_SERVICES.find(s => s.id === normalizedIconKey)
+             if (!defaults && DEFAULT_SERVICES[apiIndex]) {
+               defaults = DEFAULT_SERVICES[apiIndex]
+             }
+             defaults = defaults || {}
+             
              return { 
                ...defaults,
-               ...item, 
+               ...item,
+               id: item.id || defaults.id, // Preserve API ID or use default string ID
                iconKey: normalizedIconKey,
                gradient: config.gradient, 
                shadow: config.shadow,
                titleAr: item.titleAr || defaults.titleAr,
-               descAr: item.descAr || defaults.descAr,
+               descAr: item.descAr || defaults.descAr || item.shortDescriptionAr,
                features: item.features || defaults.features || [],
                featuresAr: item.featuresAr || defaults.featuresAr || []
              }

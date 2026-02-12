@@ -175,10 +175,20 @@ export default function ServiceDetails() {
     const fetchService = async () => {
       if (!id) { setLoading(false); return }
 
-      // ✅ ONLY use local DEFAULT_SERVICES (most reliable, always available)
-      // Services are static and defined locally - no need for API calls
-      const localService = DEFAULT_SERVICES.find(s => s.id === String(id).toLowerCase())
-      
+      // ✅ Try both string ID (e.g., 'web-dev') AND numeric index (e.g., '1', '2')
+      let localService = null
+
+      // First: Try direct string ID match
+      localService = DEFAULT_SERVICES.find(s => s.id === String(id).toLowerCase())
+
+      // Second: If ID is numeric, use it as array index
+      if (!localService && /^\d+$/.test(String(id))) {
+        const idx = parseInt(id)
+        if (idx >= 0 && idx < DEFAULT_SERVICES.length) {
+          localService = DEFAULT_SERVICES[idx]
+        }
+      }
+
       if (localService) {
         const normKey = normalizeIconKey(localService.iconKey, localService.title)
         const theme = THEME_MAP[normKey] || THEME_MAP['product']
@@ -186,7 +196,6 @@ export default function ServiceDetails() {
           ...localService, 
           iconKey: normKey, 
           ...theme,
-          // Ensure all fields exist
           titleAr: localService.titleAr || localService.title,
           shortDescriptionAr: localService.shortDescriptionAr || localService.shortDescription,
           fullContentAr: localService.fullContentAr || localService.fullContent,
@@ -194,7 +203,7 @@ export default function ServiceDetails() {
         })
         setLoading(false)
       } else {
-        // Service ID not found in local data - redirect
+        // Service ID not found - redirect
         console.warn(`Service "${id}" not found in DEFAULT_SERVICES`)
         navigate('/services')
       }
