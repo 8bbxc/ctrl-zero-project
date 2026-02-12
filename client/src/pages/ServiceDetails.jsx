@@ -173,50 +173,58 @@ export default function ServiceDetails() {
 
   useEffect(() => {
     const fetchService = async () => {
-      // Logic unchanged
       if (!id) { setLoading(false); return }
 
-      const localService = DEFAULT_SERVICES.find(s => s.id === id)
+      // 1️⃣ ALWAYS try local DEFAULT_SERVICES first (most reliable)
+      const localService = DEFAULT_SERVICES.find(s => s.id === String(id).toLowerCase())
       if (localService) {
-        // Apply visual theme based on normalized key
         const normKey = normalizeIconKey(localService.iconKey, localService.title)
         const theme = THEME_MAP[normKey] || THEME_MAP['product']
-        setService({ ...localService, iconKey: normKey, ...theme })
+        setService({ 
+          ...localService, 
+          iconKey: normKey, 
+          ...theme,
+          // Ensure all fields exist
+          titleAr: localService.titleAr || localService.title,
+          shortDescriptionAr: localService.shortDescriptionAr || localService.shortDescription,
+          fullContentAr: localService.fullContentAr || localService.fullContent,
+          featuresAr: localService.featuresAr || localService.features
+        })
         setLoading(false)
         return
       }
 
+      // 2️⃣ If numeric ID, try API fallback
       if (/^\d+$/.test(String(id))) {
         try {
           const res = await api.get(`/api/services/${id}`)
-          if (!res || !res.data) { navigate('/services'); return }
+          if (!res?.data) {
+            // No API data, stay on page or redirect
+            navigate('/services')
+            return
+          }
+          
           const normKey = normalizeIconKey(res.data.iconKey, res.data.title)
           const theme = THEME_MAP[normKey] || THEME_MAP['product']
-          const defaults = DEFAULT_SERVICES.find(s => s.id === normKey) || {}
           
           setService({
-            ...defaults,
             ...res.data,
             iconKey: normKey,
             ...theme,
-            titleAr: res.data.titleAr || defaults.titleAr,
-            shortDescriptionAr: res.data.shortDescriptionAr || defaults.shortDescriptionAr,
-            fullContentAr: res.data.fullContentAr || defaults.fullContentAr,
-            features: res.data.features || defaults.features || [],
-            featuresAr: res.data.featuresAr || defaults.featuresAr || []
+            titleAr: res.data.titleAr || res.data.title,
+            shortDescriptionAr: res.data.shortDescriptionAr || res.data.shortDescription,
+            fullContentAr: res.data.fullContentAr || res.data.fullContent,
+            featuresAr: res.data.featuresAr || res.data.features || []
           })
+          setLoading(false)
         } catch (err) {
           console.error('Error fetching service:', err)
-          // Redirect to /services on fetch error or not found
           navigate('/services')
-          return
         }
       } else {
-        // No valid service id; redirect to list
+        // No valid service id found
         navigate('/services')
-        return
       }
-      setLoading(false)
     }
     fetchService()
   }, [id, navigate])
