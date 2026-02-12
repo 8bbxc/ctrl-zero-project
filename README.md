@@ -1,136 +1,256 @@
 # Personal Portfolio (MyWeb)
 
-Full-stack personal portfolio built with React (Vite) + Express + PostgreSQL + Prisma. 
+Full-stack personal portfolio built with **React (Vite) + Express + PostgreSQL + Prisma**.
 
-Folders:
-- `client/` - React app (Vite + Tailwind)
-- `server/` - Express API with Prisma ORM
-
-Quick start
-
-1) Server
-
-- Copy `server/.env.example` to `server/.env` and update values (DATABASE_URL, JWT_SECRET, ADMIN_SETUP_TOKEN, SMTP...)
-- Install & run:
-  ```bash
-  cd server
-  npm install
-  npx prisma generate
-  npx prisma migrate dev --name init
-  npm run dev
-  ```
-
-2) Client
-
-- Copy `client/.env.example` to `client/.env` if you need to set `VITE_API_URL`.
-- Install & run:
-  ```bash
-  cd client
-  npm install
-  npm run dev
-  ```
-
-Open the client at http://localhost:5173 and the API at http://localhost:4000.
-
-Admin seeding & login (quick):
-
-1) In `server/.env` set the admin vars:
-
-```
-ADMIN_SETUP_TOKEN=some-secret-token
-ADMIN_EMAIL=admin@example.com
-ADMIN_PASSWORD=ChangeMe123
-ADMIN_NAME="Eng. Yazan Saadeh"
-JWT_SECRET=your-jwt-secret
-```
-
-2) Run:
-
-```
-cd server
-npm run seed
-```
-
-- If `DATABASE_URL` is set, the admin will be created in the DB (idempotent). If not, `prisma/admin-seed.json` will be written and the API will accept those credentials in development.
-
-Database setup (pgAdmin & local Postgres)
-
-1) Create a PostgreSQL database using pgAdmin (local):
-   - Open pgAdmin → Servers → Your server → Right-click Databases → Create → Database
-   - Use **Database name**: portfolio_db
-   - Use owner: your postgres user (e.g., postgres)
-
-2) Connection string format (put this into `server/.env` as `DATABASE_URL`):
-
-```
-# Example for a local Postgres instance
-DATABASE_URL="postgresql://<DB_USER>:<DB_PASSWORD>@localhost:5432/portfolio_db?schema=public"
-
-# Example with default postgres user:
-DATABASE_URL="postgresql://postgres:yourpassword@localhost:5432/portfolio_db?schema=public"
-```
-
-3) After setting `DATABASE_URL`, run migrations & seed:
-
-```
-cd server
-npx prisma generate
-npx prisma migrate dev --name init
-npm run seed
-```
-
-4) Start the server and client and open the admin dashboard to log in:
-
-```
-npm run dev   # in server
-cd ../client
-npm run dev   # in client
-# open http://localhost:5173/admin
-```
-
-See `server/README.md` for more details and security notes.
+🎯 **Code-based project management** - No admin dashboard needed!
 
 ---
 
-## How to Add Project Images (Image Asset Guide) 🔧
+## 📁 Project Structure
 
-Follow these steps to add multi-screenshot support for your projects:
+```
+MyWeb/
+├── client/              React app (Vite + Tailwind)
+├── server/              Express API (Prisma ORM)
+├── PROJECT_MANAGEMENT.md   ← How to add/edit projects
+├── CARD_DESIGN_GUIDE.md    ← Card design and layouts
+└── README.md               This file
+```
 
-1. Where to place images
-   - Create a folder in the client public assets: `client/public/projects/`.
-   - Example: `client/public/projects/devlens-ai/`.
+---
 
-2. Naming convention
-   - Use the project slug and an index for screenshots: `project-slug-1.jpg`, `project-slug-2.jpg`, `project-slug-3.jpg`.
-   - Example:
-     - `client/public/projects/devlens-ai/devlens-ai-1.jpg`
-     - `client/public/projects/devlens-ai/devlens-ai-2.jpg`
+## 🚀 Quick Start
 
-3. Frontend usage (already implemented)
-   - The frontend supports a `gallery` property (preferred) and `images` property (fallback) — both are arrays of image URLs and the UI will render a responsive carousel using `gallery` first.
-   - If only `image` (single string) exists, the UI will fall back to using it as a single-slide carousel.
+### 1️⃣ Server Setup
 
-4. Updating the seed / database
-   - Option A (recommended for quick local testing): Edit `server/prisma/seed-data.json` and add an `images` array to each project with URLs (you can use `/projects/<slug>/<file>` for local public files). Then run:
-     ```bash
-     cd server
-     npm run seed
-     ```
-   - Option B (production DB): Update the project in the Admin dashboard (we can add UI later) or use Prisma directly to set the `images` field. The `Project` model includes `images String[] @default([])` so migrations are required if you change schema locally before running migrations.
+```bash
+cd server
+cp .env.example .env
+# Edit .env with your values:
+# - DATABASE_URL (PostgreSQL connection)
+# - JWT_SECRET
+# - ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
 
-5. Example entry in `seed-data.json`:
+npm install
+npx prisma generate
+npx prisma migrate dev
+npm run seed          # ← Loads projects from JSON
+npm run dev           # Start at http://localhost:4000
+```
 
-```json
-{
-  "title": "DevLens AI",
-  "slug": "devlens-ai",
-  "description": "...",
-  "gallery": ["/projects/devlens-ai/devlens-ai-1.jpg", "/projects/devlens-ai/devlens-ai-2.jpg"],
-  "images": ["/projects/devlens-ai/devlens-ai-1.jpg", "/projects/devlens-ai/devlens-ai-2.jpg"]
+### 2️⃣ Client Setup
+
+```bash
+cd client
+cp .env.example .env
+# Update VITE_API_URL if needed
+
+npm install
+npm run dev           # Start at http://localhost:5173
+```
+
+---
+
+## ✨ Key Features
+
+✅ **Code-Based Project Management**
+- Add projects by editing `server/prisma/seed-data-projects.json`
+- No admin dashboard UI
+- All changes tracked in Git
+- Automatic seeding on deploy
+
+✅ **Professional Card Layouts**
+- Responsive grid (3-col desktop, 2-col tablet, 1-col mobile)
+- Hover effects and animations
+- Sector-based color coding
+- Image galleries with lightbox
+
+✅ **Multi-Sector Portfolio**
+- Medical & Healthcare
+- E-Commerce
+- Restaurants & Food
+- Corporate & Business
+- Education & Training
+- Real Estate
+
+✅ **Modern Tech Stack**
+- React 18 + Vite
+- Tailwind CSS
+- Framer Motion animations
+- Prisma ORM
+- PostgreSQL
+- Express.js
+
+---
+
+## 📋 Managing Projects
+
+### Add a New Project
+
+1. Edit `server/prisma/seed-data-projects.json`
+2. Add new project object
+3. Run: `npm run seed`
+4. Git commit: `git add . && git commit -m "feat: add new project"`
+
+**See [PROJECT_MANAGEMENT.md](./PROJECT_MANAGEMENT.md) for complete guide**
+
+---
+
+## 🎨 Card Design
+
+All project cards display:
+- Main image (hero)
+- Project title & description
+- Technology tags
+- Call-to-action button
+- Automatic sector color theming
+
+When clicked → Detailed project page with:
+- Full hero image (600px)
+- Masonry gallery
+- Full markdown content
+- External links
+
+**See [CARD_DESIGN_GUIDE.md](./CARD_DESIGN_GUIDE.md) for optimization tips**
+
+---
+
+## 🗄️ Database
+
+### Schema
+
+The project uses a clean, simple schema:
+
+```prisma
+model Project {
+  id        Int      @id @default(autoincrement())
+  title     String   ← Project name
+  slug      String   @unique ← URL-friendly ID
+  description String  ← One-liner summary
+  content   String   ← Full markdown
+  image     String   ← Main hero image
+  gallery   String[] ← Additional images
+  tags      String[] ← Technology tags
+  link      String   ← Live project URL
+  category  String   ← Sector (Medical, E-Commerce, etc.)
+}
+
+model Service {
+  id               Int      @id @default(autoincrement())
+  title            String
+  slug             String   @unique
+  shortDescription String
+  fullContent      String   ← Detailed description
+  features         String[] ← Key features list
+  icon             String   ← Service icon
+  image            String   ← Hero image
 }
 ```
 
-Upload images via Admin UI: Use the Admin Dashboard to upload screenshots directly to the server (protected). Uploaded files are saved under `/uploads/projects/<slug>/` and returned as absolute URLs which are saved to the project's `gallery` array. The server exposes `POST /api/upload` (authenticated) which accepts form-data `files` and optional `projectSlug` and returns `{ uploaded: ["https://.../uploads/projects/slug/...] }`.
+---
+
+## 🌐 Deployment
+
+### Frontend (Vercel)
+
+```bash
+git push  # Automatically deploys to Vercel
+```
+
+### Backend (Render)
+
+```bash
+git push
+# Render auto-deploys and runs npm run seed
+# OR manually:
+# SSH into Render → npm run seed
+```
+
+---
+
+## 🔧 Common Commands
+
+```bash
+# Seeding
+npm run seed              # Reload projects from JSON
+
+# Database
+npx prisma migrate dev    # Create new migration
+npx prisma db push       # Push schema to DB
+npx prisma studio       # Open Prisma Studio (GUI)
+
+# Development
+npm run dev              # Start dev server
+
+# Cleanup
+node reseed.js           # Clear all projects (fresh start)
+```
+
+---
+
+## 📝 File Reference
+
+| File | Purpose |
+|------|---------|
+| `server/prisma/seed-data-projects.json` | All projects data |
+| `server/prisma/seed-data-services.json` | All services data |
+| `server/prisma/seed.js` | Seed script (reads JSON files) |
+| `PROJECT_MANAGEMENT.md` | How to manage projects |
+| `CARD_DESIGN_GUIDE.md` | Card layout & design tips |
+
+---
+
+## 🎯 Workflow
+
+### To Add a Project
+
+```
+Edit JSON → Test Locally → Commit → Push → Auto Deploy
+```
+
+**Step-by-step:**
+1. Open `server/prisma/seed-data-projects.json`
+2. Add new project object
+3. Run `cd server && npm run seed`
+4. Visit http://localhost:5173/projects (check it appears)
+5. `git add . && git commit -m "feat: add new project"`
+6. `git push` (auto-deploys to production)
+
+### To Update a Project
+
+Just edit the project in JSON, then seed & push.
+
+### To Delete a Project
+
+Remove from JSON, seed, and push.
+
+---
+
+## 🆘 Help
+
+**See comprehensive documentation:**
+- 📋 [PROJECT_MANAGEMENT.md](./PROJECT_MANAGEMENT.md) - Full project management guide
+- 🎨 [CARD_DESIGN_GUIDE.md](./CARD_DESIGN_GUIDE.md) - Card design & optimization
+
+---
+
+## 👤 Admin
+
+Admin functionality is intentionally removed.  
+Projects are now managed purely through code commits.
+
+If you need admin panel in future, create separate branch.
+
+---
+
+## 📜 License
+
+Private portfolio - all rights reserved.
+
+---
+
+*Built with ❤️ using modern web technologies*  
+*Last updated: February 2026*
 
 
 
