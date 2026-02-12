@@ -212,7 +212,7 @@ export default function SectorProjects() {
             variants={containerVariants} 
             initial="hidden" 
             animate="show" 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {projects.map((project) => (
               <motion.article 
@@ -222,59 +222,63 @@ export default function SectorProjects() {
               >
                 <Link 
                   to={`/projects/${project.slug || project.id}`} 
-                  className="block h-full relative rounded-2xl overflow-hidden bg-[#0A0A0A] border border-white/5 transition-all duration-500 hover:-translate-y-2"
+                  className="block h-full rounded-xl overflow-hidden bg-slate-800/50 border border-slate-700 transition-all duration-500 hover:border-slate-600 hover:shadow-xl hover:shadow-slate-900/50"
                   style={{ '--hover-color': config.colorHex }}
                 >
-                  {/* Hover Border Effect (Dynamic Color) */}
-                  <div className="absolute inset-0 border-2 border-transparent transition-colors duration-500 group-hover:border-[var(--hover-color)]/30 rounded-2xl z-20 pointer-events-none" />
-
                   {/* Image Area */}
-                  <div className="relative w-full aspect-[4/3] overflow-hidden bg-slate-900">
+                  <div className="relative w-full h-56 overflow-hidden bg-slate-900">
                     {project.image ? (
                       <img 
                         src={project.image} 
                         alt={project.title} 
-                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110" 
+                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" 
                       />
                     ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center bg-white/5 gap-4">
-                        <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-slate-500">
-                           <FaImages size={24} />
+                      <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-700 to-slate-800 gap-4">
+                        <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${config.gradient} flex items-center justify-center text-white/40`}>
+                           <FaImages size={28} />
                         </div>
+                        <p className="text-slate-400 text-sm font-light">{isArabic ? 'لا توجد صورة' : 'No Image'}</p>
                       </div>
                     )}
                     
                     {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-90" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80" />
                     
-                    {/* Floating Badges */}
-                    <div className="absolute top-4 right-4 flex flex-col gap-2 items-end z-20">
-                       {project.tags?.slice(0, 2).map((tag, idx) => (
-                         <span key={idx} className="text-[10px] font-bold uppercase tracking-wider text-white/80 px-2 py-1 bg-black/60 backdrop-blur-md rounded border border-white/10">
-                           {tag}
-                         </span>
-                       ))}
+                    {/* Category Badge */}
+                    <div className="absolute top-4 left-4 z-20">
+                      <span 
+                        className="text-xs font-bold uppercase tracking-wider text-white px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/20"
+                        style={{ borderColor: `${config.colorHex}40` }}
+                      >
+                        {project.category || config.title}
+                      </span>
                     </div>
                   </div>
 
                   {/* Content Area */}
-                  <div className="p-6 relative z-10 flex flex-col h-[180px] justify-between">
-                    <div>
-                      <h3 className="text-xl font-bold text-white mb-2 leading-tight group-hover:text-[var(--hover-color)] transition-colors duration-300">
+                  <div className="p-6 relative z-10 flex flex-col h-auto min-h-[140px] justify-between">
+                    {/* Title & Description */}
+                    <div className="mb-4">
+                      <h3 className="text-lg font-bold text-white mb-2 leading-tight group-hover:text-slate-50 transition-colors duration-300 line-clamp-2">
                         {project.title}
                       </h3>
-                      <p className="text-slate-400 text-sm font-light line-clamp-2 leading-relaxed">
+                      <p className="text-slate-400 text-sm font-light line-clamp-2 leading-relaxed group-hover:text-slate-300 transition-colors">
                         {project.description}
                       </p>
                     </div>
 
-                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/5">
+                    {/* Footer with Year and Arrow */}
+                    <div className="flex items-center justify-between pt-4 border-t border-slate-700 group-hover:border-slate-600 transition-colors">
                       <span className="text-xs text-slate-500 font-mono uppercase tracking-wider">
                         {new Date(project.date || Date.now()).getFullYear()}
                       </span>
                       
-                      <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 transition-all duration-300 group-hover:bg-[var(--hover-color)] group-hover:text-white group-hover:border-transparent">
-                        <FaArrowRight className={`text-xs transform transition-transform ${isArabic ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
+                      <div 
+                        className="w-8 h-8 rounded-full border border-slate-600 flex items-center justify-center text-slate-400 transition-all duration-300 group-hover:border-white group-hover:text-white"
+                        style={{ backgroundColor: `${config.colorHex}15` }}
+                      >
+                        <FaArrowRight className={`text-xs transition-transform ${isArabic ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
                       </div>
                     </div>
                   </div>
