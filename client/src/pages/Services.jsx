@@ -298,13 +298,27 @@ export default function Services() {
                    <div className={`
                      relative w-16 h-16 rounded-2xl flex items-center justify-center text-3xl
                      bg-gradient-to-br ${service.gradient} text-white shadow-lg
-                     transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3
+                     transition-transform duration-500
                    `}>
                       {/* Inner Shine */}
                       <div className="absolute inset-0 border border-white/20 rounded-2xl bg-white/10" />
-                      <span className="relative z-10 drop-shadow-md">
+                      <motion.span 
+                        className="relative z-10"
+                        animate={{ 
+                          scale: [1, 1.2, 1],
+                          rotate: [0, 12, -12, 0]
+                        }}
+                        transition={{ 
+                          duration: 2.5, 
+                          repeat: Infinity,
+                          repeatDelay: 0.5
+                        }}
+                        style={{
+                          filter: `drop-shadow(0 0 12px ${service.gradient.split(' to-')[1]?.split(')')[0] || '#fff'})`
+                        }}
+                      >
                         {getIcon(service.iconKey, service.title)}
-                      </span>
+                      </motion.span>
                    </div>
                 </div>
 
@@ -326,12 +340,27 @@ export default function Services() {
                   
                   <div className={`
                     w-10 h-10 rounded-full border border-white/10 flex items-center justify-center 
-                    text-slate-400 bg-white/5 
+                    text-white bg-white/5 
                     transition-all duration-300 
                     group-hover:bg-white group-hover:text-black group-hover:border-transparent
                     ${isRtl ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1'}
                   `}>
-                    {isRtl ? <FaArrowLeft /> : <FaArrowRight />}
+                    <motion.div
+                      animate={{ 
+                        x: [0, isRtl ? -6 : 6, 0],
+                      }}
+                      transition={{ 
+                        duration: 1.5, 
+                        repeat: Infinity,
+                        repeatDelay: 0.5
+                      }}
+                      style={{
+                        textShadow: 'drop-shadow(0 0 8px rgba(255,255,255,0.5))',
+                        filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))'
+                      }}
+                    >
+                      {isRtl ? <FaArrowLeft /> : <FaArrowRight />}
+                    </motion.div>
                   </div>
                 </div>
 
