@@ -2,7 +2,8 @@
 
 /**
  * Database Cleanup Script
- * Clears all existing projects - ready for new projects via Admin Dashboard
+ * Clears all existing projects - ready for new projects via code-based management
+ * Projects are now managed via code commits, not admin UI
  * Usage: node reseed.js
  */
 
@@ -20,7 +21,8 @@ async function clearDatabase() {
 
     const totalCount = await prisma.project.count();
     console.log(`📊 Database is now clean. Total projects: ${totalCount}`);
-    console.log('✨ Ready for new projects via Admin Dashboard!');
+    console.log('✨ Ready for new projects via code-based management!')
+    console.log('📝 Add projects by updating seed data and running migrations')
 
     process.exit(0);
   } catch (err) {

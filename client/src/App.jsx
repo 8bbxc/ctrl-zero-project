@@ -11,9 +11,7 @@ const About = React.lazy(() => import('./pages/About'))
 const Contact = React.lazy(() => import('./pages/Contact'))
 const Services = React.lazy(() => import('./pages/Services')) // صفحة القائمة
 const ServiceDetails = React.lazy(() => import('./pages/ServiceDetails')) // صفحة التفاصيل
-const AdminDashboard = React.lazy(() => import('./pages/AdminDashboard'))
 const NotFound = React.lazy(() => import('./pages/NotFound'))
-const Login = React.lazy(() => import('./pages/Login'))
 
 // --- Components ---
 import Navbar from './components/Navbar'
@@ -50,14 +48,10 @@ export default function App() {
     return () => clearTimeout(t)
   }, [location.pathname])
 
-  // 3. منطق إخفاء الناف بار والفوتر في لوحة التحكم
-  const isAdminRoute = location.pathname.startsWith('/admin')
-
-  // 4. منطق الصفحات ذات العرض الكامل (بدون هوامش جانبية)
+  // 3. منطق الصفحات ذات العرض الكامل (بدون هوامش جانبية)
   // هذه الصفحات تأخذ عرض الشاشة بالكامل لأنها تحتوي على Hero Sections كبيرة
   const isFullWidthPage = 
     location.pathname === '/' || 
-    location.pathname.startsWith('/admin') ||
     // تفاصيل المشاريع وقطاعات المشاريع
     (location.pathname.startsWith('/projects/') && location.pathname !== '/projects') ||
     // تفاصيل الخدمات (عشان الهيرو سكشن الملون)
@@ -66,12 +60,11 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-[#050505] text-slate-50 overflow-x-hidden selection:bg-cyan-500/30 selection:text-white">
       
-      {/* إخفاء الناف بار في الأدمن */}
-      {!isAdminRoute && <Navbar />}
+      <Navbar />
 
       <main 
         className={`flex-1 w-full relative z-10 transition-all duration-300 ${
-          isAdminRoute || isFullWidthPage 
+          isFullWidthPage 
             ? '' // عرض كامل للصفحات المحددة
             : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12' // هوامش للصفحات العادية
         }`}
@@ -97,19 +90,14 @@ export default function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             
-            {/* === الأدمن === */}
-            <Route path="/admin/login" element={<Login />} />
-            <Route path="/admin/*" element={<AdminDashboard />} />
-            
             {/* === 404 === */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </main>
 
-      {/* إخفاء الفوتر والواتساب في الأدمن */}
-      {!isAdminRoute && <Footer />}
-      {!isAdminRoute && <FloatingWhatsApp />}
+      <Footer />
+      <FloatingWhatsApp />
 
       {/* مؤشر التحميل العام */}
       {loading && <Loader />}
