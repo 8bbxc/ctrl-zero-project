@@ -1,23 +1,60 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { FaExternalLinkAlt, FaArrowRight, FaGithub } from 'react-icons/fa'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FaArrowRight, FaGithub, FaStar, FaCalendarAlt } from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 
-// Sector Color Mapping
+// Sector Color Mapping - مع تدرجات فاخرة
 const SECTOR_COLORS = {
-  Medical: { hex: '#f43f5e', gradient: 'from-rose-500 via-pink-500 to-red-600', light: '#f43f5e15', border: '#f43f5e40' },
-  'E-Commerce': { hex: '#10b981', gradient: 'from-emerald-500 via-teal-500 to-cyan-600', light: '#10b98115', border: '#10b98140' },
-  Restaurant: { hex: '#f97316', gradient: 'from-orange-500 via-amber-500 to-yellow-600', light: '#f9731615', border: '#f9731640' },
-  Corporate: { hex: '#3b82f6', gradient: 'from-blue-500 via-cyan-500 to-indigo-600', light: '#3b82f615', border: '#3b82f640' },
-  Education: { hex: '#8b5cf6', gradient: 'from-purple-500 via-violet-500 to-fuchsia-600', light: '#8b5cf615', border: '#8b5cf640' },
-  'Real Estate': { hex: '#06b6d4', gradient: 'from-cyan-500 via-sky-500 to-blue-600', light: '#06b6d415', border: '#06b6d440' }
+  Medical: { 
+    hex: '#f43f5e', 
+    gradient: 'from-rose-600 via-pink-500 to-red-500', 
+    light: '#f43f5e15',
+    dark: '#7a1b2a',
+    glow: 'shadow-lg shadow-rose-500/50'
+  },
+  'E-Commerce': { 
+    hex: '#10b981', 
+    gradient: 'from-emerald-600 via-teal-500 to-cyan-500', 
+    light: '#10b98115',
+    dark: '#064e3b',
+    glow: 'shadow-lg shadow-emerald-500/50'
+  },
+  Restaurant: { 
+    hex: '#f97316', 
+    gradient: 'from-orange-600 via-amber-500 to-yellow-500', 
+    light: '#f9731615',
+    dark: '#7c2d12',
+    glow: 'shadow-lg shadow-orange-500/50'
+  },
+  Corporate: { 
+    hex: '#3b82f6', 
+    gradient: 'from-blue-600 via-cyan-500 to-indigo-500', 
+    light: '#3b82f615',
+    dark: '#1e3a8a',
+    glow: 'shadow-lg shadow-blue-500/50'
+  },
+  Education: { 
+    hex: '#8b5cf6', 
+    gradient: 'from-purple-600 via-violet-500 to-fuchsia-500', 
+    light: '#8b5cf615',
+    dark: '#4c1d95',
+    glow: 'shadow-lg shadow-purple-500/50'
+  },
+  'Real Estate': { 
+    hex: '#06b6d4', 
+    gradient: 'from-cyan-600 via-sky-500 to-blue-500', 
+    light: '#06b6d415',
+    dark: '#0e3d48',
+    glow: 'shadow-lg shadow-cyan-500/50'
+  }
 }
 
 export default function ProjectCard({ project }) {
   const { t, i18n } = useTranslation()
   const isArabic = i18n.language === 'ar'
   const [isHovered, setIsHovered] = useState(false)
+  const [isClicked, setIsClicked] = useState(false)
 
   const title = isArabic ? (project.titleAr || project.title) : project.title
   const desc = isArabic ? (project.descriptionAr || project.description) : project.description
@@ -25,107 +62,191 @@ export default function ProjectCard({ project }) {
   const colors = SECTOR_COLORS[sector] || SECTOR_COLORS.Corporate
   const image = project.image || 'https://images.unsplash.com/photo-1642790551116-18e150f248e3?q=80&w=1933'
 
+  const cardVariants = {
+    rest: { y: 0, rotateX: 0 },
+    hover: { 
+      y: -12,
+      transition: { type: 'spring', stiffness: 300, damping: 20 }
+    },
+    click: {
+      scale: 0.98,
+      transition: { duration: 0.1 }
+    }
+  }
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative h-full"
+      onMouseDown={() => setIsClicked(true)}
+      onMouseUp={() => setIsClicked(false)}
+      variants={cardVariants}
+      initial="rest"
+      whileHover="hover"
+      whileTap="click"
+      className="group relative h-full perspective"
     >
-      {/* Card Container */}
+      {/* Outer Glow Container */}
+      <motion.div
+        animate={{ opacity: isHovered ? 1 : 0.4 }}
+        transition={{ duration: 0.4 }}
+        className={`absolute -inset-3 rounded-3xl blur-xl pointer-events-none ${colors.glow}`}
+        style={{ 
+          background: `radial-gradient(circle, ${colors.hex}40 0%, transparent 70%)`,
+          zIndex: -1
+        }}
+      />
+
+      {/* Card Container - أسطوري جداً */}
       <div className={`
-        relative h-full rounded-3xl overflow-hidden backdrop-blur-xl
-        border transition-all duration-500 ease-out
-        ${isHovered ? 'border-white/30 shadow-2xl' : 'border-white/10 shadow-lg'}
+        relative h-full rounded-2xl overflow-hidden backdrop-blur-xl
+        border border-white/15 transition-all duration-500 ease-out
+        ${isHovered ? 'border-white/40' : 'border-white/10'}
       `}
       style={{
-        backgroundColor: '#020202aa',
-        boxShadow: isHovered ? `0 0 40px ${colors.hex}30` : 'none'
+        background: `linear-gradient(135deg, rgba(20,20,30,0.95) 0%, rgba(15,15,25,0.98) 100%)`,
+        boxShadow: isHovered 
+          ? `0 25px 50px -12px ${colors.hex}40, inset 0 1px 0 0 rgba(255,255,255,0.1)` 
+          : 'inset 0 1px 0 0 rgba(255,255,255,0.05)'
       }}>
 
-        {/* Background Glow */}
-        <div 
-          className="absolute inset-0 opacity-5 transition-opacity duration-500 pointer-events-none"
-          style={{ backgroundColor: colors.hex }}
-        />
-
-        {/* Animated Background Orb */}
+        {/* Animated Background Pattern */}
         <motion.div
-          animate={{ opacity: isHovered ? 0.15 : 0.05 }}
-          transition={{ duration: 0.5 }}
-          className="absolute -top-20 -right-20 w-64 h-64 rounded-full blur-3xl pointer-events-none"
-          style={{ backgroundColor: colors.hex }}
+          animate={{ 
+            backgroundPosition: isHovered ? ['0% 0%', '100% 100%'] : '0% 0%',
+          }}
+          transition={{ duration: 8, repeat: Infinity, repeatType: 'reverse' }}
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage: `radial-gradient(circle at 20% 30%, ${colors.hex}, transparent 50%), radial-gradient(circle at 80% 70%, ${colors.hex}, transparent 50%)`,
+            backgroundSize: '200% 200%'
+          }}
         />
 
         <div className="relative z-10 h-full flex flex-col">
 
-          {/* Image Section */}
-          <div className="relative h-48 sm:h-56 overflow-hidden">
-            <motion.img
-              src={image}
-              alt={title}
-              className="w-full h-full object-cover transition-transform duration-700"
-              animate={{ scale: isHovered ? 1.1 : 1 }}
-            />
+          {/* Image Section - ملكي */}
+          <div className="relative h-56 sm:h-64 overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
+            {/* Image with Parallax */}
+            <motion.div
+              animate={{ scale: isHovered ? 1.12 : 1 }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+              className="absolute inset-0 w-full h-full"
+            >
+              <img
+                src={image}
+                alt={title}
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
             
-            {/* Image Overlay Gradient */}
-            <div className={`absolute inset-0 bg-gradient-to-b ${colors.gradient} opacity-20 transition-opacity duration-500`} />
+            {/* Gradient Overlay - تدرج فاخر */}
+            <div className={`absolute inset-0 bg-gradient-to-b ${colors.gradient} opacity-30 mix-blend-overlay`} />
             
-            {/* Sector Badge */}
-            <div 
-              className="absolute top-3 left-3 sm:top-4 sm:left-4 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider backdrop-blur-md border"
+            {/* Top Fade */}
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-transparent to-transparent" />
+
+            {/* Animated Corner Accent */}
+            <motion.div
+              animate={{ opacity: isHovered ? 1 : 0.5 }}
+              transition={{ duration: 0.4 }}
+              className="absolute top-0 right-0 w-32 h-32 pointer-events-none"
               style={{
-                backgroundColor: colors.light,
-                borderColor: colors.border,
-                color: colors.hex
+                background: `linear-gradient(135deg, ${colors.hex}40 0%, transparent 100%)`,
+                filter: 'blur(20px)'
+              }}
+            />
+
+            {/* Sector Badge - ملون براق */}
+            <motion.div 
+              animate={{ y: isHovered ? -2 : 0 }}
+              className="absolute top-4 left-4 sm:top-5 sm:left-5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-widest backdrop-blur-md border-2 z-20 cursor-default"
+              style={{
+                backgroundColor: `${colors.hex}25`,
+                borderColor: colors.hex,
+                color: colors.hex,
+                boxShadow: `0 0 20px ${colors.hex}40`
               }}
             >
               {sector}
-            </div>
+            </motion.div>
 
             {/* Date Badge */}
             {project.createdAt && (
-              <div className="absolute top-3 right-3 sm:top-4 sm:right-4 px-2 sm:px-3 py-1 sm:py-1.5 bg-black/60 backdrop-blur-md text-xs sm:text-sm text-slate-300 rounded-full">
-                {new Date(project.createdAt).toLocaleDateString()}
-              </div>
+              <motion.div 
+                animate={{ y: isHovered ? -2 : 0 }}
+                className="absolute top-4 right-4 sm:top-5 sm:right-5 px-3 sm:px-4 py-1.5 sm:py-2 bg-black/70 backdrop-blur-md text-xs sm:text-sm text-slate-300 rounded-full border border-white/10 z-20 flex items-center gap-1.5"
+              >
+                <FaCalendarAlt className="text-xs" />
+                <span>{new Date(project.createdAt).toLocaleDateString()}</span>
+              </motion.div>
             )}
+
+            {/* Star Rating (Optional) */}
+            <motion.div
+              animate={{ opacity: isHovered ? 1 : 0.3 }}
+              className="absolute bottom-4 left-4 sm:bottom-5 sm:left-5 flex items-center gap-1 z-20"
+            >
+              {[...Array(5)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  animate={{ scale: isHovered ? 1.2 : 1 }}
+                  transition={{ delay: i * 0.1 }}
+                >
+                  <FaStar size={14} className={`${i < 4 ? 'text-yellow-400' : 'text-slate-600'}`} />
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
 
-          {/* Content Section */}
-          <div className="flex-1 p-5 sm:p-6 lg:p-7 flex flex-col justify-between">
+          {/* Content Section - محتوى غني */}
+          <div className="flex-1 p-6 sm:p-7 lg:p-8 flex flex-col justify-between bg-gradient-to-b from-slate-900/50 to-slate-950/80">
 
-            {/* Title */}
-            <div className="mb-3 sm:mb-4">
-              <h3 className="text-lg sm:text-xl lg:text-2xl font-black text-white line-clamp-2 transition-colors duration-300 group-hover:text-white">
+            {/* Title Section */}
+            <div className="mb-4 sm:mb-5">
+              <motion.h3 
+                animate={{ color: isHovered ? 'rgb(255,255,255)' : 'rgb(226,232,240)' }}
+                className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-100 line-clamp-2 transition-colors duration-300"
+              >
                 {title}
-              </h3>
+              </motion.h3>
+              <motion.div
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+                className="h-1 w-12 rounded-full mt-3"
+                style={{ backgroundColor: colors.hex, transformOrigin: 'left' }}
+              />
             </div>
 
             {/* Description */}
-            <p className="text-sm sm:text-base text-slate-300 line-clamp-2 sm:line-clamp-3 mb-4 sm:mb-5 leading-relaxed">
+            <motion.p 
+              animate={{ opacity: isHovered ? 1 : 0.8 }}
+              className="text-sm sm:text-base text-slate-300 line-clamp-2 sm:line-clamp-3 mb-5 sm:mb-6 leading-relaxed"
+            >
               {desc}
-            </p>
+            </motion.p>
 
-            {/* Features */}
+            {/* Features / Tags */}
             {project.features && project.features.length > 0 && (
-              <div className="mb-5 sm:mb-6 space-y-2">
+              <div className="mb-6 sm:mb-7 space-y-2.5">
                 {project.features.slice(0, 2).map((f, i) => (
                   <motion.div
                     key={i}
-                    initial={{ opacity: 0, x: isArabic ? 10 : -10 }}
+                    initial={{ opacity: 0, x: isArabic ? 15 : -15 }}
                     whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    className="flex items-start gap-2"
+                    transition={{ delay: i * 0.15 }}
+                    className="flex items-center gap-2.5"
                   >
-                    <span 
-                      className="text-xs flex-shrink-0 mt-1.5"
-                      style={{ color: colors.hex }}
-                    >
-                      ▸
-                    </span>
+                    <motion.div
+                      animate={{ scale: isHovered ? 1.3 : 1 }}
+                      className="w-2 h-2 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: colors.hex, boxShadow: `0 0 8px ${colors.hex}` }}
+                    />
                     <span className="text-xs sm:text-sm text-slate-300">
                       {isArabic ? (project.featuresAr ? project.featuresAr[i] : f) : f}
                     </span>
@@ -134,41 +255,74 @@ export default function ProjectCard({ project }) {
               </div>
             )}
 
-            {/* Bottom Action Area */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-white/5">
+            {/* Bottom Action Bar */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6 border-t"
+              style={{ borderColor: `${colors.hex}30` }}>
               
-              {/* Main CTA Button */}
+              {/* Main CTA Button - براق وملكي */}
               <Link 
                 to={`/projects/${project.slug}`}
-                className="w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold text-sm sm:text-base transition-all duration-300 flex items-center justify-center sm:justify-start gap-2 border-2 hover:scale-105"
+                className="w-full sm:w-auto px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold text-sm sm:text-base transition-all duration-300 flex items-center justify-center sm:justify-start gap-2 border-2 hover:scale-105 active:scale-95 relative overflow-hidden group/btn"
                 style={{
-                  backgroundColor: colors.light,
+                  backgroundColor: `${colors.hex}15`,
                   borderColor: colors.hex,
                   color: colors.hex
                 }}
               >
-                <span>{t('projects.details') || 'Details'}</span>
-                <FaArrowRight className={`text-xs transition-transform duration-300 ${isHovered ? 'translate-x-1' : ''} ${isArabic ? 'rotate-180' : ''}`} />
+                <motion.div
+                  className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"
+                  style={{ backgroundColor: `${colors.hex}20` }}
+                />
+                <span className="relative">{t('projects.details') || 'View Details'}</span>
+                <motion.div
+                  animate={{ x: isHovered ? 4 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  className={`relative text-xs ${isArabic ? 'rotate-180' : ''}`}
+                >
+                  <FaArrowRight />
+                </motion.div>
               </Link>
 
-              {/* GitHub Link */}
+              {/* GitHub Link - أيقونة براقة */}
               {project.repo && (
                 <motion.a
                   href={project.repo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.15 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="p-2.5 sm:p-3 rounded-lg border border-white/10 text-slate-300 hover:text-white hover:border-white/30 transition-all duration-300"
+                  whileHover={{ scale: 1.2, rotate: 10 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="p-3 sm:p-3.5 rounded-lg border-2 text-slate-300 hover:text-white transition-all duration-300 relative overflow-hidden group/git"
+                  style={{ 
+                    borderColor: `${colors.hex}40`,
+                    color: colors.hex
+                  }}
                   title="View Repository"
                 >
-                  <FaGithub className="text-lg sm:text-xl" />
+                  <div 
+                    className="absolute inset-0 opacity-0 group-hover/git:opacity-20 transition-opacity duration-300"
+                    style={{ backgroundColor: colors.hex }}
+                  />
+                  <FaGithub className="text-lg sm:text-xl relative z-10" />
                 </motion.a>
               )}
             </div>
 
           </div>
         </div>
+
+        {/* Shine Effect */}
+        <motion.div
+          animate={{ 
+            x: isHovered ? 400 : -400,
+            opacity: isHovered ? [0, 0.3, 0] : 0
+          }}
+          transition={{ duration: 0.6 }}
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+            width: '200px'
+          }}
+        />
       </div>
     </motion.div>
   )
