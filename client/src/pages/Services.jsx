@@ -193,10 +193,13 @@ export default function Services() {
              }
              defaults = defaults || {}
              
+             // Determine the best ID to use for routing
+             let routeId = item.id || defaults.id || normalizedIconKey
+             
              return { 
                ...defaults,
                ...item,
-               id: item.id || defaults.id, // Preserve API ID or use default string ID
+               id: routeId, // Use this for routing to /services/${id}
                iconKey: normalizedIconKey,
                gradient: config.gradient, 
                shadow: config.shadow,
