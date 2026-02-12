@@ -175,8 +175,10 @@ export default function ServiceDetails() {
     const fetchService = async () => {
       if (!id) { setLoading(false); return }
 
-      // 1️⃣ ALWAYS try local DEFAULT_SERVICES first (most reliable)
+      // ✅ ONLY use local DEFAULT_SERVICES (most reliable, always available)
+      // Services are static and defined locally - no need for API calls
       const localService = DEFAULT_SERVICES.find(s => s.id === String(id).toLowerCase())
+      
       if (localService) {
         const normKey = normalizeIconKey(localService.iconKey, localService.title)
         const theme = THEME_MAP[normKey] || THEME_MAP['product']
@@ -191,38 +193,9 @@ export default function ServiceDetails() {
           featuresAr: localService.featuresAr || localService.features
         })
         setLoading(false)
-        return
-      }
-
-      // 2️⃣ If numeric ID, try API fallback
-      if (/^\d+$/.test(String(id))) {
-        try {
-          const res = await api.get(`/api/services/${id}`)
-          if (!res?.data) {
-            // No API data, stay on page or redirect
-            navigate('/services')
-            return
-          }
-          
-          const normKey = normalizeIconKey(res.data.iconKey, res.data.title)
-          const theme = THEME_MAP[normKey] || THEME_MAP['product']
-          
-          setService({
-            ...res.data,
-            iconKey: normKey,
-            ...theme,
-            titleAr: res.data.titleAr || res.data.title,
-            shortDescriptionAr: res.data.shortDescriptionAr || res.data.shortDescription,
-            fullContentAr: res.data.fullContentAr || res.data.fullContent,
-            featuresAr: res.data.featuresAr || res.data.features || []
-          })
-          setLoading(false)
-        } catch (err) {
-          console.error('Error fetching service:', err)
-          navigate('/services')
-        }
       } else {
-        // No valid service id found
+        // Service ID not found in local data - redirect
+        console.warn(`Service "${id}" not found in DEFAULT_SERVICES`)
         navigate('/services')
       }
     }
