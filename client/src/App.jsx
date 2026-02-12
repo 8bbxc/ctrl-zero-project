@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 // --- Lazy Load Pages ---
 const Home = React.lazy(() => import('./pages/Home'))
 const Projects = React.lazy(() => import('./pages/Projects'))
+const AllProjects = React.lazy(() => import('./pages/AllProjects'))
 const ProjectDetails = React.lazy(() => import('./pages/ProjectDetails'))
 const SectorProjects = React.lazy(() => import('./pages/SectorProjects'))
 const ComingSoon = React.lazy(() => import('./pages/ComingSoon'))
@@ -77,6 +78,7 @@ export default function App() {
             
             {/* === المشاريع === */}
             <Route path="/projects" element={<Projects />} />
+            <Route path="/projects/all" element={<AllProjects />} />
             <Route path="/projects/sector/:sector" element={<SectorProjects />} />
             <Route path="/projects/:slug" element={<ComingSoon />} />
             {/* ProjectDetails page still available but not linked from cards */}
