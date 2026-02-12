@@ -179,7 +179,11 @@ export default function Services() {
           
           // If API returns numeric IDs, map them to DEFAULT_SERVICES by index
           const merged = data.map((item, apiIndex) => {
-             const normalizedIconKey = normalizeIconKey(item.iconKey || item.id, item.title)
+             // Ensure item.iconKey and item.title are strings
+             const iconKeyStr = String(item.iconKey || item.id || '').trim()
+             const titleStr = String(item.title || '').trim()
+             
+             const normalizedIconKey = normalizeIconKey(iconKeyStr, titleStr)
              const config = GRADIENT_MAP[normalizedIconKey] || GRADIENT_MAP['product']
              
              // Try to find in DEFAULT_SERVICES by normalized key, or fall back to index
