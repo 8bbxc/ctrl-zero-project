@@ -1,0 +1,84 @@
+{
+  "projects": [
+    {
+      "title": "ClinicHub Pro",
+      "slug": "clinichub-pro",
+      "description": "Complete practice management system for modern clinics and health centers",
+      "content": "# ClinicHub Pro - Medical Practice Management\n\nA comprehensive solution designed for healthcare professionals to streamline patient management, appointments, and billing.\n\n## Key Features\n- Patient appointment scheduling\n- Electronic medical records (EMR)\n- Integrated billing system\n- Real-time notifications\n- Multi-clinic support\n\n## Technologies Used\n- React for responsive UI\n- Node.js backend\n- PostgreSQL database\n- Stripe for payments",
+      "image": "https://images.unsplash.com/photo-1576091160550-112173f7f869?auto=format&fit=crop&w=800&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1576091160550-112173f7f869?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1576091160648-112173f7f120?auto=format&fit=crop&w=800&q=80"
+      ],
+      "tags": ["React", "Node.js", "PostgreSQL", "Stripe", "Healthcare"],
+      "link": "https://example.com/clinichub",
+      "category": "Medical"
+    },
+    {
+      "title": "ShopMax E-Commerce",
+      "slug": "shopmax-ecommerce",
+      "description": "High-performance online store with advanced inventory and sales analytics",
+      "content": "# ShopMax - E-Commerce Platform\n\nA modern e-commerce solution built for rapid scaling and maximum conversion rates.\n\n## Features\n- Product catalog with search & filters\n- Shopping cart & checkout flow\n- Order management\n- Analytics dashboard\n- Inventory tracking\n- SEO optimization\n\n## Tech Stack\n- Next.js frontend\n- Express.js backend\n- PostgreSQL\n- Redis for caching",
+      "image": "https://images.unsplash.com/photo-1460925895917-adf4e565db18?auto=format&fit=crop&w=800&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1460925895917-adf4e565db18?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=800&q=80"
+      ],
+      "tags": ["Next.js", "Node.js", "PostgreSQL", "Redis", "Stripe"],
+      "link": "https://example.com/shopmax",
+      "category": "E-Commerce"
+    },
+    {
+      "title": "BiteFlow - Restaurant Management",
+      "slug": "biteflow-restaurant",
+      "description": "Digital menu system and restaurant management platform with online ordering",
+      "content": "# BiteFlow - Restaurant Digital Solution\n\nModern solution for restaurants to manage operations and serve customers digitally.\n\n## Features\n- Digital menu with images\n- Table management\n- Online ordering system\n- Kitchen display system\n- Customer reviews\n- Analytics dashboard\n\n## Technology\n- React frontend\n- Node.js API\n- Real-time WebSocket updates\n- PostgreSQL database",
+      "image": "https://images.unsplash.com/photo-1504674900067-ec0b8dc5f4c0?auto=format&fit=crop&w=800&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1504674900067-ec0b8dc5f4c0?auto=format&fit=crop&w=800&q=80"
+      ],
+      "tags": ["React", "Node.js", "WebSocket", "PostgreSQL"],
+      "link": "https://example.com/biteflow",
+      "category": "Restaurant"
+    },
+    {
+      "title": "TechCorp Solutions Portal",
+      "slug": "techcorp-solutions",
+      "description": "Enterprise corporate website showcasing services and project portfolios",
+      "content": "# TechCorp Solutions - Corporate Portal\n\nProfessional corporate website designed to establish brand authority and generate leads.\n\n## Components\n- Services showcase\n- Project portfolio\n- Team directory\n- Blog section\n- Contact management\n- Email campaigns\n\n## Stack\n- Next.js for SSR\n- TypeScript\n- Tailwind CSS\n- Headless CMS integration",
+      "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80"
+      ],
+      "tags": ["Next.js", "TypeScript", "Tailwind CSS", "CMS"],
+      "link": "https://example.com/techcorp",
+      "category": "Corporate"
+    },
+    {
+      "title": "LearnHub Academy",
+      "slug": "learnhub-academy",
+      "description": "Comprehensive learning management system with interactive courses and certification",
+      "content": "# LearnHub - E-Learning Platform\n\nComplete LMS solution for education providers to deliver engaging online courses.\n\n## Features\n- Course creation and management\n- Video streaming\n- Interactive quizzes\n- Student progress tracking\n- Certification system\n- Discussion forums\n- Live class capabilities\n\n## Technologies\n- React components\n- Node.js backend\n- Video.js for streaming\n- PostgreSQL database",
+      "image": "https://images.unsplash.com/photo-1522202176988-41dc08ee5379?auto=format&fit=crop&w=800&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1522202176988-41dc08ee5379?auto=format&fit=crop&w=800&q=80"
+      ],
+      "tags": ["React", "Node.js", "Video.js", "PostgreSQL"],
+      "link": "https://example.com/learnhub",
+      "category": "Education"
+    },
+    {
+      "title": "PropertyPro Real Estate Platform",
+      "slug": "propertypro-realestate",
+      "description": "Advanced property listing and booking platform with virtual tours and payments",
+      "content": "# PropertyPro - Real Estate Solution\n\nModern platform for real estate agencies to list and manage properties.\n\n## Features\n- Property listings with details\n- Virtual tour integration\n- Search and filtering\n- Booking management\n- Agent dashboard\n- Payment processing\n- CRM integration\n\n## Stack\n- React frontend\n- Express.js API\n- 3D tour integration\n- PostgreSQL database",
+      "image": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80"
+      ],
+      "tags": ["React", "Express", "3D Tours", "PostgreSQL"],
+      "link": "https://example.com/propertypro",
+      "category": "Real Estate"
+    }
+  ]
+}

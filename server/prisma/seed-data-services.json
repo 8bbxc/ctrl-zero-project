@@ -1,0 +1,81 @@
+{
+  "services": [
+    {
+      "title": "Full-Stack Development",
+      "titleAr": "تطوير متكامل",
+      "slug": "web-dev",
+      "shortDescription": "Scalable, high-performance web applications using modern stacks",
+      "fullContent": "# Full-Stack Development Services\n\nWe build complete web applications from frontend to backend, database to deployment.\n\n## Services Include\n- React & Next.js development\n- Node.js & Express APIs\n- PostgreSQL & database design\n- Real-time features with WebSockets\n- API development and integration\n- Authentication & authorization\n\n## Why Choose Us\n- 5+ years of experience\n- Scalable architecture\n- Best practices & clean code\n- Production-ready solutions",
+      "features": ["React & Next.js", "Node.js & Express", "PostgreSQL & Databases", "Secure APIs", "Real-time Features"],
+      "featuresAr": ["إطارات React و Next.js", "خوادم Node.js و Express", "Postgres وإدارة قواعد البيانات", "واجهات API آمنة", "ميزات الوقت الفعلي"],
+      "icon": "web-dev",
+      "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "title": "UI/UX Design",
+      "titleAr": "تصميم واجهة وتجربة المستخدم",
+      "slug": "ui-ux",
+      "shortDescription": "Beautiful interfaces designed for conversion and user satisfaction",
+      "fullContent": "# UI/UX Design Services\n\nWe create intuitive and beautiful user experiences that drive business results.\n\n## Our Process\n- User research & analysis\n- Wireframing & prototyping\n- Design systems creation\n- Usability testing\n- Design-to-development handoff\n\n## Deliverables\n- High-fidelity mockups\n- Interactive prototypes\n- Design specifications\n- Accessibility compliance (WCAG)\n\n## Tools We Use\n- Figma for design\n- Adobe XD\n- Prototyping tools\n- User testing platforms",
+      "features": ["User Research", "Wireframing & Prototyping", "Design Systems", "Usability Testing", "Accessibility"],
+      "featuresAr": ["بحث المستخدم", "نماذج أولية", "أنظمة تصميم", "اختبارات قابلية الاستخدام", "إمكانية الوصول"],
+      "icon": "ui-ux",
+      "image": "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "title": "Product Engineering",
+      "titleAr": "هندسة المنتجات",
+      "slug": "product",
+      "shortDescription": "From idea to market-ready MVP with strategic planning",
+      "fullContent": "# Product Engineering Services\n\nWe help you build products from concept to launch.\n\n## Our Approach\n- MVP strategy & validation\n- Agile development methodology\n- Quality assurance & testing\n- Go-to-market support\n- Growth analytics setup\n\n## We Handle\n- Product roadmap creation\n- Feature prioritization\n- Technical architecture\n- Team coordination\n- Crisis management\n\n## Success Metrics\n- Time to market\n- User acquisition\n- Retention rates\n- Revenue impact",
+      "features": ["MVP Strategy", "Agile Development", "QA & Testing", "Go-to-market Support", "Analytics"],
+      "featuresAr": ["استراتيجية MVP", "دورة تطوير رشيقة", "اختبارات الجودة", "دعم الإطلاق", "التحليلات"],
+      "icon": "product",
+      "image": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "title": "Frontend Development",
+      "titleAr": "تطوير الواجهة الأمامية",
+      "slug": "frontend",
+      "shortDescription": "Modern, responsive frontends with React and Next.js",
+      "fullContent": "# Frontend Development Services\n\nWe create fast, responsive, and accessible frontend applications.\n\n## Technologies\n- React.js & React Hooks\n- Next.js for SSR/SSG\n- TypeScript for type safety\n- Tailwind CSS for styling\n- Framer Motion for animations\n- State management (Redux, Zustand)\n\n## Focus Areas\n- Performance optimization\n- SEO best practices\n- Mobile responsiveness\n- Accessibility (WCAG)\n- Cross-browser compatibility\n\n## Quality Standards\n- Lighthouse scores > 90\n- Zero console errors\n- Semantic HTML\n- CSS-in-JS solutions",
+      "features": ["React & Next.js", "TypeScript", "Responsive Design", "Performance Optimization", "SEO"],
+      "featuresAr": ["React و Next.js", "TypeScript", "تصميم متجاوب", "تحسين الأداء", "تحسين محركات البحث"],
+      "icon": "frontend",
+      "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "title": "Mobile App Development",
+      "titleAr": "تطوير تطبيقات الهاتف",
+      "slug": "mobile",
+      "shortDescription": "Native and cross-platform mobile applications",
+      "fullContent": "# Mobile App Development\n\nBuild apps that users love on iOS and Android.\n\n## Cross-Platform\n- React Native development\n- Expo for rapid development\n- Code sharing between platforms\n\n## Native Development\n- Swift for iOS\n- Kotlin for Android\n- Native performance\n\n## Services Include\n- App strategy & design\n- Development & testing\n- App store deployment\n- Version management\n- Post-launch support\n\n## Focus Areas\n- User experience\n- Performance optimization\n- Offline functionality\n- Push notifications\n- Analytics integration",
+      "features": ["React Native", "iOS & Android", "Expo", "Push Notifications", "Offline Support"],
+      "featuresAr": ["React Native", "iOS و Android", "Expo", "إخطارات الدفع", "الدعم غير المتصل"],
+      "icon": "mobile",
+      "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "title": "Backend & API Development",
+      "titleAr": "تطوير الخادم والواجهات",
+      "slug": "backend",
+      "shortDescription": "Scalable backends and APIs for modern applications",
+      "fullContent": "# Backend & API Development\n\nWe build robust, scalable backend systems and APIs.\n\n## Technologies\n- Node.js & Express\n- Python & Django\n- Database design (PostgreSQL, MongoDB)\n- Redis for caching\n- Message queues (RabbitMQ, Redis)\n\n## Services\n- RESTful API design\n- GraphQL implementation\n- Authentication systems\n- Payment processing\n- File management\n- Email services\n\n## Security\n- Encryption & hashing\n- Rate limiting\n- SQL injection prevention\n- CORS management\n- API documentation",
+      "features": ["Node.js & Express", "PostgreSQL", "RESTful APIs", "Authentication", "Scalability"],
+      "featuresAr": ["Node.js و Express", "PostgreSQL", "واجهات RESTful", "المراقبة", "قابلية التوسع"],
+      "icon": "backend",
+      "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "title": "Cloud Infrastructure",
+      "titleAr": "البنية التحتية السحابية",
+      "slug": "cloud",
+      "shortDescription": "Deployment, DevOps, and cloud infrastructure management",
+      "fullContent": "# Cloud Infrastructure & DevOps\n\nWe handle your deployment and infrastructure needs.\n\n## Cloud Platforms\n- AWS (EC2, S3, Lambda, RDS)\n- Google Cloud Platform\n- Azure\n- Render, Vercel, Netlify\n\n## DevOps Services\n- CI/CD pipeline setup\n- Docker containerization\n- Kubernetes orchestration\n- Infrastructure as Code\n- Monitoring & logging\n\n## Security & Performance\n- SSL/TLS certificates\n- CDN integration\n- Load balancing\n- Auto-scaling\n- Backup & disaster recovery\n\n## Database Management\n- PostgreSQL optimization\n- Database backups\n- Replication setup\n- Query optimization",
+      "features": ["AWS & GCP", "Docker & Kubernetes", "CI/CD Pipelines", "Infrastructure as Code", "Monitoring"],
+      "featuresAr": ["AWS و GCP", "Docker و Kubernetes", "خطوط CI/CD", "البنية كالكود", "المراقبة"],
+      "icon": "cloud",
+      "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80"
+    }
+  ]
+}
