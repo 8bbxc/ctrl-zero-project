@@ -14,6 +14,7 @@ const SECTOR_CONFIG = {
     titleAr: 'الطب والرعاية الصحية',
     hero: 'https://images.unsplash.com/photo-1538108149393-fbbd81897560?auto=format&fit=crop&w=2000&q=80',
     colorHex: '#f43f5e', // Rose-500
+    icon: '🏥',
     desc: 'Transforming patient care with advanced digital health solutions.',
     descAr: 'نحو رعاية صحية رقمية متقدمة وأنظمة إدارة عيادات ذكية.'
   },
@@ -22,6 +23,7 @@ const SECTOR_CONFIG = {
     titleAr: 'التجارة الإلكترونية',
     hero: 'https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&w=2000&q=80',
     colorHex: '#10b981', // Emerald-500
+    icon: '🛒',
     desc: 'High-conversion stores aimed at maximizing revenue.',
     descAr: 'متاجر إلكترونية عالية الأداء مصممة لزيادة المبيعات.'
   },
@@ -30,6 +32,7 @@ const SECTOR_CONFIG = {
     titleAr: 'المطاعم والضيافة',
     hero: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2000&q=80',
     colorHex: '#f97316', // Orange-500
+    icon: '🍽️',
     desc: 'Digital menus and management systems for modern dining.',
     descAr: 'قوائم رقمية وأنظمة إدارة متكاملة للمطاعم والكافيهات.'
   },
@@ -38,6 +41,7 @@ const SECTOR_CONFIG = {
     titleAr: 'الشركات والأعمال',
     hero: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=80',
     colorHex: '#3b82f6', // Blue-500
+    icon: '💼',
     desc: 'Professional platforms that define brand authority.',
     descAr: 'منصات احترافية تعكس هوية الشركة وتعزز الثقة.'
   },
@@ -46,6 +50,7 @@ const SECTOR_CONFIG = {
     titleAr: 'التعليم والتدريب',
     hero: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=2000&q=80',
     colorHex: '#8b5cf6', // Violet-500
+    icon: '🎓',
     desc: 'Interactive learning experiences for the future.',
     descAr: 'تجارب تعليمية تفاعلية وأنظمة إدارة تعلم متطورة.'
   },
@@ -54,6 +59,7 @@ const SECTOR_CONFIG = {
     titleAr: 'العقارات',
     hero: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=80',
     colorHex: '#06b6d4', // Cyan-500
+    icon: '🏢',
     desc: 'Immersive property showcases and booking engines.',
     descAr: 'معارض عقارية متقدمة ومحركات حجز تفاعلية.'
   }
@@ -120,55 +126,85 @@ export default function SectorProjects() {
     <div className="min-h-screen bg-[#030305] text-slate-50 font-sans selection:bg-white/20 overflow-x-hidden">
       <Navbar />
 
-      {/* ================= HERO SECTION ================= */}
-      <section className="relative min-h-[60vh] flex items-center justify-center pt-20 overflow-hidden">
+      {/* ================= HERO SECTION - Enhanced Banner ================= */}
+      <section className="relative overflow-hidden pt-20 pb-12">
         
-        {/* 1. Background Image with heavy overlay */}
-        <div className="absolute inset-0 z-0">
-          <img
-            src={config.hero}
-            alt={displayTitle}
-            className="w-full h-full object-cover opacity-20 filter grayscale contrast-125 scale-105"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#030305] via-[#030305]/80 to-[#030305]" />
-        </div>
-
-        {/* 2. Ambient Glow (Sector Color) */}
+        {/* Distinctive Sector Header */}
         <div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-20 blur-[150px] z-0 pointer-events-none"
-          style={{ backgroundColor: config.colorHex }}
-        />
+          className="relative py-16 md:py-20 overflow-hidden"
+          style={{ backgroundColor: `${config.colorHex}15` }}
+        >
+          {/* Background Effects */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src={config.hero}
+              alt={displayTitle}
+              className="w-full h-full object-cover opacity-10 filter grayscale contrast-125 scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#030305] via-transparent to-[#030305]" />
+          </div>
 
-        {/* 3. Content */}
-        <div className="relative z-10 container mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto"
-          >
-            {/* Back Button */}
-            <Link 
-              to="/projects" 
-              className="inline-flex items-center gap-2 mb-8 px-5 py-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all text-xs font-mono uppercase tracking-widest text-slate-300"
-            >
-              <FaArrowLeft className={isArabic ? 'rotate-180' : ''} />
-              {isArabic ? 'جميع القطاعات' : 'All Sectors'}
-            </Link>
+          {/* Ambient Glow (Sector Color) */}
+          <div 
+            className="absolute top-1/2 right-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-15 blur-[120px] z-0 pointer-events-none"
+            style={{ backgroundColor: config.colorHex }}
+          />
 
-            {/* Title with Dynamic Color */}
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-white mb-6">
-              {displayTitle.split(' ')[0]} 
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-500">
-                 {' '}{displayTitle.split(' ').slice(1).join(' ')}
-              </span>
-              <span style={{ color: config.colorHex }}>.</span>
-            </h1>
+          {/* Banner Content */}
+          <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+              {/* Left: Icon + Title */}
+              <div className="flex-1">
+                <div className="flex items-center gap-6 mb-4">
+                  {/* Sector Icon */}
+                  <div 
+                    className="p-4 rounded-2xl flex items-center justify-center text-4xl md:text-5xl transition-all hover:scale-110 duration-300"
+                    style={{ backgroundColor: `${config.colorHex}20`, border: `2px solid ${config.colorHex}40` }}
+                  >
+                    <span className="filter drop-shadow-lg">{config.icon || '📦'}</span>
+                  </div>
+                  
+                  {/* Title Section */}
+                  <div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <div 
+                        className="w-2 h-2 rounded-full"
+                        style={{ backgroundColor: config.colorHex }}
+                      />
+                      <span 
+                        className="text-xs font-bold uppercase tracking-widest"
+                        style={{ color: config.colorHex }}
+                      >
+                        {isArabic ? 'القطاع' : 'SECTOR'}
+                      </span>
+                    </div>
+                    <h1 className="text-4xl md:text-5xl font-black tracking-tight text-white">
+                      {displayTitle}
+                      <span style={{ color: config.colorHex }}>.</span>
+                    </h1>
+                  </div>
+                </div>
+                
+                <p className="text-slate-300 font-light max-w-2xl leading-relaxed text-sm md:text-base">
+                  {displayDesc}
+                </p>
+              </div>
 
-            <p className="text-lg md:text-xl text-slate-400 font-light max-w-2xl mx-auto leading-relaxed">
-              {displayDesc}
-            </p>
-          </motion.div>
+              {/* Right: Back Button */}
+              <Link 
+                to="/projects" 
+                className="px-6 py-3 rounded-xl border transition-all hover:scale-105 text-sm font-semibold uppercase tracking-wider flex items-center gap-2 whitespace-nowrap"
+                style={{
+                  backgroundColor: `${config.colorHex}10`,
+                  borderColor: config.colorHex,
+                  color: config.colorHex
+                }}
+              >
+                <FaArrowLeft className={isArabic ? 'rotate-180' : ''} />
+                {isArabic ? 'العودة' : 'Back'}
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -191,11 +227,11 @@ export default function SectorProjects() {
                <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-white/5 mb-6 border border-white/5 text-slate-500">
                  <FaSearch className="text-4xl" />
                </div>
-               <h3 className="text-3xl font-bold mb-3 text-white">{isArabic ? 'جاري العمل...' : 'In The Works'}</h3>
+               <h3 className="text-3xl font-bold mb-3 text-white">{isArabic ? 'لا يوجد مشاريع حالياً' : 'No Projects Yet'}</h3>
                <p className="text-slate-400 mb-8 max-w-lg mx-auto leading-relaxed">
                  {isArabic 
-                   ? 'نقوم حالياً بتجهيز مشاريع استثنائية في هذا القطاع. تواصل معنا لمعرفة المزيد.' 
-                   : 'We are currently crafting exceptional digital experiences for this sector. Contact us for a portfolio preview.'}
+                   ? 'ما رأيك أن يكون مشروعك هو الأول هنا؟ تواصل معنا لعرض أعمالك في هذا القطاع المتخصص.' 
+                   : 'What if your project could be the first one here? Contact us to showcase your work in this specialized sector.'}
                </p>
                <Link 
                  to="/contact" 
