@@ -95,115 +95,132 @@ export default function Projects() {
   const isArabic = i18n.language === 'ar'
 
   return (
-    <div className="min-h-screen bg-[#050505] text-slate-100 font-sans selection:bg-cyan-500/20 overflow-hidden pb-24">
+    <div className="min-h-screen bg-gradient-to-br from-[#030305] to-[#050505] text-slate-100 font-sans selection:bg-cyan-500/20 overflow-hidden pb-24">
       <Navbar />
       
-      {/* --- 2. خلفية فنية هادئة (Refined Background) --- */}
+      {/* --- Advanced Background with Multiple Layers --- */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        {/* Gradients are darker and more subtle now */}
-        <div className="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-indigo-900/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-20%] left-[-10%] w-[800px] h-[800px] bg-cyan-900/10 rounded-full blur-[120px]" />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.02] mix-blend-overlay"></div>
+        <div className="absolute top-[-30%] right-[-20%] w-[1000px] h-[1000px] bg-gradient-to-br from-indigo-900/15 to-purple-900/10 rounded-full blur-[150px] animate-pulse-slow" />
+        <div className="absolute bottom-[-30%] left-[-20%] w-[1000px] h-[1000px] bg-gradient-to-tr from-cyan-900/15 to-blue-900/10 rounded-full blur-[150px] animate-pulse-slower" />
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#030305]/80" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 pt-32 pb-24 relative z-10">
         
-        {/* --- 3. العنوان الرئيسي (Header) --- */}
-        <div className="text-center mb-16 sm:mb-24 max-w-4xl mx-auto">
+        {/* --- Enhanced Header Section --- */}
+        <div className="text-center mb-20 sm:mb-28 max-w-5xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 20 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/3 border border-white/10 text-slate-400 font-mono text-[10px] sm:text-xs uppercase tracking-[0.2em] mb-8 backdrop-blur-md hover:bg-white/5 transition-colors cursor-default">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-pulse"></span>
-              {isArabic ? 'استكشف قطاعاتنا' : 'OUR EXPERTISE'}
+            <div className="inline-flex items-center gap-2 py-2 px-5 rounded-full bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-[11px] sm:text-xs uppercase tracking-[0.25em] mb-8 backdrop-blur-md hover:bg-gradient-to-r hover:from-cyan-500/20 hover:to-purple-500/20 transition-all duration-300 cursor-default shadow-lg shadow-cyan-500/5">
+              <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 animate-pulse"></span>
+              {isArabic ? '✨ استكشف قطاعاتنا' : '✨ OUR EXPERTISE'}
             </div>
             
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-slate-50 leading-[1.1] tracking-tight">
-              {isArabic ? 'مشاريعنا حسب' : 'Crafting Digital'} <br/> 
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-[1.05] tracking-tighter">
+              <span className="text-slate-100">
+                {isArabic ? 'مشاريعنا حسب' : 'Digital Solutions'}
+              </span>
+              <br/>
               <span className="relative inline-block">
-                <span className="absolute -inset-1 blur-2xl opacity-20 bg-gradient-to-r from-cyan-500 to-purple-600"></span>
-                <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-slate-100 to-blue-500">
-                  {isArabic ? 'القطاع' : 'Industries'}
+                <span className="absolute -inset-2 blur-3xl opacity-30 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 animate-pulse-slow"></span>
+                <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300">
+                  {isArabic ? 'القطاع' : 'by Industry'}
                 </span>
               </span>
             </h1>
             
-            <p className="text-base md:text-lg text-slate-500 font-light max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base md:text-lg lg:text-xl text-slate-400 font-light max-w-3xl mx-auto leading-relaxed">
               {isArabic 
-                ? 'نحول الرؤى إلى واقع رقمي عبر قطاعات متعددة. اختر المجال لاستكشاف دراسات الحالة.' 
-                : 'Transforming visions into digital reality across tailored sectors. Select an industry to explore our case studies.'}
+                ? 'نقدم خلاً رقمياً متخصصاً في كل قطاع. اختر المجال لاستكشاف مشاريعنا الناجحة والحالات العملية.'
+                : 'We deliver specialized digital solutions tailored to each industry. Explore our successful projects and real-world case studies.'}
             </p>
           </motion.div>
         </div>
 
-        {/* --- 4. الشبكة الاحترافية (The Pro Grid) --- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* --- Professional Grid with Enhanced Cards --- */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-6">
           {sectors.map((sector, index) => (
             <motion.div
               key={sector.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
+              transition={{ delay: index * 0.12, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
               <Link 
                 to={`/projects/sector/${sector.id}`}
                 className={`
-                  group relative block h-[280px] rounded-2xl overflow-hidden 
-                  bg-slate-900/30 border border-slate-800/40
+                  group relative overflow-hidden h-80 lg:h-72 rounded-2xl 
+                  bg-gradient-to-br from-slate-900/40 to-slate-950/20
+                  border border-slate-800/50
                   transition-all duration-500 ease-out
-                  hover:-translate-y-2
-                  ${sector.borderColor}
+                  hover:border-slate-700/80
+                  hover:-translate-y-3
+                  shadow-lg shadow-black/20
+                  active:scale-95
                 `}
               >
-                {/* تأثير الإضاءة الخلفية عند الهوفر - Spotlight Effect */}
+                {/* Dynamic Glow Effect */}
                 <div className={`
-                    absolute top-0 right-0 w-[300px] h-[300px] rounded-full blur-[80px] opacity-0 
-                    group-hover:opacity-10 transition-opacity duration-700
-                    ${sector.glowColor} -mr-20 -mt-20 pointer-events-none
+                  absolute -inset-1 rounded-2xl blur-2xl opacity-0 
+                  group-hover:opacity-15 transition-opacity duration-700
+                  bg-gradient-to-r ${sector.gradient}
+                  -z-10 group-hover:z-0
+                `} />
+
+                {/* Background Layers */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className={`
+                  absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[100px] opacity-0 
+                  group-hover:opacity-10 transition-opacity duration-700
+                  ${sector.glowColor} -mr-40 -mt-40 pointer-events-none
                 `} />
 
                 <div className="relative h-full p-8 flex flex-col justify-between z-10">
                   
-                  {/* الرأس: الأيقونة والسهم */}
+                  {/* Header: Icon & Arrow */}
                   <div className="flex justify-between items-start">
-                    {/* وعاء الأيقونة المتطور */}
                     <div className={`
-                      relative w-14 h-14 rounded-xl flex items-center justify-center text-2xl
-                      bg-slate-950/50 border border-slate-800/40 shadow-inner backdrop-blur-sm
+                      relative w-16 h-16 rounded-2xl flex items-center justify-center text-3xl
+                      bg-gradient-to-br from-slate-900/80 to-slate-950/40 
+                      border border-slate-800/60 shadow-inner backdrop-blur-sm
                       transition-all duration-500 ease-out
                       ${sector.iconColor}
-                      group-hover:scale-110 group-hover:bg-gradient-to-br ${sector.gradient} group-hover:text-white group-hover:border-transparent group-hover:shadow-lg
+                      group-hover:scale-125 group-hover:bg-gradient-to-br group-hover:${sector.gradient} 
+                      group-hover:text-white group-hover:border-white/30 group-hover:shadow-2xl group-hover:shadow-current/30
                     `}>
-                      <span className="relative z-10">{sector.icon}</span>
+                      <span className="relative z-10 filter drop-shadow-md group-hover:drop-shadow-lg">{sector.icon}</span>
                     </div>
 
-                    {/* زر السهم الدائري */}
                     <div className={`
-                      w-10 h-10 rounded-full border border-slate-700/50 flex items-center justify-center
-                      text-slate-600 bg-transparent
+                      w-11 h-11 rounded-full border border-slate-700/60 flex items-center justify-center
+                      text-slate-500 bg-transparent
                       transition-all duration-300
-                      group-hover:border-slate-500 group-hover:text-slate-100 group-hover:rotate-[-45deg]
-                      ${isArabic ? 'group-hover:rotate-[45deg]' : 'group-hover:rotate-[-45deg]'}
+                      group-hover:border-slate-400 group-hover:text-slate-100 group-hover:bg-white/5
                     `}>
-                      <FaArrowRight className={`text-sm transform ${isArabic ? 'rotate-180' : ''}`} />
+                      <FaArrowRight className={`text-sm transform group-hover:scale-125 ${isArabic ? 'rotate-180' : ''}`} />
                     </div>
                   </div>
 
-                  {/* النصوص */}
-                  <div className="space-y-3">
-                    <h3 className="text-2xl font-bold text-slate-100 group-hover:text-slate-50 transition-colors duration-300">
+                  {/* Content */}
+                  <div className="space-y-4">
+                    <h3 className="text-2xl lg:text-xl xl:text-2xl font-bold text-slate-100 group-hover:text-white transition-colors duration-300 group-hover:translate-y-0">
                       {isArabic ? sector.labelAr : sector.label}
                     </h3>
-                    <p className="text-slate-500 text-sm font-light leading-relaxed group-hover:text-slate-400 transition-colors duration-300 border-l-2 border-transparent pl-0 group-hover:pl-3 group-hover:border-slate-600">
+                    <p className="text-slate-400 text-sm font-light leading-relaxed group-hover:text-slate-200 transition-colors duration-300">
                       {isArabic ? sector.descAr : sector.desc}
                     </p>
                   </div>
 
-                  {/* خط سفلي نحيف جداً يتوهج */}
-                  <div className={`absolute bottom-0 left-0 h-[1.5px] w-0 bg-gradient-to-r ${sector.gradient} transition-all duration-500 group-hover:w-full`} />
+                  {/* Bottom Accent Line */}
+                  <div className={`
+                    absolute bottom-0 left-0 h-[2px] w-0 bg-gradient-to-r ${sector.gradient} 
+                    transition-all duration-500 group-hover:w-full
+                  `} />
                 </div>
               </Link>
             </motion.div>
