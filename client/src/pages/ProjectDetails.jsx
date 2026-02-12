@@ -399,8 +399,6 @@ export default function ProjectDetails() {
                 </Link>
               ) : <div className="flex-1" />}
             </nav>
-              ) : <div className="flex-1" />}
-            </nav>
 
           </article>
 
