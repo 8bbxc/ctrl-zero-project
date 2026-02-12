@@ -180,7 +180,7 @@ export default function ProjectCard({ project }) {
                 y: isHovered ? -4 : 0,
                 scale: isHovered ? 1.1 : 1
               }}
-              className="absolute top-4 left-4 sm:top-5 sm:left-5 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-black uppercase tracking-widest backdrop-blur-xl border-2 z-20 cursor-default flex items-center gap-2"
+              className="absolute top-4 left-4 sm:top-5 sm:left-5 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-black uppercase tracking-widest backdrop-blur-xl border-2 z-20 cursor-default flex items-center gap-3"
               style={{
                 backgroundColor: `${colors.hex}30`,
                 borderColor: colors.hex,
@@ -188,7 +188,20 @@ export default function ProjectCard({ project }) {
                 boxShadow: `0 0 30px ${colors.hex}60, inset 0 0 20px ${colors.hex}20`
               }}
             >
-              <FaFire size={12} />
+              <motion.div
+                animate={{ 
+                  scale: [1, 1.3, 1],
+                  rotate: [0, 12, -12, 0]
+                }}
+                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                className="flex-shrink-0"
+                style={{
+                  textShadow: `0 0 12px ${colors.hex}, 0 0 24px ${colors.hex}`,
+                  filter: `drop-shadow(0 0 8px ${colors.hex})`
+                }}
+              >
+                <FaFire size={16} />
+              </motion.div>
               {sector}
             </motion.div>
 
@@ -196,9 +209,19 @@ export default function ProjectCard({ project }) {
             {project.createdAt && (
               <motion.div 
                 animate={{ y: isHovered ? -4 : 0 }}
-                className="absolute top-4 right-4 sm:top-5 sm:right-5 px-4 sm:px-5 py-2 sm:py-2.5 bg-black/80 backdrop-blur-xl text-xs sm:text-sm text-slate-200 rounded-full border border-white/20 z-20 flex items-center gap-2 font-semibold"
+                className="absolute top-4 right-4 sm:top-5 sm:right-5 px-4 sm:px-5 py-2 sm:py-2.5 bg-black/80 backdrop-blur-xl text-xs sm:text-sm text-slate-200 rounded-full border border-white/20 z-20 flex items-center gap-3 font-semibold hover:border-white/40 transition-all duration-300"
               >
-                <FaCalendarAlt className="text-xs" />
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                  className="text-xs"
+                  style={{
+                    textShadow: '0 0 8px rgba(255,255,255,0.5)',
+                    filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.3))'
+                  }}
+                >
+                  <FaCalendarAlt />
+                </motion.div>
                 {new Date(project.createdAt).toLocaleDateString()}
               </motion.div>
             )}
@@ -206,13 +229,26 @@ export default function ProjectCard({ project }) {
             {/* Star Rating */}
             <motion.div
               animate={{ opacity: isHovered ? 1 : 0.4 }}
-              className="absolute bottom-5 left-5 flex items-center gap-0.5 z-20"
+              className="absolute bottom-5 left-5 flex items-center gap-1.5 z-20"
             >
               {[...Array(5)].map((_, i) => (
                 <motion.div
                   key={i}
-                  animate={{ scale: isHovered ? [1, 1.3, 1] : 1 }}
-                  transition={{ delay: i * 0.08, duration: 0.5 }}
+                  animate={{ 
+                    scale: isHovered ? [1, 1.4, 1] : 1,
+                    rotate: isHovered ? [0, 15, 0] : 0
+                  }}
+                  transition={{ 
+                    delay: i * 0.1, 
+                    duration: 0.6,
+                    repeat: isHovered ? Infinity : 0,
+                    repeatDelay: 0.5
+                  }}
+                  className="relative"
+                  style={i < 4 ? {
+                    textShadow: '0 0 8px rgba(251, 146, 60, 0.8), 0 0 16px rgba(251, 146, 60, 0.4)',
+                    filter: 'drop-shadow(0 0 6px rgba(251, 146, 60, 0.6))'
+                  } : {}}
                 >
                   <FaStar size={16} className={`${i < 4 ? 'text-amber-400' : 'text-slate-600'}`} />
                 </motion.div>
@@ -268,12 +304,20 @@ export default function ProjectCard({ project }) {
                     className="flex items-center gap-3 group/feature"
                   >
                     <motion.div
-                      animate={{ scale: isHovered ? 1.4 : 1 }}
-                      transition={{ duration: 0.3 }}
-                      className="w-2.5 h-2.5 rounded-full flex-shrink-0 group-hover/feature:scale-150"
+                      animate={{ 
+                        scale: [1, 1.5, 1],
+                        opacity: [0.8, 1, 0.8]
+                      }}
+                      transition={{ 
+                        duration: 2, 
+                        repeat: Infinity,
+                        delay: i * 0.3
+                      }}
+                      className="w-3 h-3 rounded-full flex-shrink-0 group-hover/feature:scale-150"
                       style={{ 
                         backgroundColor: colors.hex,
-                        boxShadow: `0 0 12px ${colors.hex}`
+                        boxShadow: `0 0 12px ${colors.hex}, 0 0 24px ${colors.hex}60`,
+                        filter: `drop-shadow(0 0 8px ${colors.hex})`
                       }}
                     />
                     <span className="text-xs sm:text-sm text-slate-300 font-medium tracking-wide">
@@ -307,9 +351,20 @@ export default function ProjectCard({ project }) {
                 />
                 <span className="relative">{t('projects.details') || 'View'}</span>
                 <motion.div
-                  animate={{ x: isHovered ? 5 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  className={`relative text-xs font-bold ${isArabic ? 'rotate-180' : ''}`}
+                  animate={{ 
+                    x: isHovered ? [0, 6, 0] : 0,
+                    rotate: isHovered ? 0 : 0
+                  }}
+                  transition={{ 
+                    duration: 1.5, 
+                    repeat: isHovered ? Infinity : 0,
+                    repeatDelay: 0.5
+                  }}
+                  className={`relative text-sm font-bold flex items-center ${isArabic ? 'rotate-180' : ''}`}
+                  style={{
+                    textShadow: `0 0 8px ${colors.hex}`,
+                    filter: `drop-shadow(0 0 4px ${colors.hex})`
+                  }}
                 >
                   <FaArrowRight />
                 </motion.div>
@@ -335,7 +390,17 @@ export default function ProjectCard({ project }) {
                     className="absolute inset-0 opacity-0 group-hover/git:opacity-30 transition-opacity duration-300"
                     style={{ backgroundColor: colors.hex }}
                   />
-                  <FaGithub className="text-xl relative z-10 font-bold" />
+                  <motion.div
+                    animate={{ scale: [1, 1.1, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                    className="text-2xl relative z-10 font-bold"
+                    style={{
+                      textShadow: `0 0 12px ${colors.hex}, 0 0 24px ${colors.hex}40`,
+                      filter: `drop-shadow(0 0 8px ${colors.hex})`
+                    }}
+                  >
+                    <FaGithub />
+                  </motion.div>
                 </motion.a>
               )}
             </div>
