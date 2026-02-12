@@ -95,7 +95,7 @@ export default function ProjectDetails() {
     const fetchProject = async () => {
       setLoading(true)
       try {
-        const res = await api.get(`/projects/${slug}`).catch(() => null)
+        const res = await api.get(`/api/projects/${slug}`).catch(() => null)
         const proj = (res && res.data) ? res.data : { ...defaultProject, title: slug?.replace(/-/g, ' ').toUpperCase() }
         if (mounted) setProject(proj)
       } catch (err) {
