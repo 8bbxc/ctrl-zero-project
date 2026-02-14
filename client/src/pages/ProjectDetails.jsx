@@ -89,11 +89,13 @@ export default function ProjectDetails() {
     const fetchProject = async () => {
       setLoading(true)
       try {
-        const res = await api.get(`/api/projects/${slug}`).catch(() => null)
-        const proj = (res?.data) ? res.data : { ...defaultProject }
+        console.log(`🔍 Fetching project: ${slug}`)
+        const res = await api.get(`/api/projects/${slug}`)
+        console.log(`✅ API response:`, res.data)
+        const proj = res?.data
         if (mounted) setProject(proj)
       } catch (err) {
-        console.error(err)
+        console.error(`❌ Error fetching ${slug}:`, err.message)
         if (mounted) setProject(defaultProject)
       } finally {
         if (mounted) setLoading(false)

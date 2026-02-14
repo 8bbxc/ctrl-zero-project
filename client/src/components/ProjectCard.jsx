@@ -108,7 +108,7 @@ export default function ProjectCard({ project }) {
 
       {/* Main Card Container */}
       <div 
-        className="relative h-full rounded-3xl overflow-hidden backdrop-blur-2xl border-2 transition-all duration-500"
+        className="relative h-full min-h-[500px] rounded-3xl overflow-hidden backdrop-blur-2xl border-2 transition-all duration-500 flex flex-col"
         style={{
           borderColor: isHovered ? colors.hex : 'rgba(255,255,255,0.1)',
           background: `linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(20,20,35,0.98) 100%)`
