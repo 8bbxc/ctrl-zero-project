@@ -61,10 +61,12 @@ const SECTOR_CONFIG = {
 }
 
 const defaultProject = {
+  slug: 'showcase-project',
   title: 'Showcase Project',
   category: 'Corporate',
   description: 'A comprehensive digital solution engineered for excellence and innovation.',
   fullContent: `This is a showcase project demonstrating our full-stack capabilities. Built with modern technologies and best practices, it represents our commitment to delivering scalable, high-performance solutions.\n\nOur approach focuses on user experience, performance optimization, and maintainability. Every line of code is crafted with precision to ensure your system operates flawlessly.\n\nKey achievements:\n• 40% performance improvement\n• Seamless user interactions\n• Enterprise-grade reliability\n• Scalable architecture`,
+  content: `This is a showcase project demonstrating our full-stack capabilities. Built with modern technologies and best practices, it represents our commitment to delivering scalable, high-performance solutions.\n\nOur approach focuses on user experience, performance optimization, and maintainability. Every line of code is crafted with precision to ensure your system operates flawlessly.\n\nKey achievements:\n• 40% performance improvement\n• Seamless user interactions\n• Enterprise-grade reliability\n• Scalable architecture`,
   image: 'https://images.unsplash.com/photo-1642790551116-18e150f248e3?q=80&w=1933',
   tags: ['React', 'Node.js', 'PostgreSQL', 'Tailwind CSS'],
   link: 'https://example.com',
@@ -79,7 +81,19 @@ export default function ProjectDetails() {
   const { t, i18n } = useTranslation()
   const isAr = i18n.language === 'ar'
 
-  const [project, setProject] = useState(location.state?.project || null)
+  console.log('🔍 ProjectDetails mounted with slug:', slug)
+  console.log('📍 location.state:', location.state)
+  console.log('📍 location.state?.project:', location.state?.project)
+
+  const [project, setProject] = useState(() => {
+    const stateProject = location.state?.project || null
+    // Add fullContent mapping if not present
+    if (stateProject && !stateProject.fullContent) {
+      stateProject.fullContent = stateProject.content
+    }
+    console.log('📦 Initial state project:', stateProject)
+    return stateProject
+  })
   const [loading, setLoading] = useState(!project)
   const [selectedImage, setSelectedImage] = useState(null)
   const [prevProj, setPrevProj] = useState(null)
@@ -90,16 +104,23 @@ export default function ProjectDetails() {
     const fetchProject = async () => {
       // If we already have project from state, don't fetch
       if (project) {
+        console.log('✅ Project from state exists, no need to fetch:', project.title || project.slug)
         setLoading(false)
         return
       }
       
+      console.log(`🔄 No project from state, fetching from API with slug: ${slug}`)
       setLoading(true)
       try {
         console.log(`🔍 Fetching project: ${slug}`)
         const res = await api.get(`/api/projects/${slug}`)
         console.log(`✅ API response:`, res.data)
         const proj = res?.data
+        // Ensure fullContent is set
+        if (proj && !proj.fullContent) {
+          proj.fullContent = proj.content
+        }
+        console.log('🎯 Setting project from API:', proj?.title || proj?.slug)
         if (mounted) setProject(proj)
       } catch (err) {
         console.error(`❌ Error fetching ${slug}:`, err.message)
@@ -110,7 +131,7 @@ export default function ProjectDetails() {
     }
     fetchProject()
     return () => { mounted = false }
-  }, [slug, project])
+  }, [slug])
 
   // Fetch siblings
   useEffect(() => {
@@ -140,7 +161,21 @@ export default function ProjectDetails() {
     </div>
   )
 
-  if (!project) return null
+  if (!project || !project.title) {
+    console.warn('❌ No project data available, project value:', project)
+    return (
+      <div className="min-h-screen bg-[#030305] text-slate-50 font-sans flex flex-col items-center justify-center">
+        <Navbar />
+        <div className="text-center">
+          <h2 className="text-4xl font-bold mb-4">Project Not Found</h2>
+          <p className="text-slate-400 mb-8">Unable to load project details</p>
+          <Link to="/projects" className="px-6 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition">
+            Back to Projects
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   const cfg = SECTOR_CONFIG[project.category] || SECTOR_CONFIG['Corporate']
   const SectorIcon = SECTOR_ICON_MAP[project.category] || FaBuilding

@@ -52,26 +52,17 @@ router.get('/', async (req, res) => {
     // إضافة caching headers للـ public endpoints
     res.set('Cache-Control', 'public, max-age=300'); // 5 دقائق caching
     
-    // Build a safe select object depending on available DB columns (prevents P2022 when migrations not applied yet)
-    const cols = await require('../utils/dbMeta').getTableColumns('Project');
-
-    const select = {
-      id: true,
-      slug: true,
-      title: true,
-      description: true,
-      image: true,
-      category: true
-    };
-
-    if (cols.has('titleAr')) select.titleAr = true;
-    if (cols.has('descriptionAr')) select.descriptionAr = true;
-
     const projects = await prisma.project.findMany({
-      orderBy: { createdAt: 'desc' },
-      select
+      orderBy: { createdAt: 'desc' }
     });
-    res.json(projects);
+    
+    // Map content to fullContent for all projects
+    const projectsWithFullContent = projects.map(p => ({
+      ...p,
+      fullContent: p.content
+    }));
+    
+    res.json(projectsWithFullContent);
   } catch (error) {
     console.error('GET /projects error:', error);
     res.status(500).json({ error: 'Failed to fetch projects' });
