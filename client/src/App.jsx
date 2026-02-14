@@ -80,8 +80,7 @@ export default function App() {
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/all" element={<AllProjects />} />
             <Route path="/projects/sector/:sector" element={<SectorProjects />} />
-            <Route path="/projects/:slug" element={<ComingSoon />} />
-            {/* ProjectDetails page still available but not linked from cards */}
+            <Route path="/projects/:slug" element={<ProjectDetails />} />
             
             {/* === الخدمات (الحل الجذري للمشكلة) === */}
             {/* 1. هذا الرابط يعرض قائمة الخدمات (البطاقات) */}
