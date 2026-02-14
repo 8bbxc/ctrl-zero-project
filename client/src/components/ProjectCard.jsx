@@ -133,7 +133,7 @@ export default function ProjectCard({ project }) {
         <div className="relative z-10 h-full flex flex-col">
 
           {/* Image Section - Premium with Overlay Effects */}
-          <div className="relative h-60 sm:h-72 overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900 group/img">
+          <div className="relative h-72 sm:h-80 md:h-96 overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900 group/img">
             
             {/* Image Container with Zoom */}
             <motion.div

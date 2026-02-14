@@ -84,41 +84,31 @@ router.get('/:slug', async (req, res) => {
     res.set('Cache-Control', 'public, max-age=300'); // 5 دقائق caching
     
     const { slug } = req.params;
+    console.log(`📍 Fetching project with slug: ${slug}`);
     
     // إذا كان الـ slug رقم (ID) بالخطأ، نحاول البحث بالـ ID
     const whereClause = isNaN(slug) ? { slug } : { id: parseInt(slug) };
-
-    const cols = await require('../utils/dbMeta').getTableColumns('Project');
-
-    const select = {
-      id: true,
-      slug: true,
-      title: true,
-      description: true,
-      fullDescription: true,
-      image: true,
-      gallery: true,
-      category: true,
-      tags: true,
-      status: true,
-      features: true
-    };
-
-    if (cols.has('titleAr')) select.titleAr = true;
-    if (cols.has('descriptionAr')) select.descriptionAr = true;
-    if (cols.has('fullDescriptionAr')) select.fullDescriptionAr = true;
-    if (cols.has('featuresAr')) select.featuresAr = true;
+    console.log(`📍 Where clause:`, whereClause);
 
     const project = await prisma.project.findFirst({
-      where: whereClause,
-      select
+      where: whereClause
     });
 
+    console.log(`📍 Project found:`, project ? `Yes (ID: ${project.id})` : 'No');
+
     if (!project) return res.status(404).json({ error: 'Project not found' });
-    res.json(project);
+    
+    // Map content field to fullContent for frontend compatibility
+    const response = {
+      ...project,
+      fullContent: project.content
+    };
+    
+    console.log(`📍 Sending response for ${project.slug}`);
+    res.json(response);
   } catch (error) {
-    console.error('GET /:slug error:', error);
-    res.status(500).json({ error: 'Failed to fetch project' });
+    console.error('❌ GET /:slug error:', error.message, error.stack);
+    res.status(500).json({ error: 'Failed to fetch project', details: error.message });
   }
 });
 
