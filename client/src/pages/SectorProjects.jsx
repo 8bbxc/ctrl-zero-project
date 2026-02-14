@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FaArrowLeft, FaBell, FaEnvelope } from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 import Navbar from '../components/Navbar'
+import api from '../services/api'
+import ProjectCard from '../components/ProjectCard'
 
 // --- SECTOR CONFIG (الألوان والصور) ---
 const SECTOR_CONFIG = {
@@ -68,11 +70,36 @@ export default function SectorProjects() {
   const { i18n } = useTranslation()
   const isArabic = i18n.language === 'ar'
   const [isNotified, setIsNotified] = useState(false)
+  const [projects, setProjects] = useState([])
+  const [loading, setLoading] = useState(true)
 
   // Fallback to Corporate if sector not found
   const config = SECTOR_CONFIG[sector] || SECTOR_CONFIG.Corporate
   const displayTitle = isArabic ? config.titleAr : config.title
   const displayDesc = isArabic ? config.descAr : config.desc
+
+  // Fetch projects by sector
+  useEffect(() => {
+    let mounted = true
+    const fetchProjects = async () => {
+      try {
+        setLoading(true)
+        const res = await api.get('/api/projects')
+        const allProjects = Array.isArray(res.data) ? res.data : (res.data?.items || [])
+        const sectorProjects = allProjects.filter(p => p.category === sector)
+        if (mounted) {
+          setProjects(sectorProjects)
+        }
+      } catch (err) {
+        console.error('Error fetching projects:', err)
+        if (mounted) setProjects([])
+      } finally {
+        if (mounted) setLoading(false)
+      }
+    }
+    fetchProjects()
+    return () => { mounted = false }
+  }, [sector])
 
   const handleNotify = () => {
     setIsNotified(true)
@@ -168,16 +195,45 @@ export default function SectorProjects() {
         </div>
       </section>
 
-      {/* ================= COMING SOON PAGE ================= */}
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-16 md:pt-24 relative z-20 min-h-[calc(100vh-180px)] flex items-center justify-center">
+      {/* ================= PROJECTS OR COMING SOON ================= */}
+      <main className="container mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-16 md:pt-24 relative z-20">
         
-        {/* Main Coming Soon Container */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="w-full max-w-4xl"
-        >
+        {/* Show Projects if they exist */}
+        {!loading && projects.length > 0 ? (
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-12"
+          >
+            {/* Section Title */}
+            <motion.div variants={itemVariants} className="text-center space-y-4 mb-12">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white">
+                {isArabic ? 'مشاريع ' : 'Our '}<span style={{ color: config.colorHex }}>{displayTitle}</span>
+              </h2>
+              <p className="text-slate-400 max-w-2xl mx-auto">{displayDesc}</p>
+            </motion.div>
+
+            {/* Projects Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {projects.map((project, idx) => (
+                <motion.div
+                  key={project.id || idx}
+                  variants={itemVariants}
+                >
+                  <ProjectCard project={project} />
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        ) : (
+          // Show Coming Soon if no projects
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="w-full max-w-4xl mx-auto min-h-[calc(100vh-300px)] flex items-center justify-center"
+          >
           {/* Top Decorative Line */}
           <motion.div 
             variants={itemVariants}
@@ -362,6 +418,7 @@ export default function SectorProjects() {
           />
 
         </motion.div>
+        )}
       </main>
     </div>
   )

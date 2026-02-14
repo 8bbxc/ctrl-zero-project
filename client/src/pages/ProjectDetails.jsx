@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { 
   FaGithub, FaExternalLinkAlt, FaArrowLeft, FaArrowRight, 
   FaTimes, FaExpand, FaHospital, FaShoppingCart, FaUtensils, 
-  FaBuilding, FaGraduationCap, FaHome, FaImage
+  FaBuilding, FaGraduationCap, FaHome, FaImage, FaStar, FaFire, FaRocket
 } from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 import api from '../services/api'
@@ -136,6 +136,9 @@ export default function ProjectDetails() {
   const cfg = SECTOR_CONFIG[project.category] || SECTOR_CONFIG['Corporate']
   const SectorIcon = SECTOR_ICON_MAP[project.category] || FaBuilding
   
+  // Check if this is a featured project (hotel booking)
+  const isFeatured = project.slug && project.slug.includes('mern-hotel')
+  
   // Combine main image with gallery for full gallery view
   const allImages = [project.image, ...(project.gallery || [])].filter(Boolean)
   const mainImageIndex = 0
@@ -171,6 +174,22 @@ export default function ProjectDetails() {
 
           {/* Hero Content */}
           <div className="space-y-8">
+            
+            {/* Featured Badge - Only for Hotel Project */}
+            {isFeatured && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1 }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber-600 to-orange-600 text-white text-sm font-bold"
+              >
+                <motion.div animate={{ rotate: [0, 15, -15, 0] }} transition={{ duration: 2, repeat: Infinity }}>
+                  <FaFire className="text-lg" />
+                </motion.div>
+                <span>{isAr ? '⭐ مشروع مميز' : '⭐ Featured Project'}</span>
+                <FaRocket className="text-lg" />
+              </motion.div>
+            )}
             
             {/* Main Hero Image - Full Width & Strong */}
             <motion.div 
@@ -226,13 +245,22 @@ export default function ProjectDetails() {
                 <div className="flex items-center gap-4 mb-4">
                   <div className="flex-1 h-px bg-gradient-to-r from-slate-700 to-transparent" />
                   <span className="text-xs font-mono text-slate-400 uppercase tracking-widest whitespace-nowrap">
-                    {new Date(project.date).getFullYear()}
+                    {new Date(project.date || new Date()).getFullYear()}
                   </span>
                 </div>
 
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] text-white mb-4">
+                <motion.h1 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className={`text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] mb-4 ${
+                    isFeatured 
+                      ? 'text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500' 
+                      : 'text-white'
+                  }`}
+                >
                   {project.title}
-                </h1>
+                </motion.h1>
 
                 <p className="text-lg md:text-xl text-slate-300 leading-relaxed max-w-3xl">
                   {project.description}
@@ -247,12 +275,19 @@ export default function ProjectDetails() {
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag, idx) => (
-                      <span 
+                      <motion.span
                         key={idx}
-                        className="text-xs px-3 py-1.5 rounded-full bg-slate-800/60 border border-slate-700 text-slate-300 font-medium hover:border-slate-600 transition-colors"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: idx * 0.05 }}
+                        className={`text-xs px-3 py-1.5 rounded-full font-medium transition-all ${
+                          isFeatured
+                            ? 'bg-gradient-to-r from-cyan-600/40 to-blue-600/40 border border-cyan-500/50 text-cyan-300 hover:border-cyan-400'
+                            : 'bg-slate-800/60 border border-slate-700 text-slate-300 hover:border-slate-600'
+                        }`}
                       >
                         {tag}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
                 </div>
@@ -261,18 +296,22 @@ export default function ProjectDetails() {
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-3 pt-4">
                 {project.link && (
-                  <a 
+                  <motion.a 
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
                     href={project.link} 
                     target="_blank" 
                     rel="noreferrer" 
-                    className={`flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-white bg-gradient-to-r ${cfg.gradient} hover:shadow-2xl transform hover:scale-105 transition-all duration-300`}
+                    className={`flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-white bg-gradient-to-r ${cfg.gradient} hover:shadow-2xl transition-all duration-300`}
                   >
                     {isAr ? 'زيارة المشروع' : 'View Live'}
                     <FaExternalLinkAlt className="text-sm" />
-                  </a>
+                  </motion.a>
                 )}
                 {(project.repo || project.github) && (
-                  <a 
+                  <motion.a
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
                     href={project.repo || project.github} 
                     target="_blank" 
                     rel="noreferrer" 
@@ -280,7 +319,7 @@ export default function ProjectDetails() {
                   >
                     {isAr ? 'الكود' : 'View Code'}
                     <FaGithub className="text-lg" />
-                  </a>
+                  </motion.a>
                 )}
               </div>
             </motion.div>
@@ -329,17 +368,24 @@ export default function ProjectDetails() {
                 <p className="text-slate-400 text-sm">{isAr ? 'اضغط على أي صورة لتكبيرها' : 'Click any image to expand'}</p>
               </div>
 
-              {/* Gallery Grid - Masonry-style */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Gallery Grid - Enhanced for Hotel Project */}
+              <div className={`grid gap-6 ${isFeatured ? 'grid-cols-1 md:grid-cols-3 lg:grid-cols-4' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
                 {allImages.map((img, idx) => (
                   <motion.div
                     key={idx}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: idx * 0.1 }}
-                    className={`group relative rounded-xl overflow-hidden bg-slate-900 border border-slate-700 hover:border-slate-600 transition-all cursor-pointer ${
-                      idx === 0 ? 'lg:col-span-2 lg:row-span-2' : ''
+                    transition={{ delay: idx * 0.08 }}
+                    whileHover={{ y: -8 }}
+                    className={`group relative rounded-xl overflow-hidden bg-slate-900 border transition-all cursor-pointer ${
+                      isFeatured 
+                        ? `border-cyan-500/30 hover:border-cyan-400 ${
+                            idx === 0 ? 'lg:col-span-2 lg:row-span-2' : ''
+                          }`
+                        : `border-slate-700 hover:border-slate-600 ${
+                            idx === 0 ? 'lg:col-span-2 lg:row-span-2' : ''
+                          }`
                     }`}
                     onClick={() => setSelectedImage(img)}
                   >
@@ -349,19 +395,36 @@ export default function ProjectDetails() {
                       className={`w-full object-cover group-hover:scale-110 transition-transform duration-500 ${
                         idx === 0 ? 'h-[400px]' : 'h-64'
                       }`}
+                      loading="lazy"
                     />
                     
                     {/* Overlay */}
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-                      <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center border border-white/30">
+                      <motion.div 
+                        initial={{ scale: 0.8 }}
+                        whileHover={{ scale: 1.1 }}
+                        className={`w-16 h-16 rounded-full flex items-center justify-center border ${
+                          isFeatured
+                            ? 'bg-cyan-500/30 border-cyan-400'
+                            : 'bg-white/20 border-white/30'
+                        }`}
+                      >
                         <FaExpand className="text-white text-2xl" />
-                      </div>
+                      </motion.div>
                     </div>
 
                     {/* Image Counter Badge */}
-                    <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-sm text-white text-xs font-bold">
+                    <motion.div 
+                      initial={{ opacity: 0, y: -10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      className={`absolute top-4 right-4 px-3 py-1.5 rounded-full text-white text-xs font-bold backdrop-blur-sm ${
+                        isFeatured
+                          ? 'bg-gradient-to-r from-cyan-600 to-blue-600'
+                          : 'bg-black/60'
+                      }`}
+                    >
                       {idx + 1}/{allImages.length}
-                    </div>
+                    </motion.div>
                   </motion.div>
                 ))}
               </div>
