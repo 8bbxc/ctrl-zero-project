@@ -308,11 +308,11 @@ export default function ProjectDetails() {
                       : 'text-white'
                   }`}
                 >
-                  {project.title}
+                  {isAr ? (project.titleAr || project.title) : project.title}
                 </motion.h1>
 
                 <p className="text-lg md:text-xl text-slate-300 leading-relaxed max-w-3xl">
-                  {project.description}
+                  {isAr ? (project.descriptionAr || project.description) : project.description}
                 </p>
               </div>
 
