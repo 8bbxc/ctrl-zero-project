@@ -86,7 +86,10 @@ export default function SectorProjects() {
         setLoading(true)
         const res = await api.get('/api/projects')
         const allProjects = Array.isArray(res.data) ? res.data : (res.data?.items || [])
-        const sectorProjects = allProjects.filter(p => p.category === sector)
+        // Only show hotel in Real Estate, Coming Soon for other sectors
+        const sectorProjects = sector === 'Real Estate' 
+          ? allProjects.filter(p => p.slug === 'mern-hotel-booking')
+          : []
         if (mounted) {
           setProjects(sectorProjects)
         }
