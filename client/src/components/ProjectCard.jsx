@@ -343,7 +343,8 @@ export default function ProjectCard({ project }) {
               
               {/* Main CTA - Power Button */}
               <Link 
-                to={`/projects/${project.slug}`}
+                to={`/projects/${project.slug || project.id}`}
+                state={{ project }}
                 className="w-full sm:w-auto px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-black text-xs sm:text-sm uppercase tracking-widest transition-all duration-300 flex items-center justify-center sm:justify-start gap-2 border-2 hover:scale-110 active:scale-95 relative overflow-hidden group/btn"
                 style={{
                   backgroundColor: `${colors.hex}20`,

@@ -139,8 +139,14 @@ export default function ProjectDetails() {
   // Check if this is a featured project (hotel booking)
   const isFeatured = project.slug && project.slug.includes('mern-hotel')
   
-  // Combine main image with gallery for full gallery view
-  const allImages = [project.image, ...(project.gallery || [])].filter(Boolean)
+  // Combine main image with gallery for full gallery view - prevent duplicates using Set
+  const imageSet = new Set()
+  if (project.image) imageSet.add(project.image)
+  if (project.gallery && Array.isArray(project.gallery)) {
+    project.gallery.forEach(img => imageSet.add(img))
+  }
+  const allImages = Array.from(imageSet).filter(Boolean)
+  const mainImageIndex = 0
   const mainImageIndex = 0
 
   return (

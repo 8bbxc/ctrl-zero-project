@@ -123,15 +123,23 @@ export default function Navbar() {
         {/* Right Actions */}
         <div className="flex items-center gap-3 z-20">
           
-          {/* Language Switcher */}
-          <button 
+          {/* Language Switcher - Enhanced Visibility */}
+          <motion.button 
             onClick={toggleLang}
-            className="group relative px-4 py-2 rounded-full bg-slate-800/50 border border-white/5 hover:border-accent/50 transition-all overflow-hidden flex items-center gap-2"
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.95 }}
+            className="group relative px-5 py-2.5 rounded-full bg-gradient-to-r from-accent/30 to-accent/20 border-2 border-accent/60 hover:border-accent shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:shadow-[0_0_25px_rgba(6,182,212,0.5)] transition-all overflow-hidden flex items-center gap-2 cursor-pointer"
           >
-            <div className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-            <span className="relative z-10 transform transition-transform group-hover:scale-110">{isEn ? <USFlag /> : <PSFlag />}</span>
-            <span className="relative z-10 text-xs font-bold text-slate-300 group-hover:text-white">{isEn ? 'EN' : 'AR'}</span>
-          </button>
+            <div className="absolute inset-0 bg-accent/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <motion.span 
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="relative z-10 transform transition-transform group-hover:scale-125"
+            >
+              {isEn ? <USFlag /> : <PSFlag />}
+            </motion.span>
+            <span className="relative z-10 text-sm font-bold text-accent group-hover:text-white transition-colors">{isEn ? 'ENGLISH' : 'العربية'}</span>
+          </motion.button>
 
           {/* Mobile Menu Button */}
           <button 
