@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   FaGithub, FaExternalLinkAlt, FaArrowLeft, FaArrowRight, 
@@ -75,11 +75,12 @@ const defaultProject = {
 
 export default function ProjectDetails() {
   const { slug } = useParams()
+  const location = useLocation()
   const { t, i18n } = useTranslation()
   const isAr = i18n.language === 'ar'
 
-  const [project, setProject] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [project, setProject] = useState(location.state?.project || null)
+  const [loading, setLoading] = useState(!project)
   const [selectedImage, setSelectedImage] = useState(null)
   const [prevProj, setPrevProj] = useState(null)
   const [nextProj, setNextProj] = useState(null)
@@ -87,6 +88,12 @@ export default function ProjectDetails() {
   useEffect(() => {
     let mounted = true
     const fetchProject = async () => {
+      // If we already have project from state, don't fetch
+      if (project) {
+        setLoading(false)
+        return
+      }
+      
       setLoading(true)
       try {
         console.log(`🔍 Fetching project: ${slug}`)
@@ -103,7 +110,7 @@ export default function ProjectDetails() {
     }
     fetchProject()
     return () => { mounted = false }
-  }, [slug])
+  }, [slug, project])
 
   // Fetch siblings
   useEffect(() => {
