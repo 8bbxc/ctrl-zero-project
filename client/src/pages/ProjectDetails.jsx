@@ -147,7 +147,6 @@ export default function ProjectDetails() {
   }
   const allImages = Array.from(imageSet).filter(Boolean)
   const mainImageIndex = 0
-  const mainImageIndex = 0
 
   return (
     <div className="min-h-screen bg-[#030305] text-slate-50 font-sans selection:bg-white/20 overflow-x-hidden">
