@@ -138,7 +138,7 @@ export default function Navbar() {
             >
               {isEn ? <USFlag /> : <PSFlag />}
             </motion.span>
-            <span className="relative z-10 text-sm font-bold text-accent group-hover:text-white transition-colors">{isEn ? 'ENGLISH' : 'العربية'}</span>
+            <span className="relative z-10 text-sm font-bold text-accent group-hover:text-white transition-colors">{isEn ? t('nav.english') : t('nav.arabic')}</span>
           </motion.button>
 
           {/* Mobile Menu Button */}

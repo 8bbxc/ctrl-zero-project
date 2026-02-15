@@ -59,10 +59,10 @@ export default function Footer() {
               <span className={`absolute -bottom-2 ${dir === 'rtl' ? 'right-0' : 'left-0'} w-1/2 h-0.5 bg-purple-500 rounded-full`}></span>
             </h4>
             <ul className="space-y-2 sm:space-y-3">
-              <li className="text-slate-400 text-xs sm:text-sm hover:text-white transition-colors cursor-default">{isArabic ? 'تطوير Full-Stack' : 'Full-Stack Development'}</li>
-              <li className="text-slate-400 text-xs sm:text-sm hover:text-white transition-colors cursor-default">{isArabic ? 'تصميم UI/UX' : 'UI/UX Design'}</li>
-              <li className="text-slate-400 text-xs sm:text-sm hover:text-white transition-colors cursor-default">{isArabic ? 'تطبيقات الموبايل' : 'Mobile Apps'}</li>
-              <li className="text-slate-400 text-xs sm:text-sm hover:text-white transition-colors cursor-default">{isArabic ? 'الحلول السحابية' : 'Cloud Solutions'}</li>
+              <li className="text-slate-400 text-xs sm:text-sm hover:text-white transition-colors cursor-default">{t('services.fullstack.title')}</li>
+              <li className="text-slate-400 text-xs sm:text-sm hover:text-white transition-colors cursor-default">{t('services.uiux.title')}</li>
+              <li className="text-slate-400 text-xs sm:text-sm hover:text-white transition-colors cursor-default">{t('services.product.title')}</li>
+              <li className="text-slate-400 text-xs sm:text-sm hover:text-white transition-colors cursor-default">{t('services.devops.title')}</li>
             </ul>
           </div>
 
@@ -83,7 +83,7 @@ export default function Footer() {
               </li>
               <li className={`flex items-start gap-2 sm:gap-3 text-slate-400 text-xs sm:text-sm group ${dir === 'rtl' ? 'flex-row-reverse' : ''}`}>
                 <FaMapMarkerAlt className="text-accent mt-0.5 sm:mt-1 text-base sm:text-lg flex-shrink-0 group-hover:scale-110 transition-transform" />
-                <span className="group-hover:text-white transition-colors">{isArabic ? 'نابلس، فلسطين' : 'Nablus, Palestine'}</span>
+                <span className="group-hover:text-white transition-colors">{t('footer.location') || (isArabic ? 'نابلس، فلسطين' : 'Nablus, Palestine')}</span>
               </li>
             </ul>
           </div>
@@ -132,7 +132,7 @@ export default function Footer() {
         {/* Made with Love tag */}
         <div className="mt-6 sm:mt-8 text-center">
            <p className="text-xs text-slate-600 flex items-center justify-center gap-1 flex-wrap">
-             {isArabic ? 'تم التصميم والبناء بواسطة' : 'Designed & Built by'} <span className="text-slate-400 font-bold">Eng. Yazan Saadeh</span>
+             {t('about.designedBy') || t('footer.designedAndBuiltBy') || (isArabic ? 'تم التصميم والبناء بواسطة' : 'Designed & Built by')} <span className="text-slate-400 font-bold">Eng. Yazan Saadeh</span>
            </p>
         </div>
 
