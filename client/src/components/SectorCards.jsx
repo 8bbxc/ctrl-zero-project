@@ -114,16 +114,14 @@ export default function SectorCards({ selectedSector = 'All', onSectorChange = (
           viewport={{ once: true }}
         >
           <span className="text-accent font-mono text-xs uppercase tracking-[0.2em] mb-3 block">
-            {isArabic ? 'اختر القطاع' : 'EXPLORE SECTORS'}
+            {t('sectors.headerBadge')}
           </span>
           <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
-            {isArabic ? 'تصفح مشاريعنا حسب القطاع' : 'Filter by Industry'}
+            {t('sectors.headerTitle')}
             <span className="text-accent">.</span>
           </h2>
           <p className="text-slate-400 text-lg font-light max-w-2xl mx-auto">
-            {isArabic
-              ? 'استكشف مشاريعنا المتخصصة في مختلف القطاعات والصناعات'
-              : 'Discover our specialized projects across various industries'}
+            {t('sectors.headerDesc')}
           </p>
         </motion.div>
       </div>
@@ -204,7 +202,7 @@ export default function SectorCards({ selectedSector = 'All', onSectorChange = (
                   {/* Selection Indicator */}
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-white/50 font-medium">
-                      {isArabic ? 'اضغط للفتر' : 'Click to filter'}
+                      {t('sectors.clickToFilter')}
                     </span>
                     {isSelected && (
                       <motion.div
@@ -251,7 +249,7 @@ export default function SectorCards({ selectedSector = 'All', onSectorChange = (
             }
           `}
         >
-          {isArabic ? 'عرض الكل' : 'View All'}
+          {t('sectors.viewAll')}
         </Link>
       </motion.div>
     </div>
