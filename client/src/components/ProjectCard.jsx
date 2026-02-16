@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FaArrowRight, FaGithub, FaStar, FaCalendarAlt, FaFire, FaExternalLinkAlt } from 'react-icons/fa'
+import { FaArrowRight, FaGithub, FaStar, FaStarHalfAlt, FaCalendarAlt, FaFire, FaExternalLinkAlt } from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 
 // Premium Sector Colors with Enhanced Gradients
@@ -86,9 +86,13 @@ export default function ProjectCard({ project }) {
               <span>{dateFeatured}</span>
             </div>
           )}
-          {/* fewer, smaller stars */}
+          {/* 4.5 rating — four full stars + half */}
           <div className="absolute left-4 bottom-20 flex items-center gap-1">
-            {[0,1,2].map(i => <FaStar key={i} className="text-yellow-400 text-lg" />)}
+            {[0,1,2,3,4].map(i => (
+              i < 4
+                ? <FaStar key={i} className="text-yellow-400 text-lg" />
+                : <FaStarHalfAlt key={i} className="text-yellow-400 text-lg" />
+            ))}
           </div>
         </div>
 
@@ -312,7 +316,10 @@ export default function ProjectCard({ project }) {
                     filter: 'brightness(1.4) drop-shadow(0 0 3px rgba(251, 146, 60, 0.9)) drop-shadow(0 0 8px rgba(251, 146, 60, 0.7)) drop-shadow(0 0 16px rgba(251, 146, 60, 0.4))'
                   } : {}}
                 >
-                  <FaStar size={20} className={`${i < 4 ? 'text-amber-300' : 'text-slate-700'}`} />
+                  {i < 4
+                    ? <FaStar size={20} className="text-amber-300" />
+                    : <FaStarHalfAlt size={20} className="text-amber-300" />
+                  }
                 </motion.div>
               ))}
             </motion.div>
