@@ -100,7 +100,7 @@ export default function ProjectCard({ project }) {
               {project.link && (
                 <a href={project.link} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-cyan-400 text-black px-4 py-2 rounded-full font-semibold shadow-sm">
                   <FaExternalLinkAlt />
-                  <span>{isArabic ? 'زيارة' : 'Live Demo'}</span>
+                  <span>{t('projects.liveDemo')}</span>
                 </a>
               )}
             </div>
@@ -409,7 +409,7 @@ export default function ProjectCard({ project }) {
                   className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"
                   style={{ backgroundColor: `${colors.hex}30` }}
                 />
-                <span className="relative">{t('projects.details') || 'View'}</span>
+                <span className="relative">{t('projects.details')}</span>
                 <motion.div
                   animate={{ 
                     x: isHovered ? [0, 10, -3, 8, 0] : 0,
@@ -445,7 +445,7 @@ export default function ProjectCard({ project }) {
                     color: colors.hex,
                     boxShadow: isHovered ? `0 0 20px ${colors.hex}40` : 'none'
                   }}
-                  title="View Repository"
+                  title={t('projects.github') || t('projects.codeLabel') || 'View Repository'}
                 >
                   <div 
                     className="absolute inset-0 opacity-0 group-hover/git:opacity-30 transition-opacity duration-300"

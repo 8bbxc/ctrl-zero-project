@@ -168,6 +168,10 @@ const resources = {
         more: 'Want to see code?',
         github: 'Visit our GitHub',
         details: 'Details'
+        ,
+        liveDemo: 'Live Demo',
+        codeLabel: 'Code',
+        visitLive: 'View Live'
       },
       // Project Sectors & Filters
       sectors: {
@@ -427,6 +431,10 @@ const resources = {
         more: 'تريد رؤية الكود؟',
         github: 'زر حسابنا على GitHub',
         details: 'تفاصيل'
+        ,
+        liveDemo: 'عرض تجريبي',
+        codeLabel: 'الكود',
+        visitLive: 'زيارة الموقع'
       },
       // Project Sectors & Filters
       sectors: {
