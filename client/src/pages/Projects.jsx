@@ -166,28 +166,26 @@ export default function Projects() {
                 to={`/projects/sector/${sector.id}`}
                 className={`
                   group relative overflow-hidden h-80 lg:h-72 rounded-2xl 
-                  bg-gradient-to-br from-slate-900/40 to-slate-950/20
-                  border border-slate-800/50
+                  ${sector.bgImage ? 'bg-black/60' : 'bg-gradient-to-br from-slate-900/40 to-slate-950/20'}
+                  border ${sector.bgImage ? 'border-white/10' : 'border-slate-800/50'}
                   transition-all duration-500 ease-out
-                  hover:border-slate-700/80
-                  hover:-translate-y-3
-                  shadow-lg shadow-black/20
+                  hover:border-white/20 hover:-translate-y-3
+                  shadow-lg shadow-black/40
                   active:scale-95
                 `}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.985 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               >
-                {/* Background image (if provided) — gentle parallax & fade */}
+                {/* Background image (if provided) — visible & zoomed on hover */}
                 {sector.bgImage && (
-                  <>
-                    <div
-                      className="absolute inset-0 bg-cover bg-center pointer-events-none transform transition-all duration-700 group-hover:scale-105 group-hover:opacity-70"
-                      style={{ backgroundImage: `url(${sector.bgImage})`, filter: 'brightness(0.55) saturate(0.9)' }}
-                    />
-                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-700 pointer-events-none" />
-                  </>
+                  <div
+                    className="absolute inset-0 bg-cover bg-center transform transition-all duration-700 group-hover:scale-110 group-hover:opacity-95 opacity-85 z-0"
+                    style={{ backgroundImage: `url(${sector.bgImage})`, filter: 'brightness(0.75) saturate(1.1)' }}
+                  />
                 )}
+                {/* Dynamic overlay for text readability */}
+                <div className={`absolute inset-0 transition-all duration-700 pointer-events-none z-[5] ${sector.bgImage ? 'bg-gradient-to-t from-black/85 via-black/45 to-black/20 group-hover:from-black/75 group-hover:via-black/35 group-hover:to-black/10' : ''}`} />
 
                 {/* Dynamic Glow Effect */}
                 <div className={`
@@ -198,14 +196,14 @@ export default function Projects() {
                 `} />
 
                 {/* Background Layers */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-[6]" />
                 <div className={`
                   absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[100px] opacity-0 
                   group-hover:opacity-10 transition-opacity duration-700
-                  ${sector.glowColor} -mr-40 -mt-40 pointer-events-none
+                  ${sector.glowColor} -mr-40 -mt-40 pointer-events-none z-[6]
                 `} />
 
-                <div className="relative h-full p-8 flex flex-col justify-between z-10">
+                <div className="relative h-full p-8 flex flex-col justify-between z-20">
                   
                   {/* Header: Icon & Arrow */}
                   <div className="flex justify-between items-start">
