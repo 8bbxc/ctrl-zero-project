@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FaArrowRight, FaGithub, FaStar, FaCalendarAlt, FaFire } from 'react-icons/fa'
+import { FaArrowRight, FaGithub, FaStar, FaCalendarAlt, FaFire, FaExternalLinkAlt } from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 
 // Premium Sector Colors with Enhanced Gradients
@@ -61,6 +61,55 @@ export default function ProjectCard({ project }) {
   const sector = project.category || project.sector || 'Corporate'
   const colors = SECTOR_COLORS[sector] || SECTOR_COLORS.Corporate
   const image = project.image || 'https://images.unsplash.com/photo-1642790551116-18e150f248e3?q=80&w=1933'
+
+  const isFeatured = project.slug && project.slug.includes('mern-hotel')
+
+  if (isFeatured) {
+    const titleFeatured = isArabic ? (project.titleAr || project.title) : project.title
+    const descFeatured = isArabic ? (project.descriptionAr || project.description) : project.description
+    const dateFeatured = project.createdAt
+      ? new Date(project.createdAt).toLocaleDateString(isArabic ? 'ar-EG' : 'en-US', { month: 'short', year: 'numeric' })
+      : ''
+
+    return (
+      <article className="mx-auto w-full rounded-3xl overflow-hidden shadow-2xl border border-white/6 bg-gradient-to-b from-slate-900/60 to-slate-950/80">
+        <div className="relative h-80 md:h-[420px] lg:h-[520px]">
+          <img src={image} alt={titleFeatured} className="w-full h-full object-cover brightness-90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-600/30 to-transparent mix-blend-overlay" />
+          <div className="absolute top-5 left-5 bg-blue-500/20 text-blue-200 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm">
+            {project.category || t('sectors.all')}
+          </div>
+          {dateFeatured && (
+            <div className="absolute top-5 right-5 bg-black/75 text-white px-3 py-1 rounded-full flex items-center gap-2 text-sm shadow-lg">
+              <FaCalendarAlt />
+              <span>{dateFeatured}</span>
+            </div>
+          )}
+          <div className="absolute left-6 bottom-28 flex items-center gap-2">
+            {[0,1,2,3,4].map(i => <FaStar key={i} className="text-yellow-400 text-xl drop-shadow-lg" />)}
+          </div>
+        </div>
+
+        <div className="px-6 py-8 bg-[linear-gradient(0deg,#081226,transparent)]" style={{ backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(0deg, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
+          <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-3">{titleFeatured}</h3>
+          <div className="h-1 w-12 bg-cyan-400 rounded-full mb-4" />
+          <p className="text-slate-300 text-sm md:text-base max-w-3xl mb-6 line-clamp-3">{descFeatured}</p>
+
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              {project.link && (
+                <a href={project.link} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-cyan-400 text-black px-4 py-2 rounded-full font-semibold shadow-sm">
+                  <FaExternalLinkAlt />
+                  <span>{isArabic ? 'زيارة' : 'Live Demo'}</span>
+                </a>
+              )}
+            </div>
+            <div className="text-sm text-slate-400">{project.tags?.slice(0,3).join(' • ')}</div>
+          </div>
+        </div>
+      </article>
+    )
+  }
 
   const handleMouseMove = (e) => {
     if (!isHovered) return
