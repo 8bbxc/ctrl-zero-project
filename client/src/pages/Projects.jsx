@@ -86,13 +86,15 @@ const sectors = [
     shadow: 'shadow-cyan-500/20',
     iconColor: 'text-cyan-400',
     borderColor: 'group-hover:border-cyan-500/50',
-    glowColor: 'bg-cyan-500'
+    glowColor: 'bg-cyan-500',
+    bgImage: '/images/Real%20Estate%20%26%20Property.jpeg'
   }
 ]
 
 export default function Projects() {
   const { t, i18n } = useTranslation()
   const isArabic = i18n.language === 'ar'
+  const MotionLink = motion(Link)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#030305] to-[#050505] text-slate-100 font-sans selection:bg-cyan-500/20 overflow-hidden pb-24">
@@ -160,7 +162,7 @@ export default function Projects() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ delay: index * 0.12, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              <Link 
+              <MotionLink 
                 to={`/projects/sector/${sector.id}`}
                 className={`
                   group relative overflow-hidden h-80 lg:h-72 rounded-2xl 
@@ -172,7 +174,21 @@ export default function Projects() {
                   shadow-lg shadow-black/20
                   active:scale-95
                 `}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.985 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
               >
+                {/* Background image (if provided) — gentle parallax & fade */}
+                {sector.bgImage && (
+                  <>
+                    <div
+                      className="absolute inset-0 bg-cover bg-center pointer-events-none transform transition-all duration-700 group-hover:scale-105 group-hover:opacity-70"
+                      style={{ backgroundImage: `url(${sector.bgImage})`, filter: 'brightness(0.55) saturate(0.9)' }}
+                    />
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/30 transition-colors duration-700 pointer-events-none" />
+                  </>
+                )}
+
                 {/* Dynamic Glow Effect */}
                 <div className={`
                   absolute -inset-1 rounded-2xl blur-2xl opacity-0 
