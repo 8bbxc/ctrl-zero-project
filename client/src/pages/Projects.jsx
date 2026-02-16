@@ -87,7 +87,7 @@ const sectors = [
     iconColor: 'text-cyan-400',
     borderColor: 'group-hover:border-cyan-500/50',
     glowColor: 'bg-cyan-500',
-    bgImage: '/images/Real%20Estate%20%26%20Property.jpeg'
+    bgImage: '/images/REALSTATE.jpeg'
   }
 ]
 
