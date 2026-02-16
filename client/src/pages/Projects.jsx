@@ -247,7 +247,7 @@ export default function Projects() {
                     transition-all duration-500 group-hover:w-full
                   `} />
                 </div>
-              </Link>
+              </MotionLink>
             </motion.div>
           ))}
         </div>
