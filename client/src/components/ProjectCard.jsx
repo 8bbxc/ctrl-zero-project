@@ -226,7 +226,10 @@ export default function ProjectCard({ project }) {
                 >
                   <FaCalendarAlt />
                 </motion.div>
-                {new Date(project.createdAt).toLocaleDateString()}
+                {new Date(project.createdAt).toLocaleDateString(
+                  isArabic ? 'ar-EG' : 'en-US',
+                  { year: 'numeric', month: 'short' }
+                )}
               </motion.div>
             )}
 
