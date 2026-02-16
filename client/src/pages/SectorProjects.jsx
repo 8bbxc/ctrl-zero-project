@@ -67,7 +67,7 @@ const SECTOR_CONFIG = {
 
 export default function SectorProjects() {
   const { sector } = useParams()
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const isArabic = i18n.language === 'ar'
   const [isNotified, setIsNotified] = useState(false)
   const [projects, setProjects] = useState([])
@@ -169,7 +169,7 @@ export default function SectorProjects() {
                         className="text-xs font-bold uppercase tracking-widest"
                         style={{ color: config.colorHex }}
                       >
-                        {isArabic ? 'القطاع' : 'SECTOR'}
+                        {t('sectors.sectorLabel')}
                       </span>
                     </div>
                     <h1 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight text-white truncate">
@@ -191,7 +191,7 @@ export default function SectorProjects() {
                 }}
               >
                 <FaArrowLeft className={isArabic ? 'rotate-180' : ''} size={14} />
-                <span className="hidden xs:inline">{isArabic ? 'العودة' : 'Back'}</span>
+                <span className="hidden xs:inline">{t('back')}</span>
               </Link>
             </div>
           </div>
@@ -212,7 +212,7 @@ export default function SectorProjects() {
             {/* Section Title */}
             <motion.div variants={itemVariants} className="text-center space-y-4 mb-12">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white">
-                {isArabic ? 'مشاريع ' : 'Our '}<span style={{ color: config.colorHex }}>{displayTitle}</span>
+                {t('projects.ourPrefix')}<span style={{ color: config.colorHex }}>{displayTitle}</span>
               </h2>
               <p className="text-slate-400 max-w-2xl mx-auto">{displayDesc}</p>
             </motion.div>
@@ -290,7 +290,7 @@ export default function SectorProjects() {
                 <div className="space-y-3">
                   <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight">
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-slate-300">
-                      {isArabic ? 'قريباً جداً' : 'Coming Soon'}
+                      {t('sectors.comingSoonTitle')}
                     </span>
                   </h2>
                   <div className="flex items-center justify-center gap-2">
@@ -309,19 +309,19 @@ export default function SectorProjects() {
                 </div>
 
                 {/* Badge */}
-                <motion.div 
-                  variants={itemVariants}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full border backdrop-blur-md"
-                  style={{ 
-                    backgroundColor: `${config.colorHex}10`,
-                    borderColor: `${config.colorHex}40`
-                  }}
-                >
-                  <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: config.colorHex, animation: 'pulse 2s infinite' }} />
-                  <span style={{ color: config.colorHex }} className="text-xs md:text-sm font-semibold uppercase tracking-wider">
-                    {isArabic ? 'تحت الإنجاز' : 'In Development'}
-                  </span>
-                </motion.div>
+                  <motion.div 
+                    variants={itemVariants}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full border backdrop-blur-md"
+                    style={{ 
+                      backgroundColor: `${config.colorHex}10`,
+                      borderColor: `${config.colorHex}40`
+                    }}
+                  >
+                    <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: config.colorHex, animation: 'pulse 2s infinite' }} />
+                    <span style={{ color: config.colorHex }} className="text-xs md:text-sm font-semibold uppercase tracking-wider">
+                      {t('sectors.inDevelopment')}
+                    </span>
+                  </motion.div>
               </div>
 
               {/* Row 2: Description */}
@@ -329,9 +329,7 @@ export default function SectorProjects() {
                 variants={itemVariants}
                 className="text-center text-slate-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-12"
               >
-                {isArabic 
-                  ? 'نحن نعمل بجد لإحضار أفضل الحلول الرقمية والمشاريع المبتكرة في هذا القطاع. استعد لتجربة شيء استثنائي!'
-                  : 'We are crafting exceptional digital solutions and innovative projects in this sector. Get ready for something extraordinary!'}
+                {t('sectors.comingDesc')}
               </motion.p>
 
               {/* Row 3: Features Grid */}
@@ -340,9 +338,9 @@ export default function SectorProjects() {
                 className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mb-12"
               >
                 {[
-                  { icon: '⚡', label: isArabic ? 'سريع جداً' : 'Lightning Fast', subtext: isArabic ? 'أداء عالي' : 'High Performance' },
-                  { icon: '🎨', label: isArabic ? 'تصميم احترافي' : 'Beautiful Design', subtext: isArabic ? 'واجهة متقدمة' : 'Premium UI' },
-                  { icon: '🚀', label: isArabic ? 'قريباً جداً' : 'Launch Soon', subtext: isArabic ? 'قريب جداً' : 'Coming Now' }
+                  { icon: '⚡', label: t('sectors.features.fastLabel'), subtext: t('sectors.features.fastSubtext') },
+                  { icon: '🎨', label: t('sectors.features.designLabel'), subtext: t('sectors.features.designSubtext') },
+                  { icon: '🚀', label: t('sectors.features.launchLabel'), subtext: t('sectors.features.launchSubtext') }
                 ].map((feature, idx) => (
                   <motion.div 
                     key={idx}
@@ -377,7 +375,7 @@ export default function SectorProjects() {
                   }}
                 >
                   <FaArrowLeft className={`text-sm ${isArabic ? 'rotate-180' : ''}`} />
-                  <span>{isArabic ? 'جميع القطاعات' : 'All Sectors'}</span>
+                  <span>{t('sectors.allSectors')}</span>
                 </Link>
                 <Link 
                   to="/contact" 
@@ -388,7 +386,7 @@ export default function SectorProjects() {
                   }}
                 >
                   <FaEnvelope className="text-sm" />
-                  <span>{isArabic ? 'تواصل معنا' : 'Contact Now'}</span>
+                  <span>{t('sectors.contactNow')}</span>
                 </Link>
               </motion.div>
 
@@ -404,9 +402,7 @@ export default function SectorProjects() {
                 >
                   <FaBell className={`text-sm ${isNotified ? 'animate-bounce' : ''}`} />
                   <span>
-                    {isNotified 
-                      ? (isArabic ? '✓ تم التسجيل!' : '✓ Subscribed!') 
-                      : (isArabic ? 'اخبرني عند الإطلاق' : 'Notify Me')}
+                    {isNotified ? t('sectors.subscribed') : t('sectors.notifyMe')}
                   </span>
                 </button>
               </motion.div>

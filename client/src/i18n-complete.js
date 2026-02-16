@@ -159,6 +159,12 @@ const resources = {
         portfolio: 'PORTFOLIO',
         title: 'Selected Works',
         subtitle: 'A showcase of our technical expertise. Discover how we turn complex problems into elegant digital solutions.',
+        ourPrefix: 'Our ',
+        expertiseBadge: '✨ OUR EXPERTISE',
+        mainTitle: 'Digital Solutions',
+        mainSubtitle: 'by Industry',
+        headerDesc: 'We deliver specialized digital solutions tailored to each industry. Explore our successful projects and real-world case studies.',
+        viewAll: 'View All Projects',
         more: 'Want to see code?',
         github: 'Visit our GitHub',
         details: 'Details'
@@ -172,6 +178,28 @@ const resources = {
         corporate: 'Corporate',
         education: 'Education',
         realestate: 'Real Estate'
+        ,
+        headerBadge: 'EXPLORE SECTORS',
+        headerTitle: 'Filter by Industry',
+        headerDesc: 'Discover our specialized projects across various industries',
+        clickToFilter: 'Click to filter',
+        viewAll: 'View All',
+        sectorLabel: 'SECTOR',
+        allSectors: 'All Sectors',
+        contactNow: 'Contact Now',
+        comingSoonTitle: 'Coming Soon',
+        inDevelopment: 'In Development',
+        comingDesc: 'We are crafting exceptional digital solutions and innovative projects in this sector. Get ready for something extraordinary!',
+        features: {
+          fastLabel: 'Lightning Fast',
+          fastSubtext: 'High Performance',
+          designLabel: 'Beautiful Design',
+          designSubtext: 'Premium UI',
+          launchLabel: 'Launch Soon',
+          launchSubtext: 'Coming Now'
+        },
+        notifyMe: 'Notify Me',
+        subscribed: '✓ Subscribed!'
       },
       filters: {
         all: 'All',
@@ -390,6 +418,12 @@ const resources = {
         portfolio: 'معرض الأعمال',
         title: 'مشاريع مختارة',
         subtitle: 'استكشف نخبة من مشاريعنا البرمجية. اكتشف كيف نحول المشاكل المعقدة إلى حلول رقمية أنيقة.',
+        ourPrefix: 'مشاريع ',
+        expertiseBadge: '✨ استكشف قطاعاتنا',
+        mainTitle: 'مشاريعنا حسب',
+        mainSubtitle: 'القطاع',
+        headerDesc: 'نقدم حللاً رقمياً متخصصاً في كل قطاع. اختر المجال لاستكشاف مشاريعنا الناجحة والحالات العملية.',
+        viewAll: 'عرض جميع المشاريع',
         more: 'تريد رؤية الكود؟',
         github: 'زر حسابنا على GitHub',
         details: 'تفاصيل'
@@ -403,6 +437,28 @@ const resources = {
         corporate: 'الشركات والمؤسسات',
         education: 'التعليم والتدريب',
         realestate: 'العقارات والسياحة'
+        ,
+        headerBadge: 'اختر القطاع',
+        headerTitle: 'تصفح مشاريعنا حسب القطاع',
+        headerDesc: 'استكشف مشاريعنا المتخصصة في مختلف القطاعات والصناعات',
+        clickToFilter: 'اضغط للفتر',
+        viewAll: 'عرض الكل',
+        sectorLabel: 'القطاع',
+        allSectors: 'جميع القطاعات',
+        contactNow: 'تواصل معنا',
+        comingSoonTitle: 'قريباً جداً',
+        inDevelopment: 'تحت الإنجاز',
+        comingDesc: 'نحن نعمل بجد لإحضار أفضل الحلول الرقمية والمشاريع المبتكرة في هذا القطاع. استعد لتجربة شيء استثنائي!',
+        features: {
+          fastLabel: 'سريع جداً',
+          fastSubtext: 'أداء عالي',
+          designLabel: 'تصميم احترافي',
+          designSubtext: 'واجهة متقدمة',
+          launchLabel: 'قريباً جداً',
+          launchSubtext: 'قريب جداً'
+        },
+        notifyMe: 'اخبرني عند الإطلاق',
+        subscribed: '✓ تم التسجيل!'
       },
       filters: {
         all: 'الكل',
