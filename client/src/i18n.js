@@ -4,6 +4,7 @@ import { initReactI18next } from 'react-i18next'
 const resources = {
   en: {
     translation: {
+      // Navigation
       nav: { 
         home: 'Home', 
         projects: 'Projects', 
@@ -11,6 +12,7 @@ const resources = {
         about: 'About', 
         contact: 'Contact' 
       },
+      // Hero Section
       hero: { 
         title: 'CTRL',
         zero: 'ZERO',
@@ -25,6 +27,7 @@ const resources = {
         ],
         projectAlt: 'Project screenshot'
       },
+      // Home Page
       home: { 
         techTitle: 'Powered by Modern Tech', 
         offerTitle: 'Our Expertise',
@@ -32,7 +35,13 @@ const resources = {
         weCan: 'We Can',
         readyTitle: 'Ready to',
         scaleUp: 'Scale Up?',
-        ctaDesc: "Stop waiting. Let's build the software your business deserves."
+        ctaDesc: "Stop waiting. Let's build the software your business deserves.",
+        stats: {
+          yearsExp: 'Years Exp.',
+          projects: 'Projects',
+          coffee: 'Cups of Coffee',
+          ideas: 'Ideas Realized'
+        }
       },
       services: {
         pageTitle: 'Services',

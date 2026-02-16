@@ -117,26 +117,24 @@ export default function Projects() {
           >
             <div className="inline-flex items-center gap-2 py-2 px-5 rounded-full bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 text-cyan-400 font-mono text-[11px] sm:text-xs uppercase tracking-[0.25em] mb-8 backdrop-blur-md hover:bg-gradient-to-r hover:from-cyan-500/20 hover:to-purple-500/20 transition-all duration-300 cursor-default shadow-lg shadow-cyan-500/5">
               <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 animate-pulse"></span>
-              {isArabic ? '✨ استكشف قطاعاتنا' : '✨ OUR EXPERTISE'}
+              {t('projects.expertiseBadge')}
             </div>
             
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 leading-[1.05] tracking-tighter">
               <span className="text-slate-100">
-                {isArabic ? 'مشاريعنا حسب' : 'Digital Solutions'}
+                {t('projects.mainTitle')}
               </span>
               <br/>
               <span className="relative inline-block">
                 <span className="absolute -inset-2 blur-3xl opacity-30 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 animate-pulse-slow"></span>
                 <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300">
-                  {isArabic ? 'القطاع' : 'by Industry'}
+                  {t('projects.mainSubtitle')}
                 </span>
               </span>
             </h1>
             
             <p className="text-base md:text-lg lg:text-xl text-slate-400 font-light max-w-3xl mx-auto leading-relaxed">
-              {isArabic 
-                ? 'نقدم خلاً رقمياً متخصصاً في كل قطاع. اختر المجال لاستكشاف مشاريعنا الناجحة والحالات العملية.'
-                : 'We deliver specialized digital solutions tailored to each industry. Explore our successful projects and real-world case studies.'}
+              {t('projects.headerDesc')}
             </p>
           </motion.div>
         </div>
@@ -147,8 +145,8 @@ export default function Projects() {
             to="/projects/all"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-sm md:text-base hover:scale-105 transition-transform duration-300 shadow-lg shadow-cyan-500/30"
           >
-            <span>{isArabic ? 'عرض جميع المشاريع' : 'View All Projects'}</span>
-            <FaArrowRight className={isArabic ? 'rotate-180' : ''} />
+            <span>{t('projects.viewAll') || 'View All Projects'}</span>
+            <FaArrowRight className={i18n.dir() === 'rtl' ? 'rotate-180' : ''} />
           </Link>
         </div>
 
