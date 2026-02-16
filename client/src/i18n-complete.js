@@ -432,7 +432,7 @@ const resources = {
         github: 'زر حسابنا على GitHub',
         details: 'تفاصيل'
         ,
-        liveDemo: 'عرض تجريبي',
+        liveDemo: 'عرض',
         codeLabel: 'الكود',
         visitLive: 'زيارة الموقع'
       },

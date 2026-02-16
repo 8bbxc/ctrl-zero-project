@@ -72,37 +72,42 @@ export default function ProjectCard({ project }) {
       : ''
 
     return (
-      <article className="mx-auto w-full rounded-3xl overflow-hidden shadow-2xl border border-white/6 bg-gradient-to-b from-slate-900/60 to-slate-950/80">
-        <div className="relative h-80 md:h-[420px] lg:h-[520px]">
-          <img src={image} alt={titleFeatured} className="w-full h-full object-cover brightness-90" />
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-600/30 to-transparent mix-blend-overlay" />
-          <div className="absolute top-5 left-5 bg-blue-500/20 text-blue-200 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-sm">
+      <article className="mx-auto w-full rounded-2xl overflow-hidden shadow-lg border border-white/6 bg-gradient-to-b from-slate-900/40 to-slate-950/80">
+        <div className="relative h-64 md:h-72 lg:h-80">
+          <img src={image} alt={titleFeatured} className="w-full h-full object-cover" />
+          {/* softer overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-600/20 to-transparent" />
+          <div className="absolute top-4 left-4 bg-blue-500/10 text-blue-200 px-3 py-1 rounded-full text-xs font-semibold">
             {project.category || t('sectors.all')}
           </div>
           {dateFeatured && (
-            <div className="absolute top-5 right-5 bg-black/75 text-white px-3 py-1 rounded-full flex items-center gap-2 text-sm shadow-lg">
+            <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full flex items-center gap-2 text-sm shadow">
               <FaCalendarAlt />
               <span>{dateFeatured}</span>
             </div>
           )}
-          <div className="absolute left-6 bottom-28 flex items-center gap-2">
-            {[0,1,2,3,4].map(i => <FaStar key={i} className="text-yellow-400 text-xl drop-shadow-lg" />)}
+          {/* fewer, smaller stars */}
+          <div className="absolute left-4 bottom-20 flex items-center gap-1">
+            {[0,1,2].map(i => <FaStar key={i} className="text-yellow-400 text-lg" />)}
           </div>
         </div>
 
-        <div className="px-6 py-8 bg-[linear-gradient(0deg,#081226,transparent)]" style={{ backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(0deg, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
-          <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-3">{titleFeatured}</h3>
-          <div className="h-1 w-12 bg-cyan-400 rounded-full mb-4" />
-          <p className="text-slate-300 text-sm md:text-base max-w-3xl mb-6 line-clamp-3">{descFeatured}</p>
+        <div className="px-5 py-6 bg-[linear-gradient(0deg,#081226,transparent)]" style={{ backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(0deg, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
+          <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-2 line-clamp-2">{titleFeatured}</h3>
+          <div className="h-1 w-10 bg-cyan-400 rounded-full mb-3" />
+          <p className="text-slate-300 text-sm max-w-3xl mb-4 line-clamp-2">{descFeatured}</p>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               {project.link && (
-                <a href={project.link} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-cyan-400 text-black px-4 py-2 rounded-full font-semibold shadow-sm">
+                <a href={project.link} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-cyan-400 text-black px-3 py-2 rounded-full font-semibold text-sm">
                   <FaExternalLinkAlt />
                   <span>{t('projects.liveDemo')}</span>
                 </a>
               )}
+              <Link to={`/projects/${project.slug || project.id}`} state={{ project }} className="inline-flex items-center gap-2 px-3 py-2 rounded-full border border-white/10 text-slate-100 text-sm">
+                {t('projects.details')}
+              </Link>
             </div>
             <div className="text-sm text-slate-400">{project.tags?.slice(0,3).join(' • ')}</div>
           </div>
