@@ -55,6 +55,8 @@ export default function ProjectCard({ project }) {
   const isArabic = i18n.language === 'ar'
   const [isHovered, setIsHovered] = useState(false)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  const MotionLink = motion(Link)
+  const MotionA = motion.a
 
   const title = isArabic ? (project.titleAr || project.title) : project.title
   const desc = isArabic ? (project.descriptionAr || project.description) : project.description
@@ -406,42 +408,63 @@ export default function ProjectCard({ project }) {
             >
               
               {/* Main CTA - Power Button */}
-              <Link 
+              <MotionLink
                 to={`/projects/${project.slug || project.id}`}
                 state={{ project }}
-                className="w-full sm:w-auto px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-black text-xs sm:text-sm uppercase tracking-widest transition-all duration-300 flex items-center justify-center sm:justify-start gap-2 border-2 hover:scale-110 active:scale-95 relative overflow-hidden group/btn"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+                className="w-full sm:w-auto px-6 sm:px-7 py-3 sm:py-3.5 rounded-xl font-black text-xs sm:text-sm uppercase tracking-widest transition-all duration-300 flex items-center justify-center sm:justify-start gap-2 border-2 relative overflow-hidden group/btn"
                 style={{
                   backgroundColor: `${colors.hex}20`,
                   borderColor: colors.hex,
                   color: colors.hex,
-                  boxShadow: isHovered ? `0 0 20px ${colors.hex}40` : 'none'
+                  boxShadow: isHovered ? `0 12px 40px ${colors.hex}30` : 'none'
                 }}
               >
+                {/* Fiery ember particles behind the CTA */}
+                <motion.span
+                  className="absolute -left-5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full pointer-events-none"
+                  initial={{ scale: 0.7, opacity: 0.9 }}
+                  animate={isHovered ? { y: [-2, -8, -2], scale: [1, 1.3, 1], opacity: [0.9, 0.6, 0.9] } : { y: 0, scale: 1, opacity: 0.85 }}
+                  transition={{ duration: 0.9, repeat: Infinity, repeatType: 'loop', ease: 'easeInOut' }}
+                  style={{
+                    background: 'radial-gradient(circle at 30% 30%, #ffd166 0%, #ff8c42 25%, rgba(255,99,71,0.8) 55%, transparent 70%)',
+                    boxShadow: `0 6px 18px rgba(255,140,0,0.25), 0 0 30px rgba(255,99,71,0.14)`
+                  }}
+                />
+
+                <motion.div
+                  className="absolute -right-6 top-0 bottom-0 w-16 pointer-events-none"
+                  initial={{ opacity: 0 }}
+                  animate={isHovered ? { opacity: 0.2, x: [0, -6, 0] } : { opacity: 0 }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                  style={{ background: 'linear-gradient(90deg, transparent, rgba(255,140,0,0.06))' }}
+                />
+
                 <motion.div
                   className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300"
                   style={{ backgroundColor: `${colors.hex}30` }}
                 />
-                <span className="relative">{t('projects.details')}</span>
+
+                <span className="relative z-10">{t('projects.details')}</span>
+
                 <motion.div
-                  animate={{ 
-                    x: isHovered ? [0, 10, -3, 8, 0] : 0,
-                    scale: isHovered ? [1, 1.4, 0.95, 1.3, 1] : 1,
+                  animate={{
+                    x: isHovered ? [0, 8, -3, 6, 0] : 0,
+                    scale: isHovered ? [1, 1.35, 0.95, 1.25, 1] : 1,
                     y: isHovered ? [0, -3, 3, -2, 0] : 0
                   }}
-                  transition={{ 
-                    duration: 1.6, 
-                    repeat: isHovered ? Infinity : 0,
-                    repeatDelay: 0.3
-                  }}
-                  className={`relative text-xl font-bold flex items-center ${isArabic ? 'rotate-180' : ''}`}
+                  transition={{ duration: 1.2, repeat: isHovered ? Infinity : 0, repeatDelay: 0.3 }}
+                  className={`relative text-xl font-bold flex items-center z-10 ${isArabic ? 'rotate-180' : ''}`}
                   style={{
-                    textShadow: `0 0 4px ${colors.hex}, 0 0 10px ${colors.hex}, 0 0 20px ${colors.hex}, 0 0 30px ${colors.hex}`,
-                    filter: `brightness(1.3) drop-shadow(0 0 3px ${colors.hex}) drop-shadow(0 0 8px ${colors.hex}) drop-shadow(0 0 16px ${colors.hex}) drop-shadow(0 0 24px ${colors.hex})`
+                    textShadow: `0 0 6px ${colors.hex}, 0 0 14px ${colors.hex}`,
+                    filter: `brightness(1.2) drop-shadow(0 0 6px ${colors.hex})`
                   }}
                 >
                   <FaArrowRight />
                 </motion.div>
-              </Link>
+              </MotionLink>
 
               {/* GitHub Icon - Enhanced */}
               {project.repo && (
