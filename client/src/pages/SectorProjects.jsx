@@ -58,6 +58,7 @@ const SECTOR_CONFIG = {
     title: 'Real Estate & Property',
     titleAr: 'العقارات والفنادق',
     hero: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=80',
+    heroCover: 'https://images.unsplash.com/photo-1486325212027-8081e3e4e16e?auto=format&fit=crop&w=2000&q=80',
     colorHex: '#f59e0b', // Amber-500 (Better for hotels)
     icon: '🏨',
     desc: 'Luxury hotel booking platforms and immersive property management systems.',
@@ -236,186 +237,227 @@ export default function SectorProjects() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="w-full max-w-4xl mx-auto min-h-[calc(100vh-300px)] flex items-center justify-center"
+            className="w-full max-w-6xl mx-auto min-h-[calc(100vh-300px)] flex items-center justify-center"
           >
-          {/* Top Decorative Line */}
-          <motion.div 
-            variants={itemVariants}
-            className="h-1 w-24 mx-auto mb-12 rounded-full"
-            style={{ backgroundColor: config.colorHex }}
-          />
-
-          {/* Main Card with Premium Design */}
-          <motion.div 
-            variants={itemVariants}
-            className="relative rounded-3xl overflow-hidden backdrop-blur-2xl border border-white/10 bg-gradient-to-br from-slate-900/60 to-slate-950/80 p-8 md:p-12 lg:p-16"
-          >
-            {/* Background Elements */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              {/* Gradient Orb 1 */}
-              <div 
-                className="absolute -top-40 -right-40 w-80 h-80 rounded-full opacity-10 blur-3xl"
-                style={{ backgroundColor: config.colorHex }}
+            {/* Premium Coming Soon Card with Image Cover */}
+            <motion.div 
+              variants={itemVariants}
+              className="relative w-full rounded-3xl overflow-hidden backdrop-blur-2xl border-2 bg-gradient-to-br from-slate-900/40 to-slate-950/80 shadow-2xl group"
+              style={{ borderColor: `${config.colorHex}40` }}
+            >
+              {/* Background Glow */}
+              <motion.div
+                className="absolute -inset-4 rounded-3xl blur-3xl -z-50 opacity-0 group-hover:opacity-100 transition-all duration-500"
+                style={{
+                  background: `linear-gradient(135deg, ${config.colorHex}40, ${config.colorHex}20)`,
+                }}
+                animate={{ 
+                  scale: [1, 1.08, 1],
+                }}
+                transition={{ duration: 4, repeat: Infinity }}
               />
-              {/* Gradient Orb 2 */}
-              <div 
-                className="absolute -bottom-40 -left-40 w-80 h-80 rounded-full opacity-5 blur-3xl"
-                style={{ backgroundColor: config.colorHex }}
-              />
-            </div>
 
-            {/* Content Grid Layout */}
-            <div className="relative z-10">
-              
-              {/* Row 1: Icon + Main Title + Description */}
-              <div className="text-center space-y-6 mb-12">
-                {/* Animated Hourglass */}
-                <motion.div
-                  animate={{ 
-                    rotate: [0, 180, 360],
-                    scale: [1, 1.1, 1]
-                  }}
-                  transition={{ 
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: 'easeInOut'
-                  }}
-                  className="inline-flex items-center justify-center w-20 h-20 md:w-24 md:h-24 rounded-full"
-                  style={{ backgroundColor: `${config.colorHex}15`, border: `2px solid ${config.colorHex}40` }}
+              <div className="grid grid-cols-1 lg:grid-cols-5 gap-0 overflow-hidden">
+                {/* Left: Image Cover */}
+                <motion.div 
+                  className="lg:col-span-2 h-72 lg:h-auto relative overflow-hidden"
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8 }}
                 >
-                  <span className="text-5xl md:text-6xl">⏳</span>
+                  <motion.img 
+                    src={config.heroCover || config.hero}
+                    alt={displayTitle}
+                    className="w-full h-full object-cover"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.6 }}
+                  />
+                  {/* Image Overlay */}
+                  <motion.div 
+                    className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/40 to-transparent"
+                    animate={{ opacity: [0.5, 0.7, 0.5] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                  />
+                  {/* Glow Accent */}
+                  <div 
+                    className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-40"
+                    style={{ backgroundColor: config.colorHex }}
+                  />
                 </motion.div>
 
-                {/* Main Heading */}
-                <div className="space-y-3">
-                  <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-slate-300">
-                      {t('sectors.comingSoonTitle')}
+                {/* Right: Content */}
+                <div className="lg:col-span-3 p-6 md:p-10 lg:p-12 flex flex-col justify-center relative z-10">
+                  {/* Top Section */}
+                  <motion.div 
+                    className="mb-8 space-y-4"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.6 }}
+                  >
+                    {/* Icon */}
+                    <motion.div
+                      animate={{ 
+                        rotate: [0, 360],
+                        scale: [1, 1.15, 1]
+                      }}
+                      transition={{ 
+                        rotate: { duration: 4, repeat: Infinity, ease: 'linear' },
+                        scale: { duration: 2, repeat: Infinity }
+                      }}
+                      className="inline-flex items-center justify-center w-16 h-16 rounded-2xl"
+                      style={{ 
+                        backgroundColor: `${config.colorHex}20`,
+                        border: `2px solid ${config.colorHex}50`,
+                        boxShadow: `0 0 20px ${config.colorHex}30`
+                      }}
+                    >
+                      <span className="text-4xl">{config.icon}</span>
+                    </motion.div>
+
+                    {/* Title */}
+                    <div className="space-y-3">
+                      <h2 className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-white">
+                        {t('sectors.comingSoonTitle')}
+                      </h2>
+                      <motion.div 
+                        className="flex items-center gap-3"
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        <div 
+                          className="h-1.5 w-8 rounded-full"
+                          style={{ backgroundColor: config.colorHex }}
+                        />
+                        <span className="text-lg font-bold" style={{ color: config.colorHex }}>
+                          {displayTitle}
+                        </span>
+                      </motion.div>
+                    </div>
+
+                    {/* Status Badge */}
+                    <motion.div 
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full border backdrop-blur-md w-fit"
+                      style={{ 
+                        backgroundColor: `${config.colorHex}10`,
+                        borderColor: `${config.colorHex}40`
+                      }}
+                      animate={{ scale: [1, 1.05, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      <motion.span 
+                        className="inline-block w-2 h-2 rounded-full" 
+                        style={{ backgroundColor: config.colorHex }}
+                        animate={{ scale: [1, 1.5, 1] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      />
+                      <span style={{ color: config.colorHex }} className="text-xs font-bold uppercase tracking-wider">
+                        {t('sectors.inDevelopment')}
+                      </span>
+                    </motion.div>
+                  </motion.div>
+
+                  {/* Middle Section - Description */}
+                  <motion.p 
+                    className="text-slate-300 text-sm md:text-base leading-relaxed mb-8"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: 0.3, duration: 0.6 }}
+                  >
+                    {t('sectors.comingDesc')}
+                  </motion.p>
+
+                  {/* Features Grid */}
+                  <motion.div 
+                    className="grid grid-cols-3 gap-2 md:gap-3 mb-8"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: 0.4, duration: 0.6 }}
+                  >
+                    {[
+                      { icon: '⚡', label: t('sectors.features.fastLabel') },
+                      { icon: '🎨', label: t('sectors.features.designLabel') },
+                      { icon: '🚀', label: t('sectors.features.launchLabel') }
+                    ].map((feature, idx) => (
+                      <motion.div 
+                        key={idx}
+                        whileHover={{ y: -4, scale: 1.05 }}
+                        className="p-3 md:p-4 rounded-xl border transition-all"
+                        style={{ 
+                          backgroundColor: `${config.colorHex}08`,
+                          borderColor: `${config.colorHex}30`,
+                          borderWidth: '1.5px'
+                        }}
+                      >
+                        <div className="text-2xl md:text-3xl mb-2">{feature.icon}</div>
+                        <p className="text-xs md:text-sm font-semibold text-slate-200">{feature.label}</p>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+
+                  {/* CTA Buttons */}
+                  <motion.div 
+                    className="flex flex-col sm:flex-row gap-2 md:gap-3"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.5 }}
+                  >
+                    <motion.a 
+                      href="/projects"
+                      className="px-4 md:px-6 py-2.5 md:py-3 rounded-lg md:rounded-xl font-bold text-xs md:text-sm transition-all border-2 flex items-center justify-center gap-2 hover:scale-105"
+                      style={{
+                        backgroundColor: `${config.colorHex}15`,
+                        borderColor: config.colorHex,
+                        color: config.colorHex
+                      }}
+                      whileHover={{ boxShadow: `0 0 20px ${config.colorHex}40` }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <FaArrowLeft className={`text-xs ${isArabic ? 'rotate-180' : ''}`} />
+                      <span>{t('sectors.allSectors')}</span>
+                    </motion.a>
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <Link 
+                        to="/contact" 
+                        className="px-4 md:px-6 py-2.5 md:py-3 rounded-lg md:rounded-xl font-bold text-xs md:text-sm text-white transition-all flex items-center justify-center gap-2 relative overflow-hidden group/btn"
+                        style={{ 
+                          backgroundColor: config.colorHex,
+                          boxShadow: `0 0 20px ${config.colorHex}50`
+                        }}
+                      >
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                          animate={{ x: [400, -400] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        />
+                        <FaEnvelope className="text-xs relative" />
+                        <span className="relative">{t('sectors.contactNow')}</span>
+                      </Link>
+                    </motion.div>
+                  </motion.div>
+
+                  {/* Notify Button */}
+                  <motion.button
+                    onClick={handleNotify}
+                    className="mt-4 px-4 md:px-6 py-2 rounded-lg font-semibold text-xs md:text-sm transition-all flex items-center justify-center gap-2 border-2 w-full md:w-auto hover:scale-105"
+                    style={{ 
+                      color: config.colorHex,
+                      borderColor: `${config.colorHex}40`,
+                      backgroundColor: `${config.colorHex}05`
+                    }}
+                    whileHover={{ borderColor: config.colorHex, backgroundColor: `${config.colorHex}15` }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <FaBell className={`text-xs ${isNotified ? 'animate-bounce' : ''}`} />
+                    <span>
+                      {isNotified ? t('sectors.subscribed') : t('sectors.notifyMe')}
                     </span>
-                  </h2>
-                  <div className="flex items-center justify-center gap-2">
-                    <div 
-                      className="h-1 w-12 rounded-full"
-                      style={{ backgroundColor: config.colorHex }}
-                    />
-                    <span className="text-lg md:text-xl font-bold" style={{ color: config.colorHex }}>
-                      {displayTitle}
-                    </span>
-                    <div 
-                      className="h-1 w-12 rounded-full"
-                      style={{ backgroundColor: config.colorHex }}
-                    />
-                  </div>
+                  </motion.button>
                 </div>
-
-                {/* Badge */}
-                  <motion.div 
-                    variants={itemVariants}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full border backdrop-blur-md"
-                    style={{ 
-                      backgroundColor: `${config.colorHex}10`,
-                      borderColor: `${config.colorHex}40`
-                    }}
-                  >
-                    <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: config.colorHex, animation: 'pulse 2s infinite' }} />
-                    <span style={{ color: config.colorHex }} className="text-xs md:text-sm font-semibold uppercase tracking-wider">
-                      {t('sectors.inDevelopment')}
-                    </span>
-                  </motion.div>
               </div>
-
-              {/* Row 2: Description */}
-              <motion.p 
-                variants={itemVariants}
-                className="text-center text-slate-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-12"
-              >
-                {t('sectors.comingDesc')}
-              </motion.p>
-
-              {/* Row 3: Features Grid */}
-              <motion.div 
-                variants={itemVariants}
-                className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mb-12"
-              >
-                {[
-                  { icon: '⚡', label: t('sectors.features.fastLabel'), subtext: t('sectors.features.fastSubtext') },
-                  { icon: '🎨', label: t('sectors.features.designLabel'), subtext: t('sectors.features.designSubtext') },
-                  { icon: '🚀', label: t('sectors.features.launchLabel'), subtext: t('sectors.features.launchSubtext') }
-                ].map((feature, idx) => (
-                  <motion.div 
-                    key={idx}
-                    variants={itemVariants}
-                    whileHover={{ y: -8, scale: 1.05 }}
-                    className="p-4 md:p-5 rounded-2xl border transition-all duration-300"
-                    style={{ 
-                      backgroundColor: `${config.colorHex}08`,
-                      borderColor: `${config.colorHex}30`,
-                      borderWidth: '1.5px'
-                    }}
-                  >
-                    <div className="text-3xl md:text-4xl mb-3">{feature.icon}</div>
-                    <p className="font-bold text-slate-200 text-sm md:text-base mb-1">{feature.label}</p>
-                    <p className="text-xs text-slate-400">{feature.subtext}</p>
-                  </motion.div>
-                ))}
-              </motion.div>
-
-              {/* Row 4: CTA Buttons */}
-              <motion.div 
-                variants={itemVariants}
-                className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 mb-12"
-              >
-                <Link 
-                  to="/projects" 
-                  className="w-full sm:w-auto px-8 py-3 md:py-4 rounded-xl md:rounded-2xl font-bold text-sm md:text-base transition-all duration-300 border-2 flex items-center justify-center gap-2 hover:scale-105 hover:shadow-lg"
-                  style={{
-                    backgroundColor: `${config.colorHex}15`,
-                    borderColor: config.colorHex,
-                    color: config.colorHex
-                  }}
-                >
-                  <FaArrowLeft className={`text-sm ${isArabic ? 'rotate-180' : ''}`} />
-                  <span>{t('sectors.allSectors')}</span>
-                </Link>
-                <Link 
-                  to="/contact" 
-                  className="w-full sm:w-auto px-8 py-3 md:py-4 rounded-xl md:rounded-2xl font-bold text-sm md:text-base text-white transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105 hover:shadow-xl"
-                  style={{ 
-                    backgroundColor: config.colorHex,
-                    boxShadow: `0 0 30px ${config.colorHex}50`
-                  }}
-                >
-                  <FaEnvelope className="text-sm" />
-                  <span>{t('sectors.contactNow')}</span>
-                </Link>
-              </motion.div>
-
-              {/* Row 5: Notification CTA */}
-              <motion.div 
-                variants={itemVariants}
-                className="flex items-center justify-center"
-              >
-                <button
-                  onClick={handleNotify}
-                  className="px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 flex items-center gap-2 border border-white/20 hover:border-white/40 hover:bg-white/5"
-                  style={{ color: config.colorHex }}
-                >
-                  <FaBell className={`text-sm ${isNotified ? 'animate-bounce' : ''}`} />
-                  <span>
-                    {isNotified ? t('sectors.subscribed') : t('sectors.notifyMe')}
-                  </span>
-                </button>
-              </motion.div>
-
-            </div>
-          </motion.div>
-
-          {/* Bottom Decorative Line */}
-          <motion.div 
-            variants={itemVariants}
-            className="h-1 w-24 mx-auto mt-12 rounded-full"
-            style={{ backgroundColor: config.colorHex, opacity: 0.5 }}
-          />
+            </motion.div>
 
         </motion.div>
         )}
