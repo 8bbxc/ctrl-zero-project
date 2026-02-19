@@ -42,11 +42,11 @@ const SECTOR_COLORS = {
     accent: '#d8b4fe'
   },
   'Real Estate': { 
-    hex: '#06b6d4', 
-    gradient: 'from-cyan-700 via-cyan-600 to-sky-500',
-    darkGradient: 'from-cyan-950 to-sky-900',
-    glow: 'rgba(6, 182, 212, 0.5)',
-    accent: '#a5f3fc'
+    hex: '#f59e0b', 
+    gradient: 'from-amber-700 via-amber-600 to-yellow-500',
+    darkGradient: 'from-amber-950 to-yellow-900',
+    glow: 'rgba(245, 158, 11, 0.5)',
+    accent: '#fcd34d'
   }
 }
 
@@ -74,51 +74,261 @@ export default function ProjectCard({ project }) {
       : ''
 
     return (
-      <article className="mx-auto w-full rounded-2xl overflow-hidden shadow-lg border border-white/6 bg-gradient-to-b from-slate-900/40 to-slate-950/80">
-        <div className="relative h-64 md:h-72 lg:h-80">
-          <img src={image} alt={titleFeatured} className="w-full h-full object-cover" />
-          {/* softer overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-600/20 to-transparent" />
-          <div className="absolute top-4 left-4 bg-blue-500/10 text-blue-200 px-3 py-1 rounded-full text-xs font-semibold">
-            {project.category || t('sectors.all')}
+      <motion.article 
+        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+        className="w-full relative group"
+      >
+        {/* Premium Glow Background */}
+        <motion.div
+          className="absolute -inset-2 bg-gradient-to-r from-amber-600/40 via-orange-500/30 to-yellow-500/40 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 -z-10"
+          animate={{ 
+            scale: [1, 1.05, 1],
+          }}
+          transition={{ duration: 3, repeat: Infinity }}
+        />
+        
+        <div className="rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl border border-amber-500/20 bg-gradient-to-b from-slate-900/60 to-slate-950/90 backdrop-blur-xl">
+          
+          {/* Image Section with Advanced Effects */}
+          <div className="relative h-48 sm:h-56 md:h-72 lg:h-80 overflow-hidden group/img">
+            {/* Animated Background Overlay */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-950/40"
+              animate={{ opacity: [1, 0.6, 1] }}
+              transition={{ duration: 4, repeat: Infinity }}
+            />
+            
+            {/* Image with Zoom Effect */}
+            <motion.img 
+              src={image} 
+              alt={titleFeatured} 
+              className="w-full h-full object-cover group-hover/img:scale-110 transition-transform duration-500"
+            />
+            
+            {/* Amber Top Overlay */}
+            <motion.div 
+              className="absolute inset-0 bg-gradient-to-b from-amber-600/30 via-transparent to-transparent"
+              whileHover={{ opacity: 0.5 }}
+            />
+            
+            {/* Moving Light Effect */}
+            <motion.div
+              className="absolute -inset-full w-full h-full"
+              animate={{ 
+                backgroundPosition: ['200% 0%', '-200% 0%'],
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+              style={{
+                background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)',
+                backgroundSize: '200% 100%',
+              }}
+            />
+            
+            {/* Category Badge with Glow */}
+            <motion.div 
+              className="absolute top-3 left-3 sm:top-4 sm:left-4 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wider backdrop-blur-lg border border-amber-400/30 flex items-center gap-2 z-10"
+              style={{
+                backgroundColor: 'rgba(217, 119, 6, 0.15)',
+                color: '#fcd34d',
+                boxShadow: '0 0 20px rgba(217, 119, 6, 0.3)',
+              }}
+              whileHover={{ scale: 1.1 }}
+              animate={{ 
+                boxShadow: ['0 0 20px rgba(217, 119, 6, 0.3)', '0 0 30px rgba(217, 119, 6, 0.6)', '0 0 20px rgba(217, 119, 6, 0.3)'],
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <motion.span
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+              >
+                🏨
+              </motion.span>
+              <span>{project.category || t('sectors.all')}</span>
+            </motion.div>
+            
+            {/* Date Badge */}
+            {dateFeatured && (
+              <motion.div 
+                className="absolute top-3 sm:top-4 right-3 sm:right-4 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-black/60 text-white flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-semibold backdrop-blur-md border border-white/10 z-10"
+                whileHover={{ scale: 1.05 }}
+                animate={{ 
+                  y: [0, -2, 0],
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <motion.div
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+                >
+                  <FaCalendarAlt size={12} />
+                </motion.div>
+                <span>{dateFeatured}</span>
+              </motion.div>
+            )}
+            
+            {/* Star Rating with Animation */}
+            <motion.div 
+              className="absolute left-3 sm:left-4 bottom-16 sm:bottom-20 flex items-center gap-0.5 sm:gap-1 z-10"
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              {[0,1,2,3,4].map(i => (
+                <motion.div
+                  key={i}
+                  animate={{ 
+                    y: [0, -3, 0],
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{ 
+                    delay: i * 0.1,
+                    duration: 1.5,
+                    repeat: Infinity,
+                  }}
+                  style={{
+                    textShadow: '0 0 10px rgba(250, 204, 21, 0.8)',
+                    filter: 'drop-shadow(0 0 4px rgba(250, 204, 21, 0.6))',
+                  }}
+                >
+                  {i < 4
+                    ? <FaStar className="text-yellow-300 text-xs sm:text-lg" />
+                    : <FaStarHalfAlt className="text-yellow-300 text-xs sm:text-lg" />
+                  }
+                </motion.div>
+              ))}
+            </motion.div>
+            
+            {/* Premium Badge */}
+            <motion.div 
+              className="absolute bottom-3 right-3 bg-gradient-to-r from-amber-500 to-orange-500 text-black px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+              animate={{ 
+                scale: [1, 1.1, 1],
+                rotate: [-2, 2, -2],
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
+              style={{
+                boxShadow: '0 0 20px rgba(251, 146, 60, 0.6)',
+              }}
+            >
+              ⭐ {isArabic ? 'مميز' : 'Premium'}
+            </motion.div>
           </div>
-          {dateFeatured && (
-            <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full flex items-center gap-2 text-sm shadow">
-              <FaCalendarAlt />
-              <span>{dateFeatured}</span>
-            </div>
-          )}
-          {/* 4.5 rating — four full stars + half */}
-          <div className="absolute left-4 bottom-20 flex items-center gap-1">
-            {[0,1,2,3,4].map(i => (
-              i < 4
-                ? <FaStar key={i} className="text-yellow-400 text-lg" />
-                : <FaStarHalfAlt key={i} className="text-yellow-400 text-lg" />
-            ))}
-          </div>
-        </div>
 
-        <div className="px-5 py-6 bg-[linear-gradient(0deg,#081226,transparent)]" style={{ backgroundImage: 'linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(0deg, rgba(255,255,255,0.02) 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
-          <h3 className="text-2xl md:text-3xl font-extrabold text-white mb-2 line-clamp-2">{titleFeatured}</h3>
-          <div className="h-1 w-10 bg-cyan-400 rounded-full mb-3" />
-          <p className="text-slate-300 text-sm max-w-3xl mb-4 line-clamp-2">{descFeatured}</p>
+          {/* Content Section */}
+          <motion.div 
+            className="px-4 sm:px-5 py-5 sm:py-6 bg-gradient-to-b from-slate-900/40 to-slate-950/80 relative overflow-hidden"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
+            {/* Background Grid Animation */}
+            <motion.div 
+              className="absolute inset-0 opacity-[0.03] pointer-events-none"
+              style={{
+                backgroundImage: 'linear-gradient(90deg, rgba(251, 146, 60, 0.1) 1px, transparent 1px), linear-gradient(0deg, rgba(251, 146, 60, 0.1) 1px, transparent 1px)',
+                backgroundSize: '40px 40px'
+              }}
+              animate={{ 
+                backgroundPosition: ['0px 0px', '40px 40px'],
+              }}
+              transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+            />
+            
+            <div className="relative z-10">
+              {/* Title with Glow */}
+              <motion.h3 
+                className="text-xl sm:text-2xl md:text-3xl font-black text-white mb-2 line-clamp-2 tracking-tight"
+                animate={{ 
+                  textShadow: ['0 0 10px rgba(251, 146, 60, 0.3)', '0 0 20px rgba(251, 146, 60, 0.6)', '0 0 10px rgba(251, 146, 60, 0.3)'],
+                }}
+                transition={{ duration: 2.5, repeat: Infinity }}
+              >
+                {titleFeatured}
+              </motion.h3>
+              
+              {/* Animated Underline */}
+              <motion.div 
+                className="h-1 w-8 sm:w-10 sm:w-12 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full mb-2 sm:mb-3"
+                initial={{ scaleX: 0 }}
+                whileInView={{ scaleX: 1 }}
+                transition={{ delay: 0.3, duration: 0.6 }}
+                style={{ transformOrigin: 'left' }}
+                animate={{ 
+                  boxShadow: ['0 0 10px rgba(251, 146, 60, 0.5)', '0 0 20px rgba(251, 146, 60, 0.8)', '0 0 10px rgba(251, 146, 60, 0.5)'],
+                }}
+              />
+              
+              {/* Description */}
+              <motion.p 
+                className="text-slate-300 text-xs sm:text-sm max-w-3xl mb-3 sm:mb-4 line-clamp-2 leading-relaxed"
+                animate={{ opacity: [0.8, 1, 0.8] }}
+                transition={{ duration: 3, repeat: Infinity }}
+              >
+                {descFeatured}
+              </motion.p>
 
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              {project.link && (
-                <a href={project.link} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-cyan-400 text-black px-3 py-2 rounded-full font-semibold text-sm">
-                  <FaExternalLinkAlt />
-                  <span>{t('projects.liveDemo')}</span>
-                </a>
-              )}
-              <Link to={`/projects/${project.slug || project.id}`} state={{ project }} className="inline-flex items-center gap-2 px-3 py-2 rounded-full border border-white/10 text-slate-100 text-sm">
-                {t('projects.details')}
-              </Link>
+              {/* Action Buttons */}
+              <motion.div 
+                className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full sm:w-auto">
+                  {project.link && (
+                    <motion.a 
+                      href={project.link} 
+                      target="_blank" 
+                      rel="noreferrer" 
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 sm:gap-2 bg-gradient-to-r from-amber-400 to-orange-500 text-black px-3 py-2 rounded-lg sm:rounded-full font-bold text-xs sm:text-sm whitespace-nowrap border border-amber-300/50 relative overflow-hidden group/btn"
+                      whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(251, 146, 60, 0.6)' }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                        animate={{ x: [300, -300] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                      <FaExternalLinkAlt size={12} />
+                      <span className="relative">{t('projects.liveDemo')}</span>
+                    </motion.a>
+                  )}
+                  <motion.div whileHover={{ scale: 1.05 }}>
+                    <Link 
+                      to={`/projects/${project.slug || project.id}`} 
+                      state={{ project }} 
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 py-2 rounded-lg sm:rounded-full border-2 border-amber-400/50 text-amber-400 text-xs sm:text-sm whitespace-nowrap font-semibold hover:border-amber-400 hover:bg-amber-400/10 transition-all duration-300"
+                    >
+                      {t('projects.details')}
+                    </Link>
+                  </motion.div>
+                </div>
+                
+                {/* Tags */}
+                <motion.div 
+                  className="text-xs sm:text-sm text-amber-300/70 hidden md:flex flex-wrap gap-1"
+                  animate={{ opacity: [0.6, 1, 0.6] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  {project.tags?.slice(0,3).map((tag, i) => (
+                    <motion.span 
+                      key={i}
+                      className="px-2 py-1 bg-amber-500/10 rounded-full border border-amber-500/20 font-mono"
+                      animate={{ y: [0, -2, 0] }}
+                      transition={{ delay: i * 0.1, duration: 2, repeat: Infinity }}
+                    >
+                      #{tag}
+                    </motion.span>
+                  ))}
+                </motion.div>
+              </motion.div>
             </div>
-            <div className="text-sm text-slate-400">{project.tags?.slice(0,3).join(' • ')}</div>
-          </div>
+          </motion.div>
         </div>
-      </article>
+      </motion.article>
     )
   }
 

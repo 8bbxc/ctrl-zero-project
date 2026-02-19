@@ -56,12 +56,12 @@ const SECTOR_CONFIG = {
   },
   'Real Estate': {
     title: 'Real Estate & Property',
-    titleAr: 'العقارات',
+    titleAr: 'العقارات والفنادق',
     hero: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=80',
-    colorHex: '#06b6d4', // Cyan-500
-    icon: '🏢',
-    desc: 'Immersive property showcases and booking engines.',
-    descAr: 'معارض عقارية متقدمة ومحركات حجز تفاعلية.'
+    colorHex: '#f59e0b', // Amber-500 (Better for hotels)
+    icon: '🏨',
+    desc: 'Luxury hotel booking platforms and immersive property management systems.',
+    descAr: 'منصات حجز فنادق فاخرة وأنظمة إدارة عقارات متقدمة.'
   }
 }
 

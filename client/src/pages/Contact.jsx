@@ -131,14 +131,14 @@ export default function Contact() {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-20 items-start">
 
           {/* === الجهة اليسرى (أو اليمنى بالعربي): معلومات الاتصال === */}
           <motion.div 
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="space-y-8 order-2 lg:order-1"
+            className="space-y-6 md:space-y-8 order-2 lg:order-1"
           >
             <motion.div variants={itemVariants}>
               <ContactCard 
@@ -179,11 +179,11 @@ export default function Contact() {
             </motion.div>
 
             {/* أيقونات السوشيال ميديا */}
-            <motion.div variants={itemVariants} className="pt-8 border-t border-white/5">
-              <h3 className="text-slate-400 font-mono text-xs uppercase tracking-[0.2em] mb-6">
+            <motion.div variants={itemVariants} className="pt-6 md:pt-8 border-t border-white/5">
+              <h3 className="text-slate-400 font-mono text-xs uppercase tracking-[0.2em] mb-4 md:mb-6">
                 {t('contact.social') || (isArabic ? 'تابعنا على' : 'Follow Us')}
               </h3>
-              <div className="flex gap-5">
+              <div className="flex gap-4 md:gap-5">
                  <SocialBtn icon={<FaWhatsapp />} link="https://wa.me/qr/ZEUXAVWSSI44K1" color="hover:text-green-400" />
                  <SocialBtn icon={<FaLinkedinIn />} link="https://www.linkedin.com/in/yazan-saadeh/" color="hover:text-blue-400" />
                  <SocialBtn icon={<FaGithub />} link="https://github.com/8bbxc" color="hover:text-white" />
@@ -196,20 +196,20 @@ export default function Contact() {
             initial={{ opacity: 0, x: dir === 'rtl' ? -50 : 50 }} 
             animate={{ opacity: 1, x: 0 }} 
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="order-1 lg:order-2"
+            className="order-1 lg:order-2 w-full"
           >
             <div className="relative group">
               {/* توهج خلفي للنموذج */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-[2.5rem] blur opacity-12 group-hover:opacity-28 transition duration-700" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-3xl md:rounded-[2.5rem] blur opacity-12 group-hover:opacity-28 transition duration-700" />
               
-              <div className="relative bg-[#0A0A0A] border border-white/10 p-8 sm:p-12 rounded-[2.5rem] shadow-2xl max-w-xl mx-auto lg:mx-0">
+              <div className="relative bg-[#0A0A0A] border border-white/10 p-6 md:p-8 lg:p-12 rounded-3xl md:rounded-[2.5rem] shadow-2xl w-full lg:max-w-xl lg:mx-0">
                 
-                <h3 className="text-2xl font-bold text-white mb-8">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-6 md:mb-8">
                   {t('contact.formTitle') || (isArabic ? 'أرسل لنا رسالة' : 'Send us a message')}
                 </h3>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     <InputGroup 
                       label={t('contact.name') || (isArabic ? 'الاسم' : 'Name')} 
                       name="name" 
@@ -247,13 +247,13 @@ export default function Contact() {
                     </label>
                     <textarea 
                       name="message" 
-                      rows="5" 
+                      rows="4" 
                       value={formData.message} 
                       onChange={handleChange}
                       required
                       placeholder={isArabic ? 'كيف يمكننا مساعدتك؟' : 'Tell us about your project...'}
                       dir={dir}
-                      className={`w-full bg-slate-900/50 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500/50 focus:bg-slate-900/80 transition-all resize-none focus:ring-4 focus:ring-cyan-500/10 ${dir === 'rtl' ? 'text-right' : 'text-left'}`}
+                      className={`w-full bg-slate-900/50 border border-white/10 rounded-xl md:rounded-2xl px-4 md:px-6 py-3 md:py-4 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500/50 focus:bg-slate-900/80 transition-all resize-none focus:ring-4 focus:ring-cyan-500/10 text-sm md:text-base ${dir === 'rtl' ? 'text-right' : 'text-left'}`}
                     />
                   </div>
 
@@ -261,25 +261,25 @@ export default function Contact() {
                   <button 
                     type="submit" 
                     disabled={status === 'loading'}
-                    className="w-full py-4 sm:py-5 rounded-2xl bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 text-black font-bold text-lg hover:shadow-[0_8px_40px_rgba(59,130,246,0.25)] transition-transform transform hover:-translate-y-0.5 flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full py-3 md:py-4 lg:py-5 rounded-xl md:rounded-2xl bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-500 text-black font-bold text-base md:text-lg hover:shadow-[0_8px_40px_rgba(59,130,246,0.25)] transition-transform transform hover:-translate-y-0.5 flex items-center justify-center gap-2 md:gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {status === 'loading' ? (
-                      <><ImSpinner8 className="animate-spin text-xl" /> <span>{t('loading') || (isArabic ? 'جاري الإرسال (قد يأخذ وقتاً)...' : 'Sending (please wait)...')}</span></>
+                      <><ImSpinner8 className="animate-spin text-lg md:text-xl" /> <span className="text-sm md:text-base">{t('loading') || (isArabic ? 'جاري الإرسال (قد يأخذ وقتاً)...' : 'Sending (please wait)...')}</span></>
                     ) : (
-                      <><FaPaperPlane className="text-xl" /> <span>{t('contact.send') || (isArabic ? 'إرسال الرسالة' : 'Send Message')}</span></>
+                      <><FaPaperPlane className="text-lg md:text-xl" /> <span className="text-sm md:text-base">{t('contact.send') || (isArabic ? 'إرسال الرسالة' : 'Send Message')}</span></>
                     )}
                   </button>
 
                   {/* رسائل الحالة */}
                   <div ref={messageRef}>
                     {status === 'success' && (
-                      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center gap-3">
-                        <FaCheck /> <span>{statusMessage || t('contact.sent') || (isArabic ? 'تم الإرسال بنجاح!' : 'Message sent successfully!')}</span>
+                      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-3 md:p-4 rounded-lg md:rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-start gap-2 md:gap-3 text-sm md:text-base">
+                        <FaCheck className="flex-shrink-0 mt-0.5" /> <span>{statusMessage || t('contact.sent') || (isArabic ? 'تم الإرسال بنجاح!' : 'Message sent successfully!')}</span>
                       </motion.div>
                     )}
                     {status === 'error' && (
-                      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 flex items-center gap-3">
-                        <FaTimes /> <span>{statusMessage || t('contact.failed') || (isArabic ? 'فشل الإرسال، حاول لاحقاً.' : 'Failed to send message.')}</span>
+                      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="p-3 md:p-4 rounded-lg md:rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 flex items-start gap-2 md:gap-3 text-sm md:text-base">
+                        <FaTimes className="flex-shrink-0 mt-0.5" /> <span>{statusMessage || t('contact.failed') || (isArabic ? 'فشل الإرسال، حاول لاحقاً.' : 'Failed to send message.')}</span>
                       </motion.div>
                     )}
                   </div>
@@ -298,7 +298,7 @@ export default function Contact() {
 
 function InputGroup({ label, name, type = "text", value, onChange, required, placeholder, dir }) {
   return (
-    <div className="space-y-3">
+    <div className="space-y-2 md:space-y-3">
       <label className="text-xs font-bold text-slate-400 uppercase tracking-widest ml-1 block">
         {label}
       </label>
@@ -310,7 +310,7 @@ function InputGroup({ label, name, type = "text", value, onChange, required, pla
         required={required}
         placeholder={placeholder}
         dir={dir}
-        className={`w-full bg-slate-900/50 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500/50 focus:bg-slate-900/80 transition-all focus:ring-4 focus:ring-cyan-500/10 ${dir === 'rtl' ? 'text-right' : 'text-left'}`}
+        className={`w-full bg-slate-900/50 border border-white/10 rounded-xl md:rounded-2xl px-4 md:px-6 py-3 md:py-4 text-white placeholder-slate-600 focus:outline-none focus:border-cyan-500/50 focus:bg-slate-900/80 transition-all focus:ring-4 focus:ring-cyan-500/10 text-sm md:text-base ${dir === 'rtl' ? 'text-right' : 'text-left'}`}
       />
     </div>
   )
@@ -323,14 +323,14 @@ function ContactCard({ icon, title, value, link, color, bg, border, index, onHov
       href={link || '#'}
       onMouseEnter={() => onHover(index)}
       onMouseLeave={() => onHover(null)}
-      className={`flex items-center gap-6 p-6 rounded-3xl bg-[#0A0A0A] border border-white/5 transition-all duration-300 group ${border} hover:bg-[#0f121a]`}
+      className={`flex items-center gap-4 md:gap-6 p-4 md:p-6 rounded-2xl md:rounded-3xl bg-[#0A0A0A] border border-white/5 transition-all duration-300 group ${border} hover:bg-[#0f121a]`}
     >
-      <div className={`w-16 h-16 rounded-2xl flex items-center justify-center text-2xl transition-all duration-300 ${isHovered ? 'scale-110 shadow-lg' : ''} ${bg} ${color}`}>
+      <div className={`w-12 md:w-16 h-12 md:h-16 rounded-xl md:rounded-2xl flex items-center justify-center text-xl md:text-2xl transition-all duration-300 ${isHovered ? 'scale-110 shadow-lg' : ''} ${bg} ${color} flex-shrink-0`}>
         {icon}
       </div>
-      <div>
+      <div className="min-w-0 flex-1">
         <div className="text-xs text-slate-500 font-bold uppercase tracking-widest mb-1">{title}</div>
-        <div className="text-lg font-bold text-slate-200 group-hover:text-white transition-colors" dir="ltr">{value}</div>
+        <div className="text-base md:text-lg font-bold text-slate-200 group-hover:text-white transition-colors break-words" dir="ltr">{value}</div>
       </div>
     </motion.a>
   )
@@ -338,7 +338,7 @@ function ContactCard({ icon, title, value, link, color, bg, border, index, onHov
 
 function SocialBtn({ icon, link, color }) {
   return (
-    <a href={link} target="_blank" rel="noreferrer" className={`text-2xl text-slate-500 transition-all transform hover:scale-110 ${color}`}>
+    <a href={link} target="_blank" rel="noreferrer" className={`text-xl md:text-2xl text-slate-500 transition-all transform hover:scale-110 ${color}`}>
       {icon}
     </a>
   )
