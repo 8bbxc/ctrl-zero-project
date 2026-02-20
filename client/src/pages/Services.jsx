@@ -288,7 +288,7 @@ export default function Services() {
                 <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-[0.03] transition-opacity duration-500`} />
                 
                 {/* 2. Top Line Gradient (Subtle) */}
-                <div className={`absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:via-[${service.color}] transition-all duration-500`} />
+                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-70 group-hover:opacity-100 transition-all duration-500" />
 
                 {/* 3. Icon Container */}
                 <div className="mb-8 relative">
