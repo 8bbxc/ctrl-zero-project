@@ -7,12 +7,19 @@ import Navbar from '../components/Navbar'
 import api from '../services/api'
 import ProjectCard from '../components/ProjectCard'
 
-// --- SECTOR CONFIG (الألوان والصور) ---
+// --- Create SVG Gradients for Hero Images ---
+const createGradientBg = (colorHex, pattern = 'dots') => {
+  const lightColor = 'ffffff'
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:${colorHex};stop-opacity:0.8"/><stop offset="100%" style="stop-color:${colorHex};stop-opacity:0.3"/></linearGradient><radialGradient id="glow"><stop offset="0%" style="stop-color:${colorHex};stop-opacity:0.3"/><stop offset="100%" style="stop-color:${colorHex};stop-opacity:0"/></radialGradient><pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="2" fill="${lightColor}" opacity="0.15"/></pattern></defs><rect width="800" height="600" fill="${colorHex}15"/><rect width="800" height="600" fill="url(#grad)"/><circle cx="150" cy="100" r="200" fill="url(#glow)"/><circle cx="700" cy="500" r="250" fill="url(#glow)"/><rect width="800" height="600" fill="url(#dots)"/></svg>`
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`
+}
+
+// --- SECTOR CONFIG (الألوان والصور المحسّنة) ---
 const SECTOR_CONFIG = {
   Medical: {
     title: 'Healthcare & Medical',
     titleAr: 'الطب والرعاية الصحية',
-    hero: 'https://images.unsplash.com/photo-1538108149393-fbbd81897560?auto=format&fit=crop&w=2000&q=80',
+    hero: createGradientBg('#f43f5e'),
     colorHex: '#f43f5e', // Rose-500
     icon: '🏥',
     desc: 'Transforming patient care with advanced digital health solutions.',
@@ -21,7 +28,7 @@ const SECTOR_CONFIG = {
   'E-Commerce': {
     title: 'E-Commerce & Retail',
     titleAr: 'التجارة الإلكترونية',
-    hero: 'https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&w=2000&q=80',
+    hero: createGradientBg('#10b981'),
     colorHex: '#10b981', // Emerald-500
     icon: '🛒',
     desc: 'High-conversion stores aimed at maximizing revenue.',
@@ -30,7 +37,7 @@ const SECTOR_CONFIG = {
   Restaurant: {
     title: 'Food & Hospitality',
     titleAr: 'المطاعم والضيافة',
-    hero: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2000&q=80',
+    hero: createGradientBg('#f97316'),
     colorHex: '#f97316', // Orange-500
     icon: '🍽️',
     desc: 'Digital menus and management systems for modern dining.',
@@ -39,7 +46,7 @@ const SECTOR_CONFIG = {
   Corporate: {
     title: 'Corporate & Business',
     titleAr: 'الشركات والأعمال',
-    hero: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2000&q=80',
+    hero: createGradientBg('#3b82f6'),
     colorHex: '#3b82f6', // Blue-500
     icon: '💼',
     desc: 'Professional platforms that define brand authority.',
@@ -48,7 +55,7 @@ const SECTOR_CONFIG = {
   Education: {
     title: 'Education & LMS',
     titleAr: 'التعليم والتدريب',
-    hero: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=2000&q=80',
+    hero: createGradientBg('#8b5cf6'),
     colorHex: '#8b5cf6', // Violet-500
     icon: '🎓',
     desc: 'Interactive learning experiences for the future.',
@@ -57,9 +64,9 @@ const SECTOR_CONFIG = {
   'Real Estate': {
     title: 'Real Estate & Property',
     titleAr: 'العقارات والفنادق',
-    hero: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2000&q=80',
-    heroCover: 'https://images.unsplash.com/photo-1486325212027-8081e3e4e16e?auto=format&fit=crop&w=2000&q=80',
-    colorHex: '#f59e0b', // Amber-500 (Better for hotels)
+    hero: createGradientBg('#f59e0b'),
+    heroCover: createGradientBg('#f59e0b'),
+    colorHex: '#f59e0b', // Amber-500
     icon: '🏨',
     desc: 'Luxury hotel booking platforms and immersive property management systems.',
     descAr: 'منصات حجز فنادق فاخرة وأنظمة إدارة عقارات متقدمة.'

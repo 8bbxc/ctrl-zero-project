@@ -11,6 +11,12 @@ import api from '../services/api'
 import Spinner from '../components/Spinner'
 import Navbar from '../components/Navbar'
 
+// --- Create Enhanced Gradient Backgrounds for Missing Images ---
+const createProjectGradientImage = (colorHex) => {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700"><defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:${colorHex};stop-opacity:0.8"/><stop offset="50%" style="stop-color:${colorHex};stop-opacity:0.4"/><stop offset="100%" style="stop-color:${colorHex};stop-opacity:0.1"/></linearGradient><radialGradient id="shine"><stop offset="0%" style="stop-color:white;stop-opacity:0.15"/><stop offset="100%" style="stop-color:${colorHex};stop-opacity:0.1"/></radialGradient></defs><rect width="1200" height="700" fill="${colorHex}08"/><rect width="1200" height="700" fill="url(#grad)"/><circle cx="200" cy="150" r="250" fill="url(#shine)"/><circle cx="1000" cy="600" r="300" fill="url(#shine)"/><path d="M 0 350 Q 300 250 600 350 T 1200 350" stroke="${colorHex}" stroke-width="2" fill="none" opacity="0.2"/><path d="M 0 500 Q 300 400 600 500 T 1200 500" stroke="${colorHex}" stroke-width="2" fill="none" opacity="0.15"/><rect x="100" y="100" width="200" height="200" fill="${colorHex}" opacity="0.08" rx="20"/><rect x="1000" y="450" width="180" height="180" fill="${colorHex}" opacity="0.08" rx="20"/></svg>`
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`
+}
+
 // Sector Icon & Color Mapping
 const SECTOR_ICON_MAP = {
   Medical: FaHospital,
@@ -67,7 +73,7 @@ const defaultProject = {
   description: 'A comprehensive digital solution engineered for excellence and innovation.',
   fullContent: `This is a showcase project demonstrating our full-stack capabilities. Built with modern technologies and best practices, it represents our commitment to delivering scalable, high-performance solutions.\n\nOur approach focuses on user experience, performance optimization, and maintainability. Every line of code is crafted with precision to ensure your system operates flawlessly.\n\nKey achievements:\n• 40% performance improvement\n• Seamless user interactions\n• Enterprise-grade reliability\n• Scalable architecture`,
   content: `This is a showcase project demonstrating our full-stack capabilities. Built with modern technologies and best practices, it represents our commitment to delivering scalable, high-performance solutions.\n\nOur approach focuses on user experience, performance optimization, and maintainability. Every line of code is crafted with precision to ensure your system operates flawlessly.\n\nKey achievements:\n• 40% performance improvement\n• Seamless user interactions\n• Enterprise-grade reliability\n• Scalable architecture`,
-  image: 'https://images.unsplash.com/photo-1642790551116-18e150f248e3?q=80&w=1933',
+  image: createProjectGradientImage('#3b82f6'),
   tags: ['React', 'Node.js', 'PostgreSQL', 'Tailwind CSS'],
   link: 'https://example.com',
   repo: 'https://github.com',
@@ -119,6 +125,11 @@ export default function ProjectDetails() {
         // Ensure fullContent is set
         if (proj && !proj.fullContent) {
           proj.fullContent = proj.content
+        }
+        // Add fallback image if missing
+        if (proj && !proj.image) {
+          const sectorConfig = SECTOR_CONFIG[proj.category || 'Corporate'] || SECTOR_CONFIG.Corporate
+          proj.image = createProjectGradientImage(sectorConfig.colorHex)
         }
         console.log('🎯 Setting project from API:', proj?.title || proj?.slug)
         if (mounted) setProject(proj)

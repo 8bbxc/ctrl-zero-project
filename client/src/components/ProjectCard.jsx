@@ -4,6 +4,12 @@ import { motion } from 'framer-motion'
 import { FaArrowRight, FaGithub, FaStar, FaStarHalfAlt, FaCalendarAlt, FaFire, FaExternalLinkAlt } from 'react-icons/fa'
 import { useTranslation } from 'react-i18next'
 
+// --- Create Enhanced Gradient Backgrounds ---
+const createGradientImage = (colorHex) => {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600"><defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:${colorHex};stop-opacity:0.9"/><stop offset="50%" style="stop-color:${colorHex};stop-opacity:0.5"/><stop offset="100%" style="stop-color:${colorHex};stop-opacity:0.2"/></linearGradient><radialGradient id="glow"><stop offset="0%" style="stop-color:white;stop-opacity:0.1"/><stop offset="100%" style="stop-color:${colorHex};stop-opacity:0.2"/></radialGradient><filter id="blur"><feGaussianBlur in="SourceGraphic" stdDeviation="3"/></filter></defs><rect width="800" height="600" fill="${colorHex}10"/><rect width="800" height="600" fill="url(#grad)"/><circle cx="100" cy="100" r="150" fill="url(#glow)"/><circle cx="700" cy="500" r="200" fill="url(#glow)"/><path d="M 0 200 Q 200 100 400 200 T 800 200" stroke="${colorHex}" stroke-width="2" fill="none" opacity="0.2"/><path d="M 0 400 Q 200 300 400 400 T 800 400" stroke="${colorHex}" stroke-width="2" fill="none" opacity="0.15"/></svg>`
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`
+}
+
 // Premium Sector Colors with Enhanced Gradients
 const SECTOR_COLORS = {
   Medical: { 
@@ -62,7 +68,7 @@ export default function ProjectCard({ project }) {
   const desc = isArabic ? (project.descriptionAr || project.description) : project.description
   const sector = project.category || project.sector || 'Corporate'
   const colors = SECTOR_COLORS[sector] || SECTOR_COLORS.Corporate
-  const image = project.image || 'https://images.unsplash.com/photo-1642790551116-18e150f248e3?q=80&w=1933'
+  const image = project.image || createGradientImage(colors.hex)
 
   const isFeatured = project.slug && project.slug.includes('mern-hotel')
 
