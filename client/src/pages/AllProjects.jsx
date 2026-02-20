@@ -111,17 +111,15 @@ export default function AllProjects() {
           >
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tight">
               <span className="text-white">
-                {isArabic ? 'جميع' : 'All'}
+                {t('allProjects.titlePrefix')}
               </span>
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">
-                {isArabic ? 'المشاريع' : 'Projects'}
+                {t('allProjects.titleMain')}
               </span>
             </h1>
             <p className="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto">
-              {isArabic 
-                ? 'استكشف مجموعتنا الكاملة من المشاريع الاحترافية والحلول الرقمية المبتكرة'
-                : 'Explore our complete collection of professional projects and innovative digital solutions'}
+              {t('allProjects.subtitle')}
             </p>
           </motion.div>
         </div>
@@ -140,7 +138,7 @@ export default function AllProjects() {
             <FaSearch className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
             <input
               type="text"
-              placeholder={isArabic ? 'ابحث عن مشروع...' : 'Search projects...'}
+              placeholder={t('allProjects.searchPlaceholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-12 sm:pl-14 pr-4 sm:pr-6 py-3 sm:py-4 rounded-2xl bg-slate-900/60 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all text-sm sm:text-base"
@@ -159,7 +157,7 @@ export default function AllProjects() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              {isArabic ? 'الكل' : 'All'}
+              {t('allProjects.allFilter')}
             </motion.button>
 
             {sectors.map(sector => (
@@ -187,9 +185,7 @@ export default function AllProjects() {
           {/* Results Count */}
           {searchTerm || selectedSector !== 'all' ? (
             <p className="text-sm text-slate-400">
-              {isArabic 
-                ? `${filteredProjects.length} نتيجة`
-                : `${filteredProjects.length} result${filteredProjects.length !== 1 ? 's' : ''}`}
+              {`${filteredProjects.length} ${t(filteredProjects.length === 1 ? 'allProjects.resultSingle' : 'allProjects.resultPlural')}`}
             </p>
           ) : null}
         </motion.div>
@@ -209,12 +205,10 @@ export default function AllProjects() {
           >
             <div className="text-6xl mb-4">🔍</div>
             <h3 className="text-2xl font-bold text-slate-300 mb-2">
-              {isArabic ? 'لا توجد نتائج' : 'No Projects Found'}
+              {t('allProjects.noResultsTitle')}
             </h3>
             <p className="text-slate-400">
-              {isArabic 
-                ? 'حاول تغيير معايير البحث أو الفلترة'
-                : 'Try changing your search or filter criteria'}
+              {t('allProjects.noResultsDesc')}
             </p>
           </motion.div>
         ) : (
@@ -237,12 +231,10 @@ export default function AllProjects() {
       {!loading && projects.length === 0 && (
         <section className="relative z-20 container mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
           <h3 className="text-2xl font-bold text-slate-400 mb-4">
-            {isArabic ? 'لم يتم تحميل أي مشاريع' : 'No Projects Available Yet'}
+            {t('allProjects.emptyTitle')}
           </h3>
           <p className="text-slate-500">
-            {isArabic 
-              ? 'يرجى إضافة مشاريع إلى قاعدة البيانات'
-              : 'Please add projects to the database'}
+            {t('allProjects.emptyDesc')}
           </p>
         </section>
       )}

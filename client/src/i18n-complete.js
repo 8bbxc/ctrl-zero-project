@@ -235,7 +235,30 @@ const resources = {
         similar: 'Build something similar?',
         discuss: "Let's discuss how we can engineer a solution for you.",
         notFound: 'Project Not Found',
-        notFoundDesc: 'The project you\'re looking for doesn\'t exist.'
+        notFoundDesc: 'The project you\'re looking for doesn\'t exist.',
+        loadErrorDesc: 'Unable to load project details right now.',
+        featuredProject: '⭐ Featured Project',
+        sectorProjectPrefix: 'Project',
+        techStack: 'Tech Stack',
+        projectOverview: 'Project Overview',
+        clickToExpand: 'Click any image to expand',
+        moreProjects: 'More Projects',
+        previousProject: 'Previous Project',
+        nextProject: 'Next Project'
+      },
+
+      allProjects: {
+        titlePrefix: 'All',
+        titleMain: 'Projects',
+        subtitle: 'Explore our complete collection of professional projects and innovative digital solutions.',
+        searchPlaceholder: 'Search projects...',
+        allFilter: 'All',
+        resultSingle: 'result',
+        resultPlural: 'results',
+        noResultsTitle: 'No Projects Found',
+        noResultsDesc: 'Try changing your search or filter criteria.',
+        emptyTitle: 'No Projects Available Yet',
+        emptyDesc: 'Please add projects to the database.'
       },
       // Coming Soon
       comingSoon: {
@@ -512,7 +535,30 @@ const resources = {
         similar: 'تريد بناء شيء مشابه؟',
         discuss: 'دعنا نناقش كيف يمكننا هندسة حل تقني مخصص لك.',
         notFound: 'المشروع غير موجود',
-        notFoundDesc: 'المشروع الذي تبحث عنه غير موجود.'
+        notFoundDesc: 'المشروع الذي تبحث عنه غير موجود.',
+        loadErrorDesc: 'تعذر تحميل تفاصيل المشروع حالياً.',
+        featuredProject: '⭐ مشروع مميز',
+        sectorProjectPrefix: 'مشروع',
+        techStack: 'التقنيات المستخدمة',
+        projectOverview: 'نظرة عامة على المشروع',
+        clickToExpand: 'اضغط على أي صورة لتكبيرها',
+        moreProjects: 'مشاريع أخرى',
+        previousProject: 'المشروع السابق',
+        nextProject: 'المشروع التالي'
+      },
+
+      allProjects: {
+        titlePrefix: 'جميع',
+        titleMain: 'المشاريع',
+        subtitle: 'استكشف مجموعتنا الكاملة من المشاريع الاحترافية والحلول الرقمية المبتكرة.',
+        searchPlaceholder: 'ابحث عن مشروع...',
+        allFilter: 'الكل',
+        resultSingle: 'نتيجة',
+        resultPlural: 'نتائج',
+        noResultsTitle: 'لا توجد نتائج',
+        noResultsDesc: 'حاول تغيير معايير البحث أو التصفية.',
+        emptyTitle: 'لا توجد مشاريع متاحة حالياً',
+        emptyDesc: 'يرجى إضافة مشاريع إلى قاعدة البيانات.'
       },
       // Coming Soon
       comingSoon: {

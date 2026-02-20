@@ -178,10 +178,10 @@ export default function ProjectDetails() {
       <div className="min-h-screen bg-[#030305] text-slate-50 font-sans flex flex-col items-center justify-center">
         <Navbar />
         <div className="text-center">
-          <h2 className="text-4xl font-bold mb-4">Project Not Found</h2>
-          <p className="text-slate-400 mb-8">Unable to load project details</p>
+          <h2 className="text-4xl font-bold mb-4">{t('projectDetails.notFound')}</h2>
+          <p className="text-slate-400 mb-8">{t('projectDetails.loadErrorDesc')}</p>
           <Link to="/projects" className="px-6 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition">
-            Back to Projects
+            {t('projectDetails.back')}
           </Link>
         </div>
       </div>
@@ -228,7 +228,7 @@ export default function ProjectDetails() {
               className="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2.5 rounded-full border border-slate-700 bg-slate-800/50 text-slate-300 hover:text-white hover:border-slate-600 transition-all backdrop-blur-sm"
             >
               <FaArrowLeft className={isAr ? 'rotate-180' : ''} />
-              {isAr ? 'جميع المشاريع' : 'Back to Projects'}
+              {t('projectDetails.back')}
             </Link>
           </motion.div>
 
@@ -246,7 +246,7 @@ export default function ProjectDetails() {
                 <motion.div animate={{ rotate: [0, 15, -15, 0] }} transition={{ duration: 2, repeat: Infinity }}>
                   <FaFire className="text-lg" />
                 </motion.div>
-                <span>{isAr ? '⭐ مشروع مميز' : '⭐ Featured Project'}</span>
+                <span>{t('projectDetails.featuredProject')}</span>
                 <FaRocket className="text-lg" />
               </motion.div>
             )}
@@ -290,7 +290,7 @@ export default function ProjectDetails() {
                 className={`absolute -bottom-6 left-8 px-6 py-3 rounded-2xl bg-gradient-to-r ${cfg.gradient} text-white font-bold text-sm uppercase tracking-wider shadow-2xl flex items-center gap-2 border border-white/20`}
               >
                 <SectorIcon className="text-lg" />
-                {isAr ? 'مشروع ' : ''}{project.category}
+                {isAr ? `${t('projectDetails.sectorProjectPrefix')} ` : ''}{project.category}
               </motion.div>
             </motion.div>
 
@@ -331,7 +331,7 @@ export default function ProjectDetails() {
               {project.tags && project.tags.length > 0 && (
                 <div className="pt-6 border-t border-slate-700">
                   <p className="text-xs text-slate-400 uppercase tracking-widest mb-4">
-                    {isAr ? 'التقنيات المستخدمة' : 'Tech Stack'}
+                    {t('projectDetails.techStack')}
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag, idx) => (
@@ -364,7 +364,7 @@ export default function ProjectDetails() {
                     rel="noreferrer" 
                     className={`flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-white bg-gradient-to-r ${cfg.gradient} hover:shadow-2xl transition-all duration-300`}
                   >
-                    {isAr ? 'زيارة المشروع' : 'View Live'}
+                    {t('projectDetails.visit')}
                     <FaExternalLinkAlt className="text-sm" />
                   </motion.a>
                 )}
@@ -377,7 +377,7 @@ export default function ProjectDetails() {
                     rel="noreferrer" 
                     className="flex items-center gap-2 px-8 py-4 rounded-xl border border-slate-600 text-slate-100 font-bold hover:bg-slate-800/50 transition-all"
                   >
-                    {isAr ? 'الكود' : 'View Code'}
+                    {t('projectDetails.code')}
                     <FaGithub className="text-lg" />
                   </motion.a>
                 )}
@@ -400,7 +400,7 @@ export default function ProjectDetails() {
             className="bg-slate-800/40 rounded-2xl p-8 md:p-12 border border-slate-700 backdrop-blur-sm"
           >
             <h2 className={`text-3xl font-bold mb-8 bg-gradient-to-r ${cfg.gradient} bg-clip-text text-transparent`}>
-              {isAr ? 'عن المشروع' : 'Project Overview'}
+              {t('projectDetails.projectOverview')}
             </h2>
             <div className="prose prose-invert max-w-none text-slate-300 space-y-6">
               {(project.fullContent || project.description).split('\n').map((line, idx) => (
@@ -422,10 +422,10 @@ export default function ProjectDetails() {
                 <div className="flex items-center gap-3 mb-2">
                   <FaImage className={`text-2xl ${cfg.colorClass}`} />
                   <h2 className={`text-3xl font-bold bg-gradient-to-r ${cfg.gradient} bg-clip-text text-transparent`}>
-                    {isAr ? 'معرض المشروع' : 'Project Gallery'}
+                    {t('projectDetails.gallery')}
                   </h2>
                 </div>
-                <p className="text-slate-400 text-sm">{isAr ? 'اضغط على أي صورة لتكبيرها' : 'Click any image to expand'}</p>
+                <p className="text-slate-400 text-sm">{t('projectDetails.clickToExpand')}</p>
               </div>
 
               {/* Gallery Grid - Enhanced for Hotel Project */}
@@ -497,7 +497,7 @@ export default function ProjectDetails() {
       {/* ============ NAVIGATION ============ */}
       <section className="relative z-20 border-t border-slate-700 py-16">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <h3 className="text-2xl font-bold text-slate-300 mb-8">{isAr ? 'مشاريع أخرى' : 'More Projects'}</h3>
+          <h3 className="text-2xl font-bold text-slate-300 mb-8">{t('projectDetails.moreProjects')}</h3>
           <div className="grid md:grid-cols-2 gap-6">
             {prevProj ? (
               <Link 
@@ -507,7 +507,7 @@ export default function ProjectDetails() {
                 <div className="flex items-center gap-4">
                   <FaArrowLeft className={`text-2xl text-slate-500 group-hover:text-slate-300 transition-colors ${isAr ? 'rotate-180' : ''}`} />
                   <div className="flex-1">
-                    <p className="text-xs text-slate-400 uppercase tracking-wide">{isAr ? 'المشروع السابق' : 'Previous'}</p>
+                    <p className="text-xs text-slate-400 uppercase tracking-wide">{t('projectDetails.previousProject')}</p>
                     <p className="text-slate-100 font-semibold group-hover:text-white truncate">{prevProj.title}</p>
                   </div>
                 </div>
@@ -521,7 +521,7 @@ export default function ProjectDetails() {
               >
                 <div className="flex items-center gap-4 justify-end">
                   <div className="flex-1 text-left">
-                    <p className="text-xs text-slate-400 uppercase tracking-wide">{isAr ? 'المشروع التالي' : 'Next'}</p>
+                    <p className="text-xs text-slate-400 uppercase tracking-wide">{t('projectDetails.nextProject')}</p>
                     <p className="text-slate-100 font-semibold group-hover:text-white truncate">{nextProj.title}</p>
                   </div>
                   <FaArrowRight className={`text-2xl text-slate-500 group-hover:text-slate-300 transition-colors ${isAr ? 'rotate-180' : ''}`} />
