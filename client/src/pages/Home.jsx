@@ -1,9 +1,9 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import Typewriter from '../components/Typewriter'
 import Marquee from 'react-fast-marquee'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { 
   FaReact, FaNodeJs, FaDocker, FaArrowRight, FaLaptopCode, FaCode, 
   FaSearch, FaPencilRuler, FaCogs, FaRocket, FaQuoteLeft 
@@ -14,11 +14,23 @@ export default function Home() {
   const { t, i18n } = useTranslation()
   const dir = i18n.dir()
   const isRtl = dir === 'rtl'
+  const prefersReducedMotion = useReducedMotion()
   const containerRef = useRef(null)
+  const [isMobile, setIsMobile] = useState(false)
   const { scrollYProgress } = useScroll({ target: containerRef })
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 768px)')
+    const update = () => setIsMobile(media.matches)
+    update()
+    media.addEventListener('change', update)
+    return () => media.removeEventListener('change', update)
+  }, [])
+
+  const lightMotionMode = prefersReducedMotion || isMobile
   
-  const yHero = useTransform(scrollYProgress, [0, 1], [0, 300])
-  const opacityHero = useTransform(scrollYProgress, [0, 0.3], [1, 0])
+  const yHero = useTransform(scrollYProgress, [0, 1], [0, lightMotionMode ? 60 : 300])
+  const opacityHero = useTransform(scrollYProgress, [0, 0.3], [1, lightMotionMode ? 0.95 : 0])
 
   // --- البيانات ---
   const phrases = t('hero.phrases', { returnObjects: true }) || [
@@ -75,19 +87,23 @@ export default function Home() {
           <div className="absolute top-[-20%] left-[-10%] w-[1000px] h-[1000px] bg-blue-900/10 rounded-full blur-[120px]" />
           <div className="absolute bottom-[-20%] right-[-10%] w-[1000px] h-[1000px] bg-purple-900/10 rounded-full blur-[120px]" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-900/5 rounded-full blur-[100px]" />
-          <motion.div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 blur-3xl"
-            animate={{ scale: [1, 1.12, 1], opacity: [0.45, 0.75, 0.45] }}
-            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-          />
-          {floatingElements.map((item, idx) => (
-            <motion.div
-              key={idx}
-              className={`absolute ${item.top} ${item.side} ${item.size} ${item.color} rounded-full shadow-lg`}
-              animate={{ y: [0, -12, 0], opacity: [0.35, 1, 0.35], scale: [1, 1.15, 1] }}
-              transition={{ duration: item.duration, repeat: Infinity, delay: item.delay, ease: 'easeInOut' }}
-            />
-          ))}
+          {!lightMotionMode && (
+            <>
+              <motion.div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 blur-3xl"
+                animate={{ scale: [1, 1.12, 1], opacity: [0.45, 0.75, 0.45] }}
+                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+              />
+              {floatingElements.map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  className={`absolute ${item.top} ${item.side} ${item.size} ${item.color} rounded-full shadow-lg`}
+                  animate={{ y: [0, -12, 0], opacity: [0.35, 1, 0.35], scale: [1, 1.15, 1] }}
+                  transition={{ duration: item.duration, repeat: Infinity, delay: item.delay, ease: 'easeInOut' }}
+                />
+              ))}
+            </>
+          )}
           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.02] mix-blend-overlay"></div>
         </div>
 
@@ -156,13 +172,15 @@ export default function Home() {
       <section className="py-24 bg-[#050505] relative overflow-hidden z-20">
         <div className="transform -rotate-2 scale-110 origin-center">
           <div className="bg-[#0a0a0a]/80 border-y border-white/3 py-10 shadow-2xl relative backdrop-blur-sm">
-             <Marquee gradient={false} speed={40} pauseOnHover={true} direction={isRtl ? 'right' : 'left'}>
+             <Marquee gradient={false} speed={lightMotionMode ? 22 : 40} pauseOnHover={true} play={!prefersReducedMotion} direction={isRtl ? 'right' : 'left'}>
               {marqueeImages.map((src, i) => (
                 <div key={i} className="px-4 relative group cursor-pointer h-[16rem] md:h-[20rem] aspect-video">
                   {/* إزالة الفلاتر (Grayscale) وإضافة حدود ملونة */}
                   <img 
                     src={src} 
                     alt={`Project ${i}`} 
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover rounded-xl shadow-xl border border-white/10 group-hover:border-cyan-500/50 transition-all duration-500 transform group-hover:scale-[1.02]" 
                   />
                 </div>
@@ -185,7 +203,7 @@ export default function Home() {
                key={idx}
                initial={{ opacity: 0, y: 20 }}
                whileInView={{ opacity: 1, y: 0 }}
-               whileHover={{ y: -8, scale: 1.02 }}
+               whileHover={lightMotionMode ? undefined : { y: -8, scale: 1.02 }}
                transition={{ delay: idx * 0.1 }}
                viewport={{ once: true }}
                className="p-6 rounded-2xl bg-slate-900/30 border border-slate-800/50 hover:border-cyan-600/40 transition-all hover:-translate-y-2 group"
@@ -252,7 +270,7 @@ export default function Home() {
                 key={i}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                whileHover={{ y: -6, borderColor: 'rgba(34,211,238,0.35)' }}
+                whileHover={lightMotionMode ? undefined : { y: -6, borderColor: 'rgba(34,211,238,0.35)' }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
                 className="p-8 rounded-2xl bg-slate-900/30 border border-slate-800/50 relative"

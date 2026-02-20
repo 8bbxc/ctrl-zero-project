@@ -328,6 +328,7 @@ i18n
     resources,
     lng: 'en',
     fallbackLng: 'en',
+    showSupportNotice: false,
     interpolation: { escapeValue: false }
   })
 
