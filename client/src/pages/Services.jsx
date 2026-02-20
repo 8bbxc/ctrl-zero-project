@@ -246,18 +246,18 @@ export default function Services() {
           transition={{ duration: 0.8 }}
         >
           <span className="inline-block py-1.5 px-4 rounded-full bg-white/5 border border-white/10 text-cyan-400 font-mono text-xs uppercase tracking-[0.2em] mb-8 backdrop-blur-md">
-            {t('Our Capabilities') || 'OUR EXPERTISE'}
+            {t('services.heroBadge') || 'OUR EXPERTISE'}
           </span>
           
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-white mb-6 tracking-tight leading-tight">
-            {t('Engineering') || 'Engineering'} <br />
+            {t('services.heroTitle') || 'Engineering'} <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400 animate-gradient-x">
-              {t('Digital Excellence') || 'Digital Excellence'}
+              {t('services.heroSubtitle') || 'Digital Excellence'}
             </span>
           </h1>
           
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed font-light">
-            {t('We combine technical expertise with creative innovation to build software that transforms businesses.')}
+            {t('services.heroDesc') || 'We combine technical expertise with creative innovation to build software that transforms businesses.'}
           </p>
         </motion.div>
       </div>
@@ -335,7 +335,7 @@ export default function Services() {
                 {/* 5. Footer / Button */}
                 <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between group-hover:border-white/10 transition-colors">
                   <span className="text-xs font-bold uppercase tracking-widest text-slate-500 group-hover:text-white transition-colors">
-                    {t('Explore') || 'View Details'}
+                    {t('services.explore') || 'View Details'}
                   </span>
                   
                   <div className={`
@@ -376,12 +376,12 @@ export default function Services() {
           viewport={{ once: true }}
           className="text-center mt-24"
         >
-          <p className="text-slate-400 mb-6">{t('Need a custom solution?') || 'Looking for something specific?'}</p>
+          <p className="text-slate-400 mb-6">{t('services.customCtaText') || 'Looking for something specific?'}</p>
           <Link 
             to="/contact" 
             className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-slate-200 transition-colors"
           >
-            <span>{t('Start a Project') || 'Contact Us'}</span>
+            <span>{t('services.customCtaButton') || 'Contact Us'}</span>
             {isRtl ? <FaArrowLeft /> : <FaArrowRight />}
           </Link>
         </motion.div>

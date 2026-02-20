@@ -50,6 +50,10 @@ const resources = {
       services: {
         pageTitle: 'Services',
         subTitle: 'We deliver engineering excellence across the entire tech stack.',
+        heroBadge: 'OUR EXPERTISE',
+        heroTitle: 'Engineering',
+        heroSubtitle: 'Digital Excellence',
+        heroDesc: 'We combine technical expertise with creative innovation to build software that transforms businesses.',
         ourServices: 'Our Premium Services',
         ourServicesDesc: 'We deliver engineering excellence across the entire tech stack. From stunning interfaces to powerful backends, we cover it all.',
         fullstack: { 
@@ -84,7 +88,10 @@ const resources = {
           scale: 'Scalable Solutions'
         },
         noDesc: 'No detailed description available yet.',
-        quote: "We don't just deliver code; we engineer solutions that drive measurable business growth."
+        quote: "We don't just deliver code; we engineer solutions that drive measurable business growth.",
+        explore: 'View Details',
+        customCtaText: 'Need a custom solution tailored to your business?',
+        customCtaButton: 'Start a Project'
       },
       // About Page
       about: {
@@ -232,11 +239,17 @@ const resources = {
       },
       // Coming Soon
       comingSoon: {
+        comingVerySoon: 'Coming',
         comingVerySOon: 'Coming',
         soon: 'Soon',
         title: 'Something Amazing is Brewing',
         subtitle: 'We\'re working on something spectacular. Stay tuned for an incredible experience.',
-        backHome: 'Back to Home'
+        backHome: 'Back to Home',
+        exclusive: 'Exclusive',
+        featureTitle: '🎯 Be First to Feature Your Project',
+        featureDesc: 'This is a professional showcase platform. Contact us now to be among the first projects featured when we officially launch.',
+        comingInDays: 'Coming in Days',
+        verySoon: 'Very Soon'
       },
       // Login
       login: {
@@ -253,7 +266,8 @@ const resources = {
         links: 'Quick Links', 
         rights: 'All rights reserved.',
         designedAndBuiltBy: 'Designed & Built by',
-        builtWith: 'Built with'
+        builtWith: 'Built with',
+        location: 'Nablus, Palestine'
       },
       // Common
       loading: 'Loading...',
@@ -313,6 +327,10 @@ const resources = {
       services: {
         pageTitle: 'خدماتنا',
         subTitle: 'نقدم التميز الهندسي عبر كافة التقنيات الحديثة.',
+        heroBadge: 'مجالات خبرتنا',
+        heroTitle: 'هندسة',
+        heroSubtitle: 'التميّز الرقمي',
+        heroDesc: 'نجمع بين الخبرة التقنية والابتكار الإبداعي لبناء حلول برمجية تُحدث فرقًا حقيقيًا في نمو أعمالك.',
         ourServices: 'خدماتنا المميزة',
         ourServicesDesc: 'نقدم التميز الهندسي عبر كافة التقنيات الحديثة. من الواجهات الجميلة إلى الأنظمة الخلفية القوية، نغطي كل شيء.',
         fullstack: { 
@@ -347,7 +365,10 @@ const resources = {
           scale: 'حلول قابلة للتوسع'
         },
         noDesc: 'لا يوجد وصف تفصيلي متاح حالياً.',
-        quote: 'نحن لا نقدم مجرد كود، بل نبني حلولاً هندسية تدفع عجلة نمو مشروعك.'
+        quote: 'نحن لا نقدم مجرد كود، بل نبني حلولاً هندسية تدفع عجلة نمو مشروعك.',
+        explore: 'استعراض التفاصيل',
+        customCtaText: 'هل تحتاج حلاً مخصصًا يلائم طبيعة عملك؟',
+        customCtaButton: 'ابدأ مشروعك'
       },
       // About Page
       about: {
@@ -449,7 +470,7 @@ const resources = {
         headerBadge: 'اختر القطاع',
         headerTitle: 'تصفح مشاريعنا حسب القطاع',
         headerDesc: 'استكشف مشاريعنا المتخصصة في مختلف القطاعات والصناعات',
-        clickToFilter: 'اضغط للفتر',
+        clickToFilter: 'اضغط للتصفية',
         viewAll: 'عرض الكل',
         sectorLabel: 'القطاع',
         allSectors: 'جميع القطاعات',
@@ -499,7 +520,12 @@ const resources = {
         soon: 'جداً',
         title: 'شيء مذهل قيد الإنجاز',
         subtitle: 'نحن نعمل على شيء رائع جداً. ترقب تجربة لا تُنسى.',
-        backHome: 'عودة للرئيسية'
+        backHome: 'عودة للرئيسية',
+        exclusive: 'إعلان حصري',
+        featureTitle: '🎯 كن أول من يضع مشروعك هنا',
+        featureDesc: 'هذه منصة احترافية للعرض. تواصل معنا الآن لتكون من أوائل المشاريع المعروضة عند الإطلاق الرسمي.',
+        comingInDays: 'خلال أيام قليلة',
+        verySoon: 'قريباً جداً'
       },
       // Login
       login: {
@@ -516,7 +542,8 @@ const resources = {
         links: 'روابط سريعة', 
         rights: 'جميع الحقوق محفوظة.',
         designedAndBuiltBy: 'تم التصميم والبناء بواسطة',
-        builtWith: 'تم البناء باستخدام'
+        builtWith: 'تم البناء باستخدام',
+        location: 'نابلس، فلسطين'
       },
       // Common
       loading: 'جارٍ التحميل...',

@@ -71,7 +71,7 @@ export default function ComingSoon() {
         className="fixed top-24 left-4 md:left-8 z-20 flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/80 border border-slate-600/30 hover:border-cyan-500/50 transition-all duration-300 backdrop-blur-md group"
       >
         <HiArrowLeft className="group-hover:-translate-x-1 transition-transform" />
-        <span className="text-sm font-medium">{isArabic ? 'عودة' : 'Back'}</span>
+        <span className="text-sm font-medium">{t('back')}</span>
       </button>
 
       {/* Main Content */}
@@ -96,22 +96,19 @@ export default function ComingSoon() {
         >
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight tracking-tighter">
             <span className="text-slate-100">
-              {isArabic ? 'قريباً جداً' : 'Coming'}
+              {t('comingSoon.comingVerySoon')}
             </span>
             <br />
             <span className="relative inline-block">
               <span className="absolute -inset-2 blur-3xl opacity-30 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 animate-pulse"></span>
               <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-300">
-                {isArabic ? '!' : 'Soon!'}
+                {t('comingSoon.soon')}
               </span>
             </span>
           </h1>
 
           <p className="text-lg md:text-2xl text-slate-300 font-light mb-12 leading-relaxed">
-            {isArabic 
-              ? 'نحن نعمل بجد على شيء رائع وجديد لك'
-              : 'We\'re working hard on something amazing for you'
-            }
+            {t('comingSoon.subtitle')}
           </p>
         </motion.div>
 
@@ -131,22 +128,16 @@ export default function ComingSoon() {
               <div className="flex items-center gap-3 mb-4">
                 <span className="inline-block w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
                 <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">
-                  {isArabic ? 'إعلان حصري' : 'Exclusive'}
+                  {t('comingSoon.exclusive')}
                 </span>
               </div>
 
               <h2 className="text-2xl md:text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-purple-300">
-                {isArabic 
-                  ? '🎯 كن أول من يضع مشروعك هنا'
-                  : '🎯 Be First to Feature Your Project'
-                }
+                {t('comingSoon.featureTitle')}
               </h2>
 
               <p className="text-slate-300 leading-relaxed mb-6">
-                {isArabic
-                  ? 'هذه منصة احترافية للعرض. تواصل معنا الآن لتكون من أوائل المشاريع المعروضة عندما يتم الإطلاق الرسمي.'
-                  : 'This is a professional showcase platform. Contact us now to be among the first projects featured when we officially launch.'
-                }
+                {t('comingSoon.featureDesc')}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
@@ -154,14 +145,14 @@ export default function ComingSoon() {
                   href="#contact"
                   className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 text-center shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40"
                 >
-                  {isArabic ? 'تواصل معنا' : 'Contact Us'}
+                  {t('contact.title')}
                 </a>
 
                 <button
                   onClick={() => navigate('/projects')}
                   className="flex-1 px-6 py-3 bg-slate-700/50 hover:bg-slate-600/50 border border-slate-600 hover:border-purple-500/50 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105"
                 >
-                  {isArabic ? 'عودة للمشاريع' : 'Back to Projects'}
+                  {t('projectDetails.back')}
                 </button>
               </div>
             </div>
@@ -181,10 +172,10 @@ export default function ComingSoon() {
               <span className="text-xl">⚡</span>
             </div>
             <h3 className="font-semibold text-slate-200 mb-2">
-              {isArabic ? 'سرعة البرق' : 'Lightning Fast'}
+              {t('sectors.features.fastLabel')}
             </h3>
             <p className="text-sm text-slate-400">
-              {isArabic ? 'أداء عالي جداً' : 'High performance'}
+              {t('sectors.features.fastSubtext')}
             </p>
           </div>
 
@@ -194,10 +185,10 @@ export default function ComingSoon() {
               <span className="text-xl">🎨</span>
             </div>
             <h3 className="font-semibold text-slate-200 mb-2">
-              {isArabic ? 'تصميم احترافي' : 'Beautiful Design'}
+              {t('sectors.features.designLabel')}
             </h3>
             <p className="text-sm text-slate-400">
-              {isArabic ? 'تجربة مستخدم رائعة' : 'Amazing UX'}
+              {t('sectors.features.designSubtext')}
             </p>
           </div>
 
@@ -207,10 +198,10 @@ export default function ComingSoon() {
               <span className="text-xl">🚀</span>
             </div>
             <h3 className="font-semibold text-slate-200 mb-2">
-              {isArabic ? 'حديث داخل أيام' : 'Coming in Days'}
+              {t('comingSoon.comingInDays')}
             </h3>
             <p className="text-sm text-slate-400">
-              {isArabic ? 'قريب جداً للغاية' : 'Very soon'}
+              {t('comingSoon.verySoon')}
             </p>
           </div>
         </motion.div>
