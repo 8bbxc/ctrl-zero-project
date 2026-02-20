@@ -152,7 +152,7 @@ export default function Projects() {
           </Link>
         </div>
 
-        {/* --- Professional Grid with Enhanced Cards --- */}
+        {/* --- Premium Grid with Enhanced Cards --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-6">
           {sectors.map((sector, index) => (
             <motion.div
@@ -190,16 +190,30 @@ export default function Projects() {
                 {/* Dynamic Glow Effect */}
                 <div className={`
                   absolute -inset-1 rounded-2xl blur-2xl opacity-0 
-                  group-hover:opacity-15 transition-opacity duration-700
+                  group-hover:opacity-20 transition-opacity duration-700
                   bg-gradient-to-r ${sector.gradient}
                   -z-10 group-hover:z-0
                 `} />
 
-                {/* Background Layers */}
+                {/* Enhanced Background Layers with Animated Shine */}
                 <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-[6]" />
+                
+                {/* Moving Shine Effect */}
+                <motion.div 
+                  className="absolute -inset-full bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-40 pointer-events-none z-[7]"
+                  animate={{ 
+                    x: ['0%', '200%'],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  }}
+                />
+                
                 <div className={`
                   absolute top-0 right-0 w-[400px] h-[400px] rounded-full blur-[100px] opacity-0 
-                  group-hover:opacity-10 transition-opacity duration-700
+                  group-hover:opacity-15 transition-opacity duration-700
                   ${sector.glowColor} -mr-40 -mt-40 pointer-events-none z-[6]
                 `} />
 
@@ -207,34 +221,51 @@ export default function Projects() {
                   
                   {/* Header: Icon & Arrow */}
                   <div className="flex justify-between items-start">
-                    <div className={`
-                      relative w-16 h-16 rounded-2xl flex items-center justify-center text-3xl
-                      bg-gradient-to-br from-slate-900/80 to-slate-950/40 
-                      border border-slate-800/60 shadow-inner backdrop-blur-sm
-                      transition-all duration-500 ease-out
-                      ${sector.iconColor}
-                      group-hover:scale-125 group-hover:bg-gradient-to-br group-hover:${sector.gradient} 
-                      group-hover:text-white group-hover:border-white/30 group-hover:shadow-2xl group-hover:shadow-current/30
-                    `}>
+                    <motion.div
+                      className={`
+                        relative w-16 h-16 rounded-2xl flex items-center justify-center text-3xl
+                        bg-gradient-to-br from-slate-900/80 to-slate-950/40 
+                        border border-slate-800/60 shadow-inner backdrop-blur-sm
+                        transition-all duration-500 ease-out
+                        ${sector.iconColor}
+                        group-hover:bg-gradient-to-br group-hover:${sector.gradient} 
+                        group-hover:text-white group-hover:border-white/30 group-hover:shadow-2xl group-hover:shadow-current/30
+                      `}
+                      whileHover={{ scale: 1.25, rotate: 12 }}
+                      animate={{ rotateY: 0 }}
+                    >
                       <span className="relative z-10 filter drop-shadow-md group-hover:drop-shadow-lg">{sector.icon}</span>
-                    </div>
+                    </motion.div>
 
-                    <div className={`
-                      w-11 h-11 rounded-full border border-slate-700/60 flex items-center justify-center
-                      text-slate-500 bg-transparent
-                      transition-all duration-300
-                      group-hover:border-slate-400 group-hover:text-slate-100 group-hover:bg-white/5
-                    `}>
-                      <FaArrowRight className={`text-sm transform group-hover:scale-125 ${isArabic ? 'rotate-180' : ''}`} />
-                    </div>
+                    <motion.div
+                      className={`
+                        w-11 h-11 rounded-full border border-slate-700/60 flex items-center justify-center
+                        text-slate-500 bg-transparent
+                        transition-all duration-300
+                        group-hover:border-slate-400 group-hover:text-slate-100 group-hover:bg-white/5
+                      `}
+                      whileHover={{ scale: 1.2, rotate: 45 }}
+                    >
+                      <FaArrowRight className={`text-sm ${isArabic ? 'rotate-180' : ''}`} />
+                    </motion.div>
                   </div>
 
                   {/* Content */}
                   <div className="space-y-4">
-                    <h3 className="text-2xl lg:text-xl xl:text-2xl font-bold text-slate-100 group-hover:text-white transition-colors duration-300 group-hover:translate-y-0">
-                      {isArabic ? sector.labelAr : sector.label}
-                    </h3>
-                    <p className="text-slate-400 text-sm font-light leading-relaxed group-hover:text-slate-200 transition-colors duration-300">
+                    <div className="relative inline-block">
+                      <h3 className="text-2xl lg:text-xl xl:text-2xl font-bold text-slate-100 group-hover:text-white transition-colors duration-300">
+                        {isArabic ? sector.labelAr : sector.label}
+                      </h3>
+                      {/* Animated underline */}
+                      <motion.div
+                        className={`absolute -bottom-2 left-0 h-1 bg-gradient-to-r ${sector.gradient} rounded-full`}
+                        initial={{ width: 0 }}
+                        whileHover={{ width: '100%' }}
+                        transition={{ duration: 0.4 }}
+                      />
+                    </div>
+                    
+                    <p className="text-slate-400 text-sm font-light leading-relaxed group-hover:text-slate-200 transition-colors duration-300 pt-2">
                       {isArabic ? sector.descAr : sector.desc}
                     </p>
                   </div>
