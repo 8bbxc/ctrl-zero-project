@@ -76,6 +76,7 @@ const SECTOR_CONFIG = {
 export default function SectorProjects() {
   const { sector } = useParams()
   const { t, i18n } = useTranslation()
+  const MotionLink = motion(Link)
   const isArabic = i18n.language === 'ar'
   const [isNotified, setIsNotified] = useState(false)
   const [projects, setProjects] = useState([])
@@ -443,8 +444,8 @@ export default function SectorProjects() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5, duration: 0.5 }}
                   >
-                    <motion.a 
-                      href="/projects"
+                    <MotionLink 
+                      to="/projects"
                       className="px-4 md:px-6 py-2.5 md:py-3 rounded-xl md:rounded-2xl font-bold text-xs md:text-sm transition-all border-2 flex items-center justify-center gap-2 relative overflow-hidden group/btn-back"
                       style={{
                         backgroundColor: `${config.colorHex}15`,
@@ -461,7 +462,7 @@ export default function SectorProjects() {
                       />
                       <FaArrowLeft className={`text-xs relative z-10 ${isArabic ? 'rotate-180' : ''}`} />
                       <span className="relative z-10">{t('sectors.allSectors')}</span>
-                    </motion.a>
+                    </MotionLink>
                     <motion.div
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}

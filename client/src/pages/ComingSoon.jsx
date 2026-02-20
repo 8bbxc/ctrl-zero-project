@@ -141,12 +141,12 @@ export default function ComingSoon() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <a
-                  href="#contact"
+                <button
+                  onClick={() => navigate('/contact')}
                   className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 text-center shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40"
                 >
                   {t('contact.title')}
-                </a>
+                </button>
 
                 <button
                   onClick={() => navigate('/projects')}
