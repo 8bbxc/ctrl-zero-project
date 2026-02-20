@@ -68,10 +68,10 @@ export default function ComingSoon() {
       {/* Back Button */}
       <button
         onClick={() => navigate(-1)}
-        className="fixed top-24 left-4 md:left-8 z-20 flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-800/50 hover:bg-slate-700/80 border border-slate-600/30 hover:border-cyan-500/50 transition-all duration-300 backdrop-blur-md group"
+        className="fixed top-24 left-4 md:left-8 z-20 flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-lg bg-slate-800/50 hover:bg-slate-700/80 border border-slate-600/30 hover:border-cyan-500/50 transition-all duration-300 backdrop-blur-md group"
       >
         <HiArrowLeft className="group-hover:-translate-x-1 transition-transform" />
-        <span className="text-sm font-medium">{t('back')}</span>
+        <span className="hidden sm:inline text-sm font-medium">{t('back')}</span>
       </button>
 
       {/* Main Content */}
@@ -143,14 +143,14 @@ export default function ComingSoon() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={() => navigate('/contact')}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 text-center shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40"
+                  className="flex-1 px-6 py-3.5 min-h-[44px] bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-400 hover:to-cyan-500 text-white text-sm sm:text-base font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 text-center shadow-lg shadow-cyan-500/20 hover:shadow-cyan-500/40"
                 >
                   {t('contact.title')}
                 </button>
 
                 <button
                   onClick={() => navigate('/projects')}
-                  className="flex-1 px-6 py-3 bg-slate-700/50 hover:bg-slate-600/50 border border-slate-600 hover:border-purple-500/50 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105"
+                  className="flex-1 px-6 py-3.5 min-h-[44px] bg-slate-700/50 hover:bg-slate-600/50 border border-slate-600 hover:border-purple-500/50 text-white text-sm sm:text-base font-semibold rounded-lg transition-all duration-300 transform hover:scale-105"
                 >
                   {t('projectDetails.back')}
                 </button>

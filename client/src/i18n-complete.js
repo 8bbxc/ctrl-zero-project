@@ -178,7 +178,11 @@ const resources = {
         ,
         liveDemo: 'Live Demo',
         codeLabel: 'Code',
-        visitLive: 'View Live'
+        visitLive: 'View Live',
+        customCtaBadge: 'Custom Build',
+        customCtaText: 'Need a custom solution?',
+        customCtaSubtext: 'Tell us your goals and we will craft a tailored digital product that fits your business perfectly.',
+        customCtaButton: 'Let\'s Build It'
       },
       // Project Sectors & Filters
       sectors: {
@@ -478,7 +482,11 @@ const resources = {
         ,
         liveDemo: 'عرض',
         codeLabel: 'الكود',
-        visitLive: 'زيارة الموقع'
+        visitLive: 'زيارة الموقع',
+        customCtaBadge: 'حل مخصص',
+        customCtaText: 'تحتاج حلاً مخصصًا؟',
+        customCtaSubtext: 'احكِ لنا أهدافك، وسنصنع لك منتجًا رقميًا مصممًا بدقة ليلائم طبيعة عملك.',
+        customCtaButton: 'ابدأ الآن'
       },
       // Project Sectors & Filters
       sectors: {

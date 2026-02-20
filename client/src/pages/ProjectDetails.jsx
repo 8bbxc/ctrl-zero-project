@@ -180,7 +180,7 @@ export default function ProjectDetails() {
         <div className="text-center">
           <h2 className="text-4xl font-bold mb-4">{t('projectDetails.notFound')}</h2>
           <p className="text-slate-400 mb-8">{t('projectDetails.loadErrorDesc')}</p>
-          <Link to="/projects" className="px-6 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition">
+          <Link to="/projects" className="inline-flex items-center justify-center px-6 py-3 min-h-[44px] bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition text-sm sm:text-base font-semibold">
             {t('projectDetails.back')}
           </Link>
         </div>
@@ -225,7 +225,7 @@ export default function ProjectDetails() {
           >
             <Link 
               to="/projects" 
-              className="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2.5 rounded-full border border-slate-700 bg-slate-800/50 text-slate-300 hover:text-white hover:border-slate-600 transition-all backdrop-blur-sm"
+              className="inline-flex items-center gap-2 text-sm font-semibold px-4 py-2.5 min-h-[44px] rounded-full border border-slate-700 bg-slate-800/50 text-slate-300 hover:text-white hover:border-slate-600 transition-all backdrop-blur-sm"
             >
               <FaArrowLeft className={isAr ? 'rotate-180' : ''} />
               {t('projectDetails.back')}
@@ -354,7 +354,7 @@ export default function ProjectDetails() {
               )}
 
               {/* Action Buttons */}
-              <div className="flex flex-wrap gap-3 pt-4">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 pt-4">
                 {project.link && (
                   <motion.a 
                     whileHover={{ scale: 1.05, y: -2 }}
@@ -362,7 +362,7 @@ export default function ProjectDetails() {
                     href={project.link} 
                     target="_blank" 
                     rel="noreferrer" 
-                    className={`flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-white bg-gradient-to-r ${cfg.gradient} hover:shadow-2xl transition-all duration-300`}
+                    className={`w-full sm:w-auto flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 rounded-xl min-h-[44px] text-sm sm:text-base font-bold text-white bg-gradient-to-r ${cfg.gradient} hover:shadow-2xl transition-all duration-300`}
                   >
                     {t('projectDetails.visit')}
                     <FaExternalLinkAlt className="text-sm" />
@@ -375,7 +375,7 @@ export default function ProjectDetails() {
                     href={project.repo || project.github} 
                     target="_blank" 
                     rel="noreferrer" 
-                    className="flex items-center gap-2 px-8 py-4 rounded-xl border border-slate-600 text-slate-100 font-bold hover:bg-slate-800/50 transition-all"
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 rounded-xl min-h-[44px] border border-slate-600 text-slate-100 text-sm sm:text-base font-bold hover:bg-slate-800/50 transition-all"
                   >
                     {t('projectDetails.code')}
                     <FaGithub className="text-lg" />

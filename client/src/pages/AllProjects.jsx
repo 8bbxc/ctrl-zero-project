@@ -149,7 +149,7 @@ export default function AllProjects() {
           <div className="flex flex-wrap gap-2 md:gap-3">
             <motion.button
               onClick={() => setSelectedSector('all')}
-              className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-sm transition-all whitespace-nowrap ${
+              className={`px-4 sm:px-5 py-2.5 sm:py-2.5 rounded-full font-semibold text-xs sm:text-sm transition-all whitespace-nowrap min-h-[42px] ${
                 selectedSector === 'all'
                   ? 'bg-white text-slate-900'
                   : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
@@ -164,7 +164,7 @@ export default function AllProjects() {
               <motion.button
                 key={sector}
                 onClick={() => setSelectedSector(sector)}
-                className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-sm transition-all whitespace-nowrap border-2 ${
+                className={`px-4 sm:px-5 py-2.5 sm:py-2.5 rounded-full font-semibold text-xs sm:text-sm transition-all whitespace-nowrap border-2 min-h-[42px] ${
                   selectedSector === sector
                     ? 'border-white/30 text-white'
                     : 'border-transparent text-slate-300 hover:text-white'

@@ -206,7 +206,7 @@ export default function SectorProjects() {
               {/* Right: Back Button */}
               <Link 
                 to="/projects" 
-                className="px-4 py-2 md:px-6 md:py-3 rounded-lg md:rounded-xl border transition-all hover:scale-105 text-xs md:text-sm font-semibold uppercase tracking-wider flex items-center gap-2 whitespace-nowrap flex-shrink-0"
+                className="w-full sm:w-auto px-4 py-2.5 md:px-6 md:py-3 rounded-lg md:rounded-xl border transition-all hover:scale-105 text-xs md:text-sm font-semibold uppercase tracking-wider flex items-center justify-center gap-2 whitespace-nowrap min-h-[44px] flex-shrink-0"
                 style={{
                   backgroundColor: `${config.colorHex}10`,
                   borderColor: config.colorHex,
@@ -214,7 +214,7 @@ export default function SectorProjects() {
                 }}
               >
                 <FaArrowLeft className={isArabic ? 'rotate-180' : ''} size={14} />
-                <span className="hidden xs:inline">{t('back')}</span>
+                <span className="hidden sm:inline">{t('back')}</span>
               </Link>
             </div>
           </div>
@@ -446,7 +446,7 @@ export default function SectorProjects() {
                   >
                     <MotionLink 
                       to="/projects"
-                      className="px-4 md:px-6 py-2.5 md:py-3 rounded-xl md:rounded-2xl font-bold text-xs md:text-sm transition-all border-2 flex items-center justify-center gap-2 relative overflow-hidden group/btn-back"
+                      className="w-full sm:w-auto px-4 md:px-6 py-2.5 md:py-3 rounded-xl md:rounded-2xl font-bold text-xs md:text-sm transition-all border-2 flex items-center justify-center gap-2 min-h-[44px] relative overflow-hidden group/btn-back"
                       style={{
                         backgroundColor: `${config.colorHex}15`,
                         borderColor: `${config.colorHex}70`,
@@ -469,7 +469,7 @@ export default function SectorProjects() {
                     >
                       <Link 
                         to="/contact" 
-                        className="px-4 md:px-6 py-2.5 md:py-3 rounded-xl md:rounded-2xl font-bold text-xs md:text-sm text-white transition-all flex items-center justify-center gap-2 relative overflow-hidden group/btn"
+                        className="w-full sm:w-auto px-4 md:px-6 py-2.5 md:py-3 rounded-xl md:rounded-2xl font-bold text-xs md:text-sm text-white transition-all flex items-center justify-center gap-2 min-h-[44px] relative overflow-hidden group/btn"
                         style={{ 
                           background: `linear-gradient(135deg, ${config.colorHex}E6, ${config.colorHex}CC)`,
                           boxShadow: `0 0 30px ${config.colorHex}60, inset 0 1px 0 ${config.colorHex}`
@@ -489,7 +489,7 @@ export default function SectorProjects() {
                   {/* Notify Button - Enhanced */}
                   <motion.button
                     onClick={handleNotify}
-                    className="mt-4 px-4 md:px-6 py-2.5 md:py-3 rounded-xl md:rounded-2xl font-semibold text-xs md:text-sm transition-all flex items-center justify-center gap-2 border-2 w-full md:w-auto relative overflow-hidden group/notify"
+                    className="mt-4 px-4 md:px-6 py-2.5 md:py-3 rounded-xl md:rounded-2xl font-semibold text-xs md:text-sm transition-all flex items-center justify-center gap-2 border-2 w-full sm:w-auto min-h-[44px] relative overflow-hidden group/notify"
                     style={{ 
                       color: config.colorHex,
                       borderColor: `${config.colorHex}60`,
