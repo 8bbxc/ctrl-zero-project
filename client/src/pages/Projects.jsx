@@ -224,29 +224,27 @@ export default function Projects() {
                     <motion.div
                       className={`
                         relative w-16 h-16 flex items-center justify-center text-4xl
-                        rounded-full bg-gradient-to-br from-white/10 via-${sector.iconColor?.replace('text-', '')}/40 to-${sector.iconColor?.replace('text-', '')}/80
-                        border-4 border-transparent group-hover:border-white/30
-                        shadow-lg shadow-${sector.iconColor?.replace('text-', '')}/30 group-hover:shadow-xl group-hover:shadow-${sector.iconColor?.replace('text-', '')}/50
+                        rounded-full bg-gradient-to-br from-white/10 via-${sector.iconColor?.replace('text-', '')}/60 to-${sector.iconColor?.replace('text-', '')}/90
+                        shadow-xl shadow-${sector.iconColor?.replace('text-', '')}/40 group-hover:shadow-2xl group-hover:shadow-${sector.iconColor?.replace('text-', '')}/60
                         transition-all duration-500 ease-out
                         ${sector.iconColor}
-                        group-hover:bg-gradient-to-br group-hover:from-white/20 group-hover:via-${sector.iconColor?.replace('text-', '')}/60 group-hover:to-${sector.iconColor?.replace('text-', '')}/90
                       `}
-                      whileHover={{ scale: 1.18, rotate: 18 }}
+                      whileHover={{ scale: 1.22, rotate: 16 }}
                     >
                       {/* Animated Glow */}
                       <motion.div
-                        className={`absolute inset-0 rounded-full bg-gradient-to-br from-${sector.iconColor?.replace('text-', '')}/40 to-white/10 blur-xl opacity-60 pointer-events-none`}
+                        className={`absolute inset-0 rounded-full bg-gradient-to-br from-${sector.iconColor?.replace('text-', '')}/50 to-white/10 blur-2xl opacity-70 pointer-events-none`}
                         animate={{
-                          scale: [1, 1.08, 1],
-                          opacity: [0.6, 0.8, 0.6],
+                          scale: [1, 1.12, 1],
+                          opacity: [0.7, 0.9, 0.7],
                         }}
                         transition={{
-                          duration: 2,
+                          duration: 2.2,
                           repeat: Infinity,
                           ease: 'easeInOut',
                         }}
                       />
-                      <span className="relative z-10 filter drop-shadow-lg group-hover:drop-shadow-xl">{sector.icon}</span>
+                      <span className="relative z-10 filter drop-shadow-xl group-hover:drop-shadow-2xl">{sector.icon}</span>
                     </motion.div>
 
                     <motion.div
