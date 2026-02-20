@@ -58,6 +58,13 @@ export default function Home() {
     { name: "Ali K.", role: "CTO, MegaCorp", text: "Highly professional code quality and stunning design. Highly recommended." },
   ]
 
+  const floatingElements = [
+    { top: '18%', side: isRtl ? 'left-10' : 'right-10', size: 'w-3 h-3', color: 'bg-cyan-500/60', duration: 3.8, delay: 0.2 },
+    { top: '30%', side: isRtl ? 'right-16' : 'left-16', size: 'w-2 h-2', color: 'bg-blue-500/60', duration: 4.8, delay: 0.6 },
+    { top: '58%', side: isRtl ? 'left-24' : 'right-24', size: 'w-2.5 h-2.5', color: 'bg-purple-500/60', duration: 4.2, delay: 0.9 },
+    { top: '72%', side: isRtl ? 'right-8' : 'left-8', size: 'w-1.5 h-1.5', color: 'bg-cyan-300/70', duration: 3.2, delay: 0.4 }
+  ]
+
   return (
     <div ref={containerRef} className="bg-[#050505] text-slate-100 font-sans selection:bg-cyan-500/20 overflow-hidden">
       
@@ -68,6 +75,19 @@ export default function Home() {
           <div className="absolute top-[-20%] left-[-10%] w-[1000px] h-[1000px] bg-blue-900/10 rounded-full blur-[120px]" />
           <div className="absolute bottom-[-20%] right-[-10%] w-[1000px] h-[1000px] bg-purple-900/10 rounded-full blur-[120px]" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-900/5 rounded-full blur-[100px]" />
+          <motion.div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10 blur-3xl"
+            animate={{ scale: [1, 1.12, 1], opacity: [0.45, 0.75, 0.45] }}
+            transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          {floatingElements.map((item, idx) => (
+            <motion.div
+              key={idx}
+              className={`absolute ${item.top} ${item.side} ${item.size} ${item.color} rounded-full shadow-lg`}
+              animate={{ y: [0, -12, 0], opacity: [0.35, 1, 0.35], scale: [1, 1.15, 1] }}
+              transition={{ duration: item.duration, repeat: Infinity, delay: item.delay, ease: 'easeInOut' }}
+            />
+          ))}
           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.02] mix-blend-overlay"></div>
         </div>
 
@@ -119,12 +139,13 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4"
             >
-              <Link to="/projects" className="group relative px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-700 text-white rounded-full font-bold text-lg overflow-hidden transition-all hover:scale-105 shadow-lg shadow-cyan-600/20">
+              <Link to="/projects" className="group relative px-8 py-4 min-h-[48px] bg-gradient-to-r from-cyan-600 to-blue-700 text-white rounded-full font-bold text-lg overflow-hidden transition-all hover:scale-105 shadow-lg shadow-cyan-600/20">
                 <span className="relative flex items-center gap-2">
-                  {t('hero.viewWork') || 'View Our Work'} <FaArrowRight className={`text-sm transition-transform ${isRtl ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
+                  {t('hero.viewWork') || 'View Our Work'} <FaArrowRight className={`text-sm transition-transform ${isRtl ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
                 </span>
+                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent group-hover:translate-x-full transition-transform duration-1000" />
               </Link>
-              <Link to="/contact" className="px-8 py-4 rounded-full border border-white/20 text-white hover:bg-white/10 transition-all font-medium text-lg backdrop-blur-md">
+              <Link to="/contact" className="px-8 py-4 min-h-[48px] rounded-full border border-white/20 text-white hover:bg-white/10 hover:border-cyan-400/40 transition-all font-medium text-lg backdrop-blur-md hover:scale-[1.02]">
                 {t('hero.contact') || 'Book a Call'}
               </Link>
             </motion.div>
@@ -164,6 +185,7 @@ export default function Home() {
                key={idx}
                initial={{ opacity: 0, y: 20 }}
                whileInView={{ opacity: 1, y: 0 }}
+               whileHover={{ y: -8, scale: 1.02 }}
                transition={{ delay: idx * 0.1 }}
                viewport={{ once: true }}
                className="p-6 rounded-2xl bg-slate-900/30 border border-slate-800/50 hover:border-cyan-600/40 transition-all hover:-translate-y-2 group"
@@ -230,6 +252,7 @@ export default function Home() {
                 key={i}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
+                whileHover={{ y: -6, borderColor: 'rgba(34,211,238,0.35)' }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
                 className="p-8 rounded-2xl bg-slate-900/30 border border-slate-800/50 relative"
@@ -294,10 +317,10 @@ export default function Home() {
           </h2>
           <Link 
             to="/contact" 
-            className="inline-flex items-center gap-3 px-12 py-6 bg-slate-100 text-slate-950 rounded-full text-xl font-bold hover:bg-slate-200 transition-all hover:scale-105 shadow-[0_0_30px_rgba(226,232,240,0.1)]"
+            className="group inline-flex items-center gap-3 px-12 py-6 min-h-[54px] bg-slate-100 text-slate-950 rounded-full text-xl font-bold hover:bg-slate-200 transition-all hover:scale-105 shadow-[0_0_30px_rgba(226,232,240,0.1)]"
           >
             <span>{t('services.cta') || 'Start Your Project'}</span>
-            <FaArrowRight />
+            <FaArrowRight className={`transition-transform ${isRtl ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`} />
           </Link>
         </div>
       </section>
