@@ -90,7 +90,9 @@ const resources = {
         noDesc: 'No detailed description available yet.',
         quote: "We don't just deliver code; we engineer solutions that drive measurable business growth.",
         explore: 'View Details',
+        customCtaBadge: 'Custom Build',
         customCtaText: 'Need a custom solution tailored to your business?',
+        customCtaSubtext: 'Tell us your goals and we will craft a tailored digital product that fits your business perfectly.',
         customCtaButton: 'Start a Project'
       },
       // About Page
@@ -178,11 +180,7 @@ const resources = {
         ,
         liveDemo: 'Live Demo',
         codeLabel: 'Code',
-        visitLive: 'View Live',
-        customCtaBadge: 'Custom Build',
-        customCtaText: 'Need a custom solution?',
-        customCtaSubtext: 'Tell us your goals and we will craft a tailored digital product that fits your business perfectly.',
-        customCtaButton: 'Let\'s Build It'
+        visitLive: 'View Live'
       },
       // Project Sectors & Filters
       sectors: {
@@ -394,7 +392,9 @@ const resources = {
         noDesc: 'لا يوجد وصف تفصيلي متاح حالياً.',
         quote: 'نحن لا نقدم مجرد كود، بل نبني حلولاً هندسية تدفع عجلة نمو مشروعك.',
         explore: 'استعراض التفاصيل',
+        customCtaBadge: 'حل مخصص',
         customCtaText: 'هل تحتاج حلاً مخصصًا يلائم طبيعة عملك؟',
+        customCtaSubtext: 'احكِ لنا أهدافك، وسنصنع لك منتجًا رقميًا مصممًا بدقة ليلائم طبيعة عملك.',
         customCtaButton: 'ابدأ مشروعك'
       },
       // About Page
@@ -482,11 +482,7 @@ const resources = {
         ,
         liveDemo: 'عرض',
         codeLabel: 'الكود',
-        visitLive: 'زيارة الموقع',
-        customCtaBadge: 'حل مخصص',
-        customCtaText: 'تحتاج حلاً مخصصًا؟',
-        customCtaSubtext: 'احكِ لنا أهدافك، وسنصنع لك منتجًا رقميًا مصممًا بدقة ليلائم طبيعة عملك.',
-        customCtaButton: 'ابدأ الآن'
+        visitLive: 'زيارة الموقع'
       },
       // Project Sectors & Filters
       sectors: {

@@ -374,16 +374,44 @@ export default function Services() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mt-24"
+          className="relative mt-24 rounded-3xl overflow-hidden border border-slate-700/60 bg-slate-900/50 backdrop-blur-xl"
         >
-          <p className="text-slate-400 mb-6">{t('services.customCtaText') || 'Looking for something specific?'}</p>
-          <Link 
-            to="/contact" 
-            className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-slate-200 transition-colors"
-          >
-            <span>{t('services.customCtaButton') || 'Contact Us'}</span>
-            {isRtl ? <FaArrowLeft /> : <FaArrowRight />}
-          </Link>
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute -top-20 left-1/4 w-60 h-60 rounded-full bg-cyan-500/20 blur-3xl" />
+            <div className="absolute -bottom-20 right-1/4 w-60 h-60 rounded-full bg-purple-500/20 blur-3xl" />
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-transparent to-purple-500/5" />
+          </div>
+
+          <div className="relative z-10 px-5 sm:px-8 lg:px-12 py-8 md:py-10">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 md:gap-8">
+              <div className={`space-y-3 ${isRtl ? 'text-right' : 'text-left'}`}>
+                <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-cyan-400/30 bg-cyan-500/10 text-cyan-300 text-[11px] sm:text-xs font-semibold tracking-wider uppercase">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                  {t('services.customCtaBadge') || 'Custom Build'}
+                </span>
+                <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-white leading-tight">
+                  {t('services.customCtaText') || 'Looking for something specific?'}
+                </h3>
+                <p className="text-slate-300 text-sm sm:text-base max-w-2xl">
+                  {t('services.customCtaSubtext') || 'Tell us your goals and we will craft a tailored digital product that fits your business perfectly.'}
+                </p>
+              </div>
+
+              <div className="w-full lg:w-auto">
+                <Link 
+                  to="/contact" 
+                  className="group inline-flex w-full lg:w-auto items-center justify-center gap-2 px-6 sm:px-8 py-3.5 min-h-[46px] rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-sm sm:text-base shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+                >
+                  <span>{t('services.customCtaButton') || 'Contact Us'}</span>
+                  {isRtl ? (
+                    <FaArrowLeft className="text-sm transition-transform duration-300 group-hover:-translate-x-1" />
+                  ) : (
+                    <FaArrowRight className="text-sm transition-transform duration-300 group-hover:translate-x-1" />
+                  )}
+                </Link>
+              </div>
+            </div>
+          </div>
         </motion.div>
 
       </div>
