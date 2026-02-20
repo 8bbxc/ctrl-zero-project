@@ -152,12 +152,19 @@ export default function SectorProjects() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 md:gap-4 mb-3">
                   {/* Sector Icon */}
-                  <div 
-                    className="p-2 md:p-3 rounded-xl md:rounded-2xl flex items-center justify-center text-3xl md:text-4xl flex-shrink-0 transition-all hover:scale-110 duration-300"
-                    style={{ backgroundColor: `${config.colorHex}20`, border: `2px solid ${config.colorHex}40` }}
+                  <motion.div 
+                    className="p-2 md:p-3 rounded-full flex items-center justify-center text-3xl md:text-4xl flex-shrink-0 transition-all duration-300 relative overflow-hidden"
+                    style={{ backgroundColor: `${config.colorHex}25`, border: `3px solid ${config.colorHex}60` }}
+                    whileHover={{ scale: 1.15, rotate: 8 }}
                   >
-                    <span className="filter drop-shadow-lg">{config.icon || '📦'}</span>
-                  </div>
+                    <motion.div
+                      className="absolute inset-0 rounded-full border-2 opacity-60"
+                      style={{ borderColor: config.colorHex }}
+                      animate={{ scale: [1, 1.3], opacity: [0.6, 0] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    />
+                    <span className="filter drop-shadow-lg relative z-10">{config.icon || '📦'}</span>
+                  </motion.div>
                   
                   {/* Title Section */}
                   <div className="min-w-0">
@@ -173,10 +180,17 @@ export default function SectorProjects() {
                         {t('sectors.sectorLabel')}
                       </span>
                     </div>
-                    <h1 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight text-white truncate">
-                      {displayTitle}
-                      <span style={{ color: config.colorHex }}>.</span>
-                    </h1>
+                    <motion.div 
+                      className="overflow-hidden"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8 }}
+                    >
+                      <h1 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight text-white truncate">
+                        {displayTitle}
+                        <span style={{ color: config.colorHex }} className="animate-pulse">.</span>
+                      </h1>
+                    </motion.div>
                   </div>
                 </div>
               </div>
@@ -242,19 +256,29 @@ export default function SectorProjects() {
             {/* Premium Coming Soon Card with Image Cover */}
             <motion.div 
               variants={itemVariants}
-              className="relative w-full rounded-3xl overflow-hidden backdrop-blur-2xl border-2 bg-gradient-to-br from-slate-900/40 to-slate-950/80 shadow-2xl group"
-              style={{ borderColor: `${config.colorHex}40` }}
+              className="relative w-full rounded-3xl overflow-hidden backdrop-blur-2xl border-2 bg-gradient-to-br from-slate-900/60 to-slate-950/90 shadow-2xl group"
+              style={{ borderColor: `${config.colorHex}50` }}
             >
               {/* Background Glow */}
               <motion.div
-                className="absolute -inset-4 rounded-3xl blur-3xl -z-50 opacity-0 group-hover:opacity-100 transition-all duration-500"
+                className="absolute -inset-4 rounded-3xl blur-3xl -z-50 opacity-20 group-hover:opacity-40 transition-all duration-700"
                 style={{
-                  background: `linear-gradient(135deg, ${config.colorHex}40, ${config.colorHex}20)`,
+                  background: `linear-gradient(135deg, ${config.colorHex}60, ${config.colorHex}20)`,
                 }}
                 animate={{ 
-                  scale: [1, 1.08, 1],
+                  scale: [1, 1.1, 1],
                 }}
-                transition={{ duration: 4, repeat: Infinity }}
+                transition={{ duration: 5, repeat: Infinity }}
+              />
+              
+              {/* Top Accent Line */}
+              <motion.div
+                className="absolute top-0 left-0 right-0 h-1"
+                style={{
+                  background: `linear-gradient(90deg, transparent, ${config.colorHex}, transparent)`
+                }}
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity }}
               />
 
               <div className="grid grid-cols-1 lg:grid-cols-5 gap-0 overflow-hidden">
@@ -294,24 +318,29 @@ export default function SectorProjects() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, duration: 0.6 }}
                   >
-                    {/* Icon */}
+                    {/* Icon - Enhanced */}
                     <motion.div
                       animate={{ 
                         rotate: [0, 360],
-                        scale: [1, 1.15, 1]
+                        scale: [1, 1.2, 1]
                       }}
                       transition={{ 
-                        rotate: { duration: 4, repeat: Infinity, ease: 'linear' },
-                        scale: { duration: 2, repeat: Infinity }
+                        rotate: { duration: 5, repeat: Infinity, ease: 'linear' },
+                        scale: { duration: 2.5, repeat: Infinity }
                       }}
-                      className="inline-flex items-center justify-center w-16 h-16 rounded-2xl"
+                      className="inline-flex items-center justify-center w-16 h-16 rounded-full relative overflow-hidden"
                       style={{ 
-                        backgroundColor: `${config.colorHex}20`,
-                        border: `2px solid ${config.colorHex}50`,
-                        boxShadow: `0 0 20px ${config.colorHex}30`
+                        backgroundColor: `${config.colorHex}30`,
+                        border: `3px solid ${config.colorHex}60`,
+                        boxShadow: `0 0 30px ${config.colorHex}40, inset 0 0 15px ${config.colorHex}20`
                       }}
                     >
-                      <span className="text-4xl">{config.icon}</span>
+                      <motion.div
+                        className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                        animate={{ x: [400, -400] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                      <span className="text-4xl relative z-10">{config.icon}</span>
                     </motion.div>
 
                     {/* Title */}
@@ -366,12 +395,12 @@ export default function SectorProjects() {
                     {t('sectors.comingDesc')}
                   </motion.p>
 
-                  {/* Features Grid */}
+                  {/* Features Grid - Enhanced */}
                   <motion.div 
                     className="grid grid-cols-3 gap-2 md:gap-3 mb-8"
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
-                    transition={{ delay: 0.4, duration: 0.6 }}
+                    transition={{ delay: 0.4, duration: 0.6, staggerChildren: 0.1 }}
                   >
                     {[
                       { icon: '⚡', label: t('sectors.features.fastLabel') },
@@ -380,16 +409,22 @@ export default function SectorProjects() {
                     ].map((feature, idx) => (
                       <motion.div 
                         key={idx}
-                        whileHover={{ y: -4, scale: 1.05 }}
-                        className="p-3 md:p-4 rounded-xl border transition-all"
+                        whileHover={{ y: -6, scale: 1.08 }}
+                        className="p-3 md:p-4 rounded-2xl border transition-all relative overflow-hidden group/feat"
                         style={{ 
-                          backgroundColor: `${config.colorHex}08`,
-                          borderColor: `${config.colorHex}30`,
-                          borderWidth: '1.5px'
+                          backgroundColor: `${config.colorHex}12`,
+                          borderColor: `${config.colorHex}40`,
+                          borderWidth: '2px'
                         }}
                       >
-                        <div className="text-2xl md:text-3xl mb-2">{feature.icon}</div>
-                        <p className="text-xs md:text-sm font-semibold text-slate-200">{feature.label}</p>
+                        {/* Hover glow */}
+                        <motion.div
+                          className="absolute inset-0 opacity-0 group-hover/feat:opacity-100"
+                          style={{ backgroundColor: `${config.colorHex}08` }}
+                          transition={{ duration: 0.3 }}
+                        />
+                        <div className="text-2xl md:text-3xl mb-2 relative z-10">{feature.icon}</div>
+                        <p className="text-xs md:text-sm font-semibold text-slate-200 relative z-10">{feature.label}</p>
                       </motion.div>
                     ))}
                   </motion.div>
@@ -403,17 +438,22 @@ export default function SectorProjects() {
                   >
                     <motion.a 
                       href="/projects"
-                      className="px-4 md:px-6 py-2.5 md:py-3 rounded-lg md:rounded-xl font-bold text-xs md:text-sm transition-all border-2 flex items-center justify-center gap-2 hover:scale-105"
+                      className="px-4 md:px-6 py-2.5 md:py-3 rounded-xl md:rounded-2xl font-bold text-xs md:text-sm transition-all border-2 flex items-center justify-center gap-2 relative overflow-hidden group/btn-back"
                       style={{
                         backgroundColor: `${config.colorHex}15`,
-                        borderColor: config.colorHex,
+                        borderColor: `${config.colorHex}70`,
                         color: config.colorHex
                       }}
-                      whileHover={{ boxShadow: `0 0 20px ${config.colorHex}40` }}
+                      whileHover={{ scale: 1.05, boxShadow: `0 0 25px ${config.colorHex}50` }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <FaArrowLeft className={`text-xs ${isArabic ? 'rotate-180' : ''}`} />
-                      <span>{t('sectors.allSectors')}</span>
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover/btn-back:opacity-100"
+                        animate={{ x: [400, -400] }}
+                        transition={{ duration: 2.5, repeat: Infinity }}
+                      />
+                      <FaArrowLeft className={`text-xs relative z-10 ${isArabic ? 'rotate-180' : ''}`} />
+                      <span className="relative z-10">{t('sectors.allSectors')}</span>
                     </motion.a>
                     <motion.div
                       whileHover={{ scale: 1.05 }}
@@ -421,37 +461,42 @@ export default function SectorProjects() {
                     >
                       <Link 
                         to="/contact" 
-                        className="px-4 md:px-6 py-2.5 md:py-3 rounded-lg md:rounded-xl font-bold text-xs md:text-sm text-white transition-all flex items-center justify-center gap-2 relative overflow-hidden group/btn"
+                        className="px-4 md:px-6 py-2.5 md:py-3 rounded-xl md:rounded-2xl font-bold text-xs md:text-sm text-white transition-all flex items-center justify-center gap-2 relative overflow-hidden group/btn"
                         style={{ 
-                          backgroundColor: config.colorHex,
-                          boxShadow: `0 0 20px ${config.colorHex}50`
+                          background: `linear-gradient(135deg, ${config.colorHex}E6, ${config.colorHex}CC)`,
+                          boxShadow: `0 0 30px ${config.colorHex}60, inset 0 1px 0 ${config.colorHex}`
                         }}
                       >
                         <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover/btn:opacity-100"
                           animate={{ x: [400, -400] }}
                           transition={{ duration: 2, repeat: Infinity }}
                         />
-                        <FaEnvelope className="text-xs relative" />
-                        <span className="relative">{t('sectors.contactNow')}</span>
+                        <FaEnvelope className="text-xs relative z-10" />
+                        <span className="relative z-10">{t('sectors.contactNow')}</span>
                       </Link>
                     </motion.div>
                   </motion.div>
 
-                  {/* Notify Button */}
+                  {/* Notify Button - Enhanced */}
                   <motion.button
                     onClick={handleNotify}
-                    className="mt-4 px-4 md:px-6 py-2 rounded-lg font-semibold text-xs md:text-sm transition-all flex items-center justify-center gap-2 border-2 w-full md:w-auto hover:scale-105"
+                    className="mt-4 px-4 md:px-6 py-2.5 md:py-3 rounded-xl md:rounded-2xl font-semibold text-xs md:text-sm transition-all flex items-center justify-center gap-2 border-2 w-full md:w-auto relative overflow-hidden group/notify"
                     style={{ 
                       color: config.colorHex,
-                      borderColor: `${config.colorHex}40`,
-                      backgroundColor: `${config.colorHex}05`
+                      borderColor: `${config.colorHex}60`,
+                      backgroundColor: `${config.colorHex}10`
                     }}
-                    whileHover={{ borderColor: config.colorHex, backgroundColor: `${config.colorHex}15` }}
+                    whileHover={{ scale: 1.05, borderColor: config.colorHex, backgroundColor: `${config.colorHex}20` }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <FaBell className={`text-xs ${isNotified ? 'animate-bounce' : ''}`} />
-                    <span>
+                    <motion.div
+                      className="absolute inset-0 opacity-0 group-hover/notify:opacity-100"
+                      style={{ backgroundColor: `${config.colorHex}08` }}
+                      transition={{ duration: 0.3 }}
+                    />
+                    <FaBell className={`text-xs relative z-10 ${isNotified ? 'animate-bounce' : ''}`} />
+                    <span className="relative z-10">
                       {isNotified ? t('sectors.subscribed') : t('sectors.notifyMe')}
                     </span>
                   </motion.button>
