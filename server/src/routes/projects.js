@@ -3,6 +3,8 @@ const router = express.Router();
 const prisma = require('../utils/prisma'); // نستخدم نسخة Prisma المركزية
 const { requireAuth } = require('../middleware/auth');
 
+const MAX_GALLERY_IMAGES = 20;
+
 // --- Sanitization Helper ---
 // Ensures arrays are proper JavaScript arrays
 const sanitizeArrays = (data) => {
@@ -125,6 +127,12 @@ router.post('/', requireAuth, async (req, res) => {
     const tags = parseArray(req.body.tags);
     const gallery = parseArray(req.body.gallery);
 
+    if (gallery.length > MAX_GALLERY_IMAGES) {
+      return res.status(400).json({
+        error: `Too many gallery images. Maximum allowed is ${MAX_GALLERY_IMAGES}, but received ${gallery.length}.`
+      });
+    }
+
     const createData = sanitizeArrays({
       title: title.trim(),
       slug: slug.trim(),
@@ -189,6 +197,12 @@ router.put('/:id', requireAuth, async (req, res) => {
 
     const tags = parseArray(req.body.tags);
     const gallery = parseArray(req.body.gallery);
+
+    if (gallery.length > MAX_GALLERY_IMAGES) {
+      return res.status(400).json({
+        error: `Too many gallery images. Maximum allowed is ${MAX_GALLERY_IMAGES}, but received ${gallery.length}.`
+      });
+    }
 
     console.log('🔍 Processing update request:', {
       id: parsedId,
